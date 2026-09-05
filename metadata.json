@@ -1,0 +1,6 @@
+{
+  "name": "English at Work - Elementary",
+  "description": "Plataforma didáctica e interactiva de aprendizaje de inglés con 12 unidades temáticas, tarjetas reversibles con audio integrado y ejercicios prácticos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

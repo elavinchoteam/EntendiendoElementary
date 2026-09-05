@@ -1,0 +1,558 @@
+import React, { useState, useEffect } from 'react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+  CreditCard,
+  CheckSquare,
+  MessageSquare,
+  RotateCw,
+  Award,
+} from 'lucide-react';
+import { Unit } from '../types';
+import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
+import { MatchingTableExercise } from './MatchingTableExercise';
+import { DropdownCompletionExercise } from './DropdownCompletionExercise';
+import { TrueFalseSelectionExercise } from './TrueFalseSelectionExercise';
+import { RadioChoiceExercise } from './RadioChoiceExercise';
+import { WritingAiFeedbackExercise } from './WritingAiFeedbackExercise';
+import { UnitTestActivity } from './UnitTestActivity';
+import { AudioPlayerCard } from './AudioPlayerCard';
+import { ReadingStoryCard } from './ReadingStoryCard';
+import { ExercisesView } from './ExercisesView';
+import { FlashcardDeck } from './FlashcardDeck';
+import { DialogueAndGrammarView } from './DialogueAndGrammarView';
+import { useTheme } from '../context/ThemeContext';
+import {
+  DropdownCompletionExercise as DropdownCompletionExerciseType,
+  TrueFalseSelectionExercise as TrueFalseSelectionExerciseType,
+  RadioChoiceExercise as RadioChoiceExerciseType,
+  WritingAiFeedbackExercise as WritingAiFeedbackExerciseType,
+  UnitTestExercise as UnitTestExerciseType,
+  ReadingStoryExercise as ReadingStoryExerciseType,
+  ReadingStory,
+} from '../types';
+
+interface LessonCarouselProps {
+  unit: Unit;
+  accent: 'US' | 'UK';
+  speechRate: number;
+  onCompleteUnit: (score: number) => void;
+  onToggleMasteredCard: (cardId: string) => void;
+  masteredCardIds: string[];
+}
+
+export const LessonCarousel: React.FC<LessonCarouselProps> = ({
+  unit,
+  accent,
+  speechRate,
+  onCompleteUnit,
+  onToggleMasteredCard,
+  masteredCardIds,
+}) => {
+  const { isDark } = useTheme();
+
+  // Activity slides
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [playingSentenceIdx, setPlayingSentenceIdx] = useState<number | null>(null);
+
+  // Speed control state
+  const [currentRate, setCurrentRate] = useState<number>(speechRate);
+  const [showTranscriptInExplore, setShowTranscriptInExplore] = useState<boolean>(true);
+
+  useEffect(() => {
+    setCurrentRate(speechRate);
+  }, [speechRate]);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+    setIsFlipped(false);
+    setIsPlayingAudio(false);
+    setPlayingSentenceIdx(null);
+    stopSpeaking();
+  }, [unit.id, unit.title]);
+
+  const lesson = unit.lessonText;
+
+  // Build slides array dynamically based on available content in the unit
+  const readingStoryExercise = unit.exercises.find((ex) => ex.type === 'reading-story') as
+    | ReadingStoryExerciseType
+    | undefined;
+  const readingStory = unit.readingStory || readingStoryExercise?.story;
+
+  const matchingExercise = unit.exercises.find((ex) => ex.type === 'matching-table');
+  const dropdownExercise = unit.exercises.find(
+    (ex) => ex.type === 'dropdown-completion'
+  ) as DropdownCompletionExerciseType | undefined;
+  const trueFalseExercise = unit.exercises.find(
+    (ex) => ex.type === 'true-false-selection'
+  ) as TrueFalseSelectionExerciseType | undefined;
+  const radioChoiceExercises = unit.exercises.filter(
+    (ex) => ex.type === 'radio-choice'
+  ) as RadioChoiceExerciseType[];
+  const writingExercise = unit.exercises.find(
+    (ex) => ex.type === 'writing-ai-feedback'
+  ) as WritingAiFeedbackExerciseType | undefined;
+  const unitTestExercise = unit.exercises.find(
+    (ex) => ex.type === 'unit-test'
+  ) as UnitTestExerciseType | undefined;
+  const otherExercises = unit.exercises.filter(
+    (ex) =>
+      ex.type !== 'matching-table' &&
+      ex.type !== 'dropdown-completion' &&
+      ex.type !== 'true-false-selection' &&
+      ex.type !== 'radio-choice' &&
+      ex.type !== 'writing-ai-feedback' &&
+      ex.type !== 'reading-story' &&
+      ex.type !== 'unit-test'
+  );
+
+  const slides = [
+    ...(lesson ? [{ id: 'explore', title: '', icon: BookOpen }] : []),
+    ...(readingStory ? [{ id: 'reading-story', title: '', icon: BookOpen }] : []),
+    ...(matchingExercise ? [{ id: 'matching', title: '', icon: CheckSquare }] : []),
+    ...(dropdownExercise ? [{ id: 'dropdown-completion', title: '', icon: CheckSquare }] : []),
+    ...(trueFalseExercise ? [{ id: 'true-false', title: '', icon: CheckSquare }] : []),
+    ...radioChoiceExercises.map((ex) => ({
+      id: `radio-choice-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
+    ...(writingExercise ? [{ id: 'writing-ai', title: '', icon: CheckSquare }] : []),
+    ...(unitTestExercise ? [{ id: 'unit-test', title: 'Test', icon: Award }] : []),
+    ...(otherExercises.length > 0 ? [{ id: 'exercises', title: 'Ejercicios de Comprensión', icon: CheckSquare }] : []),
+    ...(unit.flashcards.length > 0 ? [{ id: 'flashcards', title: 'Tarjetas de Vocabulario', icon: CreditCard }] : []),
+    ...(unit.dialogue.length > 0 || unit.grammar ? [{ id: 'dialogue', title: 'Diálogo & Gramática', icon: MessageSquare }] : []),
+  ];
+
+  const handlePlaySentence = (sentenceEn: string, idx: number, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (playingSentenceIdx === idx && (window.speechSynthesis?.speaking)) {
+      stopSpeaking();
+      setPlayingSentenceIdx(null);
+      return;
+    }
+    stopSpeaking();
+    setPlayingSentenceIdx(idx);
+    setIsPlayingAudio(false);
+    speakEnglish(
+      sentenceEn,
+      currentRate,
+      accent,
+      () => setPlayingSentenceIdx(idx),
+      () => setPlayingSentenceIdx(null)
+    );
+  };
+
+  const handleFlipCard = () => {
+    playFeedbackSound('flip');
+    setIsFlipped(!isFlipped);
+  };
+
+  const goToSlide = (idx: number) => {
+    playFeedbackSound('click');
+    stopSpeaking();
+    setIsPlayingAudio(false);
+    setPlayingSentenceIdx(null);
+    setCurrentSlide(idx);
+  };
+
+  const nextSlide = () => {
+    if (currentSlide < slides.length - 1) {
+      goToSlide(currentSlide + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0) {
+      goToSlide(currentSlide - 1);
+    }
+  };
+
+  // Keyboard navigation (< and >)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName.toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea') return;
+
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide, slides.length]);
+
+  return (
+    <div className="relative w-full flex flex-col items-center">
+      
+      {/* Floating Previous Activity Button (<) */}
+      <button
+        id="floating-prev-activity-btn"
+        onClick={prevSlide}
+        disabled={currentSlide === 0}
+        className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
+          currentSlide === 0
+            ? 'opacity-0 pointer-events-none scale-75'
+            : isDark
+            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+        }`}
+        title={currentSlide > 0 ? (slides[currentSlide - 1].title ? `Actividad anterior: ${slides[currentSlide - 1].title}` : 'Actividad anterior') : 'Inicio'}
+        aria-label="Actividad anterior"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
+
+      {/* Floating Next Activity Button (>) */}
+      <button
+        id="floating-next-activity-btn"
+        onClick={nextSlide}
+        disabled={currentSlide === slides.length - 1}
+        className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
+          currentSlide === slides.length - 1
+            ? 'opacity-0 pointer-events-none scale-75'
+            : isDark
+            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+        }`}
+        title={currentSlide < slides.length - 1 ? (slides[currentSlide + 1].title ? `Siguiente actividad: ${slides[currentSlide + 1].title}` : 'Siguiente actividad') : 'Fin'}
+        aria-label="Siguiente actividad"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
+
+      {/* Main Content Area framed with padding so floating buttons don't overlap */}
+      <div className="w-full max-w-4xl px-3 sm:px-12 md:px-14 flex flex-col">
+        
+        {/* Minimalist Top Activity Status Indicator & Dots */}
+        <div className="w-full flex items-center justify-between gap-3 mb-6 pb-2 border-b border-inherit">
+          <div className="flex items-center gap-2">
+            <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+              isDark
+                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+            }`}>
+              Actividad {currentSlide + 1} de {slides.length}
+            </span>
+            {slides[currentSlide]?.title ? (
+              <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+                {slides[currentSlide]?.title}
+              </span>
+            ) : null}
+          </div>
+
+          {/* Quick Dots Navigator */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            {slides.map((s, idx) => (
+              <button
+                key={s.id}
+                onClick={() => goToSlide(idx)}
+                className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                  currentSlide === idx
+                    ? 'w-7 bg-indigo-600 shadow-xs'
+                    : isDark
+                    ? 'w-2.5 bg-white/20 hover:bg-white/40'
+                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                }`}
+                title={s.title ? `Ir a Actividad ${idx + 1}: ${s.title}` : `Ir a Actividad ${idx + 1}`}
+                aria-label={`Actividad ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Activity 0: Audio Media Player & Texto Principal como Tarjeta Reversible */}
+        {slides[currentSlide]?.id === 'explore' && lesson && (
+          <div className="w-full flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
+            <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-6 items-stretch justify-center">
+              {/* Audio Player Card (diseño optimizado y balanceado) */}
+              <div className="w-full max-w-[310px] sm:max-w-[330px] mx-auto lg:mx-0 shrink-0 flex flex-col">
+                <AudioPlayerCard
+                  audioText={lesson.audioText}
+                  sentences={lesson.sentences}
+                  accent={accent}
+                  initialPlaybackRate={currentRate}
+                  currentSentenceIdx={playingSentenceIdx}
+                  onSentenceChange={(idx) => setPlayingSentenceIdx(idx)}
+                  onToggleTranscript={() => setShowTranscriptInExplore((prev) => !prev)}
+                  isTranscriptVisible={showTranscriptInExplore}
+                />
+              </div>
+
+              {/* 3D Reversible Flip Card - Ampliada para contener todo el texto con comodidad */}
+              {showTranscriptInExplore && (
+                <div className="w-full flex-1 max-w-3xl perspective-1000 min-h-[500px] sm:min-h-[530px] flex flex-col">
+                  <div
+                    id="lesson-flip-card"
+                    onClick={handleFlipCard}
+                    className={`relative w-full h-full min-h-[500px] sm:min-h-[530px] rounded-3xl cursor-pointer shadow-xl transition-transform duration-500 transform-style-3d select-none ${
+                      isFlipped ? 'rotate-y-180' : ''
+                    }`}
+                  >
+                
+                {/* ANVERSO / FRONT: Texto en Inglés */}
+                <div
+                  className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 overflow-hidden ${
+                    isDark
+                      ? 'bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E1B4B] border-white/10 text-white'
+                      : 'bg-gradient-to-br from-white via-slate-50 to-indigo-50/40 border-slate-200 text-slate-900 shadow-md'
+                  }`}
+                >
+                  {/* Card Top Header: Lesson Badge + Flip hint */}
+                  <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit/40 shrink-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+                        isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                      }`}>
+                        Inglés
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-400 font-medium select-none">
+                      <RotateCw className="w-3.5 h-3.5 text-indigo-400" />
+                      <span className="hidden sm:inline">Haz clic para voltear al español</span>
+                      <span className="sm:hidden">Voltear</span>
+                    </div>
+                  </div>
+
+                  {/* Card Center: Main English Text (Clickable sentences for individual pronunciation) */}
+                  <div className="flex-1 my-2 py-2 overflow-y-auto flex items-center pr-1">
+                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-sans font-medium tracking-tight">
+                      {lesson.sentences.map((sent, idx) => {
+                        const isCurrent = playingSentenceIdx === idx;
+                        return (
+                          <span
+                            key={idx}
+                            onClick={(e) => handlePlaySentence(sent.en, idx, e)}
+                            className={`inline cursor-pointer rounded-lg px-1.5 py-0.5 transition-all duration-150 mx-0.5 ${
+                              isCurrent
+                                ? isDark
+                                  ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-400'
+                                  : 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-300'
+                                : isDark
+                                ? 'hover:bg-indigo-500/20 text-slate-100 hover:text-white'
+                                : 'hover:bg-indigo-100 text-slate-800 hover:text-indigo-950'
+                            }`}
+                            title="Toca para escuchar esta oración"
+                          >
+                            {sent.en}{' '}
+                          </span>
+                        );
+                      })}
+                    </p>
+                  </div>
+
+                  {/* Card Footer: Hints */}
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-400 shrink-0">
+                    <span className="text-[11px] sm:text-xs">Toca cualquier oración para escucharla por separado</span>
+                    <span className="font-mono text-[11px] sm:text-xs text-slate-500">{lesson.sentences.length} oraciones</span>
+                  </div>
+
+                </div>
+
+                {/* REVERSO / BACK: Traducción al Español */}
+                <div
+                  className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden rotate-y-180 shadow-xl transition-colors duration-200 overflow-hidden ${
+                    isDark
+                      ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
+                      : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                  }`}
+                >
+                  {/* Card Back Header */}
+                  <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit/40 shrink-0">
+                    <div className="flex items-center gap-2">
+                      <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+                        isDark ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                      }`}>
+                        Español
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 text-xs text-emerald-600/80 dark:text-emerald-400/80 font-medium select-none">
+                      <RotateCw className="w-3.5 h-3.5 text-emerald-500" />
+                      <span className="hidden sm:inline">Haz clic para volver al inglés</span>
+                      <span className="sm:hidden">Volver</span>
+                    </div>
+                  </div>
+
+                  {/* Card Back Center: Spanish Translation */}
+                  <div className="flex-1 my-2 py-2 overflow-y-auto flex items-center pr-1">
+                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-serif italic text-slate-700 dark:text-emerald-100/90">
+                      "{lesson.textEs}"
+                    </p>
+                  </div>
+
+                  {/* Card Back Footer */}
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-400 shrink-0">
+                    <span className="text-[11px] sm:text-xs">Traducción completa</span>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+
+        {/* Activity: Reading Story (e.g. Wrong Color) */}
+        {slides[currentSlide]?.id === 'reading-story' && readingStory && (
+          <div className="w-full flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
+            <ReadingStoryCard
+              story={readingStory}
+              accent={accent}
+              speechRate={currentRate}
+            />
+          </div>
+        )}
+
+        {/* Activity 1: Práctica (Matching Table / Drag & Drop) */}
+        {slides[currentSlide]?.id === 'matching' && matchingExercise && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <MatchingTableExercise
+              instructionText={matchingExercise.instructions || 'Listen to the voice mail message, and fill in the correct information.'}
+              audioPrompt={matchingExercise.audioPrompt || lesson?.audioText}
+              lessonText={lesson}
+              pairs={matchingExercise.pairs}
+              optionsPool={matchingExercise.optionsPool}
+              optionsPoolEs={matchingExercise.optionsPoolEs}
+              accent={accent}
+              speechRate={currentRate}
+              onSuccess={() => {
+                onCompleteUnit(100);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Activity 3: Dropdown Sentence Completion from User Image */}
+        {slides[currentSlide]?.id === 'dropdown-completion' && dropdownExercise && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <DropdownCompletionExercise
+              exercise={dropdownExercise}
+              accent={accent}
+              speechRate={currentRate}
+              onSuccess={() => {
+                onCompleteUnit(100);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Activity 4: True/False Sentence Selection from User Image */}
+        {slides[currentSlide]?.id === 'true-false' && trueFalseExercise && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <TrueFalseSelectionExercise
+              exercise={trueFalseExercise}
+              accent={accent}
+              speechRate={currentRate}
+              onSuccess={() => {
+                onCompleteUnit(100);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Activity 5 & 6: Choose the best answers to the questions below from User Images */}
+        {slides[currentSlide]?.id?.startsWith('radio-choice-') && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[currentSlide] as { id: string; exercise?: RadioChoiceExerciseType };
+              const ex = currentSlideObj?.exercise;
+              if (!ex) return null;
+              return (
+                <RadioChoiceExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity 7: Writing Exercise with AI Feedback and Reversible Cards */}
+        {slides[currentSlide]?.id === 'writing-ai' && writingExercise && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <WritingAiFeedbackExercise
+              exercise={writingExercise}
+              accent={accent}
+              speechRate={currentRate}
+              onSuccess={() => {
+                onCompleteUnit(100);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Activity 8: Unit 1 Mastery Test (Start Test card and 6 tests) */}
+        {slides[currentSlide]?.id === 'unit-test' && unitTestExercise && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <UnitTestActivity
+              exercise={unitTestExercise}
+              accent={accent}
+              speechRate={currentRate}
+              onSuccess={() => {
+                onCompleteUnit(100);
+              }}
+            />
+          </div>
+        )}
+
+        {/* Activity: Ejercicios de Comprensión (Fill Blank, etc.) */}
+        {slides[currentSlide]?.id === 'exercises' && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <ExercisesView
+              exercises={otherExercises}
+              unitNumber={unit.number}
+              unitTitle={unit.title}
+              onCompleteUnit={onCompleteUnit}
+              accent={accent}
+            />
+          </div>
+        )}
+
+        {/* Activity 3: Tarjetas de Vocabulario (Flashcards) */}
+        {slides[currentSlide]?.id === 'flashcards' && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <FlashcardDeck
+              cards={unit.flashcards}
+              unitNumber={unit.number}
+              unitTitle={unit.title}
+              masteredIds={masteredCardIds}
+              onToggleMastered={onToggleMasteredCard}
+              accent={accent}
+              speechRate={currentRate}
+            />
+          </div>
+        )}
+
+        {/* Activity 4: Diálogo & Gramática */}
+        {slides[currentSlide]?.id === 'dialogue' && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <DialogueAndGrammarView
+              dialogue={unit.dialogue}
+              grammar={unit.grammar}
+              unitTitle={unit.title}
+              accent={accent}
+              speechRate={currentRate}
+            />
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};
+
