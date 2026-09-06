@@ -8,6 +8,8 @@ import {
   MessageSquare,
   RotateCw,
   Award,
+  Layers,
+  Volume2,
 } from 'lucide-react';
 import { Unit } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -27,6 +29,10 @@ import { DragDropSentenceExercise } from './DragDropSentenceExercise';
 import { ExercisesView } from './ExercisesView';
 import { FlashcardDeck } from './FlashcardDeck';
 import { DialogueAndGrammarView } from './DialogueAndGrammarView';
+import { VocabularyExploreActivity } from './VocabularyExploreActivity';
+import { VocabularyDictationExercise } from './VocabularyDictationExercise';
+import { DragDropClozeExercise } from './DragDropClozeExercise';
+import { DialogueDropdownExercise } from './DialogueDropdownExercise';
 import { useTheme } from '../context/ThemeContext';
 import {
   DropdownCompletionExercise as DropdownCompletionExerciseType,
@@ -42,6 +48,10 @@ import {
   MatchingExercise as MatchingExerciseType,
   PictureOrderingExercise as PictureOrderingExerciseType,
   ReadingStory,
+  VocabularyExploreExercise as VocabularyExploreExerciseType,
+  VocabularyDictationExercise as VocabularyDictationExerciseType,
+  DragDropClozeExercise as DragDropClozeExerciseType,
+  DialogueDropdownExercise as DialogueDropdownExerciseType,
 } from '../types';
 
 interface LessonCarouselProps {
@@ -142,7 +152,51 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       ex.type !== 'unit-test'
   );
 
-  const slides = [
+  const isCustomSequentialUnit =
+    unit.sectionId === 'shopping-2' ||
+    (unit.id as any) === 'shopping-2' ||
+    Boolean(
+      unit.exercises &&
+        unit.exercises.some(
+          (ex) =>
+            ex.type === 'vocabulary-explore' ||
+            ex.type === 'vocabulary-dictation' ||
+            ex.type === 'drag-drop-cloze' ||
+            ex.type === 'dialogue-dropdown'
+        )
+    );
+
+  const slides = isCustomSequentialUnit
+    ? unit.exercises.map((ex, idx) => {
+        let icon = CheckSquare;
+        let title = `Actividad ${idx + 1}`;
+        if (ex.type === 'vocabulary-explore') {
+          icon = BookOpen;
+          title = 'Vocabulario';
+        } else if (ex.type === 'matching-table') {
+          icon = Layers;
+          title = 'Emparejar';
+        } else if (ex.type === 'vocabulary-dictation') {
+          icon = Volume2;
+          title = (ex as any).title || 'Dictado';
+        } else if (ex.type === 'drag-drop-cloze') {
+          icon = CheckSquare;
+          title = (ex as any).storyTitle || 'Completar';
+        } else if (ex.type === 'dialogue-dropdown') {
+          icon = MessageSquare;
+          title = 'Diálogo';
+        } else if (ex.type === 'unit-test') {
+          icon = Award;
+          title = 'Test';
+        }
+        return {
+          id: `seq-ex-${ex.id}`,
+          exercise: ex,
+          title,
+          icon,
+        };
+      })
+    : [
     ...(lesson ? [{ id: 'explore', title: '', icon: BookOpen }] : []),
     ...(readingStory ? [{ id: 'reading-story', title: '', icon: BookOpen }] : []),
     ...readingComprehensionExercises.map((ex) => ({
@@ -745,6 +799,104 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             />
           </div>
         )}
+
+        {/* Sequential Exercises for Custom Units (Shopping 2 and others) */}
+        {slides[safeCurrentSlide]?.id?.startsWith('seq-ex-') && (() => {
+          const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: any };
+          const ex = currentSlideObj?.exercise;
+          if (!ex) return null;
+
+          if (ex.type === 'vocabulary-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <VocabularyExploreActivity
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'matching-table') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <MatchingTableExercise
+                  exercise={ex}
+                  instructionText={ex.instructions}
+                  instructionTextEs={ex.instructionsEs}
+                  audioPrompt={ex.audioPrompt}
+                  story={ex.story}
+                  columnAHeader={ex.columnAHeader}
+                  columnAHeaderEs={ex.columnAHeaderEs}
+                  columnBHeader={ex.columnBHeader}
+                  columnBHeaderEs={ex.columnBHeaderEs}
+                  pairs={ex.pairs || []}
+                  optionsPool={ex.optionsPool || []}
+                  optionsPoolEs={ex.optionsPoolEs}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'vocabulary-dictation') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <VocabularyDictationExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'drag-drop-cloze') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DragDropClozeExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'dialogue-dropdown') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DialogueDropdownExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'unit-test') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <UnitTestActivity
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          return null;
+        })()}
 
         {/* Activity: Ejercicios de Comprensión (Fill Blank, etc.) */}
         {slides[safeCurrentSlide]?.id === 'exercises' && (

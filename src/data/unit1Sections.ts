@@ -5,9 +5,9 @@ import { BE_PAST_LESSON_TEXT, BE_PAST_EXERCISES } from './bePastStatementsData';
 import {
   BE_PAST_QUESTIONS_LESSON_TEXT,
   BE_PAST_QUESTIONS_EXERCISES,
-  BE_PAST_QUESTIONS_FLASHCARDS,
   bePastQuestionsImg,
 } from './bePastQuestionsData';
+import { SHOPPING_2_EXERCISES } from './shopping2Data';
 import wcScene1Img from '../assets/images/wrong_color/scene1.jpg';
 import wcScene2Img from '../assets/images/wrong_color/scene2.jpg';
 import wcScene3Img from '../assets/images/wrong_color/scene3.jpg';
@@ -770,7 +770,7 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
       'Aprende a formular y responder preguntas en pasado con el verbo Be (Was / Were), practica con 10 actividades interactivas y completa el Test de evaluación de 5 preguntas.',
     imageUrl: bePastQuestionsImg,
     lessonText: BE_PAST_QUESTIONS_LESSON_TEXT,
-    flashcards: BE_PAST_QUESTIONS_FLASHCARDS,
+    flashcards: [],
     exercises: BE_PAST_QUESTIONS_EXERCISES,
   },
 
@@ -780,10 +780,12 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     number: 6,
     title: 'Shopping 2',
     titleEs: 'Compras 2',
-    subtitle: 'Practical Situations',
-    description: 'Sección 6: Diálogos prácticos en tiendas comerciales, cambios de producto y precios.',
+    subtitle: 'Practical Situations & Vocabulary',
+    description:
+      'Aprende vocabulario clave de compras (department store, closed, open, delivery, receipt, etc.), practica con 7 actividades interactivas y realiza el Test de evaluación de 10 preguntas.',
     imageUrl:
       'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80',
-    exercises: [],
+    flashcards: [],
+    exercises: SHOPPING_2_EXERCISES,
   },
 ];

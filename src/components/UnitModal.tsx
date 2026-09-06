@@ -62,6 +62,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
   const activeUnitContent: Unit = activeSection
     ? {
         ...unit,
+        sectionId: activeSection.id,
         title: activeSection.title,
         titleEs: activeSection.titleEs,
         subtitle: activeSection.subtitle || unit.subtitle,
@@ -396,8 +397,10 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                 </button>
               )}
             </div>
-          ) : activeUnitContent.lessonText || activeUnitContent.readingStory ? (
-            /* Case 3: Lesson or Reading Story -> Render LessonCarousel */
+          ) : activeUnitContent.lessonText ||
+            activeUnitContent.readingStory ||
+            (activeUnitContent.exercises && activeUnitContent.exercises.length > 0) ? (
+            /* Case 3: Lesson, Reading Story or Exercises -> Render LessonCarousel */
             <LessonCarousel
               unit={activeUnitContent}
               accent={accent}

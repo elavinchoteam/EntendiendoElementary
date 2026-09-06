@@ -47,6 +47,7 @@ const defaultLessonTextFallback: LessonMainText = {
 };
 
 interface MatchingTableExerciseProps {
+  exercise?: any;
   instructionText?: string;
   instructionTextEs?: string;
   audioPrompt?: string;
@@ -56,8 +57,8 @@ interface MatchingTableExerciseProps {
   columnAHeaderEs?: string;
   columnBHeader?: string;
   columnBHeaderEs?: string;
-  pairs: MatchingPair[];
-  optionsPool: string[];
+  pairs?: MatchingPair[];
+  optionsPool?: string[];
   optionsPoolEs?: Record<string, string>;
   accent?: 'US' | 'UK';
   speechRate?: number;
@@ -90,18 +91,19 @@ const DEFAULT_OPTION_TRANSLATIONS: Record<string, string> = {
 };
 
 export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
-  instructionText = 'Listen to the voice message, and fill the correct information.',
-  instructionTextEs = 'Escucha el mensaje de voz, y llena la información correcta.',
-  audioPrompt,
+  exercise,
+  instructionText: propInstructionText,
+  instructionTextEs: propInstructionTextEs,
+  audioPrompt: propAudioPrompt,
   lessonText,
-  story,
-  columnAHeader,
-  columnAHeaderEs,
-  columnBHeader,
-  columnBHeaderEs,
-  pairs,
-  optionsPool,
-  optionsPoolEs,
+  story: propStory,
+  columnAHeader: propColAHeader,
+  columnAHeaderEs: propColAHeaderEs,
+  columnBHeader: propColBHeader,
+  columnBHeaderEs: propColBHeaderEs,
+  pairs: propPairs,
+  optionsPool: propOptionsPool,
+  optionsPoolEs: propOptionsPoolEs,
   accent = 'US',
   speechRate = 1.0,
   onSuccess,
@@ -109,12 +111,33 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
   const { isDark } = useTheme();
   const safeAccent: 'US' | 'UK' = accent === 'UK' ? 'UK' : 'US';
 
+  const pairs: MatchingPair[] = propPairs || exercise?.pairs || [];
+  const optionsPool: string[] = propOptionsPool || exercise?.optionsPool || [];
+  const optionsPoolEs: Record<string, string> | undefined = propOptionsPoolEs || exercise?.optionsPoolEs;
+  const instructionText =
+    propInstructionText ||
+    exercise?.instructions ||
+    exercise?.instructionText ||
+    'Listen to the voice message, and fill the correct information.';
+  const instructionTextEs =
+    propInstructionTextEs ||
+    exercise?.instructionsEs ||
+    exercise?.instructionTextEs ||
+    'Escucha el mensaje de voz, y llena la información correcta.';
+  const audioPrompt = propAudioPrompt || exercise?.audioPrompt;
+  const story = propStory || exercise?.story;
+  const columnAHeader = propColAHeader || exercise?.columnAHeader;
+  const columnAHeaderEs = propColAHeaderEs || exercise?.columnAHeaderEs;
+  const columnBHeader = propColBHeader || exercise?.columnBHeader;
+  const columnBHeaderEs = propColBHeaderEs || exercise?.columnBHeaderEs;
+
   const [currentRate, setCurrentRate] = useState<number>(speechRate);
   useEffect(() => {
     setCurrentRate(speechRate);
   }, [speechRate]);
 
-  const activeLesson = lessonText || (!story ? defaultLessonTextFallback : undefined);
+  const activeLesson = lessonText;
+  const hasStoryOrLesson = Boolean(story || activeLesson);
 
   // Mapping of pair.id -> selected option string (or undefined if empty)
   const [slotValues, setSlotValues] = useState<Record<string, string>>({});

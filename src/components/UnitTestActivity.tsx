@@ -16,11 +16,13 @@ import {
   HelpCircle,
   Clock,
   BookOpen,
+  ChevronDown,
 } from 'lucide-react';
 import { UnitTestExercise, UnitTestQuestion } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import chuckWoodImg from '../assets/images/chuck_wood_player_1788552205408.jpg';
+import { VocabularyHelperCard } from './VocabularyHelperCard';
 
 interface UnitTestActivityProps {
   exercise: UnitTestExercise;
@@ -982,6 +984,14 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   })}
                 </div>
               </div>
+            ) : (exercise.vocabularyWords || currentQuestion.vocabularyWords) ? (
+              <div className="w-full lg:w-[45%] p-5 sm:p-7 flex flex-col justify-start items-center bg-[#FAF9F5] dark:bg-[#141B2D] border-b lg:border-b-0 lg:border-r border-stone-200 dark:border-slate-800 overflow-y-auto max-h-[580px] lg:max-h-[720px]">
+                <VocabularyHelperCard
+                  words={(exercise.vocabularyWords || currentQuestion.vocabularyWords)!}
+                  accent={accent}
+                  speechRate={playerSpeed}
+                />
+              </div>
             ) : (
               <div className="w-full lg:w-[48%] p-4 sm:p-6 flex flex-col justify-between bg-slate-900/5 dark:bg-black/30 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
                 <div className="w-full rounded-2xl overflow-hidden border border-slate-700/60 bg-[#1E293B] shadow-lg relative flex flex-col">
@@ -1500,6 +1510,111 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             </div>
                           );
                         })}
+                      </div>
+                    </div>
+                  </div>
+                ) : currentQuestion.type === 'dropdown' ? (
+                  /* VISTA DROPDOWN PARA TEST 1-10 (SHOPPING 2 Y SIMILARES) */
+                  <div className="flex flex-col justify-between flex-1 my-2 gap-8">
+                    <div className="flex flex-col gap-6">
+                      <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
+                        <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
+                          Complete the Sentence
+                        </span>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            id="listen-dropdown-sentence-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const selectedOpt = currentQuestion.options.find(
+                                (o) => o.id === currentSelectedOptionId
+                              );
+                              const selectedText = selectedOpt?.text || '';
+                              const prefix = currentQuestion.sentencePrefix || '';
+                              const suffix = currentQuestion.sentenceSuffix || '';
+                              const textToSpeak = `${prefix} ${selectedText} ${suffix}`.trim() || currentQuestion.question;
+                              handleListenSpeech(textToSpeak, 'test-dropdown-sentence');
+                            }}
+                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                              speakingTarget === 'test-dropdown-sentence'
+                                ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                                : isDark
+                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
+                                : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                            }`}
+                            title="Listen sentence"
+                            aria-label="Escuchar oración"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+
+                          <button
+                            id="toggle-dropdown-sentence-translation-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsQuestionFlipped((prev) => !prev);
+                            }}
+                            className="text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer transition-colors"
+                            title="Traducir oración"
+                          >
+                            <RotateCw className="w-3 h-3" />
+                            <span>{isQuestionFlipped ? 'Inglés' : 'Español'}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Sentence with Dropdown Select */}
+                      <div className="flex flex-wrap items-center gap-3 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white pt-2 leading-relaxed">
+                        <span>
+                          {isQuestionFlipped
+                            ? currentQuestion.sentencePrefixEs || currentQuestion.sentencePrefix
+                            : currentQuestion.sentencePrefix}
+                        </span>
+
+                        <div className="relative inline-flex items-center my-1">
+                          <select
+                            id={`test-dropdown-select-${currentQuestion.id}`}
+                            value={currentSelectedOptionId || ''}
+                            disabled={isAnswerChecked}
+                            onChange={(e) => {
+                              playFeedbackSound('click');
+                              setSelectedAnswers((prev) => ({
+                                ...prev,
+                                [currentQuestion.id]: e.target.value,
+                              }));
+                            }}
+                            className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
+                              isAnswerChecked
+                                ? isAnswerCorrect
+                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
+                                  : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
+                                : currentSelectedOptionId
+                                ? isDark
+                                  ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
+                                  : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                                : isDark
+                                ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
+                                : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                            }`}
+                          >
+                            <option value="" disabled>
+                              -- select --
+                            </option>
+                            {currentQuestion.options.map((opt) => (
+                              <option key={opt.id} value={opt.id}>
+                                {opt.text}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                        </div>
+
+                        <span>
+                          {isQuestionFlipped
+                            ? currentQuestion.sentenceSuffixEs || currentQuestion.sentenceSuffix
+                            : currentQuestion.sentenceSuffix}
+                        </span>
                       </div>
                     </div>
                   </div>

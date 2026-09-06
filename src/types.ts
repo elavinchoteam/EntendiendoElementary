@@ -26,6 +26,10 @@ export type ExerciseType =
   | 'speech-response'
   | 'roleplay-practice'
   | 'drag-drop-sentence'
+  | 'vocabulary-explore'
+  | 'vocabulary-dictation'
+  | 'drag-drop-cloze'
+  | 'dialogue-dropdown'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -175,7 +179,7 @@ export interface UnitTestOption {
   isCorrect: boolean;
 }
 
-export type UnitTestQuestionType = 'radio-choice' | 'drag-drop';
+export type UnitTestQuestionType = 'radio-choice' | 'drag-drop' | 'dropdown';
 
 export interface UnitTestQuestion {
   id: string;
@@ -203,6 +207,7 @@ export interface UnitTestQuestion {
   referenceText?: string;
   referenceTextEs?: string;
   referenceHighlights?: string[];
+  vocabularyWords?: VocabularyWordItem[];
 }
 
 export interface UnitTestExercise extends BaseExercise {
@@ -221,6 +226,7 @@ export interface UnitTestExercise extends BaseExercise {
   referenceTextEs?: string;
   referenceHighlights?: string[];
   imageUrl?: string;
+  vocabularyWords?: VocabularyWordItem[];
 }
 
 export interface ReadingStory {
@@ -362,6 +368,91 @@ export interface DragDropSentenceExercise extends BaseExercise {
   explanationEs?: string;
 }
 
+export interface VocabularyWordItem {
+  id: string;
+  word: string;
+  partOfSpeech: string;
+  partOfSpeechEs?: string;
+  translation: string;
+  definitionEn: string;
+  definitionEs: string;
+  exampleEn: string;
+  exampleEs: string;
+  imageUrl: string;
+  audioPromptWord?: string;
+  audioPromptExample?: string;
+}
+
+export interface VocabularyExploreExercise extends BaseExercise {
+  type: 'vocabulary-explore';
+  title?: string;
+  titleEs?: string;
+  instructions?: string;
+  instructionsEs?: string;
+  words: VocabularyWordItem[];
+}
+
+export interface VocabularyDictationItem {
+  id: string;
+  sentenceEn: string;
+  sentenceEs?: string;
+  audioText?: string;
+}
+
+export interface VocabularyDictationExercise extends BaseExercise {
+  type: 'vocabulary-dictation';
+  title?: string;
+  titleEs?: string;
+  instructions: string;
+  instructionsEs?: string;
+  items: VocabularyDictationItem[];
+  vocabularyWords: VocabularyWordItem[];
+}
+
+export interface DragDropClozeBlank {
+  id: string;
+  correctAnswer: string;
+}
+
+export interface DragDropClozeExercise extends BaseExercise {
+  type: 'drag-drop-cloze';
+  title?: string;
+  titleEs?: string;
+  instructions: string;
+  instructionsEs?: string;
+  storyTitle?: string;
+  template: string;
+  paragraphsEn?: string[];
+  translationEs?: string;
+  paragraphsEs?: string[];
+  blanks: DragDropClozeBlank[];
+  wordBank: string[];
+  vocabularyWords?: VocabularyWordItem[];
+}
+
+export interface DialogueDropdownBlank {
+  id: string;
+  options: string[];
+  correctAnswer: string;
+}
+
+export interface DialogueDropdownLine {
+  speaker?: string;
+  textEn: string;
+  textEs?: string;
+}
+
+export interface DialogueDropdownExercise extends BaseExercise {
+  type: 'dialogue-dropdown';
+  title?: string;
+  titleEs?: string;
+  instructions: string;
+  instructionsEs?: string;
+  lines: DialogueDropdownLine[];
+  blanks: DialogueDropdownBlank[];
+  vocabularyWords?: VocabularyWordItem[];
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -377,6 +468,10 @@ export type Exercise =
   | SpeechResponseExercise
   | RoleplayPracticeExercise
   | DragDropSentenceExercise
+  | VocabularyExploreExercise
+  | VocabularyDictationExercise
+  | DragDropClozeExercise
+  | DialogueDropdownExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
@@ -433,6 +528,7 @@ export interface UnitSection {
 
 export interface Unit {
   id: number;
+  sectionId?: string;
   number: number;
   title: string;
   titleEs: string;
