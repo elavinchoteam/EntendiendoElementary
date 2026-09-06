@@ -50,6 +50,10 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
   const { isDark } = useTheme();
   const safeAccent: 'US' | 'UK' = accent === 'UK' ? 'UK' : 'US';
 
+  const durationSeconds = exercise.durationSeconds || TOTAL_AUDIO_DURATION_SEC;
+  const displayImage = exercise.imageUrl || chuckWoodImg;
+  const speakerVoice = exercise.speakerGender || 'male';
+
   // Selected radio option id
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [hasChecked, setHasChecked] = useState(false);
@@ -109,7 +113,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
     if (isPlaying) {
       timerRef.current = setInterval(() => {
         setElapsedSeconds((prev) => {
-          if (prev >= TOTAL_AUDIO_DURATION_SEC) {
+          if (prev >= durationSeconds) {
             setIsPlaying(false);
             setCurrentSentenceIdx(null);
             return 0;
@@ -117,7 +121,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
           const next = prev + 1;
           const sentenceIndex = Math.min(
             sentences.length - 1,
-            Math.floor((next / TOTAL_AUDIO_DURATION_SEC) * sentences.length)
+            Math.floor((next / durationSeconds) * sentences.length)
           );
           setCurrentSentenceIdx(sentenceIndex);
           return next;
@@ -132,7 +136,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, currentPlaybackRate, sentences.length]);
+  }, [isPlaying, currentPlaybackRate, sentences.length, durationSeconds]);
 
   const handleTogglePlay = () => {
     if (isPlaying) {
@@ -161,9 +165,9 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
       () => {
         setIsPlaying(false);
         setCurrentSentenceIdx(null);
-        setElapsedSeconds(TOTAL_AUDIO_DURATION_SEC);
+        setElapsedSeconds(durationSeconds);
       },
-      'male'
+      speakerVoice
     );
   };
 
@@ -172,7 +176,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
     setIsPlaying(true);
     setCurrentSentenceIdx(idx);
 
-    const targetElapsed = Math.floor((idx / sentences.length) * TOTAL_AUDIO_DURATION_SEC);
+    const targetElapsed = Math.floor((idx / sentences.length) * durationSeconds);
     setElapsedSeconds(targetElapsed);
 
     speakEnglish(
@@ -187,7 +191,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
         setIsPlaying(false);
         setCurrentSentenceIdx(null);
       },
-      'male'
+      speakerVoice
     );
   };
 
@@ -322,11 +326,11 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
               isDark ? 'bg-[#151C33] border-white/10' : 'bg-white border-slate-200'
             }`}
           >
-            {/* Image Preview with Chuck Wood */}
+            {/* Image Preview with Chuck Wood or Section dialogue photo */}
             <div className="relative aspect-[16/11] bg-slate-900 overflow-hidden flex items-center justify-center">
               <img
-                src={chuckWoodImg}
-                alt="Chuck Wood with Working People Magazine"
+                src={displayImage}
+                alt="Dialogue illustration"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top"
               />
@@ -367,14 +371,14 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                 <input
                   type="range"
                   min={0}
-                  max={TOTAL_AUDIO_DURATION_SEC}
+                  max={durationSeconds}
                   value={elapsedSeconds}
                   onChange={(e) => {
                     const newTime = Number(e.target.value);
                     setElapsedSeconds(newTime);
                     const idx = Math.min(
                       sentences.length - 1,
-                      Math.floor((newTime / TOTAL_AUDIO_DURATION_SEC) * sentences.length)
+                      Math.floor((newTime / durationSeconds) * sentences.length)
                     );
                     setCurrentSentenceIdx(idx);
                   }}
@@ -450,9 +454,9 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                 {isMuted ? <VolumeX className="w-3.5 h-3.5 text-rose-500" /> : <Volume2 className="w-3.5 h-3.5" />}
               </button>
 
-              {/* Time display (00:xx / 00:41) */}
+              {/* Time display (00:xx / 00:xx) */}
               <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400 shrink-0">
-                {formatTime(elapsedSeconds)} / {formatTime(TOTAL_AUDIO_DURATION_SEC)}
+                {formatTime(elapsedSeconds)} / {formatTime(durationSeconds)}
               </span>
             </div>
           </div>

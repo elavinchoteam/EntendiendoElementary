@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
-import { Volume2, CheckCircle2, XCircle, RotateCcw, Check, Sparkles, HelpCircle, FileText, ChevronDown } from 'lucide-react';
-import { MatchingPair, LessonMainText } from '../types';
-import { speakEnglish, playFeedbackSound } from '../utils/audio';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Volume2,
+  CheckCircle2,
+  XCircle,
+  RotateCcw,
+  Check,
+  Sparkles,
+  HelpCircle,
+  FileText,
+  ChevronDown,
+  RotateCw,
+  X,
+} from 'lucide-react';
+import confetti from 'canvas-confetti';
+import { MatchingPair, LessonMainText, ReadingStory } from '../types';
+import { speakEnglish, stopSpeaking, playFeedbackSound } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
+import { SpeedSelectorButton } from './SpeedSelectorButton';
 
 const defaultLessonTextFallback: LessonMainText = {
   title: 'Lesson 1: Phone Sales',
@@ -37,6 +51,11 @@ interface MatchingTableExerciseProps {
   instructionTextEs?: string;
   audioPrompt?: string;
   lessonText?: LessonMainText;
+  story?: ReadingStory;
+  columnAHeader?: string;
+  columnAHeaderEs?: string;
+  columnBHeader?: string;
+  columnBHeaderEs?: string;
   pairs: MatchingPair[];
   optionsPool: string[];
   optionsPoolEs?: Record<string, string>;
@@ -64,6 +83,10 @@ const DEFAULT_OPTION_TRANSLATIONS: Record<string, string> = {
   '$10 for ten magazines': '$10 por diez revistas',
   'Chuck Wood': 'Chuck Wood',
   'Working People Magazine': 'Revista Working People',
+  'cried': 'lloró',
+  'right': 'correcto / correcta',
+  'open': 'abierto / abierta',
+  'early': 'temprano',
 };
 
 export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
@@ -71,6 +94,11 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
   instructionTextEs = 'Escucha el mensaje de voz, y llena la información correcta.',
   audioPrompt,
   lessonText,
+  story,
+  columnAHeader,
+  columnAHeaderEs,
+  columnBHeader,
+  columnBHeaderEs,
   pairs,
   optionsPool,
   optionsPoolEs,
@@ -79,85 +107,116 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
   onSuccess,
 }) => {
   const { isDark } = useTheme();
-  const activeLesson = lessonText || defaultLessonTextFallback;
+  const safeAccent: 'US' | 'UK' = accent === 'UK' ? 'UK' : 'US';
+
+  const [currentRate, setCurrentRate] = useState<number>(speechRate);
+  useEffect(() => {
+    setCurrentRate(speechRate);
+  }, [speechRate]);
+
+  const activeLesson = lessonText || (!story ? defaultLessonTextFallback : undefined);
 
   // Mapping of pair.id -> selected option string (or undefined if empty)
   const [slotValues, setSlotValues] = useState<Record<string, string>>({});
   const [selectedPoolItem, setSelectedPoolItem] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSpeakingInstruction, setIsSpeakingInstruction] = useState(false);
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
+  const [playingSentenceId, setPlayingSentenceId] = useState<string | null>(null);
 
-  // Reversible Cards state (individual flip tracking without any indicator text/buttons)
+  // 3D Reversible Cards state
   const [flippedFieldIds, setFlippedFieldIds] = useState<string[]>([]);
   const [flippedOptionIds, setFlippedOptionIds] = useState<string[]>([]);
   const [flippedSlotIds, setFlippedSlotIds] = useState<string[]>([]);
 
-  // Flip card states for instruction and header
+  // Flip card states for instruction and headers
   const [isInstructionFlipped, setIsInstructionFlipped] = useState(false);
+  const [isColAFlipped, setIsColAFlipped] = useState(false);
   const [isColBFlipped, setIsColBFlipped] = useState(false);
 
-  // Activity 1 Reversible Card state
-  const [showLessonCard, setShowLessonCard] = useState(false);
-  const [isLessonCardFlipped, setIsLessonCardFlipped] = useState(false);
-  const [isPlayingLessonAudio, setIsPlayingLessonAudio] = useState(false);
+  // Story / Lesson Text Drawer Reversible Card state
+  const [showStoryDrawer, setShowStoryDrawer] = useState(false);
+  const [isStoryCardFlipped, setIsStoryCardFlipped] = useState(false);
+  const [isPlayingStoryAudio, setIsPlayingStoryAudio] = useState(false);
   const [playingSentenceIdx, setPlayingSentenceIdx] = useState<number | null>(null);
 
-  // Determine which options from the pool are currently used
+  // Determine which options from the pool are currently placed
   const usedValues = Object.values(slotValues);
-  const availablePool = optionsPool.filter((opt) => !usedValues.includes(opt));
 
-  const handlePlayAudio = () => {
-    if (!audioPrompt) return;
-    if (isSpeaking) {
-      window.speechSynthesis?.cancel();
-      setIsSpeaking(false);
+  const colA = columnAHeader || 'A';
+  const colAEs = columnAHeaderEs || (columnAHeader ? 'Oraciones' : 'A');
+  const colB = columnBHeader || 'B (DRAG HERE)';
+  const colBEs = columnBHeaderEs || (columnBHeader ? 'Opuestos' : 'B (ARRASTRA AQUÍ)');
+
+  const handlePlayInstructionAudio = () => {
+    const textToSpeak = audioPrompt || instructionText;
+    if (isSpeakingInstruction) {
+      stopSpeaking();
+      setIsSpeakingInstruction(false);
       return;
     }
-    setIsSpeaking(true);
+    stopSpeaking();
+    setIsSpeakingInstruction(true);
     speakEnglish(
-      audioPrompt,
-      speechRate,
-      (accent as 'US' | 'UK') || 'US',
-      () => setIsSpeaking(true),
-      () => setIsSpeaking(false)
+      textToSpeak,
+      currentRate,
+      safeAccent,
+      () => setIsSpeakingInstruction(true),
+      () => setIsSpeakingInstruction(false)
     );
   };
 
-  const handleToggleLessonAudio = (e: React.MouseEvent) => {
+  const handleToggleStoryAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isPlayingLessonAudio) {
-      window.speechSynthesis?.cancel();
-      setIsPlayingLessonAudio(false);
+    if (isPlayingStoryAudio) {
+      stopSpeaking();
+      setIsPlayingStoryAudio(false);
       setPlayingSentenceIdx(null);
       return;
     }
-    const textToPlay = activeLesson.audioText || activeLesson.textEn;
-    setIsPlayingLessonAudio(true);
+
+    const textToPlay = story
+      ? story.audioText || story.textEn
+      : activeLesson?.audioText || activeLesson?.textEn || '';
+
+    if (!textToPlay) return;
+
+    stopSpeaking();
+    setIsPlayingStoryAudio(true);
     speakEnglish(
       textToPlay,
-      speechRate,
-      (accent as 'US' | 'UK') || 'US',
-      () => setIsPlayingLessonAudio(true),
+      currentRate,
+      safeAccent,
+      () => setIsPlayingStoryAudio(true),
       () => {
-        setIsPlayingLessonAudio(false);
+        setIsPlayingStoryAudio(false);
         setPlayingSentenceIdx(null);
       }
     );
   };
 
-  const handlePlaySentence = (sentence: string, idx: number, e: React.MouseEvent) => {
-    e.stopPropagation();
-    window.speechSynthesis?.cancel();
-    setPlayingSentenceIdx(idx);
-    setIsPlayingLessonAudio(false);
+  const handlePlaySentenceAudio = (sentence: string, pairId: string, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (playingSentenceId === pairId) {
+      stopSpeaking();
+      setPlayingSentenceId(null);
+      return;
+    }
+    stopSpeaking();
+    setPlayingSentenceId(pairId);
     speakEnglish(
       sentence,
-      speechRate,
-      (accent as 'US' | 'UK') || 'US',
-      () => setPlayingSentenceIdx(idx),
-      () => setPlayingSentenceIdx(null)
+      currentRate,
+      safeAccent,
+      () => setPlayingSentenceId(pairId),
+      () => setPlayingSentenceId(null)
     );
+  };
+
+  const handlePlayOptionAudio = (word: string, e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    stopSpeaking();
+    speakEnglish(word, currentRate, safeAccent);
   };
 
   // Drag and drop handlers
@@ -174,8 +233,6 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
     e.preventDefault();
     const item = e.dataTransfer.getData('text/plain') || draggedItem;
     if (!item) return;
-
-    // Place item in this slot
     assignItemToSlot(pairId, item);
     setDraggedItem(null);
   };
@@ -193,31 +250,33 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
 
   const handleSlotClick = (pairId: string) => {
     if (isSubmitted) return;
-    // If a pool item is selected, assign it
     if (selectedPoolItem) {
       playFeedbackSound('click');
       assignItemToSlot(pairId, selectedPoolItem);
       setSelectedPoolItem(null);
-    } else if (slotValues[pairId]) {
-      // If clicking an already filled slot with no pool item selected, remove it
-      playFeedbackSound('click');
-      removeSlotValue(pairId);
     }
   };
 
   const assignItemToSlot = (pairId: string, item: string) => {
+    if (isSubmitted) return;
+    playFeedbackSound('click');
     setSlotValues((prev) => {
       const next = { ...prev };
-      // If this item was already in another slot, remove it from that slot
-      Object.keys(next).forEach((k) => {
-        if (next[k] === item) delete next[k];
+      // If item was already used in another slot, remove it from there
+      Object.keys(next).forEach((key) => {
+        if (next[key] === item) {
+          delete next[key];
+        }
       });
       next[pairId] = item;
       return next;
     });
   };
 
-  const removeSlotValue = (pairId: string) => {
+  const handleRemoveFromSlot = (pairId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isSubmitted) return;
+    playFeedbackSound('click');
     setSlotValues((prev) => {
       const next = { ...prev };
       delete next[pairId];
@@ -225,24 +284,23 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
     });
   };
 
-  const handleToggleFlipField = (id: string) => {
+  const handleToggleFlipField = (pairId: string) => {
     playFeedbackSound('flip');
     setFlippedFieldIds((prev) =>
-      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+      prev.includes(pairId) ? prev.filter((id) => id !== pairId) : [...prev, pairId]
     );
   };
 
-  const handleToggleFlipOption = (option: string) => {
+  const handleToggleFlipOption = (option: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     playFeedbackSound('flip');
     setFlippedOptionIds((prev) =>
-      prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]
+      prev.includes(option) ? prev.filter((opt) => opt !== option) : [...prev, option]
     );
-    if (!isSubmitted) {
-      setSelectedPoolItem((prev) => (prev === option ? null : option));
-    }
   };
 
-  const handleToggleFlipSlot = (pairId: string) => {
+  const handleToggleFlipSlot = (pairId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     playFeedbackSound('flip');
     setFlippedSlotIds((prev) =>
       prev.includes(pairId) ? prev.filter((id) => id !== pairId) : [...prev, pairId]
@@ -262,6 +320,15 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
 
     if (allCorrect) {
       playFeedbackSound('complete');
+      try {
+        confetti({
+          particleCount: 75,
+          spread: 65,
+          origin: { y: 0.65 },
+        });
+      } catch {
+        // ignore
+      }
       if (onSuccess) onSuccess();
     } else {
       playFeedbackSound('wrong');
@@ -279,20 +346,56 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
   };
 
   const isAllFilled = pairs.every((p) => Boolean(slotValues[p.id]));
-
-  // Calculate score
   const correctCount = pairs.filter((p) => slotValues[p.id] === p.correctValue).length;
-  const isAllCorrect = correctCount === pairs.length;
+  const isAllCorrect = isSubmitted && correctCount === pairs.length;
+
+  // Helper to render sentence with yellow highlighted word
+  const renderSentenceWithHighlight = (
+    text: string,
+    highlight?: string,
+    isSpanish = false
+  ) => {
+    if (!highlight) return <span>{text}</span>;
+    const regex = new RegExp(`(${highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    const parts = text.split(regex);
+    return (
+      <span className="leading-snug">
+        {parts.map((part, i) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <mark
+              key={i}
+              className={`font-semibold px-1 py-0.5 rounded shadow-2xs mx-0.5 not-italic inline-block transition-colors ${
+                isSpanish
+                  ? isDark
+                    ? 'bg-yellow-400/30 text-yellow-200 ring-1 ring-yellow-400/40'
+                    : 'bg-yellow-200 text-yellow-950 ring-1 ring-yellow-400/50'
+                  : isDark
+                  ? 'bg-yellow-400/25 text-yellow-200 ring-1 ring-yellow-400/40'
+                  : 'bg-yellow-200 text-yellow-950 ring-1 ring-yellow-400/50'
+              }`}
+            >
+              {part}
+            </mark>
+          ) : (
+            <span key={i}>{part}</span>
+          )
+        )}
+      </span>
+    );
+  };
 
   return (
-    <div className={`w-full rounded-2xl border transition-colors duration-200 ${
-      isDark ? 'bg-[#111827] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900 shadow-sm'
-    }`}>
-      
-      {/* Exercise Header Banner with Reversible Instruction Card */}
-      <div className={`p-4 sm:p-5 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-        isDark ? 'border-white/10 bg-white/5' : 'border-slate-100 bg-slate-50/70'
-      }`}>
+    <div
+      className={`w-full rounded-2xl border transition-colors duration-200 ${
+        isDark ? 'bg-[#111827] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+      }`}
+    >
+      {/* Exercise Header Banner with Reversible Instruction Card & Speed Selector */}
+      <div
+        className={`p-4 sm:p-5 border-b flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+          isDark ? 'border-white/10 bg-white/5' : 'border-slate-100 bg-slate-50/70'
+        }`}
+      >
         {/* Reversible Instruction Card (Click anywhere to flip) */}
         <div className="flex-1 perspective-1000 min-h-[68px]">
           <div
@@ -301,263 +404,340 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
               playFeedbackSound('flip');
               setIsInstructionFlipped((prev) => !prev);
             }}
-            className={`relative w-full min-h-[68px] rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
+            className={`relative w-full h-full min-h-[68px] rounded-xl sm:rounded-2xl p-3 sm:p-4 cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
               isInstructionFlipped ? 'rotate-y-180' : ''
             } ${
               isInstructionFlipped
                 ? isDark
-                  ? 'bg-gradient-to-r from-emerald-950/50 via-[#0F291E] to-emerald-950/40 border-emerald-500/30 text-emerald-200'
-                  : 'bg-gradient-to-r from-emerald-50 via-white to-emerald-50/80 border-emerald-200 text-emerald-900'
+                  ? 'bg-[#0F241A] border-emerald-500/40 text-emerald-200'
+                  : 'bg-emerald-50/90 border-emerald-300 text-emerald-950 shadow-xs'
                 : isDark
-                ? 'bg-white/5 border-white/10 hover:border-white/20 text-white'
-                : 'bg-white border-slate-200 hover:border-slate-300 text-slate-800'
+                ? 'bg-[#1A1F36] border-white/15 text-white hover:border-white/25'
+                : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
             }`}
+            title="Haz clic para voltear entre inglés y español"
           >
-            {/* Front: English Instruction */}
-            <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center gap-3 backface-hidden">
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                isDark ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30' : 'bg-indigo-100 text-indigo-600'
-              }`}>
-                <Volume2 className="w-4 h-4" />
-              </div>
-              <h4 className={`text-xs sm:text-sm md:text-base font-semibold leading-snug ${
-                isDark ? 'text-white' : 'text-slate-800'
-              }`}>
+            {/* Front Face: English */}
+            <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-center backface-hidden">
+              <p className="text-xs sm:text-sm font-medium leading-relaxed select-none">
                 {instructionText}
-              </h4>
+              </p>
             </div>
 
-            {/* Back: Spanish Exact Translation */}
-            <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center gap-3 backface-hidden rotate-y-180">
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                isDark ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-emerald-100 text-emerald-700'
-              }`}>
-                <Volume2 className="w-4 h-4" />
-              </div>
-              <p className={`text-xs sm:text-sm md:text-base font-medium leading-snug italic ${
-                isDark ? 'text-emerald-200' : 'text-emerald-900'
-              }`}>
+            {/* Back Face: Spanish */}
+            <div className="absolute inset-0 p-3.5 sm:p-4 flex flex-col justify-center backface-hidden rotate-y-180">
+              <p className="text-xs sm:text-sm font-medium leading-relaxed italic select-none">
                 {instructionTextEs}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Audio control button - only image icon, no text */}
-        {audioPrompt && (
+        {/* Speed Selector and Audio control button */}
+        <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
+          <SpeedSelectorButton
+            currentRate={currentRate}
+            onRateChange={(newRate) => setCurrentRate(newRate)}
+            size="md"
+          />
+
           <button
             id="matching-audio-play-btn"
             onClick={(e) => {
               e.stopPropagation();
-              handlePlayAudio();
+              handlePlayInstructionAudio();
             }}
             className={`p-3 rounded-xl transition-all cursor-pointer shrink-0 shadow-xs flex items-center justify-center ${
-              isSpeaking
+              isSpeakingInstruction
                 ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
                 : isDark
                 ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
                 : 'bg-indigo-600 hover:bg-indigo-700 text-white'
             }`}
-            title={isSpeaking ? 'Detener audio' : 'Escuchar mensaje'}
-            aria-label={isSpeaking ? 'Detener audio' : 'Escuchar mensaje'}
+            title={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
+            aria-label={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
           >
             <Volume2 className="w-5 h-5" />
           </button>
-        )}
+        </div>
       </div>
 
-      {/* Activity 1 Card Toggle Button & Reversible Card (Positioned at green line) */}
-      <div className={`px-5 py-3 border-b flex flex-col gap-3 transition-colors ${
-        isDark ? 'border-white/10 bg-white/[0.02]' : 'border-slate-100 bg-slate-50/40'
-      }`}>
-        <div className="flex items-center justify-between">
-          <button
-            id="toggle-activity1-card-btn"
-            type="button"
-            onClick={() => {
-              playFeedbackSound('click');
-              setShowLessonCard((prev) => !prev);
-            }}
-            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wide transition-all cursor-pointer border shadow-xs ${
-              showLessonCard
-                ? isDark
-                  ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/40'
-                  : 'bg-indigo-50 text-indigo-700 border-indigo-200'
-                : isDark
-                ? 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border-white/15 hover:border-white/25'
-                : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200 hover:border-slate-300'
-            }`}
-            title={showLessonCard ? 'Ocultar tarjeta de texto' : 'Ver tarjeta de texto de la Actividad 1'}
-          >
-            <FileText className="w-3.5 h-3.5 text-indigo-500" />
-            <span>{showLessonCard ? 'Ocultar Texto de la Tarjeta' : 'Ver Texto de la Tarjeta'}</span>
-            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${showLessonCard ? 'rotate-180' : ''}`} />
-          </button>
-        </div>
-
-        {/* When expanded: The exact reversible card from Activity 1 */}
-        {showLessonCard && (
-          <div className="w-full perspective-1000 my-2 animate-in fade-in slide-in-from-top-2 duration-300">
-            <div
-              id="activity1-embedded-card"
+      {/* Story / Lesson Text Drawer Reversible Card Toggle */}
+      {(story || activeLesson) && (
+        <div
+          className={`px-5 py-3 border-b flex flex-col gap-3 transition-colors ${
+            isDark ? 'border-white/10 bg-white/[0.02]' : 'border-slate-100 bg-slate-50/40'
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <button
+              id="toggle-story-drawer-btn"
+              type="button"
               onClick={() => {
-                playFeedbackSound('flip');
-                setIsLessonCardFlipped((prev) => !prev);
+                playFeedbackSound('click');
+                setShowStoryDrawer((prev) => !prev);
               }}
-              className={`relative w-full min-h-[340px] rounded-2xl sm:rounded-3xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xl ${
-                isLessonCardFlipped ? 'rotate-y-180' : ''
-              } ${
-                isLessonCardFlipped
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wide transition-all cursor-pointer border shadow-xs ${
+                showStoryDrawer
                   ? isDark
-                    ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
-                    : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                    ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/40'
+                    : 'bg-indigo-50 text-indigo-700 border-indigo-200'
                   : isDark
-                  ? 'bg-gradient-to-br from-[#1A1F36] via-[#0F172A] to-[#16192E] border-white/10 text-white'
-                  : 'bg-gradient-to-br from-indigo-50/70 via-white to-indigo-50/40 border-indigo-200 text-slate-900 shadow-md'
+                  ? 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border-white/15 hover:border-white/25'
+                  : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200 hover:border-slate-300'
               }`}
+              title={showStoryDrawer ? 'Ocultar historia' : 'Ver historia'}
             >
-              {/* Front Face: English text with clickable sentences and audio button */}
-              <div className="absolute inset-0 w-full h-full p-6 sm:p-8 flex flex-col justify-between backface-hidden">
-                {/* Header with audio button */}
-                <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit">
-                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
-                    isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
-                  }`}>
-                    English
-                  </span>
+              <FileText className="w-3.5 h-3.5 text-indigo-500" />
+              <span>
+                {showStoryDrawer
+                  ? 'Ocultar Texto de la Historia'
+                  : `Ver Texto: "${story ? story.title : activeLesson?.title}"`}
+              </span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                  showStoryDrawer ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+          </div>
 
-                  <button
-                    id="embedded-card-audio-btn-front"
-                    type="button"
-                    onClick={handleToggleLessonAudio}
-                    className={`p-2.5 rounded-xl transition-all cursor-pointer shadow-xs ${
-                      isPlayingLessonAudio
-                        ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
-                        : isDark
-                        ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
-                        : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                    }`}
-                    title={isPlayingLessonAudio ? 'Detener pronunciación' : 'Escuchar pronunciación'}
-                    aria-label={isPlayingLessonAudio ? 'Detener pronunciación' : 'Pronunciación'}
-                  >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
-                </div>
+          {/* When expanded: Reversible 3D story card */}
+          {showStoryDrawer && (
+            <div className="w-full perspective-1000 my-2 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div
+                id="story-drawer-reversible-card"
+                onClick={() => {
+                  playFeedbackSound('flip');
+                  setIsStoryCardFlipped((prev) => !prev);
+                }}
+                className={`relative w-full min-h-[300px] sm:min-h-[340px] rounded-2xl sm:rounded-3xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xl ${
+                  isStoryCardFlipped ? 'rotate-y-180' : ''
+                } ${
+                  isStoryCardFlipped
+                    ? isDark
+                      ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
+                      : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                    : isDark
+                    ? 'bg-gradient-to-br from-[#1A1F36] via-[#0F172A] to-[#16192E] border-white/10 text-white'
+                    : 'bg-gradient-to-br from-indigo-50/70 via-white to-indigo-50/40 border-indigo-200 text-slate-900 shadow-md'
+                }`}
+              >
+                {/* Front Face: English text */}
+                <div className="absolute inset-0 w-full h-full p-6 sm:p-8 flex flex-col justify-between backface-hidden overflow-y-auto">
+                  <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+                        isDark
+                          ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                          : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                      }`}
+                    >
+                      {story ? story.title : 'English'}
+                    </span>
 
-                {/* Sentences with individual pronunciation */}
-                <div className="my-auto py-4">
-                  <p className="text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose font-sans font-medium tracking-tight">
-                    {activeLesson.sentences.map((sent, idx) => {
-                      const isCurrent = playingSentenceIdx === idx;
-                      return (
+                    <button
+                      id="story-card-audio-btn-front"
+                      type="button"
+                      onClick={handleToggleStoryAudio}
+                      className={`p-2.5 rounded-xl transition-all cursor-pointer shadow-xs ${
+                        isPlayingStoryAudio
+                          ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
+                          : isDark
+                          ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
+                          : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                      }`}
+                      title={isPlayingStoryAudio ? 'Detener pronunciación' : 'Escuchar pronunciación'}
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="my-auto py-4 space-y-3">
+                    {story ? (
+                      story.paragraphsEn && story.paragraphsEn.length > 0 ? (
+                        story.paragraphsEn.map((p, idx) => (
+                          <p
+                            key={idx}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePlaySentenceAudio(p, `story-p-${idx}`);
+                            }}
+                            className={`text-sm sm:text-base leading-relaxed font-sans transition-colors cursor-pointer rounded px-1.5 py-0.5 hover:bg-white/10 ${
+                              playingSentenceId === `story-p-${idx}` ? 'text-indigo-400 font-semibold' : ''
+                            }`}
+                          >
+                            {p}
+                          </p>
+                        ))
+                      ) : (
+                        <p className="text-sm sm:text-base leading-relaxed font-sans">
+                          {story.textEn}
+                        </p>
+                      )
+                    ) : (
+                      activeLesson?.sentences.map((sent, idx) => (
                         <span
                           key={idx}
-                          onClick={(e) => handlePlaySentence(sent.en, idx, e)}
-                          className={`inline cursor-pointer rounded-lg px-1.5 py-0.5 transition-all duration-150 mx-0.5 ${
-                            isCurrent
-                              ? isDark
-                                ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-400'
-                                : 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-300'
-                              : isDark
-                              ? 'hover:bg-indigo-500/20 text-slate-100 hover:text-white'
-                              : 'hover:bg-indigo-100 text-slate-800 hover:text-indigo-950'
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePlaySentenceAudio(sent.en, `lesson-s-${idx}`);
+                          }}
+                          className={`inline-block mr-1.5 text-sm sm:text-base leading-relaxed font-sans transition-colors cursor-pointer rounded px-1 py-0.5 hover:bg-white/10 ${
+                            playingSentenceId === `lesson-s-${idx}` ? 'text-indigo-400 font-semibold' : ''
                           }`}
-                          title="Toca para escuchar esta oración"
                         >
-                          {sent.en}{' '}
+                          {sent.en}
                         </span>
-                      );
-                    })}
-                  </p>
-                </div>
-              </div>
+                      ))
+                    )}
+                  </div>
 
-              {/* Back Face: Spanish Translation */}
-              <div className="absolute inset-0 w-full h-full p-6 sm:p-8 flex flex-col justify-between backface-hidden rotate-y-180">
-                {/* Header with audio button */}
-                <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit">
-                  <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
-                    isDark ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                  }`}>
-                    Español
-                  </span>
-
-                  <button
-                    id="embedded-card-audio-btn-back"
-                    type="button"
-                    onClick={handleToggleLessonAudio}
-                    className={`p-2.5 rounded-xl transition-all cursor-pointer shadow-xs ${
-                      isPlayingLessonAudio
-                        ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
-                        : isDark
-                        ? 'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400'
-                        : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                    }`}
-                    title={isPlayingLessonAudio ? 'Detener pronunciación' : 'Escuchar pronunciación en inglés'}
-                    aria-label={isPlayingLessonAudio ? 'Detener pronunciación' : 'Pronunciación'}
-                  >
-                    <Volume2 className="w-4 h-4" />
-                  </button>
+                  <div className="pt-3 border-t border-inherit flex items-center justify-between text-xs font-mono opacity-70">
+                    <span>Haz clic en el texto para escuchar oraciones individuales</span>
+                    <span>Toca la tarjeta para voltear a Español</span>
+                  </div>
                 </div>
 
-                {/* Spanish translation text */}
-                <div className="my-auto py-4">
-                  <p className="text-base sm:text-lg md:text-xl leading-relaxed sm:leading-loose font-serif italic text-emerald-950 dark:text-emerald-100">
-                    "{activeLesson.textEs}"
-                  </p>
+                {/* Back Face: Spanish translation */}
+                <div className="absolute inset-0 w-full h-full p-6 sm:p-8 flex flex-col justify-between backface-hidden rotate-y-180 overflow-y-auto">
+                  <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+                        isDark
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                          : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                      }`}
+                    >
+                      {story?.titleEs || 'Español'}
+                    </span>
+
+                    <button
+                      id="story-card-audio-btn-back"
+                      type="button"
+                      onClick={handleToggleStoryAudio}
+                      className={`p-2.5 rounded-xl transition-all cursor-pointer shadow-xs ${
+                        isPlayingStoryAudio
+                          ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
+                          : isDark
+                          ? 'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400'
+                          : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      }`}
+                      title="Escuchar pronunciación en inglés"
+                    >
+                      <Volume2 className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="my-auto py-4 space-y-3">
+                    {story ? (
+                      story.paragraphsEs && story.paragraphsEs.length > 0 ? (
+                        story.paragraphsEs.map((p, idx) => (
+                          <p
+                            key={idx}
+                            className="text-sm sm:text-base leading-relaxed font-sans italic opacity-95"
+                          >
+                            {p}
+                          </p>
+                        ))
+                      ) : (
+                        <p className="text-sm sm:text-base leading-relaxed font-sans italic opacity-95">
+                          {story.textEs}
+                        </p>
+                      )
+                    ) : (
+                      activeLesson?.sentences.map((sent, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-block mr-1.5 text-sm sm:text-base leading-relaxed font-sans italic opacity-95"
+                        >
+                          {sent.es}
+                        </span>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="pt-3 border-t border-inherit flex items-center justify-between text-xs font-mono opacity-70">
+                    <span>Traducción en Español</span>
+                    <span>Toca la tarjeta para volver a Inglés</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
-      {/* Main Grid: Column A & Column B (Left) + Available Options Pool (Right) */}
+      {/* Main Grid: Column A & Column B Table (Left) + Available Options Pool (Right) */}
       <div className="p-5 sm:p-7 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
         
         {/* Table Columns A and B */}
-        <div className="lg:col-span-7 flex flex-col">
+        <div className="lg:col-span-8 flex flex-col">
           
           {/* Table Header row */}
-          <div className="grid grid-cols-12 gap-3 pb-2.5 border-b border-dashed font-mono font-bold text-xs uppercase tracking-wider mb-2 items-center">
-            <div className={`col-span-5 font-mono font-bold text-xs uppercase tracking-wider ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>
-              A
+          <div className="grid grid-cols-12 gap-3 pb-3 border-b border-dashed font-bold mb-3 items-center border-inherit">
+            
+            {/* Column A Reversible Header Card */}
+            <div className="col-span-7 sm:col-span-8 perspective-1000">
+              <div
+                id="header-col-a-flip-card"
+                onClick={() => {
+                  playFeedbackSound('flip');
+                  setIsColAFlipped((prev) => !prev);
+                }}
+                className={`relative inline-flex items-center cursor-pointer select-none transition-transform duration-500 transform-style-3d min-h-[34px] ${
+                  isColAFlipped ? 'rotate-y-180' : ''
+                }`}
+                title="Haz clic para voltear encabezado"
+              >
+                {/* Front: English */}
+                <div className="backface-hidden flex items-center gap-1.5">
+                  <span className="text-sky-500 dark:text-sky-400 font-bold text-base sm:text-lg tracking-tight">
+                    {colA}
+                  </span>
+                </div>
+
+                {/* Back: Spanish */}
+                <div className="absolute inset-0 backface-hidden rotate-y-180 flex items-center gap-1.5">
+                  <span className="text-emerald-500 dark:text-emerald-400 font-bold text-base sm:text-lg tracking-tight italic">
+                    {colAEs}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="col-span-7 perspective-1000">
-              {/* Column B Reversible Header Card */}
+
+            {/* Column B Reversible Header Card */}
+            <div className="col-span-5 sm:col-span-4 perspective-1000">
               <div
                 id="header-col-b-flip-card"
                 onClick={() => {
                   playFeedbackSound('flip');
                   setIsColBFlipped((prev) => !prev);
                 }}
-                className={`relative inline-flex items-center justify-center cursor-pointer select-none transition-transform duration-500 transform-style-3d min-w-[170px] h-7 ${
+                className={`relative inline-flex items-center justify-center cursor-pointer select-none transition-transform duration-500 transform-style-3d min-h-[34px] w-full ${
                   isColBFlipped ? 'rotate-y-180' : ''
                 }`}
+                title="Haz clic para voltear encabezado"
               >
                 {/* Front: English */}
-                <span className={`absolute inset-0 px-3 py-1 rounded-lg border font-mono font-bold text-xs uppercase tracking-wider whitespace-nowrap backface-hidden flex items-center justify-center transition-colors ${
-                  isDark
-                    ? 'bg-indigo-500/15 text-indigo-400 border-indigo-500/30 hover:border-indigo-400'
-                    : 'bg-indigo-50 text-indigo-600 border-indigo-200 hover:border-indigo-300'
-                }`}>
-                  B (DRAG HERE)
-                </span>
+                <div className="backface-hidden flex items-center justify-center w-full">
+                  <span className="text-sky-500 dark:text-sky-400 font-bold text-base sm:text-lg tracking-tight text-center">
+                    {colB}
+                  </span>
+                </div>
 
-                {/* Back: Spanish Translation */}
-                <span className={`absolute inset-0 px-3 py-1 rounded-lg border font-mono font-bold text-xs uppercase tracking-wider whitespace-nowrap backface-hidden rotate-y-180 flex items-center justify-center transition-colors ${
-                  isDark
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                    : 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                }`}>
-                  B (ARRASTRA AQUÍ)
-                </span>
+                {/* Back: Spanish */}
+                <div className="absolute inset-0 backface-hidden rotate-y-180 flex items-center justify-center w-full">
+                  <span className="text-emerald-500 dark:text-emerald-400 font-bold text-base sm:text-lg tracking-tight italic text-center">
+                    {colBEs}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Rows */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             {pairs.map((pair) => {
               const placedValue = slotValues[pair.id];
               const isCorrect = isSubmitted && placedValue === pair.correctValue;
@@ -571,19 +751,22 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                   placedValue
                 : '';
 
+              const fieldTranslation =
+                pair.fieldEs ||
+                DEFAULT_FIELD_TRANSLATIONS[pair.field] ||
+                pair.field;
+
               return (
                 <div
                   key={pair.id}
-                  className={`grid grid-cols-12 gap-3 items-center py-2 border-b border-dashed transition-colors ${
-                    isDark ? 'border-white/10' : 'border-slate-200'
-                  }`}
+                  className={`grid grid-cols-12 gap-3 sm:gap-4 items-stretch py-3 border-b border-dashed transition-colors border-inherit`}
                 >
-                  {/* Column A: Reversible Field Label Card */}
-                  <div className="col-span-5 perspective-1000 min-h-[48px] sm:min-h-[52px]">
+                  {/* Column A: Reversible Sentence / Field Card */}
+                  <div className="col-span-7 sm:col-span-8 perspective-1000 flex">
                     <div
                       id={`field-card-${pair.id}`}
                       onClick={() => handleToggleFlipField(pair.id)}
-                      className={`relative w-full h-full min-h-[48px] sm:min-h-[52px] rounded-xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
+                      className={`group relative w-full rounded-xl sm:rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs min-h-[58px] p-3 sm:p-4 flex items-center ${
                         isFieldFlipped ? 'rotate-y-180' : ''
                       } ${
                         isFieldFlipped
@@ -591,110 +774,146 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                             ? 'bg-[#0F241A] border-emerald-500/40 text-emerald-200'
                             : 'bg-emerald-50/90 border-emerald-300 text-emerald-950 shadow-xs'
                           : isDark
-                          ? 'bg-slate-900/50 border-white/10 hover:border-white/20 text-slate-100'
+                          ? 'bg-slate-900/60 border-white/10 hover:border-white/20 text-slate-100'
                           : 'bg-white border-slate-200 hover:border-slate-300 text-slate-800'
                       }`}
+                      title="Haz clic para voltear entre inglés y español"
                     >
-                      {/* Front Face: English */}
-                      <div className="absolute inset-0 px-3 py-2 flex items-center backface-hidden">
-                        <span className="font-medium text-xs sm:text-sm leading-tight select-none">
-                          {pair.field}
-                        </span>
+                      {/* Front Face: English with yellow highlighted word */}
+                      <div className="absolute inset-0 px-3.5 py-3 flex items-center justify-between backface-hidden gap-2">
+                        <div className="flex-1 text-xs sm:text-sm md:text-[15px] font-medium leading-relaxed pr-6">
+                          {renderSentenceWithHighlight(pair.field, pair.highlightedWord, false)}
+                        </div>
+
+                        {/* Speaker button on sentence */}
+                        <button
+                          type="button"
+                          onClick={(e) => handlePlaySentenceAudio(pair.field, pair.id, e)}
+                          className={`p-1.5 rounded-lg transition-all shrink-0 cursor-pointer ${
+                            playingSentenceId === pair.id
+                              ? 'bg-indigo-600 text-white animate-pulse'
+                              : isDark
+                              ? 'text-slate-400 hover:text-white hover:bg-white/10'
+                              : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
+                          }`}
+                          title="Escuchar oración"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
                       </div>
 
                       {/* Back Face: Spanish Translation */}
-                      <div className="absolute inset-0 px-3 py-2 flex items-center backface-hidden rotate-y-180">
-                        <span className="font-medium text-xs sm:text-sm leading-tight italic select-none">
-                          {pair.fieldEs || DEFAULT_FIELD_TRANSLATIONS[pair.field] || pair.field}
-                        </span>
+                      <div className="absolute inset-0 px-3.5 py-3 flex items-center justify-between backface-hidden rotate-y-180 gap-2">
+                        <div className="flex-1 text-xs sm:text-sm md:text-[15px] font-medium leading-relaxed italic pr-6">
+                          {renderSentenceWithHighlight(
+                            fieldTranslation,
+                            pair.highlightedWordEs || pair.highlightedWord,
+                            true
+                          )}
+                        </div>
+
+                        {/* Speaker button on sentence (speaks English) */}
+                        <button
+                          type="button"
+                          onClick={(e) => handlePlaySentenceAudio(pair.field, pair.id, e)}
+                          className={`p-1.5 rounded-lg transition-all shrink-0 cursor-pointer ${
+                            playingSentenceId === pair.id
+                              ? 'bg-emerald-600 text-white animate-pulse'
+                              : isDark
+                              ? 'text-emerald-400 hover:text-white hover:bg-white/10'
+                              : 'text-emerald-600 hover:text-emerald-950 hover:bg-emerald-100'
+                          }`}
+                          title="Escuchar oración en inglés"
+                        >
+                          <Volume2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>
 
-                  {/* Column B: Drop / Slot Target */}
-                  <div className="col-span-7">
+                  {/* Column B: Opposites Target Drop Slot / Reversible Placed Card */}
+                  <div className="col-span-5 sm:col-span-4 flex items-center">
                     {placedValue ? (
-                      <div className="perspective-1000 min-h-[48px] sm:min-h-[52px]">
+                      <div className="perspective-1000 w-full h-full min-h-[58px] flex">
                         <div
-                          id={`slot-card-${pair.id}`}
-                          onClick={() => handleToggleFlipSlot(pair.id)}
-                          className={`relative w-full h-full min-h-[48px] sm:min-h-[52px] rounded-xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border-2 shadow-xs ${
+                          id={`placed-slot-${pair.id}`}
+                          onClick={(e) => handleToggleFlipSlot(pair.id, e)}
+                          className={`relative w-full rounded-xl sm:rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs min-h-[58px] p-3 flex items-center justify-between ${
                             isSlotFlipped ? 'rotate-y-180' : ''
                           } ${
-                            isSubmitted
-                              ? isCorrect
-                                ? isDark
-                                  ? 'border-emerald-500 bg-emerald-500/15 text-emerald-300 font-medium'
-                                  : 'border-emerald-500 bg-emerald-50 text-emerald-900 font-medium'
-                                : isDark
-                                ? 'border-rose-500 bg-rose-500/15 text-rose-300 font-medium'
-                                : 'border-rose-400 bg-rose-50 text-rose-900 font-medium'
+                            isCorrect
+                              ? isDark
+                                ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-200 ring-1 ring-emerald-500/30'
+                                : 'border-emerald-400 bg-emerald-50/90 text-emerald-900 ring-1 ring-emerald-300'
+                              : isIncorrect
+                              ? isDark
+                                ? 'border-rose-500/50 bg-rose-950/40 text-rose-200 ring-1 ring-rose-500/30'
+                                : 'border-rose-400 bg-rose-50/90 text-rose-900 ring-1 ring-rose-300'
+                              : isSlotFlipped
+                              ? isDark
+                                ? 'bg-[#0F241A] border-emerald-500/40 text-emerald-200'
+                                : 'bg-emerald-50/90 border-emerald-300 text-emerald-950 shadow-xs'
                               : isDark
-                              ? 'border-indigo-500/60 bg-indigo-500/10 text-white font-medium'
-                              : 'border-indigo-400 bg-indigo-50/70 text-indigo-950 font-medium'
+                              ? 'border-indigo-400/40 bg-indigo-950/30 text-white hover:border-indigo-400'
+                              : 'border-indigo-300 bg-indigo-50/70 text-indigo-950 hover:border-indigo-400'
                           }`}
+                          title="Toca para voltear traducción"
                         >
-                          {/* Front Face: Placed text in English */}
+                          {/* Front Face: English Placed Item */}
                           <div className="absolute inset-0 px-3 py-2 flex items-center justify-between backface-hidden">
-                            <span className="text-xs sm:text-sm font-sans truncate select-none">
+                            <span className="font-semibold text-xs sm:text-sm md:text-base capitalize select-none">
                               {placedValue}
                             </span>
-                            <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                              {isSubmitted ? (
-                                isCorrect ? (
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                                ) : (
-                                  <XCircle className="w-4 h-4 text-rose-500" />
-                                )
-                              ) : (
+
+                            <div className="flex items-center gap-1">
+                              {isCorrect && (
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                              )}
+                              {isIncorrect && (
+                                <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                              )}
+                              {!isSubmitted && (
                                 <button
                                   type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    playFeedbackSound('click');
-                                    removeSlotValue(pair.id);
-                                  }}
-                                  className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded cursor-pointer ${
+                                  onClick={(e) => handleRemoveFromSlot(pair.id, e)}
+                                  className={`p-1 rounded-md transition-colors ${
                                     isDark
-                                      ? 'bg-white/10 text-white/60 hover:text-white hover:bg-white/20'
-                                      : 'bg-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-300'
+                                      ? 'hover:bg-white/10 text-white/40 hover:text-white'
+                                      : 'hover:bg-slate-200 text-slate-400 hover:text-slate-800'
                                   }`}
-                                  aria-label="Quitar"
+                                  title="Quitar opción"
                                 >
-                                  ✕
+                                  <X className="w-3.5 h-3.5" />
                                 </button>
                               )}
                             </div>
                           </div>
 
-                          {/* Back Face: Placed text in Spanish */}
+                          {/* Back Face: Spanish Translation */}
                           <div className="absolute inset-0 px-3 py-2 flex items-center justify-between backface-hidden rotate-y-180">
-                            <span className="text-xs sm:text-sm font-sans italic truncate select-none">
+                            <span className="font-semibold text-xs sm:text-sm md:text-base capitalize italic select-none">
                               {placedTranslation}
                             </span>
-                            <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                              {isSubmitted ? (
-                                isCorrect ? (
-                                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                                ) : (
-                                  <XCircle className="w-4 h-4 text-rose-500" />
-                                )
-                              ) : (
+
+                            <div className="flex items-center gap-1">
+                              {isCorrect && (
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                              )}
+                              {isIncorrect && (
+                                <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                              )}
+                              {!isSubmitted && (
                                 <button
                                   type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    playFeedbackSound('click');
-                                    removeSlotValue(pair.id);
-                                  }}
-                                  className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded cursor-pointer ${
+                                  onClick={(e) => handleRemoveFromSlot(pair.id, e)}
+                                  className={`p-1 rounded-md transition-colors ${
                                     isDark
-                                      ? 'bg-white/10 text-white/60 hover:text-white hover:bg-white/20'
-                                      : 'bg-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-300'
+                                      ? 'hover:bg-white/10 text-white/40 hover:text-white'
+                                      : 'hover:bg-slate-200 text-slate-400 hover:text-slate-800'
                                   }`}
-                                  aria-label="Quitar"
+                                  title="Quitar opción"
                                 >
-                                  ✕
+                                  <X className="w-3.5 h-3.5" />
                                 </button>
                               )}
                             </div>
@@ -702,21 +921,28 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                         </div>
                       </div>
                     ) : (
+                      /* Empty Target Slot: Drag Here */
                       <div
+                        id={`empty-slot-${pair.id}`}
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, pair.id)}
                         onClick={() => handleSlotClick(pair.id)}
-                        className={`min-h-[48px] sm:min-h-[52px] px-3 py-2 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer ${
+                        className={`w-full min-h-[58px] rounded-xl sm:rounded-2xl border-2 border-dashed flex items-center justify-center transition-all cursor-pointer select-none ${
                           selectedPoolItem
                             ? isDark
-                              ? 'border-dashed border-indigo-400 bg-indigo-500/10 animate-pulse text-indigo-300 text-xs font-mono'
-                              : 'border-dashed border-indigo-400 bg-indigo-50 animate-pulse text-indigo-600 text-xs font-mono'
+                              ? 'border-indigo-400 bg-indigo-500/10 text-indigo-300 ring-2 ring-indigo-500/40 animate-pulse'
+                              : 'border-indigo-500 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-400/40 animate-pulse'
                             : isDark
-                            ? 'border-dashed border-white/15 bg-white/5 text-white/30 text-xs font-mono hover:border-white/30'
-                            : 'border-dashed border-slate-300 bg-slate-50 text-slate-400 text-xs font-mono hover:border-slate-400'
+                            ? 'border-white/15 bg-white/[0.02] text-slate-500 hover:border-indigo-400/60 hover:bg-white/[0.04]'
+                            : 'border-slate-200 bg-slate-50/50 text-slate-400 hover:border-indigo-300 hover:bg-slate-50'
                         }`}
+                        title={
+                          selectedPoolItem
+                            ? 'Haz clic para colocar la opción seleccionada aquí'
+                            : 'Arrastra una opción aquí o selecciónala'
+                        }
                       >
-                        <span className="select-none tracking-wide text-center w-full">
+                        <span className="font-bold text-base sm:text-lg md:text-xl tracking-wide select-none text-slate-400 dark:text-slate-500">
                           Drag Here
                         </span>
                       </div>
@@ -728,84 +954,171 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
           </div>
         </div>
 
-        {/* Options Pool (Right Column) */}
-        <div className={`lg:col-span-5 p-4 sm:p-5 rounded-2xl border flex flex-col justify-between ${
-          isDark ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'
-        }`}>
-          <div>
-            <div className="flex flex-col gap-2.5">
-              {optionsPool.map((option) => {
-                const isUsed = usedValues.includes(option);
-                const isSelected = selectedPoolItem === option;
-                const isOptionFlipped = flippedOptionIds.includes(option);
-                const optionTranslation =
-                  optionsPoolEs?.[option] ||
-                  DEFAULT_OPTION_TRANSLATIONS[option] ||
-                  pairs.find((p) => p.correctValue === option)?.correctValueEs ||
-                  option;
+        {/* Available Options Pool (Right Side) */}
+        <div className="lg:col-span-4 flex flex-col">
+          <div
+            className={`p-4 sm:p-5 rounded-2xl border transition-colors flex-1 flex flex-col justify-between ${
+              isDark ? 'bg-slate-900/40 border-white/10' : 'bg-slate-50/80 border-slate-200'
+            }`}
+          >
+            <div>
+              <div className="flex items-center justify-between pb-3 border-b border-inherit mb-4">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Palabras Disponibles
+                </span>
+                <span className="text-xs font-mono opacity-60">
+                  {optionsPool.filter((opt) => !usedValues.includes(opt)).length} libres
+                </span>
+              </div>
 
-                return (
-                  <div
-                    key={option}
-                    className="perspective-1000 w-full min-h-[48px] sm:min-h-[52px]"
-                  >
+              {/* Draggable Cards Stack */}
+              <div className="space-y-3">
+                {optionsPool.map((option) => {
+                  const isUsed = usedValues.includes(option);
+                  const isSelected = selectedPoolItem === option;
+                  const isOptionFlipped = flippedOptionIds.includes(option);
+                  const optionTranslation =
+                    optionsPoolEs?.[option] ||
+                    DEFAULT_OPTION_TRANSLATIONS[option] ||
+                    option;
+
+                  return (
                     <div
-                      id={`option-card-${option.replace(/[^a-zA-Z0-9]/g, '-')}`}
-                      draggable={!isUsed && !isSubmitted}
-                      onDragStart={(e) => handleDragStart(e, option)}
-                      onClick={() => !isUsed && handleToggleFlipOption(option)}
-                      className={`relative w-full h-full min-h-[48px] sm:min-h-[52px] rounded-xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
-                        isOptionFlipped ? 'rotate-y-180' : ''
-                      } ${
-                        isUsed
-                          ? isDark
-                            ? 'opacity-25 border-white/5 bg-white/5 text-white/30 cursor-not-allowed'
-                            : 'opacity-30 border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
-                          : isSelected
-                          ? isDark
-                            ? 'border-indigo-400 bg-indigo-600/30 text-white ring-2 ring-indigo-500 shadow-md scale-[1.01]'
-                            : 'border-indigo-500 bg-indigo-50 text-indigo-900 ring-2 ring-indigo-400 shadow-md scale-[1.01]'
-                          : isOptionFlipped
-                          ? isDark
-                            ? 'border-emerald-500/40 bg-[#0F241A] text-emerald-200'
-                            : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
-                          : isDark
-                          ? 'border-white/15 bg-white/10 hover:border-indigo-400 hover:bg-white/15 text-white'
-                          : 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800'
-                      }`}
+                      key={option}
+                      className="perspective-1000 min-h-[50px] sm:min-h-[54px]"
                     >
-                      {/* Front Face: English Option */}
-                      <div className="absolute inset-0 px-4 py-2.5 flex items-center backface-hidden">
-                        <span className="text-xs sm:text-sm font-medium leading-snug select-none">
-                          {option}
-                        </span>
-                      </div>
+                      <div
+                        id={`option-card-${option}`}
+                        draggable={!isUsed && !isSubmitted}
+                        onDragStart={(e) => handleDragStart(e, option)}
+                        onClick={() => {
+                          if (!isUsed && !isSubmitted) {
+                            handlePoolItemClick(option);
+                          }
+                        }}
+                        onDoubleClick={(e) => handleToggleFlipOption(option, e)}
+                        className={`relative w-full rounded-xl sm:rounded-2xl cursor-pointer select-none transition-all duration-300 transform-style-3d border shadow-xs min-h-[50px] sm:min-h-[54px] flex items-center justify-between px-4 py-2.5 ${
+                          isOptionFlipped ? 'rotate-y-180' : ''
+                        } ${
+                          isUsed
+                            ? isDark
+                              ? 'opacity-25 border-white/5 bg-white/5 text-white/30 cursor-not-allowed'
+                              : 'opacity-30 border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
+                            : isSelected
+                            ? isDark
+                              ? 'border-indigo-400 bg-indigo-600/30 text-white ring-2 ring-indigo-500 shadow-md scale-[1.01]'
+                              : 'border-indigo-500 bg-indigo-50 text-indigo-900 ring-2 ring-indigo-400 shadow-md scale-[1.01]'
+                            : isOptionFlipped
+                            ? isDark
+                              ? 'border-emerald-500/40 bg-[#0F241A] text-emerald-200'
+                              : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
+                            : isDark
+                            ? 'border-white/15 bg-white/10 hover:border-indigo-400 hover:bg-white/15 text-white'
+                            : 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800'
+                        }`}
+                        title={
+                          isUsed
+                            ? 'Palabra colocada'
+                            : 'Clic para seleccionar, arrastra al espacio vacío, o doble clic para voltear'
+                        }
+                      >
+                        {/* Front Face: English Option */}
+                        <div className="absolute inset-0 px-4 py-2.5 flex items-center justify-between backface-hidden">
+                          <span className="text-sm sm:text-base font-medium capitalize select-none">
+                            {option}
+                          </span>
 
-                      {/* Back Face: Spanish Translation */}
-                      <div className="absolute inset-0 px-4 py-2.5 flex items-center backface-hidden rotate-y-180">
-                        <span className="text-xs sm:text-sm font-medium leading-snug italic select-none">
-                          {optionTranslation}
-                        </span>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={(e) => handlePlayOptionAudio(option, e)}
+                              className={`p-1 rounded-md transition-colors ${
+                                isDark
+                                  ? 'text-slate-400 hover:text-white hover:bg-white/10'
+                                  : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
+                              }`}
+                              title="Pronunciación"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => handleToggleFlipOption(option, e)}
+                              className={`p-1 rounded-md transition-colors ${
+                                isDark
+                                  ? 'text-slate-400 hover:text-white hover:bg-white/10'
+                                  : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
+                              }`}
+                              title="Voltear a español"
+                            >
+                              <RotateCw className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Back Face: Spanish Translation */}
+                        <div className="absolute inset-0 px-4 py-2.5 flex items-center justify-between backface-hidden rotate-y-180">
+                          <span className="text-sm sm:text-base font-medium capitalize italic select-none">
+                            {optionTranslation}
+                          </span>
+
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={(e) => handlePlayOptionAudio(option, e)}
+                              className={`p-1 rounded-md transition-colors ${
+                                isDark
+                                  ? 'text-emerald-400 hover:text-white hover:bg-white/10'
+                                  : 'text-emerald-600 hover:text-emerald-950 hover:bg-emerald-100'
+                              }`}
+                              title="Pronunciación en inglés"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={(e) => handleToggleFlipOption(option, e)}
+                              className={`p-1 rounded-md transition-colors ${
+                                isDark
+                                  ? 'text-emerald-400 hover:text-white hover:bg-white/10'
+                                  : 'text-emerald-600 hover:text-emerald-950 hover:bg-emerald-100'
+                              }`}
+                              title="Voltear a inglés"
+                            >
+                              <RotateCw className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Instruction footnote */}
+            <div className="mt-4 pt-3 border-t border-inherit text-[11px] font-mono opacity-60 flex flex-col gap-1">
+              <span>💡 Arrastra o toca una palabra para colocarla en la columna de opuestos.</span>
+              <span>🔄 Toca dos veces o el ícono de giro para ver la traducción.</span>
             </div>
           </div>
 
           {/* Feedback banner if submitted */}
           {isSubmitted && (
-            <div className={`mt-4 p-3.5 rounded-xl border text-xs leading-relaxed animate-in fade-in duration-200 ${
-              isAllCorrect
-                ? isDark
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
-                  : 'bg-emerald-50 border-emerald-200 text-emerald-900'
-                : isDark
-                ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-                : 'bg-amber-50 border-amber-200 text-amber-900'
-            }`}>
-              <div className="flex items-start gap-2">
+            <div
+              className={`mt-4 p-4 rounded-xl border text-xs leading-relaxed animate-in fade-in duration-200 ${
+                isAllCorrect
+                  ? isDark
+                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                    : 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                  : isDark
+                  ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                  : 'bg-amber-50 border-amber-200 text-amber-900'
+              }`}
+            >
+              <div className="flex items-start gap-2.5">
                 {isAllCorrect ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                 ) : (
@@ -817,7 +1130,7 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                   </span>
                   <span>
                     {isAllCorrect
-                      ? 'Has completado toda la información del buzón de voz correctamente (5/5 aciertos).'
+                      ? `Has completado todos los opuestos correctamente (${correctCount}/${pairs.length} aciertos).`
                       : `Has acertado ${correctCount} de ${pairs.length}. Revisa las opciones marcadas en rojo.`}
                   </span>
                 </div>

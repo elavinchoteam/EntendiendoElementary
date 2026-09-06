@@ -15,7 +15,7 @@ async function startServer() {
   // API Route for AI Feedback
   app.post('/api/ai-feedback', async (req, res) => {
     try {
-      const { studentText, attempt } = req.body;
+      const { studentText, attempt, prompt: clientPrompt, exerciseId, storyContext } = req.body;
       if (!studentText || typeof studentText !== 'string') {
         return res.status(400).json({ error: 'studentText is required' });
       }
@@ -24,10 +24,16 @@ async function startServer() {
       if (apiKey) {
         try {
           const ai = new GoogleGenAI({ apiKey });
-          const prompt = `You are a helpful, encouraging ESL teacher evaluating an elementary English student's writing assignment.
-The student had to write a telephone advertisement based on this prompt:
-"Your company sells a music magazine called 'Rock City.' This month there is a sale: the magazine costs less if you buy more, and it comes with a free CD. Write a telephone ad. What's the magazine about? How much does it usually cost? How much is it now? What is your telephone number? Write the ad and send it to your teacher."
+          const assignmentPrompt =
+            clientPrompt ||
+            `Your company sells a music magazine called 'Rock City.' This month there is a sale: the magazine costs less if you buy more, and it comes with a free CD. Write a telephone ad. What's the magazine about? How much does it usually cost? How much is it now? What is your telephone number? Write the ad and send it to your teacher.`;
 
+          const contextInfo = storyContext ? `\nStory Context:\n${storyContext}\n` : '';
+
+          const systemInstruction = `You are a helpful, encouraging ESL teacher evaluating an elementary English student's writing assignment.
+The student had to complete this writing prompt:
+"${assignmentPrompt}"
+${contextInfo}
 Evaluate the student's submission (Attempt ${attempt || 1}):
 "${studentText}"
 
@@ -40,15 +46,15 @@ Return JSON strictly matching this schema:
   "strengthsEs": "Puntos fuertes en español",
   "correctionsEn": "Specific grammar, vocabulary or requirement corrections (in English)",
   "correctionsEs": "Correcciones y recomendaciones en español",
-  "improvementsEn": "Suggestions to improve the telephone ad (in English)",
+  "improvementsEn": "Suggestions to improve the writing response (in English)",
   "improvementsEs": "Sugerencias de mejora en español",
-  "suggestedAdEn": "A model telephone ad in English (3-4 sentences)",
-  "suggestedAdEs": "Traducción al español del anuncio modelo"
+  "suggestedAdEn": "A model answer or model text in English (3-4 sentences)",
+  "suggestedAdEs": "Traducción al español del texto modelo sugerido"
 }`;
 
           const response = await ai.models.generateContent({
             model: 'gemini-3.8-flash',
-            contents: prompt,
+            contents: systemInstruction,
             config: {
               responseMimeType: 'application/json',
             },

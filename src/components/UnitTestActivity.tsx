@@ -56,10 +56,14 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   // Active question index (0 for Test 1, up to 5 for Test 6)
   const [activeQuestionIdx, setActiveQuestionIdx] = useState<number>(0);
 
+  // Total questions
+  const totalQuestions = exercise.totalQuestions || exercise.questions.length || 5;
+
   // User answers state: questionId -> selectedOptionId
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   // Submitted status: questionId -> true
   const [submittedAnswers, setSubmittedAnswers] = useState<Record<string, boolean>>({});
+  const [multiSlotAnswers, setMultiSlotAnswers] = useState<Record<string, string[]>>({});
 
   // Audio speech status for instructions & question
   const [speakingTarget, setSpeakingTarget] = useState<string | null>(null);
@@ -79,13 +83,44 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   const currentQuestion: UnitTestQuestion | undefined = exercise.questions[activeQuestionIdx];
   const isAnswerChecked = currentQuestion ? submittedAnswers[currentQuestion.id] : false;
   const currentSelectedOptionId = currentQuestion ? selectedAnswers[currentQuestion.id] : undefined;
-  const isAnswerCorrect = currentQuestion && isAnswerChecked && currentSelectedOptionId === currentQuestion.correctAnswerId;
+
+  const isMultiSlotQuestion = !!(currentQuestion?.correctWords && currentQuestion.correctWords.length > 0);
+  const currentMultiSlotPlaced = currentQuestion ? multiSlotAnswers[currentQuestion.id] || [] : [];
+
+  const isMultiSlotCorrect =
+    isMultiSlotQuestion &&
+    currentMultiSlotPlaced.length === currentQuestion!.correctWords!.length &&
+    currentMultiSlotPlaced.every((optId, idx) => {
+      const opt = currentQuestion!.options.find((o) => o.id === optId);
+      return opt && opt.text === currentQuestion!.correctWords![idx];
+    });
+
+  const isAnswerCorrect = currentQuestion && isAnswerChecked && (
+    isMultiSlotQuestion ? isMultiSlotCorrect : currentSelectedOptionId === currentQuestion.correctAnswerId
+  );
+
+  const hasAnswerSelected = isMultiSlotQuestion
+    ? currentMultiSlotPlaced.length > 0
+    : !!currentSelectedOptionId;
+
+  // Reading story if available on the exercise or current question
+  const readingStory = exercise.readingStory || currentQuestion?.readingStory;
 
   // Total correct and completion percentage for test summary
   const totalCorrect = exercise.questions.reduce((acc, q) => {
+    if (q.correctWords && q.correctWords.length > 0) {
+      const placed = multiSlotAnswers[q.id] || [];
+      const correct =
+        placed.length === q.correctWords.length &&
+        placed.every((optId, idx) => {
+          const opt = q.options.find((o) => o.id === optId);
+          return opt && opt.text === q.correctWords![idx];
+        });
+      return acc + (correct ? 1 : 0);
+    }
     return acc + (selectedAnswers[q.id] === q.correctAnswerId ? 1 : 0);
   }, 0);
-  const completionPercentage = Math.round((totalCorrect / (exercise.totalQuestions || 6)) * 100);
+  const completionPercentage = Math.round((totalCorrect / totalQuestions) * 100);
 
   // Sync speed when prop changes
   useEffect(() => {
@@ -110,6 +145,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   // Clean up audio and reset question-level states on unmount or question change
   useEffect(() => {
     setIsQuestionFlipped(false);
+    setIsInstructionFlipped(false);
     setIsPlayingMedia(false);
     setElapsedSeconds(0);
     setIsDragOver(false);
@@ -251,7 +287,21 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
   // Check answer handler
   const handleCheckAnswer = () => {
-    if (!currentQuestion || !currentSelectedOptionId) return;
+    if (!currentQuestion) return;
+
+    if (isMultiSlotQuestion) {
+      if (currentMultiSlotPlaced.length === 0) return;
+      setSubmittedAnswers((prev) => ({ ...prev, [currentQuestion.id]: true }));
+      if (isMultiSlotCorrect) {
+        playFeedbackSound('correct');
+        if (onSuccess) onSuccess();
+      } else {
+        playFeedbackSound('wrong');
+      }
+      return;
+    }
+
+    if (!currentSelectedOptionId) return;
     const isCorrect = currentSelectedOptionId === currentQuestion.correctAnswerId;
     setSubmittedAnswers((prev) => ({ ...prev, [currentQuestion.id]: true }));
 
@@ -267,11 +317,19 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   const handleClearAnswer = () => {
     if (!currentQuestion) return;
     playFeedbackSound('click');
-    setSelectedAnswers((prev) => {
-      const next = { ...prev };
-      delete next[currentQuestion.id];
-      return next;
-    });
+    if (isMultiSlotQuestion) {
+      setMultiSlotAnswers((prev) => {
+        const next = { ...prev };
+        delete next[currentQuestion.id];
+        return next;
+      });
+    } else {
+      setSelectedAnswers((prev) => {
+        const next = { ...prev };
+        delete next[currentQuestion.id];
+        return next;
+      });
+    }
     setSubmittedAnswers((prev) => {
       const next = { ...prev };
       delete next[currentQuestion.id];
@@ -300,22 +358,58 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
     e.preventDefault();
     setIsDragOver(false);
     const optId = e.dataTransfer.getData('text/plain');
-    if (optId) {
-      playFeedbackSound('click');
-      setSelectedAnswers((prev) => ({
-        ...prev,
-        [currentQuestion.id]: optId,
-      }));
-    }
-  };
+    if (!optId) return;
 
-  const handleSelectOption = (optId: string) => {
-    if (isAnswerChecked || !currentQuestion) return;
+    if (isMultiSlotQuestion) {
+      handleSelectMultiOption(optId);
+      return;
+    }
+
     playFeedbackSound('click');
     setSelectedAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: optId,
     }));
+  };
+
+  const handleSelectOption = (optId: string) => {
+    if (isAnswerChecked || !currentQuestion) return;
+    if (isMultiSlotQuestion) {
+      handleSelectMultiOption(optId);
+      return;
+    }
+    playFeedbackSound('click');
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [currentQuestion.id]: optId,
+    }));
+  };
+
+  const handleSelectMultiOption = (optId: string) => {
+    if (isAnswerChecked || !currentQuestion) return;
+    const currentPlaced = multiSlotAnswers[currentQuestion.id] || [];
+    if (currentPlaced.includes(optId)) return;
+    const maxSlots = currentQuestion.slotsCount || currentQuestion.correctWords?.length || 8;
+    if (currentPlaced.length >= maxSlots) return;
+
+    playFeedbackSound('click');
+    setMultiSlotAnswers((prev) => ({
+      ...prev,
+      [currentQuestion.id]: [...currentPlaced, optId],
+    }));
+  };
+
+  const handleRemoveMultiSlot = (index: number) => {
+    if (isAnswerChecked || !currentQuestion) return;
+    playFeedbackSound('click');
+    setMultiSlotAnswers((prev) => {
+      const current = prev[currentQuestion.id] || [];
+      const updated = current.filter((_, idx) => idx !== index);
+      return {
+        ...prev,
+        [currentQuestion.id]: updated,
+      };
+    });
   };
 
   const handleRemovePlacedOption = () => {
@@ -361,7 +455,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     }`}
                   >
                     <Award className="w-3.5 h-3.5" />
-                    Unit Test · 6 Questions
+                    Unit Test · {totalQuestions} Questions
                   </span>
                 </div>
 
@@ -371,7 +465,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     onClick={(e) => {
                       e.stopPropagation();
                       handleListenSpeech(
-                        `${exercise.title}. ${exercise.description || 'Answer all 6 questions to test your comprehension.'}`,
+                        `${exercise.title}. ${exercise.description || `Answer all ${totalQuestions} questions to test your comprehension.`}`,
                         'test-intro'
                       );
                     }}
@@ -407,16 +501,16 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
                 <p className="text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300 max-w-lg mb-4">
                   {exercise.description ||
-                    'Test your listening comprehension and vocabulary from the phone sales message. This test contains 6 questions.'}
+                    `Test your reading comprehension and vocabulary. This test contains ${totalQuestions} questions.`}
                 </p>
 
                 <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 6 Questions
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" /> {totalQuestions} Questions
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-indigo-500" /> Authentic Audio
+                    <Clock className="w-4 h-4 text-indigo-500" /> {readingStory ? 'Story Reading' : 'Authentic Audio'}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
@@ -461,7 +555,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     }`}
                   >
                     <Award className="w-3.5 h-3.5" />
-                    Evaluación de la Unidad · 6 Tests
+                    Evaluación de la Unidad · {totalQuestions} Tests
                   </span>
                 </div>
 
@@ -484,16 +578,16 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
                 <p className="text-sm sm:text-base leading-relaxed text-slate-700 dark:text-emerald-100/90 max-w-lg mb-4">
                   {exercise.descriptionEs ||
-                    'Pon a prueba tu comprensión auditiva y vocabulario del mensaje de ventas por teléfono. Este test consta de 6 preguntas.'}
+                    `Pon a prueba tu comprensión y vocabulario. Este test consta de ${totalQuestions} preguntas.`}
                 </p>
 
                 <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 6 Preguntas
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" /> {totalQuestions} Preguntas
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-emerald-500" /> Audio Real
+                    <Clock className="w-4 h-4 text-emerald-500" /> {readingStory ? 'Lectura' : 'Audio Real'}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
@@ -525,13 +619,11 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   }
 
   // ---------------------------------------------------------------------------
-  // VISTA 2: SESIÓN DE TEST ACTIVA (Test 1 a Test 6)
+  // VISTA 2: SESIÓN DE TEST ACTIVA (Test 1 a Test 5/6)
   // ---------------------------------------------------------------------------
-  const totalQuestions = exercise.totalQuestions || 6;
-
   return (
     <div className="w-full flex flex-col gap-6 animate-in fade-in duration-300">
-      {/* Test Top Navigation Bar: Indicator, Tabs (1 to 6) and Exit */}
+      {/* Test Top Navigation Bar: Indicator, Tabs and Exit */}
       <div
         className={`w-full p-3 sm:p-4 rounded-2xl border flex flex-wrap items-center justify-between gap-3 ${
           isDark ? 'bg-[#0F172A] border-slate-700/80' : 'bg-white border-slate-200 shadow-xs'
@@ -548,7 +640,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             Test {activeQuestionIdx + 1} of {totalQuestions}
           </span>
           <span className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300">
-            Working People Magazine
+            {exercise.subtitle || exercise.title || 'Unit Test'}
           </span>
         </div>
 
@@ -633,10 +725,12 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           </span>
 
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
-            ¡Felicitaciones! Has completado los 6 Tests
+            ¡Felicitaciones! Has completado los {totalQuestions} Tests
           </h2>
           <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-lg mb-6">
-            Puntuación final obtenida en los ejercicios de comprensión auditiva de Working People Magazine:
+            {readingStory
+              ? `Puntuación final obtenida en el test de lectura de ${readingStory.title}:`
+              : 'Puntuación final obtenida en los ejercicios de comprensión auditiva de Working People Magazine:'}
           </p>
 
           {/* Score display */}
@@ -823,138 +917,263 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           }`}
         >
           <div className="flex flex-col lg:flex-row items-stretch">
-            {/* LADO IZQUIERDO: REPRODUCTOR MULTIMEDIA CON FOTO DE CHUCK WOOD */}
-            <div className="w-full lg:w-[48%] p-4 sm:p-6 flex flex-col justify-between bg-slate-900/5 dark:bg-black/30 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
-              <div className="w-full rounded-2xl overflow-hidden border border-slate-700/60 bg-[#1E293B] shadow-lg relative flex flex-col">
-                {/* Imagen del hombre mostrando la revista Working People Magazine */}
-                <div className="relative w-full aspect-[4/3] bg-[#263238] overflow-hidden flex items-center justify-center">
-                  <img
-                    src={currentQuestion.imageUrl || chuckWoodImg}
-                    alt="Chuck Wood - Working People Magazine"
-                    className="w-full h-full object-cover object-top"
-                  />
+            {/* LADO IZQUIERDO: HISTORIA DE LECTURA (WRONG COLOR) O REPRODUCTOR MULTIMEDIA (PHONE SALES) */}
+            {readingStory ? (
+              <div className="w-full lg:w-[48%] p-5 sm:p-7 flex flex-col justify-start bg-[#FAF9F5] dark:bg-[#141B2D] border-b lg:border-b-0 lg:border-r border-stone-200 dark:border-slate-800 text-stone-900 dark:text-slate-100 overflow-y-auto max-h-[580px] lg:max-h-[720px] select-text">
+                {/* Story Header */}
+                <div className="flex items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200 dark:border-slate-700/80 shrink-0">
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#2ba4cc] dark:text-[#38bdf8]">
+                      {readingStory.title}
+                    </h2>
+                    {readingStory.titleEs && (
+                      <span className="text-xs text-stone-500 dark:text-slate-400 font-medium">
+                        {readingStory.titleEs}
+                      </span>
+                    )}
+                  </div>
 
-                  {/* Overlay play button central si no está reproduciendo */}
-                  {!isPlayingMedia && (
-                    <button
-                      onClick={handleTogglePlayMedia}
-                      className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
-                      title="Play"
-                      aria-label="Reproducir audio"
-                    >
-                      <Play className="w-6 h-6 fill-current translate-x-0.5" />
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    id="test-story-audio-btn"
+                    onClick={() => {
+                      const fullStoryText =
+                        readingStory.audioText ||
+                        readingStory.paragraphsEn.join(' ') ||
+                        readingStory.textEn ||
+                        '';
+                      handleListenSpeech(fullStoryText, 'test-reading-story');
+                    }}
+                    className={`px-3.5 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs ${
+                      speakingTarget === 'test-reading-story'
+                        ? 'bg-sky-500 text-white border-sky-400 ring-2 ring-sky-400/40'
+                        : isDark
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-white hover:bg-stone-100 text-sky-600 border-stone-300'
+                    }`}
+                    title={speakingTarget === 'test-reading-story' ? 'Detener lectura' : 'Escuchar historia'}
+                    aria-label="Escuchar historia"
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                    <span>{speakingTarget === 'test-reading-story' ? 'Detener' : 'Escuchar'}</span>
+                  </button>
                 </div>
 
-                {/* Barra de Controles de Audio exactamente como la captura */}
-                <div className="w-full px-3 py-2.5 bg-[#1F2937] border-t border-slate-700 flex items-center gap-3 select-none">
-                  {/* Play / Pause Toggle (al volver a presionar detiene la reproducción) */}
-                  <button
-                    id="test-media-play-pause-btn"
-                    onClick={handleTogglePlayMedia}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                    title={isPlayingMedia ? 'Pause' : 'Play'}
-                    aria-label={isPlayingMedia ? 'Detener reproducción' : 'Reproducir'}
-                  >
-                    {isPlayingMedia ? (
-                      <Pause className="w-4 h-4 fill-current text-indigo-400" />
-                    ) : (
-                      <Play className="w-4 h-4 fill-current text-slate-200" />
-                    )}
-                  </button>
+                {/* Story Paragraphs exactly as in test1.png - test5.png */}
+                <div className="space-y-4 text-left font-serif leading-relaxed text-stone-800 dark:text-slate-200 text-sm sm:text-base">
+                  {readingStory.paragraphsEn.map((para, pIdx) => {
+                    if (pIdx === 0) {
+                      const firstLetter = para.charAt(0);
+                      const restOfPara = para.slice(1);
+                      return (
+                        <p key={pIdx} className="leading-relaxed">
+                          <span className="float-left text-3xl sm:text-4xl font-serif font-bold mr-1.5 leading-none text-stone-900 dark:text-white">
+                            {firstLetter}
+                          </span>
+                          {restOfPara}
+                        </p>
+                      );
+                    }
+                    return (
+                      <p key={pIdx} className="leading-relaxed">
+                        {para}
+                      </p>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="w-full lg:w-[48%] p-4 sm:p-6 flex flex-col justify-between bg-slate-900/5 dark:bg-black/30 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800">
+                <div className="w-full rounded-2xl overflow-hidden border border-slate-700/60 bg-[#1E293B] shadow-lg relative flex flex-col">
+                  {/* Imagen del hombre mostrando la revista Working People Magazine */}
+                  <div className="relative w-full aspect-[4/3] bg-[#263238] overflow-hidden flex items-center justify-center">
+                    <img
+                      src={currentQuestion.imageUrl || chuckWoodImg}
+                      alt="Chuck Wood - Working People Magazine"
+                      className="w-full h-full object-cover object-top"
+                    />
 
-                  {/* Timeline Scrubber Bar con indicador circular */}
-                  <div
-                    onClick={handleTimelineClick}
-                    className="relative flex-1 h-3 flex items-center cursor-pointer group py-1"
-                    title="Seek"
-                  >
-                    <div className="w-full h-1.5 bg-slate-600 rounded-full overflow-hidden">
+                    {/* Overlay play button central si no está reproduciendo */}
+                    {!isPlayingMedia && (
+                      <button
+                        onClick={handleTogglePlayMedia}
+                        className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
+                        title="Play"
+                        aria-label="Reproducir audio"
+                      >
+                        <Play className="w-6 h-6 fill-current translate-x-0.5" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Barra de Controles de Audio exactamente como la captura */}
+                  <div className="w-full px-3 py-2.5 bg-[#1F2937] border-t border-slate-700 flex items-center gap-3 select-none">
+                    {/* Play / Pause Toggle (al volver a presionar detiene la reproducción) */}
+                    <button
+                      id="test-media-play-pause-btn"
+                      onClick={handleTogglePlayMedia}
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                      title={isPlayingMedia ? 'Pause' : 'Play'}
+                      aria-label={isPlayingMedia ? 'Detener reproducción' : 'Reproducir'}
+                    >
+                      {isPlayingMedia ? (
+                        <Pause className="w-4 h-4 fill-current text-indigo-400" />
+                      ) : (
+                        <Play className="w-4 h-4 fill-current text-slate-200" />
+                      )}
+                    </button>
+
+                    {/* Timeline Scrubber Bar con indicador circular */}
+                    <div
+                      onClick={handleTimelineClick}
+                      className="relative flex-1 h-3 flex items-center cursor-pointer group py-1"
+                      title="Seek"
+                    >
+                      <div className="w-full h-1.5 bg-slate-600 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-cyan-400 rounded-full transition-all duration-100"
+                          style={{
+                            width: `${(elapsedSeconds / totalDurationSeconds) * 100}%`,
+                          }}
+                        />
+                      </div>
+                      {/* Circle Thumb */}
                       <div
-                        className="h-full bg-cyan-400 rounded-full transition-all duration-100"
+                        className="absolute w-3.5 h-3.5 bg-white rounded-full border-2 border-cyan-500 shadow-md transform -translate-x-1/2 group-hover:scale-125 transition-transform pointer-events-none"
                         style={{
-                          width: `${(elapsedSeconds / totalDurationSeconds) * 100}%`,
+                          left: `${(elapsedSeconds / totalDurationSeconds) * 100}%`,
                         }}
                       />
                     </div>
-                    {/* Circle Thumb */}
-                    <div
-                      className="absolute w-3.5 h-3.5 bg-white rounded-full border-2 border-cyan-500 shadow-md transform -translate-x-1/2 group-hover:scale-125 transition-transform pointer-events-none"
-                      style={{
-                        left: `${(elapsedSeconds / totalDurationSeconds) * 100}%`,
-                      }}
-                    />
-                  </div>
 
-                  {/* Speed Dial Menu Button (Gauge) */}
-                  <div className="relative" ref={speedMenuRef}>
+                    {/* Speed Dial Menu Button (Gauge) */}
+                    <div className="relative" ref={speedMenuRef}>
+                      <button
+                        id="test-speed-menu-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsSpeedMenuOpen((prev) => !prev);
+                        }}
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ${
+                          isSpeedMenuOpen ? 'text-indigo-400 bg-white/10' : ''
+                        }`}
+                        title="Playback speed"
+                        aria-label="Velocidad de reproducción"
+                      >
+                        <Gauge className="w-4 h-4" />
+                      </button>
+
+                      {/* Speed Selector Popup */}
+                      {isSpeedMenuOpen && (
+                        <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-50 bg-[#111827] border border-slate-700 rounded-xl shadow-2xl p-1.5 flex flex-col gap-1 min-w-[70px]">
+                          {PLAYBACK_SPEEDS.map((sp) => (
+                            <button
+                              key={sp.value}
+                              onClick={(e) => handleSelectSpeed(sp.value, e)}
+                              className={`px-2 py-1 text-xs font-mono rounded-md text-left transition-colors ${
+                                Math.abs(playerSpeed - sp.value) < 0.01
+                                  ? 'bg-indigo-600 text-white font-bold'
+                                  : 'text-slate-300 hover:bg-slate-800'
+                              }`}
+                            >
+                              {sp.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Volume Icon Button */}
                     <button
-                      id="test-speed-menu-btn"
+                      id="test-volume-mute-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setIsSpeedMenuOpen((prev) => !prev);
+                        setIsMuted((prev) => !prev);
+                        playFeedbackSound('click');
                       }}
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ${
-                        isSpeedMenuOpen ? 'text-indigo-400 bg-white/10' : ''
-                      }`}
-                      title="Playback speed"
-                      aria-label="Velocidad de reproducción"
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                      title={isMuted ? 'Unmute' : 'Mute'}
+                      aria-label="Volumen"
                     >
-                      <Gauge className="w-4 h-4" />
+                      {isMuted ? (
+                        <VolumeX className="w-4 h-4 text-rose-400" />
+                      ) : (
+                        <Volume2 className="w-4 h-4 text-slate-300" />
+                      )}
                     </button>
 
-                    {/* Speed Selector Popup */}
-                    {isSpeedMenuOpen && (
-                      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-50 bg-[#111827] border border-slate-700 rounded-xl shadow-2xl p-1.5 flex flex-col gap-1 min-w-[70px]">
-                        {PLAYBACK_SPEEDS.map((sp) => (
-                          <button
-                            key={sp.value}
-                            onClick={(e) => handleSelectSpeed(sp.value, e)}
-                            className={`px-2 py-1 text-xs font-mono rounded-md text-left transition-colors ${
-                              Math.abs(playerSpeed - sp.value) < 0.01
-                                ? 'bg-indigo-600 text-white font-bold'
-                                : 'text-slate-300 hover:bg-slate-800'
-                            }`}
-                          >
-                            {sp.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Volume Icon Button */}
-                  <button
-                    id="test-volume-mute-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsMuted((prev) => !prev);
-                      playFeedbackSound('click');
-                    }}
-                    className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-                    title={isMuted ? 'Unmute' : 'Mute'}
-                    aria-label="Volumen"
-                  >
-                    {isMuted ? (
-                      <VolumeX className="w-4 h-4 text-rose-400" />
-                    ) : (
-                      <Volume2 className="w-4 h-4 text-slate-300" />
-                    )}
-                  </button>
-
-                  {/* Timestamp 00:00 / 00:41 */}
-                  <div className="text-xs font-mono font-medium text-cyan-400 tracking-tight shrink-0 select-none">
-                    {formatTime(elapsedSeconds)}/{formatTime(totalDurationSeconds)}
+                    {/* Timestamp 00:00 / 00:41 */}
+                    <div className="text-xs font-mono font-medium text-cyan-400 tracking-tight shrink-0 select-none">
+                      {formatTime(elapsedSeconds)}/{formatTime(totalDurationSeconds)}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Informative footer */}
-              <div className="mt-3 text-center text-xs text-slate-400">
-                Working People Magazine · Voice Mail Recording
+                {/* Informative footer or Reference sentence box */}
+                {(currentQuestion.referenceText || exercise.referenceText) ? (
+                  <div
+                    id={`test-reference-box-${currentQuestion.id}`}
+                    className={`mt-3.5 p-3.5 sm:p-4 rounded-2xl border text-left transition-all ${
+                      isDark
+                        ? 'bg-slate-800/80 border-slate-700 text-slate-200 shadow-sm'
+                        : 'bg-slate-100/90 border-slate-300 text-slate-800 shadow-xs'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 pb-1.5 mb-1.5 border-b border-inherit/40 text-[11px] font-mono uppercase font-bold text-cyan-600 dark:text-cyan-400">
+                      <span>Key Reference Example</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleListenSpeech(
+                            currentQuestion.referenceText || exercise.referenceText || '',
+                            'test-reference-audio'
+                          );
+                        }}
+                        className={`p-1 rounded-md transition-all cursor-pointer ${
+                          speakingTarget === 'test-reference-audio'
+                            ? 'bg-cyan-500 text-white'
+                            : 'bg-white/60 dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 hover:bg-white dark:hover:bg-slate-600'
+                        }`}
+                        title="Escuchar oración"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <p className="text-xs sm:text-sm font-medium leading-relaxed">
+                      {(() => {
+                        const refText = currentQuestion.referenceText || exercise.referenceText || '';
+                        const highlights =
+                          currentQuestion.referenceHighlights ||
+                          exercise.referenceHighlights || ['was', 'were', "wasn't"];
+                        const pattern = new RegExp(`\\b(${highlights.join('|')})\\b`, 'gi');
+                        const parts = refText.split(pattern);
+                        return parts.map((part, pIdx) => {
+                          const isMatch = highlights.some(
+                            (h) => h.toLowerCase() === part.toLowerCase()
+                          );
+                          if (isMatch) {
+                            return (
+                              <span
+                                key={pIdx}
+                                className="inline-block bg-cyan-300 dark:bg-cyan-500/30 text-cyan-950 dark:text-cyan-200 px-1 py-0.5 rounded font-bold border border-cyan-400/40"
+                              >
+                                {part}
+                              </span>
+                            );
+                          }
+                          return <span key={pIdx}>{part}</span>;
+                        });
+                      })()}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="mt-3 text-center text-xs text-slate-400">
+                    Working People Magazine · Voice Mail Recording
+                  </div>
+                )}
               </div>
-            </div>
+            )}
 
             {/* LADO DERECHO: PREGUNTA Y OPCIONES DE SELECCIÓN */}
             <div className="w-full lg:w-[52%] p-6 sm:p-8 flex flex-col justify-between">
@@ -974,12 +1193,21 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             id="listen-drag-sentence-btn"
                             onClick={(e) => {
                               e.stopPropagation();
+                              if (isMultiSlotQuestion) {
+                                const placedWords = currentMultiSlotPlaced
+                                  .map((id) => currentQuestion.options.find((o) => o.id === id)?.text)
+                                  .filter(Boolean)
+                                  .join(' ');
+                                const textToSpeak = placedWords || currentQuestion.audioPrompt || '';
+                                handleListenSpeech(textToSpeak, 'test-drag-sentence');
+                                return;
+                              }
                               const selectedText = currentQuestion.options.find(
                                 (o) => o.id === currentSelectedOptionId
                               )?.text;
-                              const textToSpeak = `${currentQuestion.sentencePrefix || "Chuck Wood's phone number is"} ${
-                                selectedText || 'blank'
-                              } ${currentQuestion.sentenceSuffix || '.'}`;
+                              const prefix = currentQuestion.sentencePrefix || currentQuestion.question || '';
+                              const suffix = currentQuestion.sentenceSuffix || '';
+                              const textToSpeak = `${prefix} ${selectedText || 'blank'} ${suffix}`.trim();
                               handleListenSpeech(textToSpeak, 'test-drag-sentence');
                             }}
                             className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
@@ -1010,66 +1238,234 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         </div>
                       </div>
 
-                      {/* Oración con Drop Target Slot */}
-                      <div className="flex flex-wrap items-center gap-3 text-lg sm:text-xl font-medium text-slate-900 dark:text-white pt-4 leading-relaxed">
-                        <span>
-                          {isQuestionFlipped
-                            ? currentQuestion.sentencePrefixEs || 'El número de teléfono de Chuck Wood es'
-                            : currentQuestion.sentencePrefix || "Chuck Wood's phone number is"}
-                        </span>
+                      {/* Oración con Drop Target Slot (soporta dialogueLines) */}
+                      {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                        <div className="space-y-3.5 pt-2 text-base sm:text-lg font-medium leading-relaxed">
+                          {currentQuestion.dialogueLines.map((line, lIdx) => {
+                            if (line.hasBlank) {
+                              if (isMultiSlotQuestion) {
+                                const totalSlots = currentQuestion.slotsCount || currentQuestion.correctWords?.length || 6;
+                                return (
+                                  <div
+                                    key={lIdx}
+                                    className="flex flex-wrap items-center gap-2 text-slate-900 dark:text-white"
+                                  >
+                                    <span>
+                                      {isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}
+                                    </span>
 
-                        {/* Drop Slot Target */}
-                        <div
-                          id="drag-drop-target-slot"
-                          onDragOver={handleDragOver}
-                          onDragLeave={handleDragLeave}
-                          onDrop={handleDrop}
-                          onClick={() => {
-                            if (currentSelectedOptionId && !isAnswerChecked) {
-                              handleRemovePlacedOption();
+                                    {/* Multi Drop Slots */}
+                                    <div className="flex flex-wrap items-center gap-2 my-1">
+                                      {Array.from({ length: totalSlots }).map((_, sIdx) => {
+                                        const placedOptId = currentMultiSlotPlaced[sIdx];
+                                        const placedOpt = currentQuestion.options.find((o) => o.id === placedOptId);
+                                        const isCorrectWord =
+                                          isAnswerChecked &&
+                                          placedOpt &&
+                                          placedOpt.text === currentQuestion.correctWords?.[sIdx];
+
+                                        return (
+                                          <div
+                                            key={sIdx}
+                                            id={`multi-slot-${sIdx}`}
+                                            onDragOver={handleDragOver}
+                                            onDragLeave={handleDragLeave}
+                                            onDrop={handleDrop}
+                                            onClick={() => {
+                                              if (placedOptId && !isAnswerChecked) {
+                                                handleRemoveMultiSlot(sIdx);
+                                              }
+                                            }}
+                                            className={`min-w-[60px] sm:min-w-[76px] h-11 px-2.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                                              isAnswerChecked
+                                                ? isCorrectWord
+                                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                                  : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                                : isDragOver
+                                                ? 'border-indigo-500 bg-indigo-500/20 ring-2 ring-indigo-400 scale-105'
+                                                : placedOpt
+                                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                                : isDark
+                                                ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                                : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                                            }`}
+                                            title={
+                                              placedOpt
+                                                ? 'Haz clic para quitar de la casilla'
+                                                : `Arrastra una palabra o haz clic en las opciones`
+                                            }
+                                          >
+                                            {placedOpt ? (
+                                              <div className="flex items-center gap-1.5">
+                                                <span>{placedOpt.text}</span>
+                                                {!isAnswerChecked && (
+                                                  <XCircle className="w-3.5 h-3.5 text-slate-400 hover:text-rose-500 transition-colors" />
+                                                )}
+                                              </div>
+                                            ) : (
+                                              <span className="text-xs text-slate-400 italic font-mono">_</span>
+                                            )}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+
+                                    <span>
+                                      {isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}
+                                    </span>
+                                  </div>
+                                );
+                              }
+
+                              return (
+                                <div
+                                  key={lIdx}
+                                  className="flex flex-wrap items-center gap-2.5 text-slate-900 dark:text-white"
+                                >
+                                  <span>
+                                    {isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}
+                                  </span>
+
+                                  {/* Drop Slot Target */}
+                                  <div
+                                    id="drag-drop-target-slot"
+                                    onDragOver={handleDragOver}
+                                    onDragLeave={handleDragLeave}
+                                    onDrop={handleDrop}
+                                    onClick={() => {
+                                      if (currentSelectedOptionId && !isAnswerChecked) {
+                                        handleRemovePlacedOption();
+                                      }
+                                    }}
+                                    className={`min-w-[120px] sm:min-w-[140px] h-11 px-3.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                                      isAnswerChecked
+                                        ? isAnswerCorrect
+                                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                          : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                        : isDragOver
+                                        ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                                        : currentSelectedOptionId
+                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                                        : isDark
+                                        ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                        : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                                    } ${
+                                      currentSelectedOptionId && !isAnswerChecked
+                                        ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                        : ''
+                                    }`}
+                                    title={
+                                      currentSelectedOptionId
+                                        ? 'Haz clic para quitar de la casilla'
+                                        : 'Arrastra aquí o haz clic en una opción abajo'
+                                    }
+                                  >
+                                    {currentSelectedOptionId ? (
+                                      <div className="flex items-center gap-2">
+                                        <span>
+                                          {
+                                            currentQuestion.options.find(
+                                              (o) => o.id === currentSelectedOptionId
+                                            )?.text
+                                          }
+                                        </span>
+                                        {!isAnswerChecked && (
+                                          <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <span className="text-xs sm:text-sm text-slate-400 italic">
+                                        ________
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  <span>
+                                    {isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}
+                                  </span>
+                                </div>
+                              );
                             }
-                          }}
-                          className={`min-w-[140px] sm:min-w-[160px] h-12 px-4 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
-                            isAnswerChecked
-                              ? isAnswerCorrect
-                                ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
-                                : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
-                              : isDragOver
-                              ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
-                              : currentSelectedOptionId
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
-                              : isDark
-                              ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
-                              : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
-                          } ${currentSelectedOptionId && !isAnswerChecked ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30' : ''}`}
-                          title={
-                            currentSelectedOptionId
-                              ? 'Haz clic para quitar de la casilla'
-                              : 'Arrastra aquí o haz clic en una opción abajo'
-                          }
-                        >
-                          {currentSelectedOptionId ? (
-                            <div className="flex items-center gap-2">
-                              <span>
-                                {currentQuestion.options.find((o) => o.id === currentSelectedOptionId)?.text}
-                              </span>
-                              {!isAnswerChecked && (
-                                <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
-                              )}
-                            </div>
-                          ) : (
-                            <span className="text-xs sm:text-sm text-slate-400 italic">
-                              ________
-                            </span>
-                          )}
-                        </div>
 
-                        <span>
-                          {isQuestionFlipped
-                            ? currentQuestion.sentenceSuffixEs || '.'
-                            : currentQuestion.sentenceSuffix || '.'}
-                        </span>
-                      </div>
+                            return (
+                              <p
+                                key={lIdx}
+                                className="text-slate-700 dark:text-slate-300 whitespace-pre-line"
+                              >
+                                {isQuestionFlipped ? line.textEs || line.textEn : line.textEn}
+                              </p>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="flex flex-wrap items-center gap-3 text-lg sm:text-xl font-medium text-slate-900 dark:text-white pt-4 leading-relaxed">
+                          <span>
+                            {isQuestionFlipped
+                              ? currentQuestion.sentencePrefixEs || currentQuestion.questionEs || ''
+                              : currentQuestion.sentencePrefix || currentQuestion.question || ''}
+                          </span>
+
+                          {/* Drop Slot Target */}
+                          <div
+                            id="drag-drop-target-slot"
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={() => {
+                              if (currentSelectedOptionId && !isAnswerChecked) {
+                                handleRemovePlacedOption();
+                              }
+                            }}
+                            className={`min-w-[140px] sm:min-w-[160px] h-12 px-4 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                              isAnswerChecked
+                                ? isAnswerCorrect
+                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                  : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                : isDragOver
+                                ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                                : currentSelectedOptionId
+                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                                : isDark
+                                ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                            } ${
+                              currentSelectedOptionId && !isAnswerChecked
+                                ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                : ''
+                            }`}
+                            title={
+                              currentSelectedOptionId
+                                ? 'Haz clic para quitar de la casilla'
+                                : 'Arrastra aquí o haz clic en una opción abajo'
+                            }
+                          >
+                            {currentSelectedOptionId ? (
+                              <div className="flex items-center gap-2">
+                                <span>
+                                  {
+                                    currentQuestion.options.find(
+                                      (o) => o.id === currentSelectedOptionId
+                                    )?.text
+                                  }
+                                </span>
+                                {!isAnswerChecked && (
+                                  <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
+                                )}
+                              </div>
+                            ) : (
+                              <span className="text-xs sm:text-sm text-slate-400 italic">
+                                ________
+                              </span>
+                            )}
+                          </div>
+
+                          <span>
+                            {isQuestionFlipped
+                              ? currentQuestion.sentenceSuffixEs || '.'
+                              : currentQuestion.sentenceSuffix || '.'}
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Options Pool Area at the bottom of the right panel, matching screenshot */}
@@ -1080,7 +1476,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
                       <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
                         {currentQuestion.options.map((opt) => {
-                          const isPlaced = currentSelectedOptionId === opt.id;
+                          const isPlaced = isMultiSlotQuestion
+                            ? currentMultiSlotPlaced.includes(opt.id)
+                            : currentSelectedOptionId === opt.id;
 
                           return (
                             <div
@@ -1272,7 +1670,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         {isQuestionFlipped && currentQuestion.explanationEs
                           ? currentQuestion.explanationEs
                           : currentQuestion.explanation ||
-                            'Chuck Wood introduces himself at the very beginning of the call: "Hi, there! This is Chuck Wood calling from Working People Magazine."'}
+                            (isAnswerCorrect ? 'Great job! That is the correct answer.' : 'Review the story and try again.')}
                       </p>
                     </div>
                   </div>
@@ -1304,9 +1702,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     <button
                       id="clear-test-answer-btn"
                       onClick={handleClearAnswer}
-                      disabled={!currentSelectedOptionId}
+                      disabled={!hasAnswerSelected}
                       className={`px-4 py-2.5 rounded-xl border text-sm font-medium transition-all ${
-                        !currentSelectedOptionId
+                        !hasAnswerSelected
                           ? 'opacity-40 pointer-events-none'
                           : isDark
                           ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700 cursor-pointer'
@@ -1322,9 +1720,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                       <button
                         id="check-test-answer-btn"
                         onClick={handleCheckAnswer}
-                        disabled={!currentSelectedOptionId}
+                        disabled={!hasAnswerSelected}
                         className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md ${
-                          !currentSelectedOptionId
+                          !hasAnswerSelected
                             ? 'opacity-40 pointer-events-none bg-slate-400 text-white'
                             : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 cursor-pointer'
                         }`}

@@ -21,7 +21,24 @@ export type ExerciseType =
   | 'radio-choice'
   | 'writing-ai-feedback'
   | 'reading-story'
+  | 'reading-comprehension'
+  | 'picture-ordering'
+  | 'speech-response'
+  | 'roleplay-practice'
+  | 'drag-drop-sentence'
   | 'unit-test';
+
+export interface GrammarRule {
+  id: string;
+  titleEn: string;
+  titleEs: string;
+  ruleExplanationEn: string;
+  ruleExplanationEs: string;
+  examples: {
+    en: string;
+    es: string;
+  }[];
+}
 
 export interface BaseExercise {
   id: string;
@@ -53,18 +70,27 @@ export interface SentenceBuilderExercise extends BaseExercise {
 
 export interface MatchingPair {
   id: string;
-  field: string; // e.g. "Name of caller:"
-  fieldEs?: string; // e.g. "Nombre de quien llama:"
-  correctValue: string; // e.g. "Chuck Wood"
+  field: string; // e.g. "Name of caller:" or "Ms. Green was late for work."
+  fieldEs?: string; // e.g. "Nombre de quien llama:" or "La Sra. Green llegó tarde al trabajo."
+  correctValue: string; // e.g. "Chuck Wood" or "early"
   correctValueEs?: string;
+  highlightedWord?: string; // e.g. "late"
+  highlightedWordEs?: string; // e.g. "tarde"
 }
 
 export interface MatchingExercise extends BaseExercise {
   type: 'matching-table';
   instructions: string;
+  instructionsEs?: string;
+  audioPrompt?: string;
+  columnAHeader?: string;
+  columnAHeaderEs?: string;
+  columnBHeader?: string;
+  columnBHeaderEs?: string;
   pairs: MatchingPair[];
   optionsPool: string[]; // pool of draggable/clickable items
   optionsPoolEs?: Record<string, string>;
+  story?: ReadingStory;
 }
 
 export interface DropdownBlank {
@@ -124,6 +150,10 @@ export interface RadioChoiceExercise extends BaseExercise {
   sentences?: LessonSentence[];
   options: RadioChoiceOption[];
   correctAnswerId: string;
+  explanation?: string;
+  explanationEs?: string;
+  durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
 }
 
 export interface WritingAiFeedbackExercise extends BaseExercise {
@@ -134,6 +164,8 @@ export interface WritingAiFeedbackExercise extends BaseExercise {
   promptEs?: string;
   maxAiRequests?: number;
   initialWordsTarget?: number;
+  placeholder?: string;
+  storyContext?: string;
 }
 
 export interface UnitTestOption {
@@ -156,14 +188,21 @@ export interface UnitTestQuestion {
   audioPrompt?: string;
   durationSeconds?: number;
   imageUrl?: string;
+  readingStory?: ReadingStory;
   options: UnitTestOption[];
   correctAnswerId: string;
+  correctWords?: string[];
+  slotsCount?: number;
   explanation: string;
   explanationEs?: string;
   sentencePrefix?: string;
   sentencePrefixEs?: string;
   sentenceSuffix?: string;
   sentenceSuffixEs?: string;
+  dialogueLines?: DragDropDialogueLine[];
+  referenceText?: string;
+  referenceTextEs?: string;
+  referenceHighlights?: string[];
 }
 
 export interface UnitTestExercise extends BaseExercise {
@@ -174,8 +213,14 @@ export interface UnitTestExercise extends BaseExercise {
   subtitleEs?: string;
   description?: string;
   descriptionEs?: string;
-  totalQuestions: number; // 6
+  totalQuestions: number; // 5 or 6
+  audioPrompt?: string;
+  readingStory?: ReadingStory;
   questions: UnitTestQuestion[];
+  referenceText?: string;
+  referenceTextEs?: string;
+  referenceHighlights?: string[];
+  imageUrl?: string;
 }
 
 export interface ReadingStory {
@@ -193,6 +238,130 @@ export interface ReadingStoryExercise extends BaseExercise {
   story: ReadingStory;
 }
 
+export interface ReadingComprehensionQuestion {
+  id: string;
+  question: string;
+  questionEs?: string;
+  options: RadioChoiceOption[];
+  correctAnswerId: string;
+  explanation?: string;
+  explanationEs?: string;
+}
+
+export interface ReadingComprehensionExercise extends BaseExercise {
+  type: 'reading-comprehension';
+  instructions: string;
+  instructionsEs?: string;
+  story: ReadingStory;
+  questions: ReadingComprehensionQuestion[];
+}
+
+export interface PictureOrderItem {
+  id: string;
+  correctPosition: number; // 1 to 6 (1-indexed chronological position)
+  imageUrl: string;
+  captionEn: string;
+  captionEs: string;
+}
+
+export interface PictureOrderingExercise extends BaseExercise {
+  type: 'picture-ordering';
+  instructions: string;
+  instructionsEs?: string;
+  audioPrompt?: string;
+  story?: ReadingStory;
+  items: PictureOrderItem[];
+  initialOrder?: string[];
+}
+
+export interface SpeechResponseOption {
+  id: string;
+  text: string;
+  textEs?: string;
+  isCorrect: boolean;
+}
+
+export interface SpeechResponseExercise extends BaseExercise {
+  type: 'speech-response';
+  instructions: string;
+  instructionsEs?: string;
+  subtitle?: string;
+  subtitleEs?: string;
+  promptStatement: string;
+  promptStatementEs?: string;
+  promptIsQuestion?: boolean;
+  audioPrompt?: string;
+  imageUrl?: string;
+  sentences?: LessonSentence[];
+  options: SpeechResponseOption[];
+  correctAnswerId: string;
+  explanation: string;
+  explanationEs?: string;
+  durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
+}
+
+export interface RoleplayCharacter {
+  id: string; // 'character-1' | 'character-2'
+  name: string;
+  nameEs: string;
+  role: string;
+  roleEs: string;
+  avatarSide: 'left' | 'right';
+  voicePitch?: number;
+  voiceGender?: 'female' | 'male';
+}
+
+export interface RoleplayDialogueTurn {
+  characterId: string;
+  textEn: string;
+  textEs: string;
+}
+
+export interface RoleplayPracticeExercise extends BaseExercise {
+  type: 'roleplay-practice';
+  instructions: string;
+  instructionsEs?: string;
+  imageUrl: string;
+  characters: [RoleplayCharacter, RoleplayCharacter];
+  dialogueTurns: RoleplayDialogueTurn[];
+}
+
+export interface DragDropDialogueLine {
+  speaker?: string;
+  textEn: string;
+  textEs?: string;
+  hasBlank?: boolean;
+  prefix?: string;
+  prefixEs?: string;
+  suffix?: string;
+  suffixEs?: string;
+}
+
+export interface DragDropSentenceOption {
+  id: string;
+  text: string;
+  textEs?: string;
+  isCorrect: boolean;
+}
+
+export interface DragDropSentenceExercise extends BaseExercise {
+  type: 'drag-drop-sentence';
+  instructions: string;
+  instructionsEs?: string;
+  audioPrompt?: string;
+  durationSeconds?: number;
+  imageUrl?: string;
+  referenceText?: string;
+  referenceTextEs?: string;
+  referenceHighlights?: string[];
+  dialogueLines: DragDropDialogueLine[];
+  options: DragDropSentenceOption[];
+  correctAnswerId: string;
+  explanation: string;
+  explanationEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -203,6 +372,11 @@ export type Exercise =
   | RadioChoiceExercise
   | WritingAiFeedbackExercise
   | ReadingStoryExercise
+  | ReadingComprehensionExercise
+  | PictureOrderingExercise
+  | SpeechResponseExercise
+  | RoleplayPracticeExercise
+  | DragDropSentenceExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
@@ -216,12 +390,17 @@ export interface LessonMainText {
   audioText: string;
   textEn: string;
   textEs: string;
-  caller: string;
-  company: string;
-  phone: string;
-  sentences: LessonSentence[];
-  practiceInstructions: string;
+  caller?: string;
+  company?: string;
+  phone?: string;
+  imageSrc?: string;
+  durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
+  sentences?: LessonSentence[];
+  practiceInstructions?: string;
 }
+
+export type LessonText = LessonMainText;
 
 export interface DialogueLine {
   speaker: string;

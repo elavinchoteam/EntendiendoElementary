@@ -16,6 +16,7 @@ import {
   Star,
   FileCheck,
   ShieldAlert,
+  PanelRightClose,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { WritingAiFeedbackExercise as WritingExerciseType } from '../types';
@@ -113,7 +114,13 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
 
     const attemptNumber = requestsUsed + 1;
     try {
-      const feedback = await requestAiFeedback(studentText, attemptNumber);
+      const feedback = await requestAiFeedback(
+        studentText,
+        attemptNumber,
+        exercise.prompt,
+        exercise.id,
+        exercise.storyContext
+      );
       setFeedbackHistory((prev) => [...prev, feedback]);
       setCurrentFeedbackIndex(attemptNumber - 1);
       setShowPreviousFeedback(false);
@@ -343,14 +350,14 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
               {/* Word counter */}
               <span
                 className={`font-semibold ${
-                  wordsCount >= 25
+                  wordsCount >= (exercise.initialWordsTarget || 25)
                     ? 'text-emerald-600 dark:text-emerald-400'
                     : isDark
                     ? 'text-slate-400'
                     : 'text-slate-500'
                 }`}
               >
-                Words: {wordsCount}
+                Word: {wordsCount}
               </span>
             </div>
 
@@ -367,7 +374,12 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                   // Optional alert
                 }}
                 rows={9}
-                placeholder={`Hi, there! This is [Your Name] calling from "Rock City Magazine." Do you love music? We have our biggest sale of the year...`}
+                placeholder={
+                  exercise.placeholder ||
+                  (exercise.id?.includes('wrong-color')
+                    ? 'Why is the story called "Wrong Color"? Who ordered a green chair? Who ordered a brown chair? What happened?...'
+                    : 'Hi, there! This is [Your Name] calling from "Rock City Magazine." Do you love music? We have our biggest sale of the year...')
+                }
                 className={`w-full bg-transparent resize-y rounded-xl p-3 outline-none text-xs sm:text-sm md:text-base leading-relaxed font-sans transition-colors ${
                   isDark
                     ? 'text-white placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-500/40'
@@ -381,8 +393,8 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                 <div className="absolute bottom-6 left-6 right-6 p-3 rounded-xl bg-rose-500 text-white text-xs sm:text-sm font-medium shadow-lg flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-2 duration-150 z-20">
                   <ShieldAlert className="w-5 h-5 shrink-0" />
                   <span>
-                    Por motivos pedagógicos, no está permitido copiar y pegar texto. Por favor escribe tu propio
-                    anuncio en inglés.
+                    Por motivos pedagógicos, no está permitido copiar y pegar texto. Por favor escribe tu propia
+                    respuesta en inglés.
                   </span>
                 </div>
               )}
@@ -461,36 +473,46 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                 <h3 className="font-bold text-base sm:text-lg tracking-tight">AI Feedback</h3>
               </div>
 
-              {/* Attempt indicator */}
-              {currentFeedback && (
-                <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-500 dark:text-indigo-300 border border-indigo-500/20">
-                  Revisión #{currentFeedback.attemptNumber}
-                </span>
-              )}
+              <div className="flex items-center gap-2">
+                {/* Attempt indicator */}
+                {currentFeedback && (
+                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-500 dark:text-indigo-300 border border-indigo-500/20">
+                    Revisión #{currentFeedback.attemptNumber}
+                  </span>
+                )}
+                <div className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
+                  <PanelRightClose className="w-4 h-4" />
+                </div>
+              </div>
             </div>
 
             {/* Star Rating Display */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
-                Your result:
-              </span>
-              <div className="flex items-center gap-1">
-                {[1, 2, 3].map((starIdx) => {
-                  const filled = currentFeedback ? starIdx <= currentFeedback.stars : false;
-                  return (
-                    <Star
-                      key={starIdx}
-                      className={`w-4 h-4 ${
-                        filled
-                          ? 'fill-amber-400 text-amber-400'
-                          : isDark
-                          ? 'text-slate-600'
-                          : 'text-slate-300'
-                      }`}
-                    />
-                  );
-                })}
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  Your result:
+                </span>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3].map((starIdx) => {
+                    const filled = currentFeedback ? starIdx <= currentFeedback.stars : false;
+                    return (
+                      <Star
+                        key={starIdx}
+                        className={`w-4 h-4 ${
+                          filled
+                            ? 'fill-amber-400 text-amber-400'
+                            : isDark
+                            ? 'text-slate-600'
+                            : 'text-slate-300'
+                        }`}
+                      />
+                    );
+                  })}
+                </div>
               </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-snug">
+                The AI feedback focuses on some mistakes and not all, to help you improve step by step.
+              </p>
             </div>
 
             {/* AI Feedback Body */}
@@ -512,7 +534,11 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
               {isAnalyzing ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-12">
                   <Loader2 className="w-8 h-8 text-sky-500 animate-spin" />
-                  <p className="text-xs sm:text-sm font-medium">Evaluando tu anuncio con IA pedagógica...</p>
+                  <p className="text-xs sm:text-sm font-medium">
+                    {exercise.id?.includes('wrong-color')
+                      ? 'Evaluando tu respuesta con IA pedagógica...'
+                      : 'Evaluando tu anuncio con IA pedagógica...'}
+                  </p>
                   <span className="text-[11px] text-slate-400 font-mono">
                     Revisando contenido, gramática y vocabulario
                   </span>
@@ -554,7 +580,15 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                     }`}
                   >
                     <h4 className="font-bold text-xs uppercase font-mono tracking-wider text-indigo-500 dark:text-indigo-400 mb-1 flex items-center justify-between">
-                      <span>{isFeedbackSpanish ? 'Anuncio Modelo Sugerido' : 'Suggested Ad Model'}</span>
+                      <span>
+                        {isFeedbackSpanish
+                          ? exercise.id?.includes('wrong-color')
+                            ? 'Respuesta Modelo Sugerida'
+                            : 'Anuncio Modelo Sugerido'
+                          : exercise.id?.includes('wrong-color')
+                          ? 'Suggested Model Answer'
+                          : 'Suggested Ad Model'}
+                      </span>
                       <button
                         type="button"
                         onClick={() =>
@@ -580,7 +614,9 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                     Tu retroalimentación aparecerá aquí
                   </p>
                   <p className="text-xs text-slate-400 text-center max-w-xs">
-                    Escribe tu anuncio telefónico en el cuadro de la izquierda y presiona el botón{' '}
+                    {exercise.id?.includes('wrong-color')
+                      ? 'Escribe tu respuesta a las preguntas en el cuadro de la izquierda y presiona el botón '
+                      : 'Escribe tu anuncio telefónico en el cuadro de la izquierda y presiona el botón '}
                     <span className="font-semibold text-sky-500">AI Feedback</span> para recibir tu revisión.
                   </p>
                 </div>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, Square } from 'lucide-react';
+import { Volume2, Square, Pause } from 'lucide-react';
 import { ReadingStory } from '../types';
 import { speakEnglish, stopSpeaking, playFeedbackSound } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
+import { SpeedSelectorButton } from './SpeedSelectorButton';
 
 interface ReadingStoryCardProps {
   story: ReadingStory;
@@ -18,6 +19,11 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
   const { isDark } = useTheme();
   const [isFlipped, setIsFlipped] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentRate, setCurrentRate] = useState<number>(speechRate);
+
+  useEffect(() => {
+    setCurrentRate(speechRate);
+  }, [speechRate]);
 
   useEffect(() => {
     return () => {
@@ -28,6 +34,22 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
   const handleToggleFlip = () => {
     playFeedbackSound('flip');
     setIsFlipped((prev) => !prev);
+  };
+
+  const handleSpeedChange = (newRate: number) => {
+    setCurrentRate(newRate);
+    if (isPlaying) {
+      stopSpeaking();
+      const fullText = story.audioText || story.paragraphsEn.join(' ');
+      speakEnglish(
+        fullText,
+        newRate,
+        accent === 'UK' ? 'UK' : 'US',
+        () => setIsPlaying(true),
+        () => setIsPlaying(false),
+        'female'
+      );
+    }
   };
 
   const handleToggleAudio = () => {
@@ -42,7 +64,7 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
 
     speakEnglish(
       fullText,
-      speechRate,
+      currentRate,
       accent === 'UK' ? 'UK' : 'US',
       () => {
         setIsPlaying(true);
@@ -50,6 +72,20 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
       () => {
         setIsPlaying(false);
       },
+      'female'
+    );
+  };
+
+  const handleSpeakParagraph = (text: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    stopSpeaking();
+    setIsPlaying(false);
+    speakEnglish(
+      text,
+      currentRate,
+      accent === 'UK' ? 'UK' : 'US',
+      () => {},
+      () => {},
       'female'
     );
   };
@@ -75,15 +111,19 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                 : 'bg-[#FCFBF8] border-stone-200/90 text-stone-900 shadow-stone-200/50'
             }`}
           >
-            {/* Audio Button: Speaker Icon only, absolutely NO text */}
-            <div className="absolute top-5 right-5 sm:top-6 sm:right-6 z-10">
+            {/* Audio Button and Speed Selector */}
+            <div className="absolute top-5 right-5 sm:top-6 sm:right-6 z-20 flex items-center gap-2">
+              <SpeedSelectorButton
+                currentRate={currentRate}
+                onRateChange={handleSpeedChange}
+              />
               <button
                 id="reading-story-audio-btn-front"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleToggleAudio();
                 }}
-                className={`w-11 h-11 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-md ${
+                className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-md ${
                   isPlaying
                     ? 'bg-sky-500 text-white ring-4 ring-sky-500/25 scale-105'
                     : isDark
@@ -91,6 +131,7 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                     : 'bg-white hover:bg-stone-100 text-sky-600 border border-stone-300 hover:scale-105'
                 }`}
                 aria-label="Audio"
+                title={isPlaying ? 'Detener lectura' : 'Escuchar historia'}
               >
                 {isPlaying ? (
                   <Square className="w-4 h-4 fill-current" />
@@ -101,7 +142,7 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
             </div>
 
             {/* Story Title */}
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-center text-sky-500 dark:text-sky-400 mb-6 sm:mb-8 font-sans">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-center text-sky-500 dark:text-sky-400 mb-6 sm:mb-8 font-sans pr-24 sm:pr-28">
               {story.title}
             </h1>
 
@@ -112,7 +153,12 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                   const firstLetter = para.charAt(0);
                   const restOfPara = para.slice(1);
                   return (
-                    <p key={idx} className="leading-relaxed">
+                    <p
+                      key={idx}
+                      onClick={(e) => handleSpeakParagraph(para, e)}
+                      className="leading-relaxed hover:text-sky-600 dark:hover:text-sky-300 transition-colors cursor-pointer"
+                      title="Haz clic para pronunciar este párrafo"
+                    >
                       <span className="float-left text-4xl sm:text-5xl font-serif font-bold mr-2 leading-none text-slate-900 dark:text-white">
                         {firstLetter}
                       </span>
@@ -122,7 +168,12 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                 }
 
                 return (
-                  <p key={idx} className="leading-relaxed">
+                  <p
+                    key={idx}
+                    onClick={(e) => handleSpeakParagraph(para, e)}
+                    className="leading-relaxed hover:text-sky-600 dark:hover:text-sky-300 transition-colors cursor-pointer"
+                    title="Haz clic para pronunciar este párrafo"
+                  >
                     {para}
                   </p>
                 );
@@ -138,15 +189,19 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                 : 'bg-[#F7FAF7] border-emerald-200/90 text-stone-900 shadow-stone-200/50'
             }`}
           >
-            {/* Audio Button: Speaker Icon only, absolutely NO text */}
-            <div className="absolute top-5 right-5 sm:top-6 sm:right-6 z-10">
+            {/* Audio Button and Speed Selector */}
+            <div className="absolute top-5 right-5 sm:top-6 sm:right-6 z-20 flex items-center gap-2">
+              <SpeedSelectorButton
+                currentRate={currentRate}
+                onRateChange={handleSpeedChange}
+              />
               <button
                 id="reading-story-audio-btn-back"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleToggleAudio();
                 }}
-                className={`w-11 h-11 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-md ${
+                className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-md ${
                   isPlaying
                     ? 'bg-sky-500 text-white ring-4 ring-sky-500/25 scale-105'
                     : isDark
@@ -154,6 +209,7 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
                     : 'bg-white hover:bg-stone-100 text-sky-600 border border-stone-300 hover:scale-105'
                 }`}
                 aria-label="Audio"
+                title={isPlaying ? 'Detener lectura' : 'Escuchar historia'}
               >
                 {isPlaying ? (
                   <Square className="w-4 h-4 fill-current" />

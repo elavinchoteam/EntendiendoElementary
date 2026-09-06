@@ -19,6 +19,11 @@ import { WritingAiFeedbackExercise } from './WritingAiFeedbackExercise';
 import { UnitTestActivity } from './UnitTestActivity';
 import { AudioPlayerCard } from './AudioPlayerCard';
 import { ReadingStoryCard } from './ReadingStoryCard';
+import { ReadingComprehensionExercise } from './ReadingComprehensionExercise';
+import { PictureOrderingExercise } from './PictureOrderingExercise';
+import { SpeechResponseExercise } from './SpeechResponseExercise';
+import { RoleplayPracticeExercise } from './RoleplayPracticeExercise';
+import { DragDropSentenceExercise } from './DragDropSentenceExercise';
 import { ExercisesView } from './ExercisesView';
 import { FlashcardDeck } from './FlashcardDeck';
 import { DialogueAndGrammarView } from './DialogueAndGrammarView';
@@ -28,8 +33,14 @@ import {
   TrueFalseSelectionExercise as TrueFalseSelectionExerciseType,
   RadioChoiceExercise as RadioChoiceExerciseType,
   WritingAiFeedbackExercise as WritingAiFeedbackExerciseType,
+  SpeechResponseExercise as SpeechResponseExerciseType,
+  RoleplayPracticeExercise as RoleplayPracticeExerciseType,
+  DragDropSentenceExercise as DragDropSentenceExerciseType,
   UnitTestExercise as UnitTestExerciseType,
   ReadingStoryExercise as ReadingStoryExerciseType,
+  ReadingComprehensionExercise as ReadingComprehensionExerciseType,
+  MatchingExercise as MatchingExerciseType,
+  PictureOrderingExercise as PictureOrderingExerciseType,
   ReadingStory,
 } from '../types';
 
@@ -82,7 +93,15 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     | undefined;
   const readingStory = unit.readingStory || readingStoryExercise?.story;
 
-  const matchingExercise = unit.exercises.find((ex) => ex.type === 'matching-table');
+  const readingComprehensionExercises = unit.exercises.filter(
+    (ex) => ex.type === 'reading-comprehension'
+  ) as ReadingComprehensionExerciseType[];
+  const matchingExercises = unit.exercises.filter(
+    (ex) => ex.type === 'matching-table'
+  ) as MatchingExerciseType[];
+  const pictureOrderingExercises = unit.exercises.filter(
+    (ex) => ex.type === 'picture-ordering'
+  ) as PictureOrderingExerciseType[];
   const dropdownExercise = unit.exercises.find(
     (ex) => ex.type === 'dropdown-completion'
   ) as DropdownCompletionExerciseType | undefined;
@@ -92,27 +111,58 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
   const radioChoiceExercises = unit.exercises.filter(
     (ex) => ex.type === 'radio-choice'
   ) as RadioChoiceExerciseType[];
-  const writingExercise = unit.exercises.find(
+  const writingExercises = unit.exercises.filter(
     (ex) => ex.type === 'writing-ai-feedback'
-  ) as WritingAiFeedbackExerciseType | undefined;
+  ) as WritingAiFeedbackExerciseType[];
+  const speechResponseExercises = unit.exercises.filter(
+    (ex) => ex.type === 'speech-response'
+  ) as SpeechResponseExerciseType[];
+  const roleplayExercises = unit.exercises.filter(
+    (ex) => ex.type === 'roleplay-practice'
+  ) as RoleplayPracticeExerciseType[];
+  const dragDropSentenceExercises = unit.exercises.filter(
+    (ex) => ex.type === 'drag-drop-sentence'
+  ) as DragDropSentenceExerciseType[];
   const unitTestExercise = unit.exercises.find(
     (ex) => ex.type === 'unit-test'
   ) as UnitTestExerciseType | undefined;
   const otherExercises = unit.exercises.filter(
     (ex) =>
       ex.type !== 'matching-table' &&
+      ex.type !== 'picture-ordering' &&
       ex.type !== 'dropdown-completion' &&
       ex.type !== 'true-false-selection' &&
       ex.type !== 'radio-choice' &&
       ex.type !== 'writing-ai-feedback' &&
+      ex.type !== 'speech-response' &&
+      ex.type !== 'roleplay-practice' &&
+      ex.type !== 'drag-drop-sentence' &&
       ex.type !== 'reading-story' &&
+      ex.type !== 'reading-comprehension' &&
       ex.type !== 'unit-test'
   );
 
   const slides = [
     ...(lesson ? [{ id: 'explore', title: '', icon: BookOpen }] : []),
     ...(readingStory ? [{ id: 'reading-story', title: '', icon: BookOpen }] : []),
-    ...(matchingExercise ? [{ id: 'matching', title: '', icon: CheckSquare }] : []),
+    ...readingComprehensionExercises.map((ex) => ({
+      id: `reading-comprehension-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
+    ...matchingExercises.map((ex) => ({
+      id: `matching-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
+    ...pictureOrderingExercises.map((ex) => ({
+      id: `picture-ordering-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
     ...(dropdownExercise ? [{ id: 'dropdown-completion', title: '', icon: CheckSquare }] : []),
     ...(trueFalseExercise ? [{ id: 'true-false', title: '', icon: CheckSquare }] : []),
     ...radioChoiceExercises.map((ex) => ({
@@ -121,7 +171,30 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       title: '',
       icon: CheckSquare,
     })),
-    ...(writingExercise ? [{ id: 'writing-ai', title: '', icon: CheckSquare }] : []),
+    ...writingExercises.map((ex) => ({
+      id: `writing-ai-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
+    ...speechResponseExercises.map((ex) => ({
+      id: `speech-response-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
+    ...roleplayExercises.map((ex) => ({
+      id: `roleplay-practice-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: MessageSquare,
+    })),
+    ...dragDropSentenceExercises.map((ex) => ({
+      id: `drag-drop-sentence-${ex.id}`,
+      exercise: ex,
+      title: '',
+      icon: CheckSquare,
+    })),
     ...(unitTestExercise ? [{ id: 'unit-test', title: 'Test', icon: Award }] : []),
     ...(otherExercises.length > 0 ? [{ id: 'exercises', title: 'Ejercicios de Comprensión', icon: CheckSquare }] : []),
     ...(unit.flashcards.length > 0 ? [{ id: 'flashcards', title: 'Tarjetas de Vocabulario', icon: CreditCard }] : []),
@@ -160,15 +233,17 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     setCurrentSlide(idx);
   };
 
+  const safeCurrentSlide = slides.length > 0 ? Math.min(Math.max(0, currentSlide), slides.length - 1) : 0;
+
   const nextSlide = () => {
-    if (currentSlide < slides.length - 1) {
-      goToSlide(currentSlide + 1);
+    if (safeCurrentSlide < slides.length - 1) {
+      goToSlide(safeCurrentSlide + 1);
     }
   };
 
   const prevSlide = () => {
-    if (currentSlide > 0) {
-      goToSlide(currentSlide - 1);
+    if (safeCurrentSlide > 0) {
+      goToSlide(safeCurrentSlide - 1);
     }
   };
 
@@ -187,7 +262,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlide, slides.length]);
+  }, [safeCurrentSlide, slides.length]);
 
   return (
     <div className="relative w-full flex flex-col items-center">
@@ -196,15 +271,21 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       <button
         id="floating-prev-activity-btn"
         onClick={prevSlide}
-        disabled={currentSlide === 0}
+        disabled={safeCurrentSlide === 0}
         className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
-          currentSlide === 0
+          safeCurrentSlide === 0
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
             ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
             : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
-        title={currentSlide > 0 ? (slides[currentSlide - 1].title ? `Actividad anterior: ${slides[currentSlide - 1].title}` : 'Actividad anterior') : 'Inicio'}
+        title={
+          safeCurrentSlide > 0 && slides[safeCurrentSlide - 1]
+            ? slides[safeCurrentSlide - 1]?.title
+              ? `Actividad anterior: ${slides[safeCurrentSlide - 1]?.title}`
+              : 'Actividad anterior'
+            : 'Inicio'
+        }
         aria-label="Actividad anterior"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -214,15 +295,21 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       <button
         id="floating-next-activity-btn"
         onClick={nextSlide}
-        disabled={currentSlide === slides.length - 1}
+        disabled={safeCurrentSlide >= slides.length - 1}
         className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
-          currentSlide === slides.length - 1
+          safeCurrentSlide >= slides.length - 1
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
             ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
             : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
-        title={currentSlide < slides.length - 1 ? (slides[currentSlide + 1].title ? `Siguiente actividad: ${slides[currentSlide + 1].title}` : 'Siguiente actividad') : 'Fin'}
+        title={
+          safeCurrentSlide < slides.length - 1 && slides[safeCurrentSlide + 1]
+            ? slides[safeCurrentSlide + 1]?.title
+              ? `Siguiente actividad: ${slides[safeCurrentSlide + 1]?.title}`
+              : 'Siguiente actividad'
+            : 'Fin'
+        }
         aria-label="Siguiente actividad"
       >
         <ChevronRight className="w-6 h-6" />
@@ -239,11 +326,11 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                 ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
                 : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
             }`}>
-              Actividad {currentSlide + 1} de {slides.length}
+              Actividad {slides.length > 0 ? safeCurrentSlide + 1 : 0} de {slides.length}
             </span>
-            {slides[currentSlide]?.title ? (
+            {slides[safeCurrentSlide]?.title ? (
               <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-                {slides[currentSlide]?.title}
+                {slides[safeCurrentSlide]?.title}
               </span>
             ) : null}
           </div>
@@ -255,13 +342,13 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                 key={s.id}
                 onClick={() => goToSlide(idx)}
                 className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                  currentSlide === idx
+                  safeCurrentSlide === idx
                     ? 'w-7 bg-indigo-600 shadow-xs'
                     : isDark
                     ? 'w-2.5 bg-white/20 hover:bg-white/40'
                     : 'w-2.5 bg-slate-300 hover:bg-slate-400'
                 }`}
-                title={s.title ? `Ir a Actividad ${idx + 1}: ${s.title}` : `Ir a Actividad ${idx + 1}`}
+                title={s?.title ? `Ir a Actividad ${idx + 1}: ${s?.title}` : `Ir a Actividad ${idx + 1}`}
                 aria-label={`Actividad ${idx + 1}`}
               />
             ))}
@@ -269,7 +356,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         </div>
 
         {/* Activity 0: Audio Media Player & Texto Principal como Tarjeta Reversible */}
-        {slides[currentSlide]?.id === 'explore' && lesson && (
+        {slides[safeCurrentSlide]?.id === 'explore' && lesson && (
           <div className="w-full flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
             <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-6 items-stretch justify-center">
               {/* Audio Player Card (diseño optimizado y balanceado) */}
@@ -283,6 +370,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   onSentenceChange={(idx) => setPlayingSentenceIdx(idx)}
                   onToggleTranscript={() => setShowTranscriptInExplore((prev) => !prev)}
                   isTranscriptVisible={showTranscriptInExplore}
+                  imageSrc={lesson.imageSrc}
+                  totalDurationSeconds={lesson.durationSeconds}
+                  speakerGender={lesson.speakerGender}
                 />
               </div>
 
@@ -325,7 +415,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   {/* Card Center: Main English Text (Clickable sentences for individual pronunciation) */}
                   <div className="flex-1 my-2 py-2 overflow-y-auto flex items-center pr-1">
                     <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-sans font-medium tracking-tight">
-                      {lesson.sentences.map((sent, idx) => {
+                      {(lesson.sentences || []).map((sent, idx) => {
                         const isCurrent = playingSentenceIdx === idx;
                         return (
                           <span
@@ -334,8 +424,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                             className={`inline cursor-pointer rounded-lg px-1.5 py-0.5 transition-all duration-150 mx-0.5 ${
                               isCurrent
                                 ? isDark
-                                  ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-400'
-                                  : 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-300'
+                                ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-400'
+                                : 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-300'
                                 : isDark
                                 ? 'hover:bg-indigo-500/20 text-slate-100 hover:text-white'
                                 : 'hover:bg-indigo-100 text-slate-800 hover:text-indigo-950'
@@ -352,7 +442,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   {/* Card Footer: Hints */}
                   <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-400 shrink-0">
                     <span className="text-[11px] sm:text-xs">Toca cualquier oración para escucharla por separado</span>
-                    <span className="font-mono text-[11px] sm:text-xs text-slate-500">{lesson.sentences.length} oraciones</span>
+                    <span className="font-mono text-[11px] sm:text-xs text-slate-500">{(lesson.sentences || []).length} oraciones</span>
                   </div>
 
                 </div>
@@ -403,7 +493,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     )}
 
         {/* Activity: Reading Story (e.g. Wrong Color) */}
-        {slides[currentSlide]?.id === 'reading-story' && readingStory && (
+        {slides[safeCurrentSlide]?.id === 'reading-story' && readingStory && (
           <div className="w-full flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
             <ReadingStoryCard
               story={readingStory}
@@ -413,27 +503,99 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
           </div>
         )}
 
-        {/* Activity 1: Práctica (Matching Table / Drag & Drop) */}
-        {slides[currentSlide]?.id === 'matching' && matchingExercise && (
+        {/* Activity: Reading Comprehension with Story & Questions (e.g. Wrong Color Activity 2) */}
+        {slides[safeCurrentSlide]?.id?.startsWith('reading-comprehension-') && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
-            <MatchingTableExercise
-              instructionText={matchingExercise.instructions || 'Listen to the voice mail message, and fill in the correct information.'}
-              audioPrompt={matchingExercise.audioPrompt || lesson?.audioText}
-              lessonText={lesson}
-              pairs={matchingExercise.pairs}
-              optionsPool={matchingExercise.optionsPool}
-              optionsPoolEs={matchingExercise.optionsPoolEs}
-              accent={accent}
-              speechRate={currentRate}
-              onSuccess={() => {
-                onCompleteUnit(100);
-              }}
-            />
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as {
+                id: string;
+                exercise?: ReadingComprehensionExerciseType;
+              };
+              const ex = currentSlideObj?.exercise;
+              if (!ex) return null;
+              return (
+                <ReadingComprehensionExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity: Matching Table / Drag & Drop */}
+        {(slides[safeCurrentSlide]?.id === 'matching' || slides[safeCurrentSlide]?.id?.startsWith('matching-')) && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as {
+                id: string;
+                exercise?: MatchingExerciseType;
+              };
+              const ex = currentSlideObj?.exercise || matchingExercises[0];
+              if (!ex) return null;
+              return (
+                <MatchingTableExercise
+                  key={ex.id}
+                  instructionText={ex.instructions || 'Listen to the voice mail message, and fill in the correct information.'}
+                  instructionTextEs={ex.instructionsEs}
+                  audioPrompt={ex.audioPrompt || lesson?.audioText}
+                  lessonText={lesson}
+                  story={ex.story || readingStory}
+                  columnAHeader={ex.columnAHeader}
+                  columnAHeaderEs={ex.columnAHeaderEs}
+                  columnBHeader={ex.columnBHeader}
+                  columnBHeaderEs={ex.columnBHeaderEs}
+                  pairs={ex.pairs}
+                  optionsPool={ex.optionsPool}
+                  optionsPoolEs={ex.optionsPoolEs}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity: Picture Ordering (Chronological order from images) */}
+        {(slides[safeCurrentSlide]?.id === 'picture-ordering' || slides[safeCurrentSlide]?.id?.startsWith('picture-ordering-')) && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as {
+                id: string;
+                exercise?: PictureOrderingExerciseType;
+              };
+              const ex = currentSlideObj?.exercise || pictureOrderingExercises[0];
+              if (!ex) return null;
+              return (
+                <PictureOrderingExercise
+                  key={ex.id}
+                  instructionText={ex.instructions}
+                  instructionTextEs={ex.instructionsEs}
+                  audioPrompt={ex.audioPrompt || lesson?.audioText}
+                  story={ex.story || readingStory}
+                  items={ex.items}
+                  initialOrder={ex.initialOrder}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
           </div>
         )}
 
         {/* Activity 3: Dropdown Sentence Completion from User Image */}
-        {slides[currentSlide]?.id === 'dropdown-completion' && dropdownExercise && (
+        {slides[safeCurrentSlide]?.id === 'dropdown-completion' && dropdownExercise && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <DropdownCompletionExercise
               exercise={dropdownExercise}
@@ -447,7 +609,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         )}
 
         {/* Activity 4: True/False Sentence Selection from User Image */}
-        {slides[currentSlide]?.id === 'true-false' && trueFalseExercise && (
+        {slides[safeCurrentSlide]?.id === 'true-false' && trueFalseExercise && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <TrueFalseSelectionExercise
               exercise={trueFalseExercise}
@@ -461,10 +623,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         )}
 
         {/* Activity 5 & 6: Choose the best answers to the questions below from User Images */}
-        {slides[currentSlide]?.id?.startsWith('radio-choice-') && (
+        {slides[safeCurrentSlide]?.id?.startsWith('radio-choice-') && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             {(() => {
-              const currentSlideObj = slides[currentSlide] as { id: string; exercise?: RadioChoiceExerciseType };
+              const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: RadioChoiceExerciseType };
               const ex = currentSlideObj?.exercise;
               if (!ex) return null;
               return (
@@ -482,22 +644,96 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
           </div>
         )}
 
-        {/* Activity 7: Writing Exercise with AI Feedback and Reversible Cards */}
-        {slides[currentSlide]?.id === 'writing-ai' && writingExercise && (
+        {/* Activity: Writing Exercise with AI Feedback and Reversible Cards */}
+        {(slides[safeCurrentSlide]?.id === 'writing-ai' || slides[safeCurrentSlide]?.id?.startsWith('writing-ai-')) && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
-            <WritingAiFeedbackExercise
-              exercise={writingExercise}
-              accent={accent}
-              speechRate={currentRate}
-              onSuccess={() => {
-                onCompleteUnit(100);
-              }}
-            />
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: WritingAiFeedbackExerciseType };
+              const ex = currentSlideObj?.exercise || writingExercises[0];
+              if (!ex) return null;
+              return (
+                <WritingAiFeedbackExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
           </div>
         )}
 
-        {/* Activity 8: Unit 1 Mastery Test (Start Test card and 6 tests) */}
-        {slides[currentSlide]?.id === 'unit-test' && unitTestExercise && (
+        {/* Activity: Speech Response (What's the best response to the statement/question?) */}
+        {slides[safeCurrentSlide]?.id?.startsWith('speech-response-') && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: SpeechResponseExerciseType };
+              const ex = currentSlideObj?.exercise;
+              if (!ex) return null;
+              return (
+                <SpeechResponseExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity: Roleplay Practice (Practice dialogue characters) */}
+        {slides[safeCurrentSlide]?.id?.startsWith('roleplay-practice-') && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: RoleplayPracticeExerciseType };
+              const ex = currentSlideObj?.exercise;
+              if (!ex) return null;
+              return (
+                <RoleplayPracticeExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity: Drag Drop Sentence Exercise (Be-Past Statements Act 2 - 11) */}
+        {slides[safeCurrentSlide]?.id?.startsWith('drag-drop-sentence-') && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            {(() => {
+              const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: DragDropSentenceExerciseType };
+              const ex = currentSlideObj?.exercise;
+              if (!ex) return null;
+              return (
+                <DragDropSentenceExercise
+                  key={ex.id}
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => {
+                    onCompleteUnit(100);
+                  }}
+                />
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Activity: Unit Mastery Test (Start Test card and individual tests) */}
+        {slides[safeCurrentSlide]?.id === 'unit-test' && unitTestExercise && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <UnitTestActivity
               exercise={unitTestExercise}
@@ -511,7 +747,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         )}
 
         {/* Activity: Ejercicios de Comprensión (Fill Blank, etc.) */}
-        {slides[currentSlide]?.id === 'exercises' && (
+        {slides[safeCurrentSlide]?.id === 'exercises' && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <ExercisesView
               exercises={otherExercises}
@@ -524,7 +760,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         )}
 
         {/* Activity 3: Tarjetas de Vocabulario (Flashcards) */}
-        {slides[currentSlide]?.id === 'flashcards' && (
+        {slides[safeCurrentSlide]?.id === 'flashcards' && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <FlashcardDeck
               cards={unit.flashcards}
@@ -539,7 +775,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         )}
 
         {/* Activity 4: Diálogo & Gramática */}
-        {slides[currentSlide]?.id === 'dialogue' && (
+        {slides[safeCurrentSlide]?.id === 'dialogue' && (
           <div className="flex flex-col gap-6 animate-in fade-in duration-200">
             <DialogueAndGrammarView
               dialogue={unit.dialogue}

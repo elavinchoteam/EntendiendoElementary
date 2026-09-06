@@ -15,6 +15,9 @@ export interface AudioPlayerCardProps {
   isTranscriptVisible?: boolean;
   className?: string;
   totalDurationSeconds?: number;
+  imageSrc?: string;
+  altText?: string;
+  speakerGender?: 'male' | 'female';
 }
 
 const DEFAULT_DURATION = 41; // 00:41 as shown in course screenshot
@@ -45,6 +48,9 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
   isTranscriptVisible = true,
   className = '',
   totalDurationSeconds = DEFAULT_DURATION,
+  imageSrc = chuckWoodImg,
+  altText = 'Audio player media',
+  speakerGender = 'male',
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -54,8 +60,43 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
   const [internalSentenceIdx, setInternalSentenceIdx] = useState<number | null>(null);
 
   const safeAccent: 'US' | 'UK' = accent === 'UK' ? 'UK' : 'US';
+  const safeGender: 'male' | 'female' = speakerGender === 'female' ? 'female' : 'male';
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const speedMenuRef = useRef<HTMLDivElement | null>(null);
+  const elapsedRef = useRef<number>(0);
+  const onSentenceChangeRef = useRef(onSentenceChange);
+
+  useEffect(() => {
+    onSentenceChangeRef.current = onSentenceChange;
+  });
+
+  // Sync elapsedRef when elapsedSeconds changes externally (e.g., reset)
+  useEffect(() => {
+    elapsedRef.current = elapsedSeconds;
+  }, [elapsedSeconds]);
+
+  // Clean up timer and speech on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      window.speechSynthesis?.cancel();
+    };
+  }, []);
+
+  // When audio text changes, reset playback state
+  useEffect(() => {
+    setIsPlaying(false);
+    elapsedRef.current = 0;
+    setElapsedSeconds(0);
+    setInternalSentenceIdx(null);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, [audioText]);
 
   // Close speed menu on outside click
   useEffect(() => {
@@ -76,24 +117,25 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
   useEffect(() => {
     if (isPlaying) {
       timerRef.current = setInterval(() => {
-        setElapsedSeconds((prev) => {
-          if (prev >= totalDurationSeconds) {
-            setIsPlaying(false);
-            if (onSentenceChange) onSentenceChange(null);
-            setInternalSentenceIdx(null);
-            return 0;
-          }
-          const next = prev + 1;
+        const next = elapsedRef.current + 1;
+        if (next >= totalDurationSeconds) {
+          elapsedRef.current = 0;
+          setElapsedSeconds(0);
+          setIsPlaying(false);
+          setInternalSentenceIdx(null);
+          onSentenceChangeRef.current?.(null);
+        } else {
+          elapsedRef.current = next;
+          setElapsedSeconds(next);
           if (sentences.length > 0) {
             const sentenceIndex = Math.min(
               sentences.length - 1,
               Math.floor((next / totalDurationSeconds) * sentences.length)
             );
-            if (onSentenceChange) onSentenceChange(sentenceIndex);
             setInternalSentenceIdx(sentenceIndex);
+            onSentenceChangeRef.current?.(sentenceIndex);
           }
-          return next;
-        });
+        }
       }, 1000 / currentRate);
     } else {
       if (timerRef.current) {
@@ -103,9 +145,12 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
     }
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     };
-  }, [isPlaying, currentRate, sentences.length, totalDurationSeconds, onSentenceChange]);
+  }, [isPlaying, currentRate, sentences.length, totalDurationSeconds]);
 
   const handleTogglePlay = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -119,9 +164,10 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
     window.speechSynthesis?.cancel();
     playFeedbackSound('click');
     setIsPlaying(true);
+    elapsedRef.current = 0;
     setElapsedSeconds(0);
-    if (onSentenceChange) onSentenceChange(0);
     setInternalSentenceIdx(0);
+    onSentenceChangeRef.current?.(0);
 
     speakEnglish(
       audioText,
@@ -132,11 +178,12 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
       },
       () => {
         setIsPlaying(false);
+        elapsedRef.current = totalDurationSeconds;
         setElapsedSeconds(totalDurationSeconds);
-        if (onSentenceChange) onSentenceChange(null);
         setInternalSentenceIdx(null);
+        onSentenceChangeRef.current?.(null);
       },
-      'male'
+      safeGender
     );
   };
 
@@ -156,11 +203,12 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
         undefined,
         () => {
           setIsPlaying(false);
+          elapsedRef.current = totalDurationSeconds;
           setElapsedSeconds(totalDurationSeconds);
-          if (onSentenceChange) onSentenceChange(null);
           setInternalSentenceIdx(null);
+          onSentenceChangeRef.current?.(null);
         },
-        'male'
+        safeGender
       );
     }
   };
@@ -175,6 +223,7 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
     const rect = e.currentTarget.getBoundingClientRect();
     const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
     const targetSec = Math.floor(ratio * totalDurationSeconds);
+    elapsedRef.current = targetSec;
     setElapsedSeconds(targetSec);
 
     if (sentences.length > 0) {
@@ -182,8 +231,8 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
         sentences.length - 1,
         Math.floor((targetSec / totalDurationSeconds) * sentences.length)
       );
-      if (onSentenceChange) onSentenceChange(sentenceIndex);
       setInternalSentenceIdx(sentenceIndex);
+      onSentenceChangeRef.current?.(sentenceIndex);
     }
   };
 
@@ -201,8 +250,8 @@ export const AudioPlayerCard: React.FC<AudioPlayerCardProps> = ({
       {/* Top Image Container */}
       <div className="relative w-full aspect-[4/3] rounded-t-3xl bg-slate-900 overflow-hidden flex items-center justify-center">
         <img
-          src={chuckWoodImg}
-          alt="Chuck Wood holding Working People Magazine"
+          src={imageSrc}
+          alt={altText}
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-top"
         />
