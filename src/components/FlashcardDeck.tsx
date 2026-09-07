@@ -268,8 +268,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               {/* FRONT FACE (English + Phonetics + Audio) */}
               <div className={`absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl backdrop-blur-xs transition-colors ${
                 isDark
-                  ? 'bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-indigo-900/30 border-white/10 text-white'
-                  : 'bg-gradient-to-br from-indigo-50/60 via-white to-slate-50 border-slate-200 text-slate-900'
+                  ? 'bg-slate-900 border-white/10 text-white'
+                  : 'bg-white border-slate-200 text-slate-900 shadow-md'
               }`}>
                 
                 {/* Header row */}
@@ -393,8 +393,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               {/* BACK FACE (Spanish translation + explanation + tip) */}
               <div className={`absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 backface-hidden rotate-y-180 shadow-xl transition-colors ${
                 isDark
-                  ? 'bg-gradient-to-br from-slate-900 via-indigo-950/50 to-[#0F172A] border-indigo-500/40 text-white'
-                  : 'bg-gradient-to-br from-slate-50 via-white to-indigo-50/50 border-indigo-400 text-slate-900'
+                  ? 'bg-slate-900 border-indigo-500/40 text-white'
+                  : 'bg-white border-indigo-400 text-slate-900 shadow-md'
               }`}>
                 
                 {/* Header row */}

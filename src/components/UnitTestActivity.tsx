@@ -442,8 +442,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             <div
               className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 overflow-hidden ${
                 isDark
-                  ? 'bg-gradient-to-br from-[#1E1B4B] via-[#0F172A] to-[#1E293B] border-indigo-500/30 text-white'
-                  : 'bg-gradient-to-br from-indigo-50/80 via-white to-indigo-50/40 border-indigo-200 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-indigo-500/30 text-white'
+                  : 'bg-white border-indigo-200 text-slate-900 shadow-md'
               }`}
             >
               {/* Card Header */}
@@ -530,7 +530,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 <button
                   id="start-test-btn"
                   onClick={handleStartTest}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold text-base shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   <span>Start Test</span>
@@ -542,8 +542,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             <div
               className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden rotate-y-180 shadow-xl transition-colors duration-200 overflow-hidden ${
                 isDark
-                  ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
-                  : 'bg-gradient-to-br from-emerald-50/80 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-emerald-500/40 text-white'
+                  : 'bg-white border-emerald-300 text-slate-900 shadow-md'
               }`}
             >
               {/* Card Header Back */}
@@ -607,7 +607,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 <button
                   id="start-test-btn-back"
                   onClick={handleStartTest}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white font-bold text-base shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   <span>Comenzar Test</span>
@@ -889,13 +889,13 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           <div
             className={`absolute inset-0 w-full h-full rounded-2xl px-5 py-3.5 flex items-center justify-between border backface-hidden rotate-y-180 transition-colors ${
               isDark
-                ? 'bg-gradient-to-r from-[#0F291E] to-[#132A20] border-emerald-500/30 text-white'
-                : 'bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200 text-slate-900 shadow-xs'
+                ? 'bg-slate-900 border-emerald-500/30 text-white'
+                : 'bg-white border-emerald-200 text-slate-900 shadow-xs'
             }`}
           >
             <div className="flex items-center gap-3">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
-              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-slate-800 dark:text-emerald-100">
+              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-emerald-100">
                 {currentQuestion?.instructionsEs || 'Elige la respuesta correcta.'}
               </h2>
             </div>
@@ -1860,7 +1860,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             }
                           }
                         }}
-                        className="px-6 py-2.5 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-95 cursor-pointer flex items-center gap-2"
+                        className="px-6 py-2.5 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-95 cursor-pointer flex items-center gap-2"
                       >
                         <span>
                           {activeQuestionIdx < totalQuestions - 1

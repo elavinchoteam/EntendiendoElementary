@@ -10,8 +10,12 @@ import {
   FileText,
   CheckCircle2,
   XCircle,
+  X,
   Gauge,
   ChevronDown,
+  Eye,
+  EyeOff,
+  Info,
 } from 'lucide-react';
 import { TrueFalseSelectionExercise as TrueFalseExerciseType, LessonSentence } from '../types';
 import { speakEnglish, playFeedbackSound } from '../utils/audio';
@@ -58,6 +62,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
   const [hasChecked, setHasChecked] = useState(false);
   const [isAllCorrect, setIsAllCorrect] = useState(false);
+  const [showSolution, setShowSolution] = useState(false);
 
   // Flipped statements state
   const [flippedStmtIds, setFlippedStmtIds] = useState<string[]>([]);
@@ -174,6 +179,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
 
   const handleToggleCheckbox = (id: string) => {
     playFeedbackSound('click');
+    setShowSolution(false);
     setCheckedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
@@ -183,6 +189,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
   };
 
   const handleCheckAnswers = () => {
+    setShowSolution(false);
     // Check whether checkedIds matches exactly the statements where isTrue === true
     const allCorrect = exercise.statements.every((stmt) => {
       const isChecked = checkedIds.includes(stmt.id);
@@ -205,6 +212,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
     setCheckedIds([]);
     setHasChecked(false);
     setIsAllCorrect(false);
+    setShowSolution(false);
     setFlippedStmtIds([]);
   };
 
@@ -242,8 +250,8 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
             } ${
               isInstructionFlipped
                 ? isDark
-                  ? 'bg-gradient-to-r from-emerald-950/40 via-[#0F172A] to-emerald-950/30 border-emerald-500/30 text-emerald-100'
-                  : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
+                  ? 'bg-slate-900 border-emerald-500/30 text-emerald-100'
+                  : 'bg-white border-emerald-300 text-emerald-950'
                 : isDark
                 ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
                 : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
@@ -482,7 +490,134 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
             {exercise.statements.map((stmt) => {
               const isChecked = checkedIds.includes(stmt.id);
               const isCardFlipped = flippedStmtIds.includes(stmt.id);
-              const isCorrectChoice = stmt.isTrue ? isChecked : !isChecked;
+
+              // Statement correctness logic:
+              // - A True statement (stmt.isTrue === true) is a correct option that SHOULD be marked.
+              // - A False statement (stmt.isTrue === false) is an incorrect option that should NOT be marked.
+              const isTrueMarked = stmt.isTrue && isChecked;
+              const isTrueMissed = stmt.isTrue && !isChecked;
+              const isFalseMarked = !stmt.isTrue && isChecked;
+
+              // Card border and background styles
+              let cardBgBorder = '';
+              if (showSolution) {
+                if (stmt.isTrue) {
+                  cardBgBorder = 'border-emerald-500/50 bg-emerald-500/10 dark:bg-emerald-950/25';
+                } else {
+                  cardBgBorder = isDark
+                    ? 'border-rose-500/30 bg-rose-950/20'
+                    : 'border-rose-200 bg-rose-50/60';
+                }
+              } else if (hasChecked) {
+                if (isTrueMarked) {
+                  cardBgBorder = 'border-emerald-500/50 bg-emerald-500/10 dark:bg-emerald-950/25';
+                } else if (isTrueMissed) {
+                  cardBgBorder = 'border-amber-500/50 bg-amber-500/10 dark:bg-amber-950/25';
+                } else if (isFalseMarked) {
+                  cardBgBorder = 'border-rose-500/50 bg-rose-500/10 dark:bg-rose-950/25';
+                } else {
+                  // False statement left unmarked:
+                  // Clean, neutral - definitely NOT green!
+                  cardBgBorder = isDark
+                    ? 'border-white/10 bg-slate-900/30'
+                    : 'border-slate-200 bg-slate-50/60';
+                }
+              } else if (isCardFlipped) {
+                cardBgBorder = isDark
+                  ? 'border-emerald-500/40 bg-[#0F241A]'
+                  : 'border-emerald-300/80 bg-emerald-50/70';
+              } else if (isChecked) {
+                cardBgBorder = isDark
+                  ? 'border-sky-500/50 bg-sky-950/25'
+                  : 'border-sky-300 bg-sky-50/70';
+              } else {
+                cardBgBorder = isDark
+                  ? 'border-white/10 hover:border-white/20 bg-slate-900/40'
+                  : 'border-slate-200 hover:border-slate-300 bg-white';
+              }
+
+              // Checkbox styling & checked state
+              const isBoxError = hasChecked && isFalseMarked;
+              const isBoxMissed = hasChecked && isTrueMissed;
+              const isBoxChecked = showSolution ? stmt.isTrue : isChecked;
+
+              const renderCheckbox = () => (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleToggleCheckbox(stmt.id);
+                  }}
+                  className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                    isBoxError
+                      ? 'bg-rose-500 border-rose-500 text-white'
+                      : isBoxMissed
+                      ? 'border-amber-500 bg-amber-500/20 text-amber-600 dark:text-amber-400'
+                      : isBoxChecked
+                      ? showSolution || (hasChecked && stmt.isTrue)
+                        ? 'bg-emerald-600 border-emerald-600 text-white'
+                        : 'bg-sky-500 border-sky-500 text-white'
+                      : isDark
+                      ? 'border-slate-500 bg-slate-800'
+                      : 'border-slate-300 bg-white'
+                  }`}
+                  title={isChecked ? 'Desmarcar' : 'Marcar'}
+                >
+                  {!isBoxError && isBoxChecked && <Check className="w-3.5 h-3.5 stroke-3" />}
+                  {isBoxError && <X className="w-3.5 h-3.5 stroke-3" />}
+                  {isBoxMissed && <span className="text-[11px] font-bold">!</span>}
+                </div>
+              );
+
+              // Status badge on the right
+              const renderStatusBadge = () => {
+                if (!hasChecked && !showSolution) return null;
+
+                if (showSolution) {
+                  return stmt.isTrue ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      Verdadera
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
+                      <XCircle className="w-3.5 h-3.5 shrink-0" />
+                      Falsa
+                    </span>
+                  );
+                }
+
+                if (stmt.isTrue) {
+                  return isChecked ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      Verdadera
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                      <XCircle className="w-3.5 h-3.5 shrink-0" />
+                      Faltó marcar
+                    </span>
+                  );
+                }
+
+                // stmt.isTrue === false (False sentences, like "The magazine is for schoolchildren" and "There will be a bigger sale next week")
+                if (isChecked) {
+                  return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30">
+                      <XCircle className="w-3.5 h-3.5 shrink-0" />
+                      Falsa (incorrecta)
+                    </span>
+                  );
+                }
+
+                // If unchecked, it was correctly left unmarked
+                return (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    Falsa (correcto no marcar)
+                  </span>
+                );
+              };
 
               return (
                 <div
@@ -494,43 +629,12 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                     onClick={() => handleToggleFlipStmt(stmt.id)}
                     className={`relative w-full h-full min-h-[70px] sm:min-h-[64px] rounded-xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
                       isCardFlipped ? 'rotate-y-180' : ''
-                    } ${
-                      hasChecked
-                        ? isCorrectChoice
-                          ? 'border-emerald-500/40 bg-emerald-500/5'
-                          : 'border-rose-500/40 bg-rose-500/5'
-                        : isCardFlipped
-                        ? isDark
-                          ? 'border-emerald-500/40 bg-[#0F241A]'
-                          : 'border-emerald-300/80 bg-emerald-50/70'
-                        : isChecked
-                        ? isDark
-                          ? 'border-sky-500/50 bg-sky-950/25'
-                          : 'border-sky-300 bg-sky-50/70'
-                        : isDark
-                        ? 'border-white/10 hover:border-white/20 bg-slate-900/40'
-                        : 'border-slate-200 hover:border-slate-300 bg-white'
-                    }`}
+                    } ${cardBgBorder}`}
                   >
                     {/* ANVERSO / FRONT: English sentence + Checkbox */}
                     <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center justify-between gap-3.5 backface-hidden">
                       <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                        {/* Custom Checkbox */}
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleToggleCheckbox(stmt.id);
-                          }}
-                          className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer ${
-                            isChecked
-                              ? 'bg-sky-500 border-sky-500 text-white'
-                              : isDark
-                              ? 'border-slate-500 bg-slate-800'
-                              : 'border-slate-300 bg-white'
-                          }`}
-                        >
-                          {isChecked && <Check className="w-3.5 h-3.5 stroke-3" />}
-                        </div>
+                        {renderCheckbox()}
 
                         {/* Statement text */}
                         <span
@@ -542,37 +646,14 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                         </span>
                       </div>
 
-                      {/* Status icon after checking */}
-                      {hasChecked && (
-                        <div className="shrink-0 ml-1">
-                          {isCorrectChoice ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                          ) : (
-                            <XCircle className="w-4 h-4 text-rose-500" />
-                          )}
-                        </div>
-                      )}
+                      {/* Status indicator on the right */}
+                      {renderStatusBadge()}
                     </div>
 
                     {/* REVERSO / BACK: Spanish translation + Checkbox */}
                     <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center justify-between gap-3.5 backface-hidden rotate-y-180">
                       <div className="flex items-center gap-3.5 flex-1 min-w-0">
-                        {/* Custom Checkbox on reverse side as well */}
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleToggleCheckbox(stmt.id);
-                          }}
-                          className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer ${
-                            isChecked
-                              ? 'bg-sky-500 border-sky-500 text-white'
-                              : isDark
-                              ? 'border-emerald-600 bg-emerald-950'
-                              : 'border-emerald-400 bg-white'
-                          }`}
-                        >
-                          {isChecked && <Check className="w-3.5 h-3.5 stroke-3" />}
-                        </div>
+                        {renderCheckbox()}
 
                         {/* Translated Statement text */}
                         <span
@@ -584,16 +665,8 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                         </span>
                       </div>
 
-                      {/* Status icon after checking */}
-                      {hasChecked && (
-                        <div className="shrink-0 ml-1">
-                          {isCorrectChoice ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                          ) : (
-                            <XCircle className="w-4 h-4 text-rose-500" />
-                          )}
-                        </div>
-                      )}
+                      {/* Status indicator on the right */}
+                      {renderStatusBadge()}
                     </div>
                   </div>
                 </div>
@@ -604,7 +677,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
           {/* Action buttons and Status Feedback */}
           <div className="mt-6 pt-4 border-t border-inherit/30 flex flex-col gap-3 shrink-0 w-full">
             {/* Buttons line */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            <div className="flex items-center gap-2.5 flex-wrap shrink-0">
               <button
                 type="button"
                 id="check-true-false-answers-btn"
@@ -613,6 +686,26 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
               >
                 <Check className="w-4 h-4" />
                 <span>Comprobar Respuestas</span>
+              </button>
+
+              <button
+                type="button"
+                id="toggle-true-false-solution-btn"
+                onClick={() => {
+                  playFeedbackSound('click');
+                  setShowSolution((prev) => !prev);
+                }}
+                className={`px-3.5 sm:px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all cursor-pointer shrink-0 active:scale-95 ${
+                  showSolution
+                    ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
+                    : isDark
+                    ? 'border-white/10 hover:bg-white/10 text-white/80 hover:text-white'
+                    : 'border-slate-300 hover:bg-slate-100 text-slate-700'
+                }`}
+                title={showSolution ? 'Ocultar respuestas' : 'Ver respuestas'}
+              >
+                {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                <span>{showSolution ? 'Ocultar Solución' : 'Ver Respuestas'}</span>
               </button>
 
               <button
@@ -631,7 +724,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
             </div>
 
             {/* Status indicator placed directly below the buttons */}
-            {hasChecked && (
+            {hasChecked && !showSolution && (
               <div
                 className={`w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium animate-in fade-in slide-in-from-top-1 duration-150 ${
                   isAllCorrect
@@ -648,9 +741,28 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                 ) : (
                   <>
                     <XCircle className="w-4 h-4 shrink-0 text-amber-500" />
-                    <span className="leading-snug">Revisa las oraciones marcadas y vuelve a intentarlo.</span>
+                    <span className="leading-snug">
+                      Revisa las oraciones marcadas. Recuerda que solo debes marcar las oraciones que son verdaderas (&ldquo;The magazine is for schoolchildren&rdquo; y &ldquo;There will be a bigger sale next week&rdquo; son oraciones falsas).
+                    </span>
                   </>
                 )}
+              </div>
+            )}
+
+            {/* Detailed Explanation */}
+            {(hasChecked || showSolution) && exercise.explanation && (
+              <div
+                className={`w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all ${
+                  isDark
+                    ? 'bg-slate-900/60 border-indigo-500/20 text-slate-300'
+                    : 'bg-indigo-50/50 border-indigo-200 text-slate-700'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1.5 font-semibold text-indigo-600 dark:text-indigo-400">
+                  <Info className="w-4 h-4 shrink-0" />
+                  <span>Explicación:</span>
+                </div>
+                <p className="leading-relaxed">{exercise.explanation}</p>
               </div>
             )}
           </div>

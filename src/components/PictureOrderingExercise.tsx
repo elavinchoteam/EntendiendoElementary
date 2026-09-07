@@ -614,7 +614,7 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
 
                         {/* Card Floating Action Overlay: Flip & Sound Controls */}
                         <div
-                          className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex items-center justify-between opacity-95 transition-opacity"
+                          className="absolute inset-x-0 bottom-0 p-2 bg-black/75 flex items-center justify-between opacity-95 transition-opacity"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <div className="flex items-center gap-1.5">

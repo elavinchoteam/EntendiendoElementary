@@ -163,8 +163,8 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
                       ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300 shadow-xs'
                       : 'border-indigo-500 bg-indigo-50 text-indigo-800 shadow-xs'
                     : isDark
-                    ? 'border-dashed border-slate-600 bg-slate-800/60 text-slate-400 hover:border-slate-400'
-                    : 'border-dashed border-slate-300 bg-slate-100/80 text-slate-400 hover:border-slate-400'
+                    ? 'border-dashed border-slate-600 bg-slate-800/60 text-slate-300 hover:border-slate-400'
+                    : 'border-dashed border-slate-400 bg-slate-100/80 text-slate-600 hover:border-slate-500'
                 }`}
                 title={placedWord ? 'Haz clic para devolver al banco' : 'Arrastra aquí una palabra'}
               >
@@ -172,11 +172,11 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
                   <span className="flex items-center gap-1.5">
                     <span>{placedWord}</span>
                     {!hasChecked && (
-                      <X className="w-3.5 h-3.5 text-slate-400 hover:text-rose-500" />
+                      <X className="w-3.5 h-3.5 text-slate-500 hover:text-rose-500" />
                     )}
                   </span>
                 ) : (
-                  <span className="text-xs text-slate-400 italic font-mono">
+                  <span className="text-xs text-slate-600 dark:text-slate-300 italic font-mono">
                     [ arrastra aquí ]
                   </span>
                 )}
@@ -196,7 +196,7 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
+    <div className="w-full mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
       {/* Reversible Instructions Header */}
       <ReversibleInstructionCard
         id="cloze-instruction-card"
@@ -235,37 +235,56 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
               {exercise.translationEs && (
                 <button
                   type="button"
+                  id="cloze-flip-translation-btn"
                   onClick={() => setIsFlipped((prev) => !prev)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                  className={`p-2 rounded-xl transition-all cursor-pointer border shadow-2xs ${
                     isFlipped
                       ? 'bg-emerald-600 text-white border-emerald-500'
                       : isDark
                       ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
                       : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200'
                   }`}
-                  title="Traducir texto de la historia"
+                  title={isFlipped ? 'Ver en inglés' : 'Ver traducción en español'}
+                  aria-label={isFlipped ? 'Ver en inglés' : 'Ver traducción en español'}
                 >
-                  <RotateCw className="w-3.5 h-3.5" />
-                  <span>{isFlipped ? 'Ver Texto en Inglés' : 'Ver Traducción de la Historia'}</span>
+                  <RotateCw className="w-4 h-4" />
                 </button>
               )}
             </div>
           )}
 
-          {/* Text Area */}
-          <div className="p-4 sm:p-6 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 border border-inherit/40 min-h-[160px]">
-            {isFlipped && exercise.translationEs ? (
-              <p className="text-base sm:text-lg leading-relaxed italic text-emerald-800 dark:text-emerald-200 whitespace-pre-line">
-                "{exercise.translationEs}"
-              </p>
-            ) : (
-              renderTemplateWithBlanks()
-            )}
+          {/* Story Card with 3D Reversible Flip */}
+          <div className="perspective-1000 w-full min-h-[160px]">
+            <div
+              className={`relative w-full min-h-[160px] rounded-2xl transition-transform duration-500 transform-style-3d border shadow-xs ${
+                isFlipped ? 'rotate-y-180' : ''
+              } ${
+                isFlipped
+                  ? isDark
+                    ? 'bg-slate-900 border-emerald-500/40 text-white'
+                    : 'bg-white border-emerald-300 text-slate-900 shadow-md'
+                  : isDark
+                  ? 'bg-slate-800/40 border-inherit/40 text-white'
+                  : 'bg-slate-50/70 border-inherit/40 text-slate-900'
+              }`}
+            >
+              {/* Front: Story with blanks */}
+              <div className="w-full h-full p-4 sm:p-6 backface-hidden">
+                {renderTemplateWithBlanks()}
+              </div>
+
+              {/* Back: Spanish Translation */}
+              <div className="absolute inset-0 w-full h-full p-4 sm:p-6 backface-hidden rotate-y-180 flex items-center justify-center overflow-y-auto">
+                <p className="text-base sm:text-lg leading-relaxed italic text-slate-900 dark:text-emerald-100 whitespace-pre-line font-serif">
+                  "{exercise.translationEs}"
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Word Bank Area */}
           <div className="flex flex-col gap-2.5 pt-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
               Banco de palabras (arrastra o haz clic para colocar)
             </span>
 
@@ -285,7 +304,7 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
                     disabled={isPlaced || hasChecked}
                     className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer select-none shadow-xs ${
                       isPlaced
-                        ? 'opacity-30 pointer-events-none bg-slate-200 dark:bg-slate-800 text-slate-400'
+                        ? 'opacity-30 pointer-events-none bg-slate-200 dark:bg-slate-800 text-slate-500'
                         : isDark
                         ? 'bg-slate-700 hover:bg-indigo-600 text-white border border-white/10 hover:shadow-md'
                         : 'bg-white hover:bg-indigo-50 text-slate-800 hover:text-indigo-700 border border-slate-300 hover:border-indigo-400 hover:shadow-md'

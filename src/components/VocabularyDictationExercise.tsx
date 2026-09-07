@@ -7,6 +7,7 @@ import {
   HelpCircle,
   Eye,
   EyeOff,
+  RotateCw,
 } from 'lucide-react';
 import { VocabularyDictationExercise as DictationType } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -35,6 +36,8 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
   const [submitted, setSubmitted] = useState(false);
   // Show answer hints
   const [showAnswers, setShowAnswers] = useState<Record<string, boolean>>({});
+  // Flipped sentences showing Spanish translation
+  const [flippedSentences, setFlippedSentences] = useState<Record<string, boolean>>({});
   // Currently playing audio item id
   const [playingId, setPlayingId] = useState<string | null>(null);
 
@@ -95,11 +98,17 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
     setShowAnswers((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
+  const toggleFlipSentence = (id: string) => {
+    setFlippedSentences((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
   return (
-    <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
+    <div className="w-full mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
       {/* Reversible Instructions Header */}
       <ReversibleInstructionCard
         id="dictation-instruction-card"
+        title={exercise.title || 'Dictation'}
+        titleEs={exercise.titleEs || 'Dictado'}
         instructions={
           exercise.instructions ||
           'Type the sentences that you hear in the dictation. Pay attention to punctuation.'
@@ -153,7 +162,7 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                     {/* Audio buttons */}
                     <div className="flex items-center gap-2 shrink-0">
-                      <span className="text-xs font-mono font-bold text-slate-400 w-5">
+                      <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-300 w-5">
                         {idx + 1}.
                       </span>
 
@@ -212,12 +221,12 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                       />
                     </div>
 
-                    {/* Botón para ver la oración que deben escribir */}
+                    {/* Botón para ver/ocultar la oración que deben escribir */}
                     <button
                       id={`dictation-view-sentence-btn-${item.id}`}
                       type="button"
                       onClick={() => toggleShowAnswer(item.id)}
-                      className={`shrink-0 px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer border shadow-2xs ${
+                      className={`shrink-0 p-2.5 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer border shadow-2xs ${
                         isRevealed
                           ? isDark
                             ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/50 hover:bg-indigo-600/40'
@@ -234,7 +243,6 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                       ) : (
                         <Eye className="w-4 h-4 text-indigo-500" />
                       )}
-                      <span>{isRevealed ? 'Ocultar oración' : 'Ver oración'}</span>
                     </button>
                   </div>
 
@@ -260,35 +268,86 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                     </div>
                   )}
 
-                  {/* Revealed Answer Box */}
+                  {/* Revealed Answer Box: 3D Reversible Flip Card */}
                   {isRevealed && (
-                    <div className="text-xs sm:text-sm p-3.5 rounded-xl bg-indigo-50/90 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 text-indigo-950 dark:text-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in duration-200">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                          Oración a escribir:
-                        </span>
-                        <p className="font-semibold text-sm sm:text-base text-indigo-950 dark:text-indigo-100 select-all">
-                          {item.sentenceEn}
-                        </p>
-                        {item.sentenceEs && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400 italic">
-                            {item.sentenceEs}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                        <button
-                          type="button"
-                          onClick={() => handleInputChange(item.id, item.sentenceEn)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
-                            isDark
-                              ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-indigo-500/30'
-                              : 'bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-xs'
-                          }`}
-                          title="Pegar esta oración en el campo de texto"
-                        >
-                          Copiar al campo
-                        </button>
+                    <div className="perspective-1000 w-full min-h-[90px] animate-in fade-in duration-200">
+                      <div
+                        className={`relative w-full rounded-2xl transition-transform duration-500 transform-style-3d border shadow-2xs ${
+                          flippedSentences[item.id] ? 'rotate-y-180' : ''
+                        } ${
+                          flippedSentences[item.id]
+                            ? isDark
+                              ? 'bg-slate-900 border-emerald-500/40 text-white'
+                              : 'bg-white border-emerald-300 text-slate-900 shadow-md'
+                            : isDark
+                            ? 'bg-slate-900 border-indigo-500/30 text-white'
+                            : 'bg-white border-indigo-200 text-slate-900 shadow-xs'
+                        }`}
+                      >
+                        {/* Front: English Sentence */}
+                        <div className="w-full p-3.5 backface-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                              Oración a escribir:
+                            </span>
+                            <p className="font-semibold text-sm sm:text-base text-indigo-950 dark:text-indigo-100 select-all">
+                              {item.sentenceEn}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                            {item.sentenceEs && (
+                              <button
+                                type="button"
+                                id={`dictation-flip-translation-btn-${item.id}`}
+                                onClick={() => toggleFlipSentence(item.id)}
+                                className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                                  isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
+                                    : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-200'
+                                }`}
+                                title="Ver traducción en español"
+                                aria-label="Ver traducción en español"
+                              >
+                                <RotateCw className="w-4 h-4" />
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleInputChange(item.id, item.sentenceEn)}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                                isDark
+                                  ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-indigo-500/30'
+                                  : 'bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-xs'
+                              }`}
+                              title="Pegar esta oración en el campo de texto"
+                            >
+                              Copiar al campo
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Back: Spanish Translation */}
+                        <div className="absolute inset-0 w-full h-full p-3.5 backface-hidden rotate-y-180 flex items-center justify-between gap-3 overflow-y-auto">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+                              Traducción en Español:
+                            </span>
+                            <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-emerald-100 italic">
+                              "{item.sentenceEs || item.sentenceEn}"
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => toggleFlipSentence(item.id)}
+                              className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500`}
+                              title="Volver al inglés"
+                              aria-label="Volver al inglés"
+                            >
+                              <RotateCw className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}

@@ -54,7 +54,7 @@ export const VocabularyExploreActivity: React.FC<VocabularyExploreActivityProps>
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
+    <div className="w-full mx-auto flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
       {/* Reversible Instructions Header */}
       <ReversibleInstructionCard
         id="explore-instruction-card"

@@ -382,7 +382,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
   return (
     <div
       id={`speech-response-exercise-${exercise.id}`}
-      className="w-full max-w-6xl mx-auto flex flex-col gap-6"
+      className="w-full mx-auto flex flex-col gap-6"
     >
       {/* Top Banner: Reversible Instruction Card matching exact screenshot style */}
       <div className="flex items-center justify-between gap-3">
@@ -397,8 +397,8 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
               isInstructionFlipped ? 'rotate-y-180' : ''
             } ${
               isDark
-                ? 'bg-gradient-to-r from-sky-950/40 via-[#151C33] to-sky-950/20 border-sky-500/20 hover:border-sky-500/40'
-                : 'bg-gradient-to-r from-sky-50 via-white to-sky-50/50 border-sky-200 hover:border-sky-300'
+                ? 'bg-slate-900 border-sky-500/30 hover:border-sky-500/50'
+                : 'bg-white border-sky-200 hover:border-sky-300'
             }`}
             title="Haz clic para traducir la instrucción"
           >
@@ -599,7 +599,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
               </button>
 
               {/* Time display (00:xx / 00:19) */}
-              <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400 shrink-0">
+              <span className="font-mono text-[11px] font-semibold text-slate-700 dark:text-slate-300 shrink-0">
                 {formatTime(elapsedSeconds)} / {formatTime(durationSeconds)}
               </span>
             </div>
@@ -625,7 +625,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
               >
                 {/* Front: English Transcript */}
                 <div className="space-y-1.5 backface-hidden">
-                  <div className="flex items-center justify-between pb-1 mb-1 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  <div className="flex items-center justify-between pb-1 mb-1 border-b border-slate-200 dark:border-white/10 text-[11px] font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
                     <span>Dialogue Transcript</span>
                     <span className="text-[10px] text-sky-500">Tap line to listen</span>
                   </div>
@@ -686,7 +686,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
             }`}
           >
             <span>{exercise.subtitle || "Click 'Start' to record the correct answer."}</span>
-            <span className="text-[11px] text-slate-400 hidden sm:inline italic">
+            <span className="text-[11px] text-slate-600 dark:text-slate-300 hidden sm:inline italic">
               {exercise.subtitleEs || "Haz clic en 'Start' para grabar la respuesta"}
             </span>
           </div>
@@ -855,7 +855,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                   className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95 ${
                     isRecording
                       ? 'bg-rose-500 text-white ring-4 ring-rose-300 shadow-rose-500/30'
-                      : 'bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 text-white hover:from-cyan-300 hover:to-blue-500 shadow-sky-500/30'
+                      : 'bg-sky-600 hover:bg-sky-700 text-white shadow-sky-500/30'
                   }`}
                   title={isRecording ? 'Detener grabación' : 'Comenzar a hablar'}
                   aria-label="Grabar respuesta"
@@ -883,7 +883,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
               </button>
 
               {/* Feedback text */}
-              <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 max-w-[160px] leading-tight">
+              <p className="text-[11px] font-medium text-slate-600 dark:text-slate-300 max-w-[160px] leading-tight">
                 {micFeedbackMessage || 'Click "Start" to speak your answer.'}
               </p>
             </div>
@@ -922,7 +922,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
               className={`flex-1 py-3 px-5 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2 shadow-sm ${
                 selectedOptionId
                   ? 'bg-sky-500 hover:bg-sky-600 text-white cursor-pointer active:scale-98 shadow-sky-500/20'
-                  : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed'
+                  : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed'
               }`}
             >
               <Check className="w-4 h-4" />

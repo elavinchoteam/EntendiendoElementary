@@ -185,8 +185,8 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
           <div
             className={`col-start-1 row-start-1 backface-hidden rotate-y-180 w-full rounded-2xl sm:rounded-3xl border p-6 sm:p-10 shadow-lg transition-colors flex flex-col relative ${
               isDark
-                ? 'bg-[#101F2C] border-emerald-800/60 text-emerald-100'
-                : 'bg-[#F7FAF7] border-emerald-200/90 text-stone-900 shadow-stone-200/50'
+                ? 'bg-slate-900 border-emerald-500/40 text-white'
+                : 'bg-white border-slate-200 text-slate-900 shadow-md'
             }`}
           >
             {/* Audio Button and Speed Selector */}

@@ -189,7 +189,7 @@ export const VocabularyHelperCard: React.FC<VocabularyHelperCardProps> = ({
       <div
         className={`w-full rounded-2xl p-5 border shadow-md flex flex-col transition-all duration-200 ${
           isDark
-            ? 'bg-gradient-to-b from-slate-800 to-slate-900 border-white/10 text-white'
+            ? 'bg-slate-900 border-white/10 text-white'
             : 'bg-white border-slate-200 text-slate-900'
         }`}
       >
@@ -314,7 +314,7 @@ export const VocabularyHelperCard: React.FC<VocabularyHelperCardProps> = ({
       <div
         className={`w-full rounded-2xl p-5 border shadow-md flex flex-col transition-all duration-200 ${
           isDark
-            ? 'bg-gradient-to-b from-slate-800 to-slate-900 border-white/10 text-white'
+            ? 'bg-slate-900 border-white/10 text-white'
             : 'bg-white border-slate-200 text-slate-900'
         }`}
       >

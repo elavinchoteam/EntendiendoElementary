@@ -258,7 +258,7 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
   return (
     <div
       id={`roleplay-practice-${exercise.id}`}
-      className="w-full max-w-6xl mx-auto flex flex-col gap-6"
+      className="w-full mx-auto flex flex-col gap-6"
     >
       {/* Top Banner: Reversible Instruction Card matching exact screenshot */}
       <div className="flex items-center justify-between gap-3">
@@ -273,8 +273,8 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
               isInstructionFlipped ? 'rotate-y-180' : ''
             } ${
               isDark
-                ? 'bg-gradient-to-r from-cyan-950/40 via-[#151C33] to-sky-950/20 border-cyan-500/20 hover:border-cyan-500/40'
-                : 'bg-gradient-to-r from-cyan-50 via-white to-sky-50/50 border-cyan-200 hover:border-cyan-300'
+                ? 'bg-slate-900 border-cyan-500/30 hover:border-cyan-500/50'
+                : 'bg-white border-cyan-200 hover:border-cyan-300'
             }`}
             title="Haz clic para traducir la instrucción"
           >
@@ -406,9 +406,9 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
             </div>
 
             {/* Character selection indicator strip underneath */}
-            <div className="pt-3 px-2 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+            <div className="pt-3 px-2 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
               <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-slate-700 dark:text-slate-200">Role:</span>
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Role:</span>
                 <span>{activeUserCharacter.role}</span>
               </div>
               <span className="italic text-[11px]">Click arrows to switch role</span>
@@ -490,7 +490,7 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
                   </p>
                 </div>
 
-                <div className="text-center text-xs text-slate-500 dark:text-slate-400 space-y-1">
+                <div className="text-center text-xs text-slate-600 dark:text-slate-300 space-y-1">
                   <p>You will practice as: <strong className="text-cyan-500">{activeUserCharacter.name}</strong></p>
                   <p>Click <strong className="text-cyan-500">"Start"</strong> to begin speaking the conversation!</p>
                 </div>
@@ -505,7 +505,7 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                     Roleplay Completed!
                   </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+                  <p className="text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto">
                     You practiced all lines as <strong className="text-cyan-500">{activeUserCharacter.name}</strong>.
                   </p>
                 </div>
@@ -571,7 +571,9 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
                   <div
                     className={`p-4 rounded-2xl border-2 transition-all shadow-md ${
                       isUserTurn
-                        ? 'bg-gradient-to-br from-cyan-500/15 via-sky-500/10 to-transparent border-cyan-400 ring-2 ring-cyan-400/30'
+                        ? isDark
+                          ? 'bg-cyan-950/40 border-cyan-400 ring-2 ring-cyan-400/30'
+                          : 'bg-cyan-50 border-cyan-400 ring-2 ring-cyan-400/30'
                         : 'bg-slate-100 dark:bg-slate-800/80 border-slate-300 dark:border-white/20'
                     }`}
                   >
@@ -614,7 +616,7 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
                       <p className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-snug">
                         "{currentTurn.textEn}"
                       </p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 italic mt-1">
+                      <p className="text-xs text-slate-600 dark:text-slate-300 italic mt-1">
                         {currentTurn.textEs}
                       </p>
                     </div>

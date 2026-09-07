@@ -106,7 +106,7 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
                   </option>
                 ))}
               </select>
-              <ChevronDown className="w-4 h-4 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <ChevronDown className="w-4 h-4 text-slate-500 dark:text-slate-300 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </span>
           </span>
         );
@@ -117,7 +117,7 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
+    <div className="w-full mx-auto flex flex-col gap-6 animate-in fade-in duration-200 py-2">
       {/* Reversible Instructions Header */}
       <ReversibleInstructionCard
         id="dropdown-instruction-card"
@@ -158,51 +158,78 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
               </h4>
               <button
                 type="button"
+                id="dialogue-flip-translation-btn"
                 onClick={() => setIsFlipped((prev) => !prev)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer border ${
+                className={`p-2 rounded-xl transition-all cursor-pointer border shadow-2xs ${
                   isFlipped
                     ? 'bg-emerald-600 text-white border-emerald-500'
                     : isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-white/10'
-                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
+                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200'
                 }`}
-                title="Traducir diálogo"
+                title={isFlipped ? 'Ver diálogo en inglés' : 'Ver traducción del diálogo'}
+                aria-label={isFlipped ? 'Ver diálogo en inglés' : 'Ver traducción del diálogo'}
               >
-                <RotateCw className="w-3.5 h-3.5" />
-                <span>{isFlipped ? 'Ver Diálogo en Inglés' : 'Ver Traducción del Diálogo'}</span>
+                <RotateCw className="w-4 h-4" />
               </button>
             </div>
           )}
 
-          <div className="flex flex-col gap-5">
-            {exercise.lines.map((line, idx) => (
-              <div
-                key={idx}
-                className={`p-4 rounded-2xl border leading-relaxed text-base sm:text-lg ${
-                  line.speaker === 'Customer'
-                    ? isDark
-                      ? 'bg-indigo-950/20 border-indigo-500/20'
-                      : 'bg-indigo-50/50 border-indigo-100'
-                    : isDark
-                    ? 'bg-slate-800/40 border-white/10'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                {line.speaker && (
-                  <span className="font-bold text-indigo-600 dark:text-indigo-400 block sm:inline mr-2">
-                    {line.speaker}:
-                  </span>
-                )}
-
-                {isFlipped && line.textEs ? (
-                  <span className="italic text-emerald-800 dark:text-emerald-200">
-                    "{line.textEs}"
-                  </span>
-                ) : (
-                  renderLineContent(line.textEn)
-                )}
+          {/* Dialogue Card with 3D Reversible Flip */}
+          <div className="perspective-1000 w-full min-h-[220px]">
+            <div
+              className={`relative w-full rounded-2xl transition-transform duration-500 transform-style-3d ${
+                isFlipped ? 'rotate-y-180' : ''
+              }`}
+            >
+              {/* Front: Interactive English Dialogue */}
+              <div className="w-full backface-hidden flex flex-col gap-4">
+                {exercise.lines.map((line, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-4 rounded-2xl border leading-relaxed text-base sm:text-lg ${
+                      line.speaker === 'Customer'
+                        ? isDark
+                          ? 'bg-indigo-950/20 border-indigo-500/20'
+                          : 'bg-indigo-50/50 border-indigo-100'
+                        : isDark
+                        ? 'bg-slate-800/40 border-white/10'
+                        : 'bg-slate-50 border-slate-200'
+                    }`}
+                  >
+                    {line.speaker && (
+                      <span className="font-bold text-indigo-600 dark:text-indigo-400 block sm:inline mr-2">
+                        {line.speaker}:
+                      </span>
+                    )}
+                    {renderLineContent(line.textEn)}
+                  </div>
+                ))}
               </div>
-            ))}
+
+              {/* Back: Spanish Translated Dialogue */}
+              <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col gap-4 overflow-y-auto">
+                {exercise.lines.map((line, idx) => (
+                  <div
+                    key={`es-${idx}`}
+                    className={`p-4 rounded-2xl border leading-relaxed text-base sm:text-lg shadow-sm ${
+                      isDark
+                        ? 'bg-slate-900 border-emerald-500/40 text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
+                    }`}
+                  >
+                    {line.speaker && (
+                      <span className="font-bold text-emerald-600 dark:text-emerald-400 block sm:inline mr-2">
+                        {line.speaker}:
+                      </span>
+                    )}
+                    <span className="italic text-slate-900 dark:text-emerald-100">
+                      "{line.textEs || line.textEn}"
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Bottom Check & Status */}

@@ -253,8 +253,8 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
             } ${
               isInstructionFlipped
                 ? isDark
-                  ? 'bg-gradient-to-r from-emerald-950/40 via-[#0F172A] to-emerald-950/30 border-emerald-500/30 text-emerald-100'
-                  : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
+                  ? 'bg-slate-900 border-emerald-500/30 text-emerald-100'
+                  : 'bg-white border-emerald-300 text-emerald-950'
                 : isDark
                 ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
                 : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
@@ -781,12 +781,12 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
               <div
                 className={`absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-7 flex flex-col justify-center border backface-hidden rotate-y-180 transition-colors duration-200 ${
                   isDark
-                    ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
-                    : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                    ? 'bg-slate-900 border-emerald-500/40 text-white'
+                    : 'bg-white border-emerald-300 text-slate-900 shadow-md'
                 }`}
               >
                 <div className="flex-1 flex items-center justify-center my-auto py-6">
-                  <p className="text-base sm:text-lg md:text-xl font-medium leading-relaxed sm:leading-loose text-slate-800 dark:text-emerald-100/90 text-center sm:text-left">
+                  <p className="text-base sm:text-lg md:text-xl font-medium leading-relaxed sm:leading-loose text-slate-900 dark:text-emerald-100/90 text-center sm:text-left">
                     {translationText}
                   </p>
                 </div>

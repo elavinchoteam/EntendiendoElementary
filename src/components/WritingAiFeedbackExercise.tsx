@@ -419,7 +419,7 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                       ? 'bg-indigo-500 text-white cursor-wait animate-pulse'
                       : wordsCount < 4
                       ? 'bg-indigo-400/40 text-indigo-200 dark:text-indigo-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white hover:shadow-md hover:scale-[1.02] active:scale-95'
+                      : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-md hover:scale-[1.02] active:scale-95'
                   }`}
                 >
                   {isAnalyzing ? (

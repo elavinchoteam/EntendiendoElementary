@@ -159,7 +159,7 @@ function MainApp() {
       />
 
       {/* Main Container with Units Grid */}
-      <main className="flex-1 w-full max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
+      <main className="flex-1 w-full max-w-[92vw] sm:max-w-[90vw] mx-auto p-4 sm:p-6 lg:p-8 flex flex-col">
         {/* Section Header */}
         <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 pb-4 border-b ${
           isDark ? 'border-white/10' : 'border-slate-200'
@@ -167,7 +167,7 @@ function MainApp() {
           <div>
             <div className="flex items-center gap-2">
               <h3 className={`text-xs font-bold uppercase tracking-[0.25em] font-mono ${
-                isDark ? 'text-white/40' : 'text-slate-500'
+                isDark ? 'text-slate-300' : 'text-slate-700'
               }`}>
                 Programa del Curso · 12 Unidades
               </h3>
@@ -175,7 +175,7 @@ function MainApp() {
                 Unidad 1 Activa
               </span>
             </div>
-            <p className={`text-sm mt-1 ${isDark ? 'text-white/60' : 'text-slate-600'}`}>
+            <p className={`text-sm mt-1 ${isDark ? 'text-slate-200' : 'text-slate-700'}`}>
               Explora las unidades con texto principal, audio, tarjetas interactivas y ejercicios paso a paso.
             </p>
           </div>
@@ -215,7 +215,7 @@ function MainApp() {
               <h4 className="text-sm sm:text-base font-bold">
                 Didáctica con Audio Nativo Integrado y Tarjetas Reversibles
               </h4>
-              <p className={`text-xs mt-0.5 ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
+              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                 Unidad 1 cargada con Lesson 1: "Phone Sales", audio pronunciado, ejercicio de emparejamiento y tarjetas reversibles.
               </p>
             </div>
@@ -234,12 +234,12 @@ function MainApp() {
 
       {/* Footer */}
       <footer className={`w-full border-t py-6 text-center text-xs font-mono transition-colors ${
-        isDark ? 'bg-[#0F172A] border-white/10 text-white/40' : 'bg-white border-slate-200 text-slate-500'
+        isDark ? 'bg-[#0F172A] border-white/10 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
       }`}>
-        <p className={`font-medium ${isDark ? 'text-white/60' : 'text-slate-700'}`}>
+        <p className={`font-medium ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
           English at Work · Plataforma de Aprendizaje Interactivo
         </p>
-        <p className={`mt-1 ${isDark ? 'text-white/30' : 'text-slate-400'}`}>
+        <p className={`mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
           12 Unidades Didácticas · Pronunciación con Síntesis de Voz · Tarjetas Reversibles · Ejercicios Prácticos
         </p>
       </footer>

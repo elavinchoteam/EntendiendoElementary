@@ -51,7 +51,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
               Aug 07, 2027
             </div>
             <div className={`text-[11px] font-mono uppercase tracking-wider ${
-              isDark ? 'text-white/40' : 'text-slate-500'
+              isDark ? 'text-slate-300 font-medium' : 'text-slate-600 font-medium'
             }`}>
               Course Access
             </div>
@@ -68,10 +68,10 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
           <div>
             <div className="text-sm sm:text-base font-bold tracking-tight flex items-baseline gap-1.5">
               <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>{completionPercentage}%</span>
-              <span className={`text-xs ${isDark ? 'text-white/40' : 'text-slate-400'}`}>({completedCount}/{totalUnits})</span>
+              <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>({completedCount}/{totalUnits})</span>
             </div>
             <div className={`text-[11px] font-mono uppercase tracking-wider ${
-              isDark ? 'text-white/40' : 'text-slate-500'
+              isDark ? 'text-slate-300 font-medium' : 'text-slate-600 font-medium'
             }`}>
               Completion
             </div>
@@ -92,7 +92,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
               {averageScore}%
             </div>
             <div className={`text-[11px] font-mono uppercase tracking-wider ${
-              isDark ? 'text-white/40' : 'text-slate-500'
+              isDark ? 'text-slate-300 font-medium' : 'text-slate-600 font-medium'
             }`}>
               Average Score
             </div>
@@ -111,7 +111,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
               {formattedHours} : {formattedMinutes}
             </div>
             <div className={`text-[11px] font-mono uppercase tracking-wider ${
-              isDark ? 'text-white/40' : 'text-slate-500'
+              isDark ? 'text-slate-300 font-medium' : 'text-slate-600 font-medium'
             }`}>
               Time on Task
             </div>

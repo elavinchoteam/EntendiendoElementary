@@ -539,11 +539,11 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                 } ${
                   isStoryCardFlipped
                     ? isDark
-                      ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
-                      : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                      ? 'bg-slate-900 border-emerald-500/40 text-white'
+                      : 'bg-white border-emerald-300 text-slate-900 shadow-md'
                     : isDark
-                    ? 'bg-gradient-to-br from-[#1A1F36] via-[#0F172A] to-[#16192E] border-white/10 text-white'
-                    : 'bg-gradient-to-br from-indigo-50/70 via-white to-indigo-50/40 border-indigo-200 text-slate-900 shadow-md'
+                    ? 'bg-slate-900 border-white/10 text-white'
+                    : 'bg-white border-slate-200 text-slate-900 shadow-md'
                 }`}
               >
                 {/* Front Face: English text */}

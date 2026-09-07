@@ -41,10 +41,10 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
         } ${
           isFlipped
             ? isDark
-              ? 'bg-[#0F241A] border-emerald-500/40 text-emerald-100'
-              : 'bg-emerald-50/95 border-emerald-300 text-emerald-950 shadow-xs'
+              ? 'bg-slate-900 border-emerald-500/40 text-white'
+              : 'bg-white border-emerald-300 text-slate-900 shadow-md'
             : isDark
-            ? 'bg-slate-900/90 border-white/10 text-white hover:border-white/20'
+            ? 'bg-slate-900 border-white/10 text-white hover:border-white/20'
             : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
         }`}
         title="Haz clic o pulsa el botón para voltear y ver la traducción"
@@ -94,15 +94,15 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
             {icon && <div className="shrink-0">{icon}</div>}
             <div className="flex flex-col gap-0.5">
               {titleEs && (
-                <h3 className="text-base sm:text-lg font-bold tracking-tight text-emerald-800 dark:text-emerald-300">
+                <h3 className="text-base sm:text-lg font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
                   {titleEs}
                 </h3>
               )}
               <p
                 className={`${
                   titleEs
-                    ? 'text-xs sm:text-sm text-emerald-900 dark:text-emerald-200'
-                    : 'text-base sm:text-lg font-bold text-emerald-900 dark:text-emerald-200'
+                    ? 'text-xs sm:text-sm text-slate-700 dark:text-slate-200'
+                    : 'text-base sm:text-lg font-bold text-slate-900 dark:text-white'
                 } italic leading-snug`}
               >
                 {instructionsEs || instructions}

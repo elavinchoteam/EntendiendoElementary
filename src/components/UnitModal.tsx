@@ -89,7 +89,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
       <div
-        className={`relative w-full max-w-5xl rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[94vh] transition-colors duration-200 ${
+        className={`relative w-[92vw] sm:w-[90vw] max-w-[90vw] rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[94vh] transition-colors duration-200 ${
           isDark ? 'bg-[#0F172A] text-white border-white/10' : 'bg-white text-slate-900 border-slate-200'
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -184,8 +184,8 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               onClick={onClose}
               className={`p-2 rounded-xl transition-colors cursor-pointer border ${
                 isDark
-                  ? 'text-white/50 hover:text-white hover:bg-white/10 border-transparent hover:border-white/10'
-                  : 'text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 border-transparent'
+                  ? 'text-slate-200 hover:text-white hover:bg-white/10 border-transparent hover:border-white/10'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 border-transparent'
               }`}
               title="Cerrar modal (Esc)"
             >
@@ -203,7 +203,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
           >
             <span
               className={`text-[11px] font-mono font-bold uppercase tracking-wider whitespace-nowrap px-2 ${
-                isDark ? 'text-white/50' : 'text-slate-500'
+                isDark ? 'text-slate-300' : 'text-slate-700'
               }`}
             >
               Secciones:
@@ -247,7 +247,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
         >
           {/* Case 1: Unit has sections and no section is selected -> Show Sections Grid */}
           {hasSections && !activeSection ? (
-            <div className="max-w-4xl mx-auto py-3">
+            <div className="w-full max-w-[90vw] mx-auto py-3">
               <div className="text-center mb-8">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 mb-2">
                   <Layers className="w-3.5 h-3.5" />
@@ -258,7 +258,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                 </h3>
                 <p
                   className={`text-sm mt-1 max-w-lg mx-auto ${
-                    isDark ? 'text-white/60' : 'text-slate-600'
+                    isDark ? 'text-slate-200' : 'text-slate-700'
                   }`}
                 >
                   Esta unidad consta de 6 partes. Elige cualquiera de las secciones para iniciar el estudio interactivo con audio y ejercicios.
@@ -310,8 +310,8 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                           <span
                             className={`px-2 py-0.5 rounded-md text-[10px] font-mono uppercase tracking-wider border ${
                               isDark
-                                ? 'bg-white/5 border-white/10 text-white/40'
-                                : 'bg-slate-100 border-slate-200 text-slate-500'
+                                ? 'bg-white/5 border-white/10 text-slate-300'
+                                : 'bg-slate-100 border-slate-200 text-slate-700'
                             }`}
                           >
                             Pendiente
@@ -326,7 +326,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                         </h4>
                         <p
                           className={`text-xs italic font-serif mt-0.5 ${
-                            isDark ? 'text-white/50' : 'text-slate-500'
+                            isDark ? 'text-slate-300' : 'text-slate-600'
                           }`}
                         >
                           {section.titleEs}
@@ -335,7 +335,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                         {section.subtitle && (
                           <p
                             className={`text-xs mt-2 line-clamp-2 ${
-                              isDark ? 'text-white/60' : 'text-slate-600'
+                              isDark ? 'text-slate-300' : 'text-slate-600'
                             }`}
                           >
                             {section.subtitle}
@@ -376,7 +376,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               </h3>
               <p
                 className={`text-sm mt-2 leading-relaxed ${
-                  isDark ? 'text-white/60' : 'text-slate-600'
+                  isDark ? 'text-slate-200' : 'text-slate-700'
                 }`}
               >
                 Esta sección está lista en la estructura de la unidad. Por favor indícame el texto y los ejercicios de esta sección y la activaremos de inmediato con audio, pronunciación y tarjetas reversibles.

@@ -62,8 +62,8 @@ export const UnitCard: React.FC<UnitCardProps> = ({
           loading="lazy"
         />
         
-        {/* Subtle gradient vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20" />
+        {/* Subtle overlay */}
+        <div className="absolute inset-0 bg-black/40" />
 
         {/* Status Badges Overlay */}
         {isCompleted && (

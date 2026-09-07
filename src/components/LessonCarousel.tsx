@@ -370,7 +370,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       </button>
 
       {/* Main Content Area framed with padding so floating buttons don't overlap */}
-      <div className="w-full max-w-4xl px-3 sm:px-12 md:px-14 flex flex-col">
+      <div className="w-full px-2 sm:px-6 md:px-8 flex flex-col">
         
         {/* Minimalist Top Activity Status Indicator & Dots */}
         <div className="w-full flex items-center justify-between gap-3 mb-6 pb-2 border-b border-inherit">
@@ -412,7 +412,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         {/* Activity 0: Audio Media Player & Texto Principal como Tarjeta Reversible */}
         {slides[safeCurrentSlide]?.id === 'explore' && lesson && (
           <div className="w-full flex flex-col items-center gap-6 animate-in fade-in duration-200 py-2">
-            <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-6 items-stretch justify-center">
+            <div className="w-full flex flex-col lg:flex-row gap-6 items-stretch justify-center">
               {/* Audio Player Card (diseño optimizado y balanceado) */}
               <div className="w-full max-w-[310px] sm:max-w-[330px] mx-auto lg:mx-0 shrink-0 flex flex-col">
                 <AudioPlayerCard
@@ -432,7 +432,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
 
               {/* 3D Reversible Flip Card - Ampliada para contener todo el texto con comodidad */}
               {showTranscriptInExplore && (
-                <div className="w-full flex-1 max-w-3xl perspective-1000 min-h-[500px] sm:min-h-[530px] flex flex-col">
+                <div className="w-full flex-1 perspective-1000 min-h-[500px] sm:min-h-[530px] flex flex-col">
                   <div
                     id="lesson-flip-card"
                     onClick={handleFlipCard}
@@ -445,8 +445,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                 <div
                   className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 overflow-hidden ${
                     isDark
-                      ? 'bg-gradient-to-br from-[#1E293B] via-[#0F172A] to-[#1E1B4B] border-white/10 text-white'
-                      : 'bg-gradient-to-br from-white via-slate-50 to-indigo-50/40 border-slate-200 text-slate-900 shadow-md'
+                      ? 'bg-slate-900 border-white/10 text-white'
+                      : 'bg-white border-slate-200 text-slate-900 shadow-md'
                   }`}
                 >
                   {/* Card Top Header: Lesson Badge + Flip hint */}
@@ -459,7 +459,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-400 font-medium select-none">
+                    <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium select-none">
                       <RotateCw className="w-3.5 h-3.5 text-indigo-400" />
                       <span className="hidden sm:inline">Haz clic para voltear al español</span>
                       <span className="sm:hidden">Voltear</span>
@@ -494,9 +494,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   </div>
 
                   {/* Card Footer: Hints */}
-                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-400 shrink-0">
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 shrink-0">
                     <span className="text-[11px] sm:text-xs">Toca cualquier oración para escucharla por separado</span>
-                    <span className="font-mono text-[11px] sm:text-xs text-slate-500">{(lesson.sentences || []).length} oraciones</span>
+                    <span className="font-mono text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">{(lesson.sentences || []).length} oraciones</span>
                   </div>
 
                 </div>
@@ -505,8 +505,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                 <div
                   className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden rotate-y-180 shadow-xl transition-colors duration-200 overflow-hidden ${
                     isDark
-                      ? 'bg-gradient-to-br from-[#0F291E] via-[#0F172A] to-[#0D1F17] border-emerald-500/30 text-white'
-                      : 'bg-gradient-to-br from-emerald-50/70 via-white to-emerald-50/40 border-emerald-200 text-slate-900 shadow-md'
+                      ? 'bg-slate-900 border-emerald-500/40 text-white'
+                      : 'bg-white border-emerald-300 text-slate-900 shadow-md'
                   }`}
                 >
                   {/* Card Back Header */}
@@ -519,7 +519,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-emerald-600/80 dark:text-emerald-400/80 font-medium select-none">
+                    <div className="flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 font-semibold select-none">
                       <RotateCw className="w-3.5 h-3.5 text-emerald-500" />
                       <span className="hidden sm:inline">Haz clic para volver al inglés</span>
                       <span className="sm:hidden">Volver</span>
@@ -528,13 +528,13 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
 
                   {/* Card Back Center: Spanish Translation */}
                   <div className="flex-1 my-2 py-2 overflow-y-auto flex items-center pr-1">
-                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-serif italic text-slate-700 dark:text-emerald-100/90">
+                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-serif italic text-slate-900 dark:text-emerald-100">
                       "{lesson.textEs}"
                     </p>
                   </div>
 
                   {/* Card Back Footer */}
-                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-400 shrink-0">
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 shrink-0">
                     <span className="text-[11px] sm:text-xs">Traducción completa</span>
                   </div>
 
