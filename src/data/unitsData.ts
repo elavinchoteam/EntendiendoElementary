@@ -1,6 +1,8 @@
 import { Unit } from '../types';
 import { UNIT_1_SECTIONS } from './unit1Sections';
 import { PHONE_SALES_LESSON_TEXT, PHONE_SALES_EXERCISES } from './phoneSalesData';
+import { UNIT_2_SECTIONS } from './unit2Sections';
+import { FOOD_SECTION_LESSON_TEXT, FOOD_SECTION_EXERCISES } from './foodSectionData';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -33,18 +35,20 @@ export const UNITS_DATA: Unit[] = [
   {
     id: 2,
     number: 2,
-    title: 'Healthy Eating',
-    titleEs: 'Alimentación Saludable',
-    subtitle: 'Unidad 2 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
+    title: 'Unit 2: Healthy Eating',
+    titleEs: 'Unidad 2: Alimentación Saludable',
+    subtitle: '6 Secciones: Food · Dieters Are Feeling Great! · Piece of Cake · Nouns: Non-Count and Quantifiers · In the Kitchen',
+    description: 'Aprende vocabulario de alimentos, opuestos culinarios, comprensión auditiva de recetas y programas de cocina como "Sheila\'s Kitchen".',
     imageUrl: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80',
     color: '#059669',
     category: 'Food & Health',
-    requiredProgressToUnlock: 1,
+    requiredProgressToUnlock: 0,
+    sections: UNIT_2_SECTIONS,
+    lessonText: FOOD_SECTION_LESSON_TEXT,
     flashcards: [],
-    exercises: [],
+    exercises: FOOD_SECTION_EXERCISES,
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: { title: 'Gramática', explanation: 'Sustantivos contables e incontables y expresiones para cuantificar alimentos.', examples: [] },
   },
   {
     id: 3,

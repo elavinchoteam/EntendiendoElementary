@@ -30,6 +30,11 @@ export type ExerciseType =
   | 'vocabulary-dictation'
   | 'drag-drop-cloze'
   | 'dialogue-dropdown'
+  | 'drag-word-to-image'
+  | 'audio-clips-dropdown'
+  | 'food-explore'
+  | 'classification-table'
+  | 'checkbox-multiselect'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -170,6 +175,7 @@ export interface WritingAiFeedbackExercise extends BaseExercise {
   initialWordsTarget?: number;
   placeholder?: string;
   storyContext?: string;
+  story?: ReadingStory;
 }
 
 export interface UnitTestOption {
@@ -191,6 +197,7 @@ export interface UnitTestQuestion {
   questionEs?: string;
   audioPrompt?: string;
   durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
   imageUrl?: string;
   readingStory?: ReadingStory;
   options: UnitTestOption[];
@@ -220,6 +227,7 @@ export interface UnitTestExercise extends BaseExercise {
   descriptionEs?: string;
   totalQuestions: number; // 5 or 6
   audioPrompt?: string;
+  speakerGender?: 'male' | 'female';
   readingStory?: ReadingStory;
   questions: UnitTestQuestion[];
   referenceText?: string;
@@ -232,6 +240,8 @@ export interface UnitTestExercise extends BaseExercise {
 export interface ReadingStory {
   title: string;
   titleEs: string;
+  author?: string;
+  authorEs?: string;
   textEn: string;
   textEs: string;
   paragraphsEn: string[];
@@ -428,6 +438,7 @@ export interface DragDropClozeExercise extends BaseExercise {
   blanks: DragDropClozeBlank[];
   wordBank: string[];
   vocabularyWords?: VocabularyWordItem[];
+  story?: ReadingStory;
 }
 
 export interface DialogueDropdownBlank {
@@ -453,6 +464,90 @@ export interface DialogueDropdownExercise extends BaseExercise {
   vocabularyWords?: VocabularyWordItem[];
 }
 
+export interface DragWordToImageItem {
+  id: string;
+  wordEn: string;
+  wordEs: string;
+  imageUrl: string;
+  imageAlt: string;
+}
+
+export interface DragWordToImageExercise extends BaseExercise {
+  type: 'drag-word-to-image';
+  instructions: string;
+  instructionsEs?: string;
+  items: DragWordToImageItem[];
+  wordBank: string[];
+}
+
+export interface AudioClipsDropdownClip {
+  id: string;
+  audioPrompt: string;
+  fullSentenceEn: string;
+  fullSentenceEs: string;
+  template: string;
+  blanks: DropdownBlank[];
+}
+
+export interface AudioClipsDropdownExercise extends BaseExercise {
+  type: 'audio-clips-dropdown';
+  instructions: string;
+  instructionsEs?: string;
+  imageUrl?: string;
+  clips: AudioClipsDropdownClip[];
+  transcript?: string;
+  sentences?: LessonSentence[];
+}
+
+export interface FoodExploreExercise extends BaseExercise {
+  type: 'food-explore';
+  instructions?: string;
+  instructionsEs?: string;
+  audioText: string;
+  sentences: LessonSentence[];
+  imageSrc?: string;
+}
+
+export interface ClassificationColumn {
+  id: string;
+  header: string;
+  headerEs?: string;
+  expectedItemIds: string[];
+}
+
+export interface ClassificationItem {
+  id: string;
+  text: string;
+  textEs?: string;
+  columnId: string;
+}
+
+export interface ClassificationTableExercise extends BaseExercise {
+  type: 'classification-table';
+  instructions: string;
+  instructionsEs?: string;
+  story?: ReadingStory;
+  columns: ClassificationColumn[];
+  items: ClassificationItem[];
+}
+
+export interface MultiSelectOption {
+  id: string;
+  text: string;
+  textEs?: string;
+  isCorrect: boolean;
+}
+
+export interface CheckboxMultiSelectExercise extends BaseExercise {
+  type: 'checkbox-multiselect';
+  instructions: string;
+  instructionsEs?: string;
+  story?: ReadingStory;
+  options: MultiSelectOption[];
+  explanation?: string;
+  explanationEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -472,11 +567,17 @@ export type Exercise =
   | VocabularyDictationExercise
   | DragDropClozeExercise
   | DialogueDropdownExercise
+  | DragWordToImageExercise
+  | AudioClipsDropdownExercise
+  | FoodExploreExercise
+  | ClassificationTableExercise
+  | CheckboxMultiSelectExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
   en: string;
   es: string;
+  speaker?: string;
 }
 
 export interface LessonMainText {

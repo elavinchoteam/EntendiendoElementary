@@ -260,10 +260,6 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                     'Read the story "Wrong Color," and then answer the questions.'}
                 </h4>
               </div>
-              <div className="hidden sm:flex items-center gap-1 text-[11px] text-slate-400 font-medium">
-                <RotateCw className="w-3 h-3 text-indigo-400" />
-                <span>Voltear</span>
-              </div>
             </div>
 
             {/* Back: Spanish Translation */}
@@ -286,10 +282,6 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                   {exercise.instructionsEs ||
                     'Lee la historia "Color Equivocado", y luego responde las preguntas.'}
                 </p>
-              </div>
-              <div className="hidden sm:flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">
-                <RotateCw className="w-3 h-3" />
-                <span>Volver</span>
               </div>
             </div>
           </div>
@@ -339,9 +331,16 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                 <div>
                   {/* Top Bar: Title & Controls */}
                   <div className="flex items-center justify-between pb-3 mb-4 border-b border-inherit/30">
-                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#009bd6] dark:text-sky-400 font-sans">
-                      {exercise.story.title}
-                    </h3>
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#009bd6] dark:text-sky-400 font-sans">
+                        {exercise.story.title}
+                      </h3>
+                      {exercise.story.author && (
+                        <p className="text-xs text-stone-500 dark:text-slate-400 italic font-serif">
+                          {exercise.story.author}
+                        </p>
+                      )}
+                    </div>
 
                     <div className="flex items-center gap-2">
                       <SpeedSelectorButton
@@ -372,11 +371,6 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                           <Volume2 className="w-4 h-4" />
                         )}
                       </button>
-
-                      <span className="text-[11px] text-slate-400 hidden sm:inline flex items-center gap-1">
-                        <RotateCw className="w-3 h-3 text-sky-500" />
-                        Voltear
-                      </span>
                     </div>
                   </div>
 
@@ -418,7 +412,6 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
 
                 <div className="pt-3 mt-4 border-t border-inherit/20 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
                   <span>Haz clic en cualquier párrafo para pronunciar</span>
-                  <span className="font-serif italic">Toca para ver traducción</span>
                 </div>
               </div>
 
@@ -426,19 +419,22 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
               <div className="absolute inset-0 p-5 sm:p-7 flex flex-col justify-between backface-hidden rotate-y-180 overflow-y-auto">
                 <div>
                   <div className="flex items-center justify-between pb-3 mb-4 border-b border-inherit/30">
-                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans">
-                      {exercise.story.titleEs}
-                    </h3>
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans">
+                        {exercise.story.titleEs}
+                      </h3>
+                      {exercise.story.authorEs && (
+                        <p className="text-xs text-emerald-700/80 dark:text-emerald-300/80 italic font-serif">
+                          {exercise.story.authorEs}
+                        </p>
+                      )}
+                    </div>
                     <div className="flex items-center gap-2">
                       <SpeedSelectorButton
                         currentRate={currentRate}
                         onRateChange={handleSpeedChange}
                         size="sm"
                       />
-                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                        <RotateCw className="w-3 h-3" />
-                        Volver al inglés
-                      </span>
                     </div>
                   </div>
 
@@ -496,18 +492,12 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                           <span className="font-semibold text-sm sm:text-base leading-snug">
                             {q.question}
                           </span>
-                          <span className="text-[10px] text-slate-400 ml-2 shrink-0 hidden sm:inline">
-                            Voltear
-                          </span>
                         </div>
 
                         {/* Back: Spanish Question */}
                         <div className="absolute inset-0 px-3.5 py-2 flex items-center justify-between backface-hidden rotate-y-180">
                           <span className="font-semibold text-sm sm:text-base leading-snug italic">
                             {q.questionEs || q.question}
-                          </span>
-                          <span className="text-[10px] text-emerald-500 ml-2 shrink-0 hidden sm:inline">
-                            Volver
                           </span>
                         </div>
                       </div>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { RotateCw } from 'lucide-react';
+import { Volume2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { playFeedbackSound } from '../utils/audio';
+import { playFeedbackSound, speakEnglish, stopSpeaking } from '../utils/audio';
+import { SpeedSelectorButton } from './SpeedSelectorButton';
 
 interface ReversibleInstructionCardProps {
   title?: string;
@@ -10,6 +11,8 @@ interface ReversibleInstructionCardProps {
   instructionsEs?: string;
   icon?: React.ReactNode;
   id?: string;
+  speechRate?: number;
+  accent?: 'US' | 'UK';
 }
 
 export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps> = ({
@@ -19,16 +22,56 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
   instructionsEs,
   icon,
   id = 'reversible-instruction-card',
+  speechRate = 1.0,
+  accent = 'US',
 }) => {
   const { isDark } = useTheme();
   const [isFlipped, setIsFlipped] = useState(false);
+  const [currentRate, setCurrentRate] = useState(speechRate);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const handleFlip = (e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-    }
+  const safeAccent = accent === 'UK' ? 'UK' : 'US';
+
+  const handleFlip = () => {
     playFeedbackSound('flip');
     setIsFlipped((prev) => !prev);
+  };
+
+  const handleSpeak = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      stopSpeaking();
+      setIsPlaying(false);
+      return;
+    }
+    const textToSpeak = isFlipped
+      ? instructionsEs || instructions
+      : `${title ? title + '. ' : ''}${instructions}`;
+    setIsPlaying(true);
+    speakEnglish(
+      textToSpeak,
+      currentRate,
+      safeAccent,
+      () => setIsPlaying(true),
+      () => setIsPlaying(false)
+    );
+  };
+
+  const handleSpeedChange = (newRate: number) => {
+    setCurrentRate(newRate);
+    if (isPlaying) {
+      stopSpeaking();
+      const textToSpeak = isFlipped
+        ? instructionsEs || instructions
+        : `${title ? title + '. ' : ''}${instructions}`;
+      speakEnglish(
+        textToSpeak,
+        newRate,
+        safeAccent,
+        () => setIsPlaying(true),
+        () => setIsPlaying(false)
+      );
+    }
   };
 
   return (
@@ -36,18 +79,17 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
       <div
         id={id}
         onClick={handleFlip}
-        className={`relative w-full min-h-[72px] sm:min-h-[78px] rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-sm ${
+        className={`relative w-full min-h-[72px] sm:min-h-[78px] rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
           isFlipped ? 'rotate-y-180' : ''
         } ${
           isFlipped
             ? isDark
               ? 'bg-slate-900 border-emerald-500/40 text-white'
-              : 'bg-white border-emerald-300 text-slate-900 shadow-md'
+              : 'bg-white border-emerald-300 text-slate-900'
             : isDark
             ? 'bg-slate-900 border-white/10 text-white hover:border-white/20'
             : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
         }`}
-        title="Haz clic o pulsa el botón para voltear y ver la traducción"
       >
         {/* Cara Frontal: Inglés */}
         <div className="w-full h-full p-4 sm:p-5 flex items-center justify-between gap-4 backface-hidden">
@@ -71,19 +113,26 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
             </div>
           </div>
 
-          <div className="shrink-0 flex items-center">
+          <div className="shrink-0 flex items-center gap-2">
+            <SpeedSelectorButton
+              currentRate={currentRate}
+              onRateChange={handleSpeedChange}
+              size="sm"
+            />
             <button
               type="button"
-              onClick={handleFlip}
-              className={`p-2.5 rounded-xl border transition-all cursor-pointer shadow-2xs ${
-                isDark
-                  ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-white/10 hover:border-indigo-500/40'
-                  : 'bg-white hover:bg-indigo-50 text-indigo-600 border-slate-200 hover:border-indigo-300'
+              onClick={handleSpeak}
+              className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                isPlaying
+                  ? 'bg-sky-500 text-white border-sky-600 ring-2 ring-sky-400/30'
+                  : isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-white/10'
+                  : 'bg-white hover:bg-stone-100 text-sky-600 border-slate-200'
               }`}
-              title="Girar para ver traducción"
-              aria-label="Girar para ver traducción"
+              title="Escuchar instrucción"
+              aria-label="Escuchar instrucción"
             >
-              <RotateCw className="w-4 h-4" />
+              <Volume2 className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -110,19 +159,26 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
             </div>
           </div>
 
-          <div className="shrink-0 flex items-center">
+          <div className="shrink-0 flex items-center gap-2">
+            <SpeedSelectorButton
+              currentRate={currentRate}
+              onRateChange={handleSpeedChange}
+              size="sm"
+            />
             <button
               type="button"
-              onClick={handleFlip}
-              className={`p-2.5 rounded-xl border transition-all cursor-pointer shadow-2xs ${
-                isDark
-                  ? 'bg-emerald-950/60 hover:bg-emerald-900 text-emerald-300 border-emerald-500/40'
-                  : 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border-emerald-300'
+              onClick={handleSpeak}
+              className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                isPlaying
+                  ? 'bg-emerald-600 text-white border-emerald-700 ring-2 ring-emerald-400/30'
+                  : isDark
+                  ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
+                  : 'bg-white hover:bg-emerald-50 text-emerald-600 border-emerald-200'
               }`}
-              title="Girar para ver en inglés"
-              aria-label="Girar para ver en inglés"
+              title="Escuchar instrucción"
+              aria-label="Escuchar instrucción"
             >
-              <RotateCw className="w-4 h-4" />
+              <Volume2 className="w-4 h-4" />
             </button>
           </div>
         </div>

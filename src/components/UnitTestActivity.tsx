@@ -86,15 +86,19 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   const isAnswerChecked = currentQuestion ? submittedAnswers[currentQuestion.id] : false;
   const currentSelectedOptionId = currentQuestion ? selectedAnswers[currentQuestion.id] : undefined;
 
-  const isMultiSlotQuestion = !!(currentQuestion?.correctWords && currentQuestion.correctWords.length > 0);
+  const isMultiSlotQuestion = Boolean(
+    (currentQuestion?.slotsCount && currentQuestion.slotsCount > 1) ||
+    (currentQuestion?.correctWords && currentQuestion.correctWords.length > 1)
+  );
   const currentMultiSlotPlaced = currentQuestion ? multiSlotAnswers[currentQuestion.id] || [] : [];
 
   const isMultiSlotCorrect =
     isMultiSlotQuestion &&
-    currentMultiSlotPlaced.length === currentQuestion!.correctWords!.length &&
+    currentQuestion?.correctWords &&
+    currentMultiSlotPlaced.length === currentQuestion.correctWords.length &&
     currentMultiSlotPlaced.every((optId, idx) => {
-      const opt = currentQuestion!.options.find((o) => o.id === optId);
-      return opt && opt.text === currentQuestion!.correctWords![idx];
+      const opt = currentQuestion.options.find((o) => o.id === optId);
+      return opt && opt.text === currentQuestion.correctWords![idx];
     });
 
   const isAnswerCorrect = currentQuestion && isAnswerChecked && (
@@ -103,14 +107,18 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
   const hasAnswerSelected = isMultiSlotQuestion
     ? currentMultiSlotPlaced.length > 0
-    : !!currentSelectedOptionId;
+    : Boolean(currentSelectedOptionId || (currentMultiSlotPlaced.length > 0));
 
   // Reading story if available on the exercise or current question
   const readingStory = exercise.readingStory || currentQuestion?.readingStory;
 
   // Total correct and completion percentage for test summary
   const totalCorrect = exercise.questions.reduce((acc, q) => {
-    if (q.correctWords && q.correctWords.length > 0) {
+    const isMulti = Boolean(
+      (q.slotsCount && q.slotsCount > 1) ||
+      (q.correctWords && q.correctWords.length > 1)
+    );
+    if (isMulti && q.correctWords && q.correctWords.length > 0) {
       const placed = multiSlotAnswers[q.id] || [];
       const correct =
         placed.length === q.correctWords.length &&
@@ -184,7 +192,13 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   // Media Player Toggle (stopping playback if clicked while active)
   const handleTogglePlayMedia = (e?: React.MouseEvent) => {
     e?.stopPropagation();
-    const audioTextToPlay = currentQuestion?.audioPrompt || exercise.audioPrompt || '';
+    const audioTextToPlay =
+      currentQuestion?.audioPrompt ||
+      exercise.audioPrompt ||
+      readingStory?.audioText ||
+      readingStory?.paragraphsEn?.join(' ') ||
+      readingStory?.textEn ||
+      '';
 
     if (isPlayingMedia) {
       stopSpeaking();
@@ -196,6 +210,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
     playFeedbackSound('click');
     setIsPlayingMedia(true);
     setSpeakingTarget('media-player');
+
+    const speakerGender = currentQuestion?.speakerGender || exercise.speakerGender || 'male';
 
     speakEnglish(
       audioTextToPlay,
@@ -209,7 +225,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
         setSpeakingTarget(null);
         setElapsedSeconds(totalDurationSeconds);
       },
-      'male'
+      speakerGender
     );
   };
 
@@ -231,7 +247,14 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
     if (isPlayingMedia) {
       stopSpeaking();
-      const audioTextToPlay = currentQuestion?.audioPrompt || exercise.audioPrompt || '';
+      const audioTextToPlay =
+        currentQuestion?.audioPrompt ||
+        exercise.audioPrompt ||
+        readingStory?.audioText ||
+        readingStory?.paragraphsEn?.join(' ') ||
+        readingStory?.textEn ||
+        '';
+      const speakerGender = currentQuestion?.speakerGender || exercise.speakerGender || 'male';
       speakEnglish(
         audioTextToPlay,
         speedValue,
@@ -242,7 +265,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           setSpeakingTarget(null);
           setElapsedSeconds(totalDurationSeconds);
         },
-        'male'
+        speakerGender
       );
     }
   };

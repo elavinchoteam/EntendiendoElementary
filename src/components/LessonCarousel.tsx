@@ -32,7 +32,15 @@ import { DialogueAndGrammarView } from './DialogueAndGrammarView';
 import { VocabularyExploreActivity } from './VocabularyExploreActivity';
 import { VocabularyDictationExercise } from './VocabularyDictationExercise';
 import { DragDropClozeExercise } from './DragDropClozeExercise';
+import { ClassificationTableExercise } from './ClassificationTableExercise';
+import { CheckboxMultiSelectExercise } from './CheckboxMultiSelectExercise';
 import { DialogueDropdownExercise } from './DialogueDropdownExercise';
+import { DragWordToImageExercise } from './DragWordToImageExercise';
+import { FoodExploreExercise } from './FoodExploreExercise';
+import { FoodDropdownExercise } from './FoodDropdownExercise';
+import { FoodTrueFalseExercise } from './FoodTrueFalseExercise';
+import { FoodClipsDropdownExercise } from './FoodClipsDropdownExercise';
+import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
   DropdownCompletionExercise as DropdownCompletionExerciseType,
@@ -52,6 +60,8 @@ import {
   VocabularyDictationExercise as VocabularyDictationExerciseType,
   DragDropClozeExercise as DragDropClozeExerciseType,
   DialogueDropdownExercise as DialogueDropdownExerciseType,
+  DragWordToImageExercise as DragWordToImageExerciseType,
+  AudioClipsDropdownExercise as AudioClipsDropdownExerciseType,
 } from '../types';
 
 interface LessonCarouselProps {
@@ -155,6 +165,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
   const isCustomSequentialUnit =
     unit.sectionId === 'shopping-2' ||
     (unit.id as any) === 'shopping-2' ||
+    unit.sectionId === 'food' ||
+    (unit.id as any) === 'food' ||
+    unit.sectionId === 'dieters-feeling-great' ||
+    (unit.id as any) === 'dieters-feeling-great' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -162,7 +176,11 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             ex.type === 'vocabulary-explore' ||
             ex.type === 'vocabulary-dictation' ||
             ex.type === 'drag-drop-cloze' ||
-            ex.type === 'dialogue-dropdown'
+            ex.type === 'dialogue-dropdown' ||
+            ex.type === 'drag-word-to-image' ||
+            ex.type === 'audio-clips-dropdown' ||
+            ex.type === 'classification-table' ||
+            ex.type === 'checkbox-multi-select'
         )
     );
 
@@ -170,24 +188,54 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     ? unit.exercises.map((ex, idx) => {
         let icon = CheckSquare;
         let title = `Actividad ${idx + 1}`;
-        if (ex.type === 'vocabulary-explore') {
+        if (ex.type === 'food-explore' || ex.id?.includes('explore')) {
           icon = BookOpen;
-          title = 'Vocabulario';
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'reading-story') {
+          icon = BookOpen;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'reading-comprehension') {
+          icon = CheckSquare;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'classification-table') {
+          icon = Layers;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'checkbox-multi-select') {
+          icon = CheckSquare;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'writing-ai-feedback') {
+          icon = BookOpen;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'drag-word-to-image') {
+          icon = Layers;
+          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'matching-table') {
           icon = Layers;
-          title = 'Emparejar';
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'vocabulary-explore') {
+          icon = BookOpen;
+          title = 'Vocabulario';
         } else if (ex.type === 'vocabulary-dictation') {
           icon = Volume2;
           title = (ex as any).title || 'Dictado';
         } else if (ex.type === 'drag-drop-cloze') {
           icon = CheckSquare;
-          title = (ex as any).storyTitle || 'Completar';
+          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'dialogue-dropdown') {
           icon = MessageSquare;
           title = 'Diálogo';
+        } else if (ex.type === 'dropdown-completion') {
+          icon = CheckSquare;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'true-false-selection') {
+          icon = CheckSquare;
+          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'audio-clips-dropdown') {
+          icon = Volume2;
+          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'unit-test') {
           icon = Award;
-          title = 'Test';
+          title = `Actividad ${idx + 1}: Test`;
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -805,6 +853,72 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
           const currentSlideObj = slides[safeCurrentSlide] as { id: string; exercise?: any };
           const ex = currentSlideObj?.exercise;
           if (!ex) return null;
+
+          if (ex.type === 'drag-word-to-image') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DragWordToImageExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'food-explore' || ex.id?.includes('explore')) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FoodExploreExercise
+                  audioText={FOOD_SECTION_LESSON.audioText || ''}
+                  sentences={FOOD_SECTION_LESSON.sentences}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'dropdown-completion') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FoodDropdownExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'true-false-selection') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FoodTrueFalseExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'audio-clips-dropdown') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FoodClipsDropdownExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
 
           if (ex.type === 'vocabulary-explore') {
             return (

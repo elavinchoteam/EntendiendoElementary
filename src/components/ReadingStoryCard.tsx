@@ -142,9 +142,16 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
             </div>
 
             {/* Story Title */}
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-center text-sky-500 dark:text-sky-400 mb-6 sm:mb-8 font-sans pr-24 sm:pr-28">
-              {story.title}
-            </h1>
+            <div className="text-center mb-6 sm:mb-8 pr-24 sm:pr-28">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-sky-500 dark:text-sky-400 font-sans">
+                {story.title}
+              </h1>
+              {story.author && (
+                <p className="text-xs sm:text-sm text-stone-500 dark:text-slate-400 italic mt-1 font-serif">
+                  {story.author}
+                </p>
+              )}
+            </div>
 
             {/* Story Paragraphs */}
             <div className="space-y-4 sm:space-y-5 text-left font-serif leading-relaxed text-base sm:text-lg">
@@ -220,9 +227,16 @@ export const ReadingStoryCard: React.FC<ReadingStoryCardProps> = ({
             </div>
 
             {/* Translation Title */}
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-center text-sky-600 dark:text-sky-400 mb-6 sm:mb-8 font-sans">
-              {story.titleEs}
-            </h1>
+            <div className="text-center mb-6 sm:mb-8 pr-24 sm:pr-28">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans">
+                {story.titleEs}
+              </h1>
+              {story.authorEs && (
+                <p className="text-xs sm:text-sm text-emerald-700/80 dark:text-emerald-300/80 italic mt-1 font-serif">
+                  {story.authorEs}
+                </p>
+              )}
+            </div>
 
             {/* Spanish Paragraphs */}
             <div className="space-y-4 sm:space-y-5 text-left font-serif leading-relaxed text-base sm:text-lg italic">

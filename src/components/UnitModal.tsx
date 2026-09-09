@@ -251,7 +251,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               <div className="text-center mb-8">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 mb-2">
                   <Layers className="w-3.5 h-3.5" />
-                  Unidad 1: Buying and Selling
+                  {unit.title}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-bold tracking-tight">
                   Selecciona una Sección
