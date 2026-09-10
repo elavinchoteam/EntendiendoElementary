@@ -8,6 +8,21 @@ import {
   DIETERS_SECTION_EXERCISES,
   DIETERS_STORY,
 } from './dietersSectionData';
+import {
+  PIECE_OF_CAKE_EXERCISES,
+  pieceOfCakeImg,
+} from './pieceOfCakeData';
+import {
+  NOUNS_LESSON_TEXT,
+  NOUNS_EXERCISES,
+  nounsSugarCoffeeImg,
+} from './nounsNonCountQuantifiersData';
+import {
+  COUNT_NON_COUNT_LESSON_TEXT,
+  COUNT_NON_COUNT_EXERCISES,
+  countNounsWorkersImg,
+} from './countAndNonCountNounsData';
+import { IN_THE_KITCHEN_EXERCISES } from './inTheKitchenData';
 
 export const UNIT_2_SECTIONS: UnitSection[] = [
   // SECTION 1: Food
@@ -46,13 +61,13 @@ export const UNIT_2_SECTIONS: UnitSection[] = [
     id: 'piece-of-cake',
     number: 3,
     title: 'Piece of Cake',
-    titleEs: 'Pan Comido',
-    subtitle: 'Section 3 · Idioms & Everyday English',
-    description: 'Próxima sección de expresiones idiomáticas y situaciones prácticas.',
-    imageUrl:
-      'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80',
+    titleEs: 'Un Trozo de Pastel',
+    subtitle: 'Section 3 · Social Dialogue & Offering Food',
+    description:
+      'Aprende a ofrecer comida, aceptar o rechazar educadamente en inglés, practicar pronunciación y participar en interacciones comunicativas.',
+    imageUrl: pieceOfCakeImg,
     flashcards: [],
-    exercises: [],
+    exercises: PIECE_OF_CAKE_EXERCISES,
   },
 
   // SECTION 4: Nouns: Non-Count and Quantifiers
@@ -62,11 +77,12 @@ export const UNIT_2_SECTIONS: UnitSection[] = [
     title: 'Nouns: Non-Count and Quantifiers',
     titleEs: 'Sustantivos No Contables y Cuantificadores',
     subtitle: 'Section 4 · Grammar Practice',
-    description: 'Próxima sección de gramática sobre sustantivos incontables y cuantificadores.',
-    imageUrl:
-      'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80',
+    description:
+      'Aprende sobre sustantivos incontables y cuantificadores (How much, much, a little, lots of, some, any), practica con 11 actividades interactivas y realiza el examen de 5 preguntas.',
+    imageUrl: nounsSugarCoffeeImg,
+    lessonText: NOUNS_LESSON_TEXT,
     flashcards: [],
-    exercises: [],
+    exercises: NOUNS_EXERCISES,
   },
 
   // SECTION 5: Count and Non-Count Nouns
@@ -75,12 +91,13 @@ export const UNIT_2_SECTIONS: UnitSection[] = [
     number: 5,
     title: 'Count and Non-Count Nouns',
     titleEs: 'Sustantivos Contables e Incontables',
-    subtitle: 'Section 5 · Grammar & Usage',
-    description: 'Próxima sección de gramática y práctica comunicativa.',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506084868230-bb9d95c24759?auto=format&fit=crop&w=800&q=80',
+    subtitle: 'Section 5 · Grammar Practice',
+    description:
+      'Aprende a diferenciar y usar correctamente sustantivos contables e incontables con cuantificadores como a few, many, some, any, y realiza 11 actividades interactivas y un test de 5 preguntas.',
+    imageUrl: countNounsWorkersImg,
+    lessonText: COUNT_NON_COUNT_LESSON_TEXT,
     flashcards: [],
-    exercises: [],
+    exercises: COUNT_NON_COUNT_EXERCISES,
   },
 
   // SECTION 6: In the Kitchen
@@ -90,10 +107,11 @@ export const UNIT_2_SECTIONS: UnitSection[] = [
     title: 'In the Kitchen',
     titleEs: 'En la Cocina',
     subtitle: 'Section 6 · Culinary Vocabulary & Real-Life Tasks',
-    description: 'Próxima sección sobre utensilios, preparación culinaria y tareas en la cocina.',
+    description:
+      'Aprende vocabulario culinario esencial (bake, cook, cookbook, cup, dish, freeze, fresh, meal, plate, serve), completa 7 actividades interactivas y realiza la evaluación final de 10 preguntas.',
     imageUrl:
       'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80',
     flashcards: [],
-    exercises: [],
+    exercises: IN_THE_KITCHEN_EXERCISES,
   },
 ];

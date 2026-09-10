@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import {
-  Volume2,
   CheckCircle2,
   XCircle,
   Sparkles,
   HelpCircle,
   Eye,
   EyeOff,
-  RotateCw,
 } from 'lucide-react';
+import { CardSpeechControl } from './CardSpeechControl';
 import { VocabularyDictationExercise as DictationType } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
@@ -121,8 +120,8 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
 
       {/* Main Content Layout: Left Sidebar (Vocabulary Helper) & Right (Dictation Inputs) */}
       <div className="w-full flex flex-col lg:flex-row items-start gap-8">
-        {/* Left Column: Vocabulary Reference Widget */}
-        <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-start">
+        {/* Left Column: Vocabulary Reference Cards */}
+        <div className="w-full lg:w-[400px] xl:w-[440px] shrink-0 flex justify-center lg:justify-start">
           <VocabularyHelperCard
             words={exercise.vocabularyWords}
             accent={accent}
@@ -166,37 +165,14 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                         {idx + 1}.
                       </span>
 
-                      {/* Regular speed button */}
-                      <button
-                        id={`dictation-audio-btn-${item.id}`}
-                        onClick={() => handlePlayAudio(item.audioText || item.sentenceEn, item.id, false)}
-                        className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center gap-1.5 ${
-                          isPlaying
-                            ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
-                            : isDark
-                            ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-white/10'
-                            : 'bg-white hover:bg-indigo-50 text-indigo-600 border-slate-300 shadow-xs'
-                        }`}
-                        title="Escuchar audio"
-                        aria-label={`Escuchar oración ${idx + 1}`}
-                      >
-                        <Volume2 className="w-4 h-4" />
-                        <span className="text-xs font-semibold">1x</span>
-                      </button>
-
-                      {/* Slow speed button */}
-                      <button
-                        id={`dictation-slow-audio-btn-${item.id}`}
-                        onClick={() => handlePlayAudio(item.audioText || item.sentenceEn, item.id, true)}
-                        className={`px-2 py-1.5 rounded-lg border text-xs font-semibold transition-all cursor-pointer ${
-                          isDark
-                            ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-white/10'
-                            : 'bg-white hover:bg-slate-100 text-slate-600 border-slate-300'
-                        }`}
-                        title="Escuchar despacio"
-                      >
-                        0.75x
-                      </button>
+                      {/* Speaker Control with Speeds (0.5x to 1.30x) */}
+                      <CardSpeechControl
+                        textToSpeak={item.audioText || item.sentenceEn}
+                        accent={accent}
+                        initialSpeed={speechRate}
+                        gender="female"
+                        size="md"
+                      />
                     </div>
 
                     {/* Text Input */}
@@ -268,85 +244,68 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                     </div>
                   )}
 
-                  {/* Revealed Answer Box: 3D Reversible Flip Card */}
+                  {/* Revealed Answer Box: Reversible Card on Click */}
                   {isRevealed && (
-                    <div className="perspective-1000 w-full min-h-[90px] animate-in fade-in duration-200">
-                      <div
-                        className={`relative w-full rounded-2xl transition-transform duration-500 transform-style-3d border shadow-2xs ${
-                          flippedSentences[item.id] ? 'rotate-y-180' : ''
-                        } ${
-                          flippedSentences[item.id]
-                            ? isDark
-                              ? 'bg-slate-900 border-emerald-500/40 text-white'
-                              : 'bg-white border-emerald-300 text-slate-900 shadow-md'
-                            : isDark
-                            ? 'bg-slate-900 border-indigo-500/30 text-white'
-                            : 'bg-white border-indigo-200 text-slate-900 shadow-xs'
-                        }`}
-                      >
-                        {/* Front: English Sentence */}
-                        <div className="w-full p-3.5 backface-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="flex flex-col gap-1">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                              Oración a escribir:
-                            </span>
-                            <p className="font-semibold text-sm sm:text-base text-indigo-950 dark:text-indigo-100 select-all">
-                              {item.sentenceEn}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                            {item.sentenceEs && (
-                              <button
-                                type="button"
-                                id={`dictation-flip-translation-btn-${item.id}`}
-                                onClick={() => toggleFlipSentence(item.id)}
-                                className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
-                                  isDark
-                                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
-                                    : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-200'
-                                }`}
-                                title="Ver traducción en español"
-                                aria-label="Ver traducción en español"
-                              >
-                                <RotateCw className="w-4 h-4" />
-                              </button>
-                            )}
-                            <button
-                              type="button"
-                              onClick={() => handleInputChange(item.id, item.sentenceEn)}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
-                                isDark
-                                  ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-indigo-500/30'
-                                  : 'bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-xs'
-                              }`}
-                              title="Pegar esta oración en el campo de texto"
-                            >
-                              Copiar al campo
-                            </button>
-                          </div>
+                    <div
+                      id={`dictation-answer-card-${item.id}`}
+                      onClick={() => toggleFlipSentence(item.id)}
+                      className={`w-full rounded-2xl p-4 border shadow-xs transition-all cursor-pointer ${
+                        flippedSentences[item.id]
+                          ? isDark
+                            ? 'bg-slate-900 border-emerald-500/50 text-white'
+                            : 'bg-white border-emerald-400 text-slate-900 shadow-sm ring-1 ring-emerald-300/40'
+                          : isDark
+                          ? 'bg-slate-900 border-indigo-500/30 text-white'
+                          : 'bg-white border-indigo-200 text-slate-900 shadow-xs'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex flex-col gap-1">
+                          <span
+                            className={`text-[11px] font-bold uppercase tracking-wider ${
+                              flippedSentences[item.id]
+                                ? 'text-emerald-600 dark:text-emerald-400'
+                                : 'text-indigo-600 dark:text-indigo-400'
+                            }`}
+                          >
+                            {flippedSentences[item.id] ? 'Traducción:' : 'Oración:'}
+                          </span>
+                          <p
+                            className={`text-sm sm:text-base font-semibold ${
+                              flippedSentences[item.id]
+                                ? 'italic text-emerald-700 dark:text-emerald-300'
+                                : 'text-slate-900 dark:text-white'
+                            }`}
+                          >
+                            {flippedSentences[item.id]
+                              ? `"${item.sentenceEs || item.sentenceEn}"`
+                              : item.sentenceEn}
+                          </p>
                         </div>
 
-                        {/* Back: Spanish Translation */}
-                        <div className="absolute inset-0 w-full h-full p-3.5 backface-hidden rotate-y-180 flex items-center justify-between gap-3 overflow-y-auto">
-                          <div className="flex flex-col gap-1">
-                            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-                              Traducción en Español:
-                            </span>
-                            <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-emerald-100 italic">
-                              "{item.sentenceEs || item.sentenceEn}"
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0">
-                            <button
-                              type="button"
-                              onClick={() => toggleFlipSentence(item.id)}
-                              className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-500`}
-                              title="Volver al inglés"
-                              aria-label="Volver al inglés"
-                            >
-                              <RotateCw className="w-4 h-4" />
-                            </button>
-                          </div>
+                        <div
+                          className="flex items-center gap-2 shrink-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <CardSpeechControl
+                            textToSpeak={item.sentenceEn}
+                            accent={accent}
+                            initialSpeed={speechRate}
+                            gender="female"
+                            size="sm"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleInputChange(item.id, item.sentenceEn)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                              isDark
+                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-indigo-500/30'
+                                : 'bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-xs'
+                            }`}
+                            title="Pegar esta oración en el campo de texto"
+                          >
+                            Copiar al campo
+                          </button>
                         </div>
                       </div>
                     </div>

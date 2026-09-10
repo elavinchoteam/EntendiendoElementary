@@ -10,6 +10,8 @@ import {
   Award,
   Layers,
   Volume2,
+  Users,
+  Play,
 } from 'lucide-react';
 import { Unit } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -40,6 +42,9 @@ import { FoodExploreExercise } from './FoodExploreExercise';
 import { FoodDropdownExercise } from './FoodDropdownExercise';
 import { FoodTrueFalseExercise } from './FoodTrueFalseExercise';
 import { FoodClipsDropdownExercise } from './FoodClipsDropdownExercise';
+import { DialogueExploreExercise } from './DialogueExploreExercise';
+import { DialogueOrderingExercise } from './DialogueOrderingExercise';
+import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -159,6 +164,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       ex.type !== 'drag-drop-sentence' &&
       ex.type !== 'reading-story' &&
       ex.type !== 'reading-comprehension' &&
+      ex.type !== 'classification-table' &&
+      ex.type !== 'checkbox-multiselect' &&
       ex.type !== 'unit-test'
   );
 
@@ -169,6 +176,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'food' ||
     unit.sectionId === 'dieters-feeling-great' ||
     (unit.id as any) === 'dieters-feeling-great' ||
+    unit.sectionId === 'piece-of-cake' ||
+    (unit.id as any) === 'piece-of-cake' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -180,62 +189,67 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             ex.type === 'drag-word-to-image' ||
             ex.type === 'audio-clips-dropdown' ||
             ex.type === 'classification-table' ||
-            ex.type === 'checkbox-multi-select'
+            ex.type === 'checkbox-multiselect' ||
+            (ex.type as string) === 'checkbox-multi-select' ||
+            ex.type === 'dialogue-explore' ||
+            ex.type === 'dialogue-ordering' ||
+            ex.type === 'interactive-conversation'
         )
     );
 
   const slides = isCustomSequentialUnit
     ? unit.exercises.map((ex, idx) => {
         let icon = CheckSquare;
-        let title = `Actividad ${idx + 1}`;
-        if (ex.type === 'food-explore' || ex.id?.includes('explore')) {
+        let title = (ex as any).title || `Actividad ${idx + 1}`;
+        if (ex.type === 'dialogue-explore') {
+          icon = Play;
+        } else if (ex.type === 'food-explore' || ex.id?.includes('explore')) {
           icon = BookOpen;
-          title = `Actividad ${idx + 1}`;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'reading-story') {
           icon = BookOpen;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'reading-comprehension') {
           icon = CheckSquare;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'classification-table') {
           icon = Layers;
-          title = `Actividad ${idx + 1}`;
-        } else if (ex.type === 'checkbox-multi-select') {
+        } else if (ex.type === 'checkbox-multiselect' || (ex.type as string) === 'checkbox-multi-select') {
           icon = CheckSquare;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'writing-ai-feedback') {
           icon = BookOpen;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'drag-word-to-image') {
           icon = Layers;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'matching-table') {
           icon = Layers;
-          title = `Actividad ${idx + 1}`;
+        } else if (ex.type === 'radio-choice') {
+          icon = CheckSquare;
+        } else if (ex.type === 'speech-response') {
+          icon = Volume2;
+        } else if (ex.type === 'dialogue-ordering') {
+          icon = Layers;
+        } else if (ex.type === 'roleplay-practice') {
+          icon = Users;
+        } else if (ex.type === 'interactive-conversation') {
+          icon = MessageSquare;
         } else if (ex.type === 'vocabulary-explore') {
           icon = BookOpen;
-          title = 'Vocabulario';
+          if (!(ex as any).title) title = 'Vocabulario';
         } else if (ex.type === 'vocabulary-dictation') {
           icon = Volume2;
-          title = (ex as any).title || 'Dictado';
+          if (!(ex as any).title) title = (ex as any).title || 'Dictado';
         } else if (ex.type === 'drag-drop-cloze') {
           icon = CheckSquare;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'dialogue-dropdown') {
           icon = MessageSquare;
-          title = 'Diálogo';
+          if (!(ex as any).title) title = 'Diálogo';
         } else if (ex.type === 'dropdown-completion') {
           icon = CheckSquare;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'true-false-selection') {
           icon = CheckSquare;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'audio-clips-dropdown') {
           icon = Volume2;
-          title = `Actividad ${idx + 1}`;
         } else if (ex.type === 'unit-test') {
           icon = Award;
-          title = `Actividad ${idx + 1}: Test`;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Test`;
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -497,7 +511,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       : 'bg-white border-slate-200 text-slate-900 shadow-md'
                   }`}
                 >
-                  {/* Card Top Header: Lesson Badge + Flip hint */}
+                  {/* Card Top Header: Lesson Badge + Speaker button (only icon) */}
                   <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit/40 shrink-0">
                     <div className="flex items-center gap-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
@@ -507,10 +521,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium select-none">
-                      <RotateCw className="w-3.5 h-3.5 text-indigo-400" />
-                      <span className="hidden sm:inline">Haz clic para voltear al español</span>
-                      <span className="sm:hidden">Voltear</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePlaySentence(lesson.audioText, -1, e);
+                        }}
+                        className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                          isDark
+                            ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
+                            : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        }`}
+                        aria-label="Audio"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
 
@@ -532,7 +558,6 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                                 ? 'hover:bg-indigo-500/20 text-slate-100 hover:text-white'
                                 : 'hover:bg-indigo-100 text-slate-800 hover:text-indigo-950'
                             }`}
-                            title="Toca para escuchar esta oración"
                           >
                             {sent.en}{' '}
                           </span>
@@ -541,9 +566,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                     </p>
                   </div>
 
-                  {/* Card Footer: Hints */}
-                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 shrink-0">
-                    <span className="text-[11px] sm:text-xs">Toca cualquier oración para escucharla por separado</span>
+                  {/* Card Footer */}
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-end text-xs text-slate-600 dark:text-slate-300 shrink-0">
                     <span className="font-mono text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">{(lesson.sentences || []).length} oraciones</span>
                   </div>
 
@@ -557,7 +581,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       : 'bg-white border-emerald-300 text-slate-900 shadow-md'
                   }`}
                 >
-                  {/* Card Back Header */}
+                  {/* Card Back Header: Speaker button (only icon) */}
                   <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit/40 shrink-0">
                     <div className="flex items-center gap-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
@@ -567,23 +591,35 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 font-semibold select-none">
-                      <RotateCw className="w-3.5 h-3.5 text-emerald-500" />
-                      <span className="hidden sm:inline">Haz clic para volver al inglés</span>
-                      <span className="sm:hidden">Volver</span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePlaySentence(lesson.audioText, -1, e);
+                        }}
+                        className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                          isDark
+                            ? 'bg-slate-800 hover:bg-slate-700 text-emerald-300 border-white/10'
+                            : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200'
+                        }`}
+                        aria-label="Audio"
+                      >
+                        <Volume2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
 
                   {/* Card Back Center: Spanish Translation */}
                   <div className="flex-1 my-2 py-2 overflow-y-auto flex items-center pr-1">
-                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-serif italic text-slate-900 dark:text-emerald-100">
-                      "{lesson.textEs}"
+                    <p className="text-base sm:text-lg md:text-[18px] leading-relaxed sm:leading-loose font-serif italic text-slate-900 dark:text-emerald-100 whitespace-pre-line">
+                      {lesson.textEs}
                     </p>
                   </div>
 
                   {/* Card Back Footer */}
-                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400 shrink-0">
-                    <span className="text-[11px] sm:text-xs">Traducción completa</span>
+                  <div className="pt-3 border-t border-inherit/30 flex items-center justify-end text-xs text-slate-600 dark:text-slate-400 shrink-0">
+                    <span className="font-mono text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">{(lesson.sentences || []).length} oraciones</span>
                   </div>
 
                 </div>
@@ -867,12 +903,25 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             );
           }
 
-          if (ex.type === 'food-explore' || ex.id?.includes('explore')) {
+          if (ex.type === 'food-explore') {
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <FoodExploreExercise
                   audioText={FOOD_SECTION_LESSON.audioText || ''}
                   sentences={FOOD_SECTION_LESSON.sentences}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'dialogue-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DialogueExploreExercise
+                  exercise={ex}
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
@@ -983,6 +1032,70 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             );
           }
 
+          if (ex.type === 'reading-story') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ReadingStoryCard
+                  story={ex.story}
+                  accent={accent}
+                  speechRate={currentRate}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'reading-comprehension') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ReadingComprehensionExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'classification-table') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ClassificationTableExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'checkbox-multiselect' || (ex.type as string) === 'checkbox-multi-select') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CheckboxMultiSelectExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'writing-ai-feedback') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <WritingAiFeedbackExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
           if (ex.type === 'dialogue-dropdown') {
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
@@ -1000,6 +1113,71 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <UnitTestActivity
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'radio-choice') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <RadioChoiceExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'speech-response') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <SpeechResponseExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'dialogue-ordering') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DialogueOrderingExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'roleplay-practice') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <RoleplayPracticeExercise
+                  exercise={ex}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interactive-conversation') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InteractiveConversationExercise
                   exercise={ex}
                   accent={accent}
                   speechRate={currentRate}

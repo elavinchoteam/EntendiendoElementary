@@ -568,17 +568,61 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                 }`}
               >
                 {/* Front: English Question */}
-                <div className="absolute inset-0 px-4 py-2.5 flex items-center backface-hidden">
-                  <span className="font-semibold text-sm sm:text-base leading-snug">
+                <div className="absolute inset-0 px-4 py-2.5 flex items-center justify-between gap-3 backface-hidden">
+                  <span className="font-semibold text-sm sm:text-base leading-snug flex-1">
                     {exercise.question || 'Chuck Wood phones people to...'}
                   </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speakEnglish(
+                        exercise.question,
+                        currentPlaybackRate,
+                        safeAccent,
+                        undefined,
+                        undefined,
+                        speakerVoice
+                      );
+                    }}
+                    className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
+                      isDark
+                        ? 'border-white/10 hover:bg-white/10 text-white/70 hover:text-white'
+                        : 'border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+                    }`}
+                    aria-label="Audio"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
                 </div>
 
                 {/* Back: Spanish Translation */}
-                <div className="absolute inset-0 px-4 py-2.5 flex items-center backface-hidden rotate-y-180">
-                  <span className="font-semibold text-sm sm:text-base leading-snug italic">
+                <div className="absolute inset-0 px-4 py-2.5 flex items-center justify-between gap-3 backface-hidden rotate-y-180">
+                  <span className="font-semibold text-sm sm:text-base leading-snug italic flex-1">
                     {exercise.questionEs || 'Chuck Wood llama a las personas para...'}
                   </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      speakEnglish(
+                        exercise.question,
+                        currentPlaybackRate,
+                        safeAccent,
+                        undefined,
+                        undefined,
+                        speakerVoice
+                      );
+                    }}
+                    className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
+                      isDark
+                        ? 'border-emerald-500/30 hover:bg-emerald-500/20 text-emerald-200'
+                        : 'border-emerald-200 hover:bg-emerald-100 text-emerald-800'
+                    }`}
+                    aria-label="Audio"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -622,7 +666,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                           : 'border-slate-200 hover:border-slate-300 bg-white text-slate-800'
                       }`}
                     >
-                      {/* ANVERSO / FRONT: English sentence + Radio button */}
+                      {/* ANVERSO / FRONT: English sentence + Radio button + Speaker button */}
                       <div className="absolute inset-0 px-4 py-3 flex items-center justify-between gap-3 backface-hidden">
                         <div className="flex items-center gap-3.5 flex-1 min-w-0">
                           {/* Circular Radio Button */}
@@ -650,19 +694,45 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                           </span>
                         </div>
 
-                        {/* Status feedback icon after checking */}
-                        {hasChecked && isSelected && (
-                          <div className="shrink-0 ml-1">
-                            {isOptCorrect ? (
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                            ) : (
-                              <XCircle className="w-4 h-4 text-rose-500" />
-                            )}
-                          </div>
-                        )}
+                        <div className="flex items-center gap-2 shrink-0">
+                          {/* Audio speaker button for option text (English) */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              speakEnglish(
+                                opt.text,
+                                currentPlaybackRate,
+                                safeAccent,
+                                undefined,
+                                undefined,
+                                speakerVoice
+                              );
+                            }}
+                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                              isDark
+                                ? 'border-white/10 hover:bg-white/10 text-white/70 hover:text-white'
+                                : 'border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+                            }`}
+                            aria-label="Audio"
+                          >
+                            <Volume2 className="w-4 h-4" />
+                          </button>
+
+                          {/* Status feedback icon after checking */}
+                          {hasChecked && isSelected && (
+                            <div className="shrink-0 ml-1">
+                              {isOptCorrect ? (
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                              ) : (
+                                <XCircle className="w-4 h-4 text-rose-500" />
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      {/* REVERSO / BACK: Spanish translation + Radio button */}
+                      {/* REVERSO / BACK: Spanish translation + Radio button + Speaker button */}
                       <div className="absolute inset-0 px-4 py-3 flex items-center justify-between gap-3 backface-hidden rotate-y-180">
                         <div className="flex items-center gap-3.5 flex-1 min-w-0">
                           {/* Circular Radio Button on reverse face */}
@@ -690,16 +760,42 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                           </span>
                         </div>
 
-                        {/* Status feedback icon after checking */}
-                        {hasChecked && isSelected && (
-                          <div className="shrink-0 ml-1">
-                            {isOptCorrect ? (
-                              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                            ) : (
-                              <XCircle className="w-4 h-4 text-rose-500" />
-                            )}
-                          </div>
-                        )}
+                        <div className="flex items-center gap-2 shrink-0">
+                          {/* Audio speaker button for option text (speaks English) */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              speakEnglish(
+                                opt.text,
+                                currentPlaybackRate,
+                                safeAccent,
+                                undefined,
+                                undefined,
+                                speakerVoice
+                              );
+                            }}
+                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                              isDark
+                                ? 'border-emerald-500/30 hover:bg-emerald-500/20 text-emerald-200'
+                                : 'border-emerald-200 hover:bg-emerald-100 text-emerald-800'
+                            }`}
+                            aria-label="Audio"
+                          >
+                            <Volume2 className="w-4 h-4" />
+                          </button>
+
+                          {/* Status feedback icon after checking */}
+                          {hasChecked && isSelected && (
+                            <div className="shrink-0 ml-1">
+                              {isOptCorrect ? (
+                                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                              ) : (
+                                <XCircle className="w-4 h-4 text-rose-500" />
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

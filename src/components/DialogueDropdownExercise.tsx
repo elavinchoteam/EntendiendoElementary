@@ -134,7 +134,7 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
       <div className="w-full flex flex-col lg:flex-row items-start gap-8">
         {/* Left Column: Vocabulary Helper */}
         {exercise.vocabularyWords && (
-          <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-start">
+          <div className="w-full lg:w-[400px] xl:w-[440px] shrink-0 flex justify-center lg:justify-start">
             <VocabularyHelperCard
               words={exercise.vocabularyWords}
               accent={accent}

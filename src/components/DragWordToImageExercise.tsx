@@ -235,8 +235,16 @@ export const DragWordToImageExercise: React.FC<DragWordToImageExerciseProps> = (
         </div>
       </div>
 
-      {/* 3. GRID OF 5 IMAGES WITH REVERSIBLE CARDS & DROP ZONES */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+      {/* 3. GRID OF IMAGES WITH REVERSIBLE CARDS & DROP ZONES */}
+      <div
+        className={`grid gap-4 sm:gap-5 ${
+          items.length === 6
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+            : items.length <= 4
+            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+            : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
+        }`}
+      >
         {items.map((item, idx) => {
           const placedWord = placedWords[item.id];
           const isFlipped = !!flippedCards[item.id];

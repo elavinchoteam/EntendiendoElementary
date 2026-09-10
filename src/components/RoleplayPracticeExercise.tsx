@@ -14,10 +14,13 @@ import {
   HelpCircle,
   User,
   Users,
+  Gauge,
+  CheckCircle2,
 } from 'lucide-react';
 import { RoleplayPracticeExercise as RoleplayPracticeExerciseType, RoleplayCharacter } from '../types';
 import { useTheme } from '../context/ThemeContext';
 import { speakEnglish, playFeedbackSound } from '../utils/audio';
+import { PLAYBACK_SPEEDS, formatSpeedLabel } from './AudioPlayerCard';
 import dressFromParisImg from '../assets/images/dress_from_paris_1788711801436.jpg';
 
 interface RoleplayPracticeExerciseProps {
@@ -39,6 +42,20 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
   // State: Chosen character (default Character 1 / left)
   const [selectedCharacterId, setSelectedCharacterId] = useState<string>('character-1');
   const [isInstructionFlipped, setIsInstructionFlipped] = useState(false);
+  const [instructionSpeed, setInstructionSpeed] = useState<number>(speechRate);
+  const [isInstructionSpeedOpen, setIsInstructionSpeedOpen] = useState(false);
+  const instructionSpeedMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close speed menu on outside click
+  useEffect(() => {
+    const handleDocClick = (e: MouseEvent) => {
+      if (instructionSpeedMenuRef.current && !instructionSpeedMenuRef.current.contains(e.target as Node)) {
+        setIsInstructionSpeedOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleDocClick);
+    return () => document.removeEventListener('mousedown', handleDocClick);
+  }, []);
 
   // Practice state
   const [isPracticing, setIsPracticing] = useState(false);
@@ -308,29 +325,84 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
           </div>
         </div>
 
-        {/* Audio button for instruction */}
-        <button
-          type="button"
-          onClick={() => {
-            speakEnglish(
-              exercise.instructions || 'Click on the arrow next to the character you would like to practice.',
-              speechRate,
-              safeAccent,
-              undefined,
-              undefined,
-              'female'
-            );
-          }}
-          className={`p-2.5 rounded-xl border transition-all cursor-pointer shrink-0 ${
-            isDark
-              ? 'border-white/10 hover:bg-white/10 text-white/70 hover:text-white'
-              : 'border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900'
-          }`}
-          title="Escuchar instrucción"
-          aria-label="Escuchar instrucción"
-        >
-          <Volume2 className="w-4 h-4" />
-        </button>
+        {/* Audio button and speed selector for instruction */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              const textToSpeak = isInstructionFlipped
+                ? (exercise.instructionsEs || '')
+                : (exercise.instructions || 'Click on the arrow next to the character you would like to practice.');
+              speakEnglish(
+                textToSpeak,
+                instructionSpeed,
+                safeAccent,
+                undefined,
+                undefined,
+                'female'
+              );
+            }}
+            className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
+              isDark
+                ? 'border-white/10 hover:bg-white/10 text-white/70 hover:text-white'
+                : 'border-slate-200 hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+            }`}
+            title="Escuchar instrucción"
+            aria-label="Escuchar instrucción"
+          >
+            <Volume2 className="w-4 h-4" />
+          </button>
+
+          <div className="relative" ref={instructionSpeedMenuRef}>
+            <button
+              type="button"
+              onClick={() => setIsInstructionSpeedOpen(!isInstructionSpeedOpen)}
+              className={`px-2 py-1 rounded-lg border text-xs font-semibold flex items-center gap-1 cursor-pointer transition-colors ${
+                isDark
+                  ? 'border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+              }`}
+              title="Velocidad"
+            >
+              <Gauge className="w-3 h-3 text-cyan-500" />
+              <span>{formatSpeedLabel(instructionSpeed)}</span>
+            </button>
+
+            {isInstructionSpeedOpen && (
+              <div
+                className={`absolute right-0 top-full mt-1 w-28 rounded-xl shadow-xl border py-1.5 z-50 animate-in fade-in zoom-in-95 ${
+                  isDark ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200'
+                }`}
+              >
+                <div className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 text-slate-400">
+                  Velocidad
+                </div>
+                {PLAYBACK_SPEEDS.map((sp) => (
+                  <button
+                    key={sp.value}
+                    type="button"
+                    onClick={() => {
+                      setInstructionSpeed(sp.value);
+                      setIsInstructionSpeedOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors ${
+                      Math.abs(instructionSpeed - sp.value) < 0.01
+                        ? 'bg-cyan-50 dark:bg-cyan-950/50 text-cyan-600 dark:text-cyan-400 font-bold'
+                        : isDark
+                        ? 'text-slate-300 hover:bg-slate-700'
+                        : 'text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    <span>{sp.label}</span>
+                    {Math.abs(instructionSpeed - sp.value) < 0.01 && (
+                      <CheckCircle2 className="w-3 h-3 text-cyan-500" />
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Main Grid: Left Column (Character Selector Image + Arrows) & Right Column (Dialogue Roleplay Stage) */}
@@ -483,10 +555,10 @@ export const RoleplayPracticeExercise: React.FC<RoleplayPracticeExerciseProps> =
                     Preview lines:
                   </div>
                   <p className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 mb-1.5">
-                    "What a lovely dress."
+                    "{exercise.turns?.[0]?.textEn || 'Would you like some cake?'}"
                   </p>
                   <p className="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100">
-                    "Really? Do you like it?"
+                    "{exercise.turns?.[1]?.textEn || 'Ah, not right now, thanks.'}"
                   </p>
                 </div>
 

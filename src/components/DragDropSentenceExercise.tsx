@@ -530,13 +530,17 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
             </div>
           </div>
 
-          {/* Caja con la oración de referencia y palabras destacadas en cian */}
+          {/* Caja con la oración de referencia y palabras destacadas en cian (reversible al hacer clic) */}
           <div
             id={`reference-sentence-card-${exercise.id}`}
-            className={`mt-4 p-3.5 sm:p-4 rounded-2xl border transition-all ${
+            onClick={() => {
+              playFeedbackSound('flip');
+              setIsReferenceFlipped((prev) => !prev);
+            }}
+            className={`mt-4 p-3.5 sm:p-4 rounded-2xl border transition-all cursor-pointer select-none ${
               isDark
-                ? 'bg-slate-800/60 border-slate-700/70 text-slate-200'
-                : 'bg-slate-50 border-slate-200 text-slate-800'
+                ? 'bg-slate-800/80 border-slate-700 text-slate-200'
+                : 'bg-white border-slate-200 text-slate-800 shadow-xs'
             }`}
           >
             <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-200/50 dark:border-slate-700/50">
@@ -548,28 +552,20 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                 <button
                   type="button"
                   id={`listen-reference-btn-${exercise.id}`}
-                  onClick={handleListenReference}
-                  className={`p-1 rounded-lg border transition-all cursor-pointer ${
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleListenReference();
+                  }}
+                  className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                     speakingTarget === 'reference'
                       ? 'bg-cyan-500 text-white border-cyan-400'
                       : isDark
                       ? 'bg-slate-700/60 hover:bg-slate-700 text-cyan-300 border-slate-600'
                       : 'bg-white hover:bg-slate-100 text-cyan-700 border-slate-300'
                   }`}
-                  title="Escuchar oración de referencia"
-                  aria-label="Escuchar oración de referencia"
+                  aria-label="Audio"
                 >
                   <Volume2 className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  id={`toggle-reference-translation-${exercise.id}`}
-                  onClick={() => setIsReferenceFlipped((prev) => !prev)}
-                  className="text-xs text-slate-400 hover:text-cyan-500 flex items-center gap-1 cursor-pointer transition-colors px-1"
-                  title="Ver traducción"
-                >
-                  <RotateCw className="w-3 h-3" />
-                  <span>{isReferenceFlipped ? 'Inglés' : 'Español'}</span>
                 </button>
               </div>
             </div>
@@ -585,10 +581,10 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
           </div>
         </div>
 
-        {/* PANEL DERECHO: Diálogo con casilla Drag & Drop y Opciones abajo */}
+        {/* PANEL DERECHO: Diálogo con casilla Drag & Drop / Dropdown y Opciones abajo */}
         <div className="w-full lg:w-[52%] p-6 sm:p-8 flex flex-col justify-between">
           <div className="flex flex-col gap-6">
-            {/* Cabecera del diálogo con botones de audio y traducción */}
+            {/* Cabecera del diálogo con botón de audio parlante (solo icono) */}
             <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
               <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
                 Complete the Dialogue
@@ -598,7 +594,10 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                 <button
                   type="button"
                   id={`listen-dialogue-btn-${exercise.id}`}
-                  onClick={handleListenDialogue}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleListenDialogue();
+                  }}
                   className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                     speakingTarget === 'dialogue'
                       ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
@@ -606,27 +605,25 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                       ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
                       : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
                   }`}
-                  title="Escuchar diálogo completo"
-                  aria-label="Escuchar diálogo"
+                  aria-label="Audio"
                 >
                   <Volume2 className="w-4 h-4" />
-                </button>
-
-                <button
-                  type="button"
-                  id={`toggle-dialogue-translation-btn-${exercise.id}`}
-                  onClick={() => setIsDialogueFlipped((prev) => !prev)}
-                  className="text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer transition-colors"
-                  title="Traducir diálogo"
-                >
-                  <RotateCw className="w-3.5 h-3.5" />
-                  <span>{isDialogueFlipped ? 'Inglés' : 'Español'}</span>
                 </button>
               </div>
             </div>
 
-            {/* Diálogo con líneas y espacio para soltar (Drop Target Slot) */}
-            <div className="space-y-4 text-base sm:text-lg font-medium leading-relaxed">
+            {/* Diálogo con líneas y espacio para soltar o dropdown (clic en el área de texto voltea al español) */}
+            <div
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.closest('button') || target.closest('select') || target.closest(`#drag-drop-slot-${exercise.id}`)) {
+                  return;
+                }
+                playFeedbackSound('flip');
+                setIsDialogueFlipped((prev) => !prev);
+              }}
+              className="space-y-4 text-base sm:text-lg font-medium leading-relaxed cursor-pointer select-none"
+            >
               {exercise.dialogueLines.map((line, idx) => {
                 if (line.hasBlank) {
                   return (
@@ -636,49 +633,86 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                     >
                       <span>{isDialogueFlipped ? line.prefixEs || line.prefix : line.prefix}</span>
 
-                      {/* Casilla interactiva Drag & Drop */}
-                      <div
-                        id={`drag-drop-slot-${exercise.id}`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={() => {
-                          if (placedOptionId && !isChecked) {
-                            handleRemovePlacedOption();
+                      {/* Dropdown o Casilla interactiva Drag & Drop */}
+                      {exercise.isDropdown ? (
+                        <select
+                          id={`dropdown-slot-${exercise.id}`}
+                          value={placedOptionId || ''}
+                          onChange={(e) => {
+                            if (isChecked) return;
+                            setPlacedOptionId(e.target.value || null);
+                            playFeedbackSound('click');
+                          }}
+                          disabled={isChecked}
+                          className={`px-3.5 py-2 rounded-xl border-2 font-mono text-sm sm:text-base font-semibold transition-all outline-none cursor-pointer ${
+                            isChecked
+                              ? isCorrect
+                                ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                                : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                              : placedOptionId
+                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300'
+                              : isDark
+                              ? 'border-slate-600 bg-slate-800 text-slate-200 hover:border-slate-500'
+                              : 'border-slate-300 bg-white text-slate-800 hover:border-slate-400'
+                          }`}
+                        >
+                          <option value="" disabled>
+                            -- select --
+                          </option>
+                          {exercise.options.map((opt) => (
+                            <option
+                              key={opt.id}
+                              value={opt.id}
+                              className="text-slate-900 bg-white dark:bg-slate-800 dark:text-white"
+                            >
+                              {opt.text}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <div
+                          id={`drag-drop-slot-${exercise.id}`}
+                          onDragOver={handleDragOver}
+                          onDragLeave={handleDragLeave}
+                          onDrop={handleDrop}
+                          onClick={() => {
+                            if (placedOptionId && !isChecked) {
+                              handleRemovePlacedOption();
+                            }
+                          }}
+                          className={`min-w-[120px] sm:min-w-[140px] h-11 px-3.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                            isChecked
+                              ? isCorrect
+                                ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                              : isDragOver
+                              ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                              : placedOptionId
+                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                              : isDark
+                              ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                              : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                          } ${placedOptionId && !isChecked ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30' : ''}`}
+                          title={
+                            placedOptionId
+                              ? 'Haz clic para quitar de la casilla'
+                              : 'Arrastra aquí o haz clic en una opción de abajo'
                           }
-                        }}
-                        className={`min-w-[120px] sm:min-w-[140px] h-11 px-3.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
-                          isChecked
-                            ? isCorrect
-                              ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
-                              : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
-                            : isDragOver
-                            ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
-                            : placedOptionId
-                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
-                            : isDark
-                            ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
-                            : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
-                        } ${placedOptionId && !isChecked ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30' : ''}`}
-                        title={
-                          placedOptionId
-                            ? 'Haz clic para quitar de la casilla'
-                            : 'Arrastra aquí o haz clic en una opción de abajo'
-                        }
-                      >
-                        {placedOption ? (
-                          <div className="flex items-center gap-2">
-                            <span>{placedOption.text}</span>
-                            {!isChecked && (
-                              <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-xs sm:text-sm text-slate-400 italic">
-                            ________
-                          </span>
-                        )}
-                      </div>
+                        >
+                          {placedOption ? (
+                            <div className="flex items-center gap-2">
+                              <span>{placedOption.text}</span>
+                              {!isChecked && (
+                                <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-xs sm:text-sm text-slate-400 italic">
+                              ________
+                            </span>
+                          )}
+                        </div>
+                      )}
 
                       <span>{isDialogueFlipped ? line.suffixEs || line.suffix : line.suffix}</span>
                     </div>
@@ -697,40 +731,44 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
             </div>
           </div>
 
-          {/* ZONA INFERIOR: Banco de opciones + Botones de acción y Feedback */}
+          {/* ZONA INFERIOR: Banco de opciones (solo para drag & drop) + Botones de acción y Feedback */}
           <div className="pt-6 border-t border-slate-200 dark:border-slate-800 mt-6">
-            <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
-              Opciones disponibles (arrastra o haz clic)
-            </div>
+            {!exercise.isDropdown && (
+              <>
+                <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
+                  Opciones disponibles (arrastra o haz clic)
+                </div>
 
-            {/* Pastillas de opciones exactamente como la captura */}
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-6">
-              {exercise.options.map((opt) => {
-                const isPlaced = placedOptionId === opt.id;
+                {/* Pastillas de opciones exactamente como la captura */}
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-6">
+                  {exercise.options.map((opt) => {
+                    const isPlaced = placedOptionId === opt.id;
 
-                return (
-                  <button
-                    type="button"
-                    key={opt.id}
-                    id={`drag-option-${exercise.id}-${opt.id}`}
-                    draggable={!isChecked}
-                    onDragStart={(e) => handleDragStart(e, opt.id)}
-                    onClick={() => handleSelectOptionClick(opt.id)}
-                    disabled={isChecked || isPlaced}
-                    className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl border text-sm sm:text-base font-mono font-semibold transition-all select-none shadow-xs ${
-                      isPlaced
-                        ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
-                        : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-indigo-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                        : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-indigo-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                    }`}
-                    title={`Haz clic o arrastra: ${opt.text}`}
-                  >
-                    {opt.text}
-                  </button>
-                );
-              })}
-            </div>
+                    return (
+                      <button
+                        type="button"
+                        key={opt.id}
+                        id={`drag-option-${exercise.id}-${opt.id}`}
+                        draggable={!isChecked}
+                        onDragStart={(e) => handleDragStart(e, opt.id)}
+                        onClick={() => handleSelectOptionClick(opt.id)}
+                        disabled={isChecked || isPlaced}
+                        className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl border text-sm sm:text-base font-mono font-semibold transition-all select-none shadow-xs ${
+                          isPlaced
+                            ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
+                            : isDark
+                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-indigo-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                            : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-indigo-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                        }`}
+                        title={`Haz clic o arrastra: ${opt.text}`}
+                      >
+                        {opt.text}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
 
             {/* Mensaje de retroalimentación si ya comprobó */}
             {isChecked && (

@@ -342,8 +342,8 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
   };
 
   // Flip option for Spanish translation
-  const handleToggleFlipOption = (optId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleToggleFlipOption = (optId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     playFeedbackSound('flip');
     setFlippedOptionIds((prev) =>
       prev.includes(optId) ? prev.filter((id) => id !== optId) : [...prev, optId]
@@ -714,9 +714,9 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                   type="button"
                   onClick={(e) => handlePlayLine(exercise.promptStatement, e)}
                   className="w-10 h-10 rounded-xl bg-sky-500 hover:bg-sky-400 text-white flex items-center justify-center shrink-0 shadow-xs transition-all active:scale-95 cursor-pointer"
-                  title="Escuchar enunciado"
+                  aria-label="Audio"
                 >
-                  <Headphones className="w-5 h-5" />
+                  <Volume2 className="w-5 h-5" />
                 </button>
                 <div className="flex-1">
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-sky-500 block">
@@ -730,9 +730,14 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
 
               {/* Back: Spanish Prompt */}
               <div className="absolute inset-0 px-4 sm:px-5 flex items-center gap-3.5 backface-hidden rotate-y-180 bg-inherit rounded-2xl">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-                  <Sparkles className="w-5 h-5" />
-                </div>
+                <button
+                  type="button"
+                  onClick={(e) => handlePlayLine(exercise.promptStatement, e)}
+                  className="w-10 h-10 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center shrink-0 shadow-xs transition-all active:scale-95 cursor-pointer"
+                  aria-label="Audio"
+                >
+                  <Volume2 className="w-5 h-5" />
+                </button>
                 <div>
                   <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-500 block">
                     Traducción
@@ -779,12 +784,12 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                   <div
                     key={option.id}
                     id={`speech-option-${option.id}`}
-                    onClick={() => handleSelectOption(option.id)}
+                    onClick={() => handleToggleFlipOption(option.id)}
                     className={`perspective-1000 w-full rounded-xl border p-3 sm:p-3.5 transition-all cursor-pointer shadow-xs select-none ${cardStatusClass}`}
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3 flex-1 min-w-0">
-                        {/* Headphone Audio Icon Button */}
+                        {/* Speaker Audio Icon Button (No Text) */}
                         <button
                           type="button"
                           onClick={(e) => handlePlayLine(option.text, e)}
@@ -793,30 +798,21 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                               ? 'bg-white/10 hover:bg-sky-500 hover:text-white text-slate-300'
                               : 'bg-slate-100 hover:bg-sky-500 hover:text-white text-slate-600'
                           }`}
-                          title="Escuchar opción"
+                          aria-label="Audio"
                         >
-                          <Headphones className="w-4 h-4" />
+                          <Volume2 className="w-4 h-4" />
                         </button>
 
                         {/* Option Text / Spanish translation */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm sm:text-base font-medium leading-snug truncate">
+                          <p className={`text-sm sm:text-base font-medium leading-snug truncate ${isFlipped ? 'italic text-emerald-600 dark:text-emerald-300' : ''}`}>
                             {isFlipped ? option.textEs || option.text : option.text}
                           </p>
                         </div>
                       </div>
 
-                      {/* Right Indicator: Radio / Translation Toggle / Check-X */}
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <button
-                          type="button"
-                          onClick={(e) => handleToggleFlipOption(option.id, e)}
-                          className="px-1.5 py-0.5 rounded text-[10px] font-mono uppercase bg-slate-200 dark:bg-white/10 hover:bg-sky-200 text-slate-600 dark:text-slate-300 cursor-pointer"
-                          title="Traducir opción"
-                        >
-                          {isFlipped ? 'EN' : 'ES'}
-                        </button>
-
+                      {/* Right Indicator: Radio circle / Check-X */}
+                      <div className="flex items-center gap-2 shrink-0">
                         {hasChecked ? (
                           option.isCorrect ? (
                             <CheckCircle className="w-5 h-5 text-emerald-500" />
@@ -825,13 +821,17 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                           ) : null
                         ) : (
                           <div
-                            className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSelectOption(option.id);
+                            }}
+                            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all ${
                               isSelected
                                 ? 'border-sky-500 bg-sky-500 text-white'
                                 : 'border-slate-400 dark:border-white/30'
                             }`}
                           >
-                            {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                            {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                           </div>
                         )}
                       </div>

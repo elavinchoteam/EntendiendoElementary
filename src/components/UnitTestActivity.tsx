@@ -53,6 +53,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   const [isCardFlipped, setIsCardFlipped] = useState<boolean>(false);
   const [isInstructionFlipped, setIsInstructionFlipped] = useState<boolean>(false);
   const [isQuestionFlipped, setIsQuestionFlipped] = useState<boolean>(false);
+  const [isReferenceFlipped, setIsReferenceFlipped] = useState<boolean>(false);
   const [isTestCompleted, setIsTestCompleted] = useState<boolean>(false);
 
   // Active question index (0 for Test 1, up to 5 for Test 6)
@@ -155,6 +156,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   // Clean up audio and reset question-level states on unmount or question change
   useEffect(() => {
     setIsQuestionFlipped(false);
+    setIsReferenceFlipped(false);
     setIsInstructionFlipped(false);
     setIsPlayingMedia(false);
     setElapsedSeconds(0);
@@ -1142,14 +1144,17 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   </div>
                 </div>
 
-                {/* Informative footer or Reference sentence box */}
+                {/* Informative footer or Reference sentence box (reversible al hacer clic) */}
                 {(currentQuestion.referenceText || exercise.referenceText) ? (
                   <div
                     id={`test-reference-box-${currentQuestion.id}`}
-                    className={`mt-3.5 p-3.5 sm:p-4 rounded-2xl border text-left transition-all ${
+                    onClick={() => {
+                      setIsReferenceFlipped((prev) => !prev);
+                    }}
+                    className={`mt-3.5 p-3.5 sm:p-4 rounded-2xl border text-left transition-all cursor-pointer select-none ${
                       isDark
                         ? 'bg-slate-800/80 border-slate-700 text-slate-200 shadow-sm'
-                        : 'bg-slate-100/90 border-slate-300 text-slate-800 shadow-xs'
+                        : 'bg-white border-slate-200 text-slate-800 shadow-xs'
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2 pb-1.5 mb-1.5 border-b border-inherit/40 text-[11px] font-mono uppercase font-bold text-cyan-600 dark:text-cyan-400">
@@ -1168,36 +1173,40 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             ? 'bg-cyan-500 text-white'
                             : 'bg-white/60 dark:bg-slate-700 text-cyan-600 dark:text-cyan-300 hover:bg-white dark:hover:bg-slate-600'
                         }`}
-                        title="Escuchar oración"
+                        aria-label="Audio"
                       >
                         <Volume2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
                     <p className="text-xs sm:text-sm font-medium leading-relaxed">
-                      {(() => {
-                        const refText = currentQuestion.referenceText || exercise.referenceText || '';
-                        const highlights =
-                          currentQuestion.referenceHighlights ||
-                          exercise.referenceHighlights || ['was', 'were', "wasn't"];
-                        const pattern = new RegExp(`\\b(${highlights.join('|')})\\b`, 'gi');
-                        const parts = refText.split(pattern);
-                        return parts.map((part, pIdx) => {
-                          const isMatch = highlights.some(
-                            (h) => h.toLowerCase() === part.toLowerCase()
-                          );
-                          if (isMatch) {
-                            return (
-                              <span
-                                key={pIdx}
-                                className="inline-block bg-cyan-300 dark:bg-cyan-500/30 text-cyan-950 dark:text-cyan-200 px-1 py-0.5 rounded font-bold border border-cyan-400/40"
-                              >
-                                {part}
-                              </span>
+                      {isReferenceFlipped ? (
+                        currentQuestion.referenceTextEs || exercise.referenceTextEs || '- En el concierto de rock anoche.'
+                      ) : (
+                        (() => {
+                          const refText = currentQuestion.referenceText || exercise.referenceText || '';
+                          const highlights =
+                            currentQuestion.referenceHighlights ||
+                            exercise.referenceHighlights || ['was', 'were', "wasn't"];
+                          const pattern = new RegExp(`\\b(${highlights.join('|')})\\b`, 'gi');
+                          const parts = refText.split(pattern);
+                          return parts.map((part, pIdx) => {
+                            const isMatch = highlights.some(
+                              (h) => h.toLowerCase() === part.toLowerCase()
                             );
-                          }
-                          return <span key={pIdx}>{part}</span>;
-                        });
-                      })()}
+                            if (isMatch) {
+                              return (
+                                <span
+                                  key={pIdx}
+                                  className="inline-block bg-cyan-300 dark:bg-cyan-500/30 text-cyan-950 dark:text-cyan-200 px-1 py-0.5 rounded font-bold border border-cyan-400/40"
+                                >
+                                  {part}
+                                </span>
+                              );
+                            }
+                            return <span key={pIdx}>{part}</span>;
+                          });
+                        })()
+                      )}
                     </p>
                   </div>
                 ) : (
@@ -1250,23 +1259,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
                                 : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
                             }`}
-                            title="Listen sentence"
-                            aria-label="Escuchar oración"
+                            aria-label="Audio"
                           >
                             <Volume2 className="w-3.5 h-3.5" />
-                          </button>
-
-                          <button
-                            id="toggle-drag-sentence-translation-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsQuestionFlipped((prev) => !prev);
-                            }}
-                            className="text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer transition-colors"
-                            title="Traducir oración"
-                          >
-                            <RotateCw className="w-3 h-3" />
-                            <span>{isQuestionFlipped ? 'Inglés' : 'Español'}</span>
                           </button>
                         </div>
                       </div>
@@ -1566,79 +1561,137 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
                                 : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
                             }`}
-                            title="Listen sentence"
-                            aria-label="Escuchar oración"
+                            aria-label="Audio"
                           >
                             <Volume2 className="w-3.5 h-3.5" />
                           </button>
-
-                          <button
-                            id="toggle-dropdown-sentence-translation-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsQuestionFlipped((prev) => !prev);
-                            }}
-                            className="text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer transition-colors"
-                            title="Traducir oración"
-                          >
-                            <RotateCw className="w-3 h-3" />
-                            <span>{isQuestionFlipped ? 'Inglés' : 'Español'}</span>
-                          </button>
                         </div>
                       </div>
 
-                      {/* Sentence with Dropdown Select */}
-                      <div className="flex flex-wrap items-center gap-3 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white pt-2 leading-relaxed">
-                        <span>
-                          {isQuestionFlipped
-                            ? currentQuestion.sentencePrefixEs || currentQuestion.sentencePrefix
-                            : currentQuestion.sentencePrefix}
-                        </span>
+                      {/* Sentence with Dropdown Select (clic para voltear) */}
+                      {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                        <div
+                          onClick={() => setIsQuestionFlipped((prev) => !prev)}
+                          className="space-y-4 pt-2 text-base sm:text-xl font-medium leading-relaxed cursor-pointer select-none"
+                        >
+                          {currentQuestion.dialogueLines.map((line, lIdx) => {
+                            if (line.hasBlank) {
+                              return (
+                                <div
+                                  key={lIdx}
+                                  className="flex flex-wrap items-center gap-3 text-slate-900 dark:text-white"
+                                >
+                                  <span>{isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}</span>
+                                  <div
+                                    className="relative inline-flex items-center my-1"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <select
+                                      id={`test-dropdown-select-${currentQuestion.id}`}
+                                      value={currentSelectedOptionId || ''}
+                                      disabled={isAnswerChecked}
+                                      onChange={(e) => {
+                                        playFeedbackSound('click');
+                                        setSelectedAnswers((prev) => ({
+                                          ...prev,
+                                          [currentQuestion.id]: e.target.value,
+                                        }));
+                                      }}
+                                      className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
+                                        isAnswerChecked
+                                          ? isAnswerCorrect
+                                            ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
+                                            : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
+                                          : currentSelectedOptionId
+                                          ? isDark
+                                            ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
+                                            : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                                          : isDark
+                                          ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
+                                          : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                                      }`}
+                                    >
+                                      <option value="" disabled>
+                                        -- select --
+                                      </option>
+                                      {currentQuestion.options.map((opt) => (
+                                        <option key={opt.id} value={opt.id}>
+                                          {opt.text}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                  </div>
+                                  <span>{isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}</span>
+                                </div>
+                              );
+                            }
+                            return (
+                              <div key={lIdx} className="text-slate-800 dark:text-slate-200">
+                                {isQuestionFlipped ? line.textEs || line.textEn : line.textEn}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div
+                          onClick={() => setIsQuestionFlipped((prev) => !prev)}
+                          className="flex flex-wrap items-center gap-3 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white pt-2 leading-relaxed cursor-pointer select-none"
+                        >
+                          <span>
+                            {isQuestionFlipped
+                              ? currentQuestion.sentencePrefixEs || currentQuestion.sentencePrefix
+                              : currentQuestion.sentencePrefix}
+                          </span>
 
-                        <div className="relative inline-flex items-center my-1">
-                          <select
-                            id={`test-dropdown-select-${currentQuestion.id}`}
-                            value={currentSelectedOptionId || ''}
-                            disabled={isAnswerChecked}
-                            onChange={(e) => {
-                              playFeedbackSound('click');
-                              setSelectedAnswers((prev) => ({
-                                ...prev,
-                                [currentQuestion.id]: e.target.value,
-                              }));
-                            }}
-                            className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
-                              isAnswerChecked
-                                ? isAnswerCorrect
-                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
-                                  : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
-                                : currentSelectedOptionId
-                                ? isDark
-                                  ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
-                                  : 'border-indigo-500 bg-indigo-50 text-indigo-900'
-                                : isDark
-                                ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
-                                : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
-                            }`}
+                          <div
+                            className="relative inline-flex items-center my-1"
+                            onClick={(e) => e.stopPropagation()}
                           >
-                            <option value="" disabled>
-                              -- select --
-                            </option>
-                            {currentQuestion.options.map((opt) => (
-                              <option key={opt.id} value={opt.id}>
-                                {opt.text}
+                            <select
+                              id={`test-dropdown-select-${currentQuestion.id}`}
+                              value={currentSelectedOptionId || ''}
+                              disabled={isAnswerChecked}
+                              onChange={(e) => {
+                                playFeedbackSound('click');
+                                setSelectedAnswers((prev) => ({
+                                  ...prev,
+                                  [currentQuestion.id]: e.target.value,
+                                }));
+                              }}
+                              className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
+                                isAnswerChecked
+                                  ? isAnswerCorrect
+                                    ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
+                                    : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
+                                  : currentSelectedOptionId
+                                  ? isDark
+                                    ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
+                                    : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                                  : isDark
+                                  ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
+                                  : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                              }`}
+                            >
+                              <option value="" disabled>
+                                -- select --
                               </option>
-                            ))}
-                          </select>
-                          <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                        </div>
+                              {currentQuestion.options.map((opt) => (
+                                <option key={opt.id} value={opt.id}>
+                                  {opt.text}
+                                </option>
+                              ))}
+                            </select>
+                            <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          </div>
 
-                        <span>
-                          {isQuestionFlipped
-                            ? currentQuestion.sentenceSuffixEs || currentQuestion.sentenceSuffix
-                            : currentQuestion.sentenceSuffix}
-                        </span>
-                      </div>
+                          <span>
+                            {isQuestionFlipped
+                              ? currentQuestion.sentenceSuffixEs || currentQuestion.sentenceSuffix
+                              : currentQuestion.sentenceSuffix}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -1666,28 +1719,17 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
                                 : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
                             }`}
-                            title="Listen question"
-                            aria-label="Escuchar pregunta"
+                            aria-label="Audio"
                           >
                             <Volume2 className="w-3.5 h-3.5" />
-                          </button>
-
-                          <button
-                            id="toggle-question-translation-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsQuestionFlipped((prev) => !prev);
-                            }}
-                            className="text-xs text-slate-400 hover:text-indigo-500 flex items-center gap-1 cursor-pointer transition-colors"
-                            title="Traducir pregunta"
-                          >
-                            <RotateCw className="w-3 h-3" />
-                            <span>{isQuestionFlipped ? 'Inglés' : 'Español'}</span>
                           </button>
                         </div>
                       </div>
 
-                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-3">
+                      <h3
+                        onClick={() => setIsQuestionFlipped((prev) => !prev)}
+                        className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-3 cursor-pointer select-none"
+                      >
                         {isQuestionFlipped
                           ? currentQuestion.questionEs || '¿Quién es la persona que llama?'
                           : currentQuestion.question}

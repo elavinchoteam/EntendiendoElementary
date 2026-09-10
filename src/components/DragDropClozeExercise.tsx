@@ -107,7 +107,7 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
   // Remove a placed word from a blank
   const handleRemovePlaced = (blankId: string) => {
     if (hasChecked) return;
-    playFeedbackSound('pop');
+    playFeedbackSound('click');
     setPlacedAnswers((prev) => {
       const next = { ...prev };
       delete next[blankId];
@@ -126,7 +126,7 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
       playFeedbackSound('correct');
       if (onSuccess) onSuccess();
     } else {
-      playFeedbackSound('incorrect');
+      playFeedbackSound('wrong');
     }
   };
 
@@ -313,7 +313,7 @@ export const DragDropClozeExercise: React.FC<DragDropClozeExerciseProps> = ({
         )}
 
         {exercise.vocabularyWords && !exercise.story && (
-          <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-start">
+          <div className="w-full lg:w-[400px] xl:w-[440px] shrink-0 flex justify-center lg:justify-start">
             <VocabularyHelperCard
               words={exercise.vocabularyWords}
               accent={accent}

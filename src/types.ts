@@ -33,8 +33,11 @@ export type ExerciseType =
   | 'drag-word-to-image'
   | 'audio-clips-dropdown'
   | 'food-explore'
+  | 'dialogue-explore'
   | 'classification-table'
   | 'checkbox-multiselect'
+  | 'dialogue-ordering'
+  | 'interactive-conversation'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -52,6 +55,8 @@ export interface GrammarRule {
 export interface BaseExercise {
   id: string;
   type: ExerciseType;
+  title?: string;
+  titleEs?: string;
   question?: string;
   explanation?: string;
   audioPrompt?: string;
@@ -376,6 +381,7 @@ export interface DragDropSentenceExercise extends BaseExercise {
   correctAnswerId: string;
   explanation: string;
   explanationEs?: string;
+  isDropdown?: boolean;
 }
 
 export interface VocabularyWordItem {
@@ -548,6 +554,60 @@ export interface CheckboxMultiSelectExercise extends BaseExercise {
   explanationEs?: string;
 }
 
+export interface DialogueExploreExercise extends BaseExercise {
+  type: 'dialogue-explore';
+  instructions?: string;
+  instructionsEs?: string;
+  audioText: string;
+  sentences: LessonSentence[];
+  imageUrl?: string;
+  durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
+}
+
+export interface DialogueOrderItem {
+  id: string;
+  order: number; // 1-based correct order
+  textEn: string;
+  textEs: string;
+  speaker?: string;
+}
+
+export interface DialogueOrderingExercise extends BaseExercise {
+  type: 'dialogue-ordering';
+  instructions: string;
+  instructionsEs?: string;
+  imageUrl?: string;
+  durationSeconds?: number;
+  speakerGender?: 'male' | 'female';
+  audioPrompt?: string;
+  sentences?: LessonSentence[];
+  items: DialogueOrderItem[];
+  initialOrder?: string[];
+  explanation?: string;
+  explanationEs?: string;
+}
+
+export interface ConversationTurnOption {
+  id: string;
+  textEn: string;
+  textEs: string;
+  partnerResponseEn: string;
+  partnerResponseEs: string;
+  partnerAudioText?: string;
+  nextOptions?: ConversationTurnOption[];
+}
+
+export interface InteractiveConversationExercise extends BaseExercise {
+  type: 'interactive-conversation';
+  instructions: string;
+  instructionsEs?: string;
+  imageUrl?: string;
+  initialPromptEn: string;
+  initialPromptEs: string;
+  options: ConversationTurnOption[];
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -570,8 +630,11 @@ export type Exercise =
   | DragWordToImageExercise
   | AudioClipsDropdownExercise
   | FoodExploreExercise
+  | DialogueExploreExercise
   | ClassificationTableExercise
   | CheckboxMultiSelectExercise
+  | DialogueOrderingExercise
+  | InteractiveConversationExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
