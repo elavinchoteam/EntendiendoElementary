@@ -1,4 +1,5 @@
 import { UnitSection } from '../types';
+import { BE_PAST_MASTERCLASS_EXERCISES } from './bePastMasterclassData';
 import { PHONE_SALES_LESSON_TEXT, PHONE_SALES_EXERCISES } from './phoneSalesData';
 import { DRESS_FROM_PARIS_LESSON_TEXT, DRESS_FROM_PARIS_EXERCISES } from './dressFromParisData';
 import { BE_PAST_LESSON_TEXT, BE_PAST_EXERCISES } from './bePastStatementsData';
@@ -18,13 +19,27 @@ import dressFromParisImg from '../assets/images/dress_from_paris_1788711801436.j
 import rockConcertImg from '../assets/images/rock_concert_be_past_1788714966666.jpg';
 
 export const UNIT_1_SECTIONS: UnitSection[] = [
-  // SECTION 1: Phone Sales
+  // SECTION 1: BE in the Past — Was / Were
+  {
+    id: 'be-past-masterclass',
+    number: 1,
+    title: 'BE in the Past — Was / Were',
+    titleEs: 'Be en Pasado — Was / Were',
+    subtitle: 'Section 1 · Grammar Masterclass & Interactive Practice',
+    description:
+      'Aprende a dominar Was y Were con explicaciones completas bilingües, oraciones afirmativas, negativas, preguntas, preguntas WH- y examen de 15 puntos.',
+    imageUrl: rockConcertImg,
+    flashcards: [],
+    exercises: BE_PAST_MASTERCLASS_EXERCISES,
+  },
+
+  // SECTION 2: Phone Sales
   {
     id: 'phone-sales',
-    number: 1,
+    number: 2,
     title: 'Phone Sales',
     titleEs: 'Ventas por Teléfono',
-    subtitle: 'Lesson 1: Working People Magazine · Voice Mail Message',
+    subtitle: 'Lesson 2: Working People Magazine · Voice Mail Message',
     description:
       'Aprende a comprender ofertas telefónicas, reconocer precios normales y de oferta, números de contacto y detalles clave de ventas por teléfono.',
     imageUrl:
@@ -34,13 +49,13 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     exercises: PHONE_SALES_EXERCISES,
   },
 
-  // SECTION 2: Wrong Color
+  // SECTION 3: Wrong Color
   {
     id: 'wrong-color',
-    number: 2,
+    number: 3,
     title: 'Wrong Color',
     titleEs: 'Color Equivocado',
-    subtitle: 'Reading Story · Ms. Green and Mr. Brown',
+    subtitle: 'Section 3 · Reading Story · Ms. Green and Mr. Brown',
     description:
       'Lectura interactiva y comprensión auditiva sobre la entrega equivocada de una silla y el encuentro casual entre clientes.',
     imageUrl:
@@ -729,13 +744,13 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     ],
   },
 
-  // SECTION 3: Dress from Paris
+  // SECTION 4: Dress from Paris
   {
     id: 'dress-from-paris',
-    number: 3,
+    number: 4,
     title: 'Dress from Paris',
     titleEs: 'Vestido de París',
-    subtitle: 'Lesson 3: Social & Shopping Dialogue · Dress Compliments',
+    subtitle: 'Lesson 4: Social & Shopping Dialogue · Dress Compliments',
     description:
       'Aprende a responder a cumplidos, entablar conversaciones breves en inglés, expresar opiniones sobre ropa y practicar roleplays interactivos.',
     imageUrl: dressFromParisImg,
@@ -744,10 +759,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     exercises: DRESS_FROM_PARIS_EXERCISES,
   },
 
-  // SECTION 4: Be-Past: Statements
+  // SECTION 5: Be-Past: Statements
   {
     id: 'be-past-statements',
-    number: 4,
+    number: 5,
     title: 'Be-Past: Statements',
     titleEs: 'Be en Pasado: Afirmaciones',
     subtitle: 'Grammar Focus · Was / Were Statements',
@@ -759,10 +774,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     exercises: BE_PAST_EXERCISES,
   },
 
-  // SECTION 5: Be-Past: Questions
+  // SECTION 6: Be-Past: Questions
   {
     id: 'be-past-questions',
-    number: 5,
+    number: 6,
     title: 'Be-Past: Questions',
     titleEs: 'Be en Pasado: Preguntas',
     subtitle: 'Grammar Focus · Questions with Was / Were',
@@ -774,10 +789,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
     exercises: BE_PAST_QUESTIONS_EXERCISES,
   },
 
-  // SECTION 6: Shopping 2
+  // SECTION 7: Shopping 2
   {
     id: 'shopping-2',
-    number: 6,
+    number: 7,
     title: 'Shopping 2',
     titleEs: 'Compras 2',
     subtitle: 'Practical Situations & Vocabulary',

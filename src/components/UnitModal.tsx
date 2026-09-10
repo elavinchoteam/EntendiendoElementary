@@ -261,7 +261,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                     isDark ? 'text-slate-200' : 'text-slate-700'
                   }`}
                 >
-                  Esta unidad consta de 6 partes. Elige cualquiera de las secciones para iniciar el estudio interactivo con audio y ejercicios.
+                  Esta unidad consta de {sections.length} secciones. Elige cualquiera de las secciones para iniciar el estudio interactivo con audio y ejercicios.
                 </p>
               </div>
 

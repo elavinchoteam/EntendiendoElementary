@@ -38,6 +38,8 @@ export type ExerciseType =
   | 'checkbox-multiselect'
   | 'dialogue-ordering'
   | 'interactive-conversation'
+  | 'countable-quantifiers'
+  | 'be-past-masterclass'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -608,6 +610,20 @@ export interface InteractiveConversationExercise extends BaseExercise {
   options: ConversationTurnOption[];
 }
 
+export interface CountableQuantifiersExercise extends BaseExercise {
+  type: 'countable-quantifiers';
+  instructions?: string;
+  instructionsEs?: string;
+  initialTab?: string;
+}
+
+export interface BePastMasterclassExercise extends BaseExercise {
+  type: 'be-past-masterclass';
+  instructions?: string;
+  instructionsEs?: string;
+  initialTab?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -635,6 +651,8 @@ export type Exercise =
   | CheckboxMultiSelectExercise
   | DialogueOrderingExercise
   | InteractiveConversationExercise
+  | CountableQuantifiersExercise
+  | BePastMasterclassExercise
   | UnitTestExercise;
 
 export interface LessonSentence {

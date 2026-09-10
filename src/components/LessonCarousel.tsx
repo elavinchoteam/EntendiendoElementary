@@ -45,6 +45,8 @@ import { FoodClipsDropdownExercise } from './FoodClipsDropdownExercise';
 import { DialogueExploreExercise } from './DialogueExploreExercise';
 import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
+import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
+import { BePastMasterclassActivity } from './BePastMasterclassActivity';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -178,6 +180,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'dieters-feeling-great' ||
     unit.sectionId === 'piece-of-cake' ||
     (unit.id as any) === 'piece-of-cake' ||
+    unit.sectionId === 'countable-quantifiers' ||
+    (unit.id as any) === 'countable-quantifiers' ||
+    unit.sectionId === 'be-past-masterclass' ||
+    (unit.id as any) === 'be-past-masterclass' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -193,7 +199,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'checkbox-multi-select' ||
             ex.type === 'dialogue-explore' ||
             ex.type === 'dialogue-ordering' ||
-            ex.type === 'interactive-conversation'
+            ex.type === 'interactive-conversation' ||
+            ex.type === 'countable-quantifiers' ||
+            ex.type === 'be-past-masterclass'
         )
     );
 
@@ -250,6 +258,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if (ex.type === 'unit-test') {
           icon = Award;
           if (!(ex as any).title) title = `Actividad ${idx + 1}: Test`;
+        } else if (ex.type === 'countable-quantifiers') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Quantifiers Masterclass';
+        } else if (ex.type === 'be-past-masterclass') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'BE in the Past Masterclass';
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -1182,6 +1196,28 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'countable-quantifiers') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CountableQuantifiersActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'be-past-masterclass') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <BePastMasterclassActivity
+                  accent={accent}
+                  speechRate={currentRate}
                 />
               </div>
             );
