@@ -56,9 +56,9 @@ export const UNITS_DATA: Unit[] = [
     number: 3,
     title: 'Unit 3: Getting Help',
     titleEs: 'Unidad 3: Pedir Ayuda',
-    subtitle: 'Sección 1: Directions to the Museum · Sección 2: Clean-House Agency',
+    subtitle: 'Sección 1: Directions to the Museum · Sección 2: Clean-House Agency · Sección 3: Newsstand · Sección 4: Present Simple: Statements · Sección 5: Present Simple: Yes/No Questions · Sección 6: Present Simple: Wh Questions',
     description:
-      'Aprende a pedir y dar indicaciones en la calle y a comprender anuncios de servicios domésticos con lecturas, actividades interactivas y tests de evaluación.',
+      'Aprende a pedir y dar indicaciones en la calle, comprender anuncios, interactuar en situaciones cotidianas y dominar afirmaciones, negaciones y preguntas de Sí/No y Wh- en presente simple con videos, actividades interactivas y tests.',
     imageUrl:
       'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=80',
     color: '#d97706',

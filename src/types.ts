@@ -42,6 +42,10 @@ export type ExerciseType =
   | 'be-past-masterclass'
   | 'directions-explore'
   | 'clean-house-agency'
+  | 'newsstand-activity'
+  | 'present-simple-statements'
+  | 'present-simple-yes-no-questions'
+  | 'present-simple-wh-questions'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -638,6 +642,30 @@ export interface CleanHouseAgencyExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface NewsstandExercise extends BaseExercise {
+  type: 'newsstand-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface PresentSimpleStatementsExercise extends BaseExercise {
+  type: 'present-simple-statements';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface PresentSimpleQuestionsExercise extends BaseExercise {
+  type: 'present-simple-yes-no-questions';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface PresentSimpleWhQuestionsExercise extends BaseExercise {
+  type: 'present-simple-wh-questions';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -669,6 +697,10 @@ export type Exercise =
   | BePastMasterclassExercise
   | DirectionsExploreExercise
   | CleanHouseAgencyExercise
+  | NewsstandExercise
+  | PresentSimpleStatementsExercise
+  | PresentSimpleQuestionsExercise
+  | PresentSimpleWhQuestionsExercise
   | UnitTestExercise;
 
 export interface LessonSentence {

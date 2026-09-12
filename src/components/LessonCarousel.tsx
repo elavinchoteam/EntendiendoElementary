@@ -49,6 +49,10 @@ import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
 import { DirectionsToMuseumActivity } from './DirectionsToMuseumActivity';
 import { CleanHouseAgencyActivity } from './CleanHouseAgencyActivity';
+import { NewsstandActivity } from './NewsstandActivity';
+import { PresentSimpleActivity } from './PresentSimpleActivity';
+import { PresentSimpleQuestionsActivity } from './PresentSimpleQuestionsActivity';
+import { PresentSimpleWhQuestionsActivity } from './PresentSimpleWhQuestionsActivity';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -190,6 +194,14 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'directions-to-the-museum' ||
     unit.sectionId === 'clean-house-agency' ||
     (unit.id as any) === 'clean-house-agency' ||
+    unit.sectionId === 'newsstand' ||
+    (unit.id as any) === 'newsstand' ||
+    unit.sectionId === 'present-simple-statements' ||
+    (unit.id as any) === 'present-simple-statements' ||
+    unit.sectionId === 'present-simple-yes-no-questions' ||
+    (unit.id as any) === 'present-simple-yes-no-questions' ||
+    unit.sectionId === 'present-simple-wh-questions' ||
+    (unit.id as any) === 'present-simple-wh-questions' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -209,7 +221,11 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             ex.type === 'countable-quantifiers' ||
             ex.type === 'be-past-masterclass' ||
             (ex.type as string) === 'directions-explore' ||
-            (ex.type as string) === 'clean-house-agency'
+            (ex.type as string) === 'clean-house-agency' ||
+            (ex.type as string) === 'newsstand-activity' ||
+            (ex.type as string) === 'present-simple-statements' ||
+            (ex.type as string) === 'present-simple-yes-no-questions' ||
+            (ex.type as string) === 'present-simple-wh-questions'
         )
     );
 
@@ -1257,6 +1273,70 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <CleanHouseAgencyActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'newsstand-activity' ||
+            unit.sectionId === 'newsstand' ||
+            (unit.id as any) === 'newsstand'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <NewsstandActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'present-simple-statements' ||
+            unit.sectionId === 'present-simple-statements' ||
+            (unit.id as any) === 'present-simple-statements'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PresentSimpleActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'present-simple-yes-no-questions' ||
+            unit.sectionId === 'present-simple-yes-no-questions' ||
+            (unit.id as any) === 'present-simple-yes-no-questions'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PresentSimpleQuestionsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'present-simple-wh-questions' ||
+            unit.sectionId === 'present-simple-wh-questions' ||
+            (unit.id as any) === 'present-simple-wh-questions'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PresentSimpleWhQuestionsActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
