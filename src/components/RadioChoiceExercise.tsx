@@ -497,7 +497,9 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                           }}
                           className={`rounded px-1.5 py-0.5 cursor-pointer transition-all ${
                             isHighlighted
-                              ? 'bg-yellow-300 text-slate-950 font-semibold shadow-xs'
+                              ? isDark
+                                ? 'bg-indigo-600 text-white font-semibold ring-2 ring-indigo-400'
+                                : 'bg-indigo-100 text-indigo-950 font-semibold ring-2 ring-indigo-300'
                               : isDark
                               ? 'hover:bg-white/10 text-slate-300'
                               : 'hover:bg-slate-100 text-slate-700'

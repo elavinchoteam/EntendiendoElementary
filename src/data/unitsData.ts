@@ -3,6 +3,7 @@ import { UNIT_1_SECTIONS } from './unit1Sections';
 import { PHONE_SALES_LESSON_TEXT, PHONE_SALES_EXERCISES } from './phoneSalesData';
 import { UNIT_2_SECTIONS } from './unit2Sections';
 import { FOOD_SECTION_LESSON_TEXT, FOOD_SECTION_EXERCISES } from './foodSectionData';
+import { UNIT_3_SECTIONS } from './unit3Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -53,18 +54,25 @@ export const UNITS_DATA: Unit[] = [
   {
     id: 3,
     number: 3,
-    title: 'Getting Help',
-    titleEs: 'Pedir Ayuda',
-    subtitle: 'Unidad 3 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
-    imageUrl: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80',
+    title: 'Unit 3: Getting Help',
+    titleEs: 'Unidad 3: Pedir Ayuda',
+    subtitle: 'Sección 1: Directions to the Museum · Sección 2: Clean-House Agency',
+    description:
+      'Aprende a pedir y dar indicaciones en la calle y a comprender anuncios de servicios domésticos con lecturas, actividades interactivas y tests de evaluación.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=80',
     color: '#d97706',
-    category: 'Workplace & Assistance',
-    requiredProgressToUnlock: 2,
+    category: 'Directions & Urban Life',
+    requiredProgressToUnlock: 0,
+    sections: UNIT_3_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: {
+      title: 'Giving & Asking for Directions',
+      explanation: 'Uso de verbos de movimiento, esquinas, referencias y preguntas de cortesía.',
+      examples: [],
+    },
   },
   {
     id: 4,

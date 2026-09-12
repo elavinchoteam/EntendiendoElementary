@@ -372,11 +372,12 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
   const correctCount = pairs.filter((p) => slotValues[p.id] === p.correctValue).length;
   const isAllCorrect = isSubmitted && correctCount === pairs.length;
 
-  // Helper to render sentence with yellow highlighted word
+  // Helper to render sentence with highlighted word only when playing sound
   const renderSentenceWithHighlight = (
     text: string,
     highlight?: string,
-    isSpanish = false
+    isSpanish = false,
+    isPlaying = false
   ) => {
     if (!highlight) return <span>{text}</span>;
     const regex = new RegExp(`(${highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
@@ -385,20 +386,24 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
       <span className="leading-snug">
         {parts.map((part, i) =>
           part.toLowerCase() === highlight.toLowerCase() ? (
-            <mark
+            <span
               key={i}
-              className={`font-semibold px-1 py-0.5 rounded shadow-2xs mx-0.5 not-italic inline-block transition-colors ${
-                isSpanish
+              className={`font-semibold px-0.5 rounded not-italic inline-block transition-colors ${
+                isPlaying
                   ? isDark
-                    ? 'bg-yellow-400/30 text-yellow-200 ring-1 ring-yellow-400/40'
-                    : 'bg-yellow-200 text-yellow-950 ring-1 ring-yellow-400/50'
+                    ? 'bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/50'
+                    : 'bg-indigo-100 text-indigo-950 ring-1 ring-indigo-300'
+                  : isSpanish
+                  ? isDark
+                    ? 'text-emerald-300'
+                    : 'text-emerald-700'
                   : isDark
-                  ? 'bg-yellow-400/25 text-yellow-200 ring-1 ring-yellow-400/40'
-                  : 'bg-yellow-200 text-yellow-950 ring-1 ring-yellow-400/50'
+                  ? 'text-indigo-300'
+                  : 'text-indigo-700'
               }`}
             >
               {part}
-            </mark>
+            </span>
           ) : (
             <span key={i}>{part}</span>
           )
@@ -802,10 +807,10 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                       }`}
                       title="Haz clic para voltear entre inglés y español"
                     >
-                      {/* Front Face: English with yellow highlighted word */}
+                      {/* Front Face: English with highlighted word when playing audio */}
                       <div className="absolute inset-0 px-3.5 py-3 flex items-center justify-between backface-hidden gap-2">
                         <div className="flex-1 text-xs sm:text-sm md:text-[15px] font-medium leading-relaxed pr-6">
-                          {renderSentenceWithHighlight(pair.field, pair.highlightedWord, false)}
+                          {renderSentenceWithHighlight(pair.field, pair.highlightedWord, false, playingSentenceId === pair.id)}
                         </div>
 
                         {/* Speaker button on sentence */}
@@ -831,7 +836,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                           {renderSentenceWithHighlight(
                             fieldTranslation,
                             pair.highlightedWordEs || pair.highlightedWord,
-                            true
+                            true,
+                            playingSentenceId === pair.id
                           )}
                         </div>
 

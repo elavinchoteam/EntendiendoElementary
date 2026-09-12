@@ -470,7 +470,7 @@ export const DialogueOrderingExercise: React.FC<DialogueOrderingExerciseProps> =
                 <div
                   key={idx}
                   className={`py-0.5 px-1 rounded transition-colors ${
-                    currentSentenceIdx === idx ? 'bg-amber-300 dark:bg-amber-400 text-slate-950 font-bold' : ''
+                    isPlaying && currentSentenceIdx === idx ? 'bg-indigo-100 dark:bg-indigo-900/60 text-indigo-950 dark:text-indigo-100 font-bold' : ''
                   } ${isTranscriptFlipped ? 'italic font-serif text-slate-600 dark:text-slate-300' : 'text-slate-800 dark:text-slate-200'}`}
                 >
                   {isTranscriptFlipped ? s.es : s.en}

@@ -401,7 +401,9 @@ export const DialogueExploreExercise: React.FC<DialogueExploreExerciseProps> = (
                       key={idx}
                       className={`text-base sm:text-lg md:text-xl leading-relaxed transition-all duration-200 px-3 py-2 rounded-xl ${
                         isCurrent
-                          ? 'bg-amber-300 dark:bg-amber-400 text-slate-950 font-bold shadow-sm'
+                          ? isDark
+                            ? 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-400'
+                            : 'bg-indigo-100 text-indigo-950 font-bold ring-2 ring-indigo-300'
                           : isDark
                           ? 'text-slate-100 hover:bg-slate-800/60'
                           : 'text-slate-800 hover:bg-slate-50'

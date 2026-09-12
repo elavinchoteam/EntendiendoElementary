@@ -47,6 +47,8 @@ import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
+import { DirectionsToMuseumActivity } from './DirectionsToMuseumActivity';
+import { CleanHouseAgencyActivity } from './CleanHouseAgencyActivity';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -184,6 +186,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'countable-quantifiers' ||
     unit.sectionId === 'be-past-masterclass' ||
     (unit.id as any) === 'be-past-masterclass' ||
+    unit.sectionId === 'directions-to-the-museum' ||
+    (unit.id as any) === 'directions-to-the-museum' ||
+    unit.sectionId === 'clean-house-agency' ||
+    (unit.id as any) === 'clean-house-agency' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -201,7 +207,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             ex.type === 'dialogue-ordering' ||
             ex.type === 'interactive-conversation' ||
             ex.type === 'countable-quantifiers' ||
-            ex.type === 'be-past-masterclass'
+            ex.type === 'be-past-masterclass' ||
+            (ex.type as string) === 'directions-explore' ||
+            (ex.type as string) === 'clean-house-agency'
         )
     );
 
@@ -398,92 +406,98 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     <div className="relative w-full flex flex-col items-center">
       
       {/* Floating Previous Activity Button (<) */}
-      <button
-        id="floating-prev-activity-btn"
-        onClick={prevSlide}
-        disabled={safeCurrentSlide === 0}
-        className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
-          safeCurrentSlide === 0
-            ? 'opacity-0 pointer-events-none scale-75'
-            : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
-        }`}
-        title={
-          safeCurrentSlide > 0 && slides[safeCurrentSlide - 1]
-            ? slides[safeCurrentSlide - 1]?.title
-              ? `Actividad anterior: ${slides[safeCurrentSlide - 1]?.title}`
-              : 'Actividad anterior'
-            : 'Inicio'
-        }
-        aria-label="Actividad anterior"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
+      {slides.length > 1 && (
+        <button
+          id="floating-prev-activity-btn"
+          onClick={prevSlide}
+          disabled={safeCurrentSlide === 0}
+          className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
+            safeCurrentSlide === 0
+              ? 'opacity-0 pointer-events-none scale-75'
+              : isDark
+              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+          }`}
+          title={
+            safeCurrentSlide > 0 && slides[safeCurrentSlide - 1]
+              ? slides[safeCurrentSlide - 1]?.title
+                ? `Actividad anterior: ${slides[safeCurrentSlide - 1]?.title}`
+                : 'Actividad anterior'
+              : 'Inicio'
+          }
+          aria-label="Actividad anterior"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Floating Next Activity Button (>) */}
-      <button
-        id="floating-next-activity-btn"
-        onClick={nextSlide}
-        disabled={safeCurrentSlide >= slides.length - 1}
-        className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
-          safeCurrentSlide >= slides.length - 1
-            ? 'opacity-0 pointer-events-none scale-75'
-            : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
-        }`}
-        title={
-          safeCurrentSlide < slides.length - 1 && slides[safeCurrentSlide + 1]
-            ? slides[safeCurrentSlide + 1]?.title
-              ? `Siguiente actividad: ${slides[safeCurrentSlide + 1]?.title}`
-              : 'Siguiente actividad'
-            : 'Fin'
-        }
-        aria-label="Siguiente actividad"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
+      {slides.length > 1 && (
+        <button
+          id="floating-next-activity-btn"
+          onClick={nextSlide}
+          disabled={safeCurrentSlide >= slides.length - 1}
+          className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
+            safeCurrentSlide >= slides.length - 1
+              ? 'opacity-0 pointer-events-none scale-75'
+              : isDark
+              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+          }`}
+          title={
+            safeCurrentSlide < slides.length - 1 && slides[safeCurrentSlide + 1]
+              ? slides[safeCurrentSlide + 1]?.title
+                ? `Siguiente actividad: ${slides[safeCurrentSlide + 1]?.title}`
+                : 'Siguiente actividad'
+              : 'Fin'
+          }
+          aria-label="Siguiente actividad"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      )}
 
       {/* Main Content Area framed with padding so floating buttons don't overlap */}
       <div className="w-full px-2 sm:px-6 md:px-8 flex flex-col">
         
         {/* Minimalist Top Activity Status Indicator & Dots */}
-        <div className="w-full flex items-center justify-between gap-3 mb-6 pb-2 border-b border-inherit">
-          <div className="flex items-center gap-2">
-            <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
-              isDark
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
-            }`}>
-              Actividad {slides.length > 0 ? safeCurrentSlide + 1 : 0} de {slides.length}
-            </span>
-            {slides[safeCurrentSlide]?.title ? (
-              <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
-                {slides[safeCurrentSlide]?.title}
+        {slides.length > 1 && (
+          <div className="w-full flex items-center justify-between gap-3 mb-6 pb-2 border-b border-inherit">
+            <div className="flex items-center gap-2">
+              <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
+                isDark
+                  ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                  : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+              }`}>
+                Actividad {slides.length > 0 ? safeCurrentSlide + 1 : 0} de {slides.length}
               </span>
-            ) : null}
-          </div>
+              {slides[safeCurrentSlide]?.title ? (
+                <span className={`text-xs sm:text-sm font-medium ${isDark ? 'text-white/70' : 'text-slate-700'}`}>
+                  {slides[safeCurrentSlide]?.title}
+                </span>
+              ) : null}
+            </div>
 
-          {/* Quick Dots Navigator */}
-          <div className="flex items-center gap-1.5 shrink-0">
-            {slides.map((s, idx) => (
-              <button
-                key={s.id}
-                onClick={() => goToSlide(idx)}
-                className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                  safeCurrentSlide === idx
-                    ? 'w-7 bg-indigo-600 shadow-xs'
-                    : isDark
-                    ? 'w-2.5 bg-white/20 hover:bg-white/40'
-                    : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                }`}
-                title={s?.title ? `Ir a Actividad ${idx + 1}: ${s?.title}` : `Ir a Actividad ${idx + 1}`}
-                aria-label={`Actividad ${idx + 1}`}
-              />
-            ))}
+            {/* Quick Dots Navigator */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              {slides.map((s, idx) => (
+                <button
+                  key={s.id}
+                  onClick={() => goToSlide(idx)}
+                  className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                    safeCurrentSlide === idx
+                      ? 'w-7 bg-indigo-600 shadow-xs'
+                      : isDark
+                      ? 'w-2.5 bg-white/20 hover:bg-white/40'
+                      : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  title={s?.title ? `Ir a Actividad ${idx + 1}: ${s?.title}` : `Ir a Actividad ${idx + 1}`}
+                  aria-label={`Actividad ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Activity 0: Audio Media Player & Texto Principal como Tarjeta Reversible */}
         {slides[safeCurrentSlide]?.id === 'explore' && lesson && (
@@ -1218,6 +1232,34 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                 <BePastMasterclassActivity
                   accent={accent}
                   speechRate={currentRate}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'directions-explore' || unit.sectionId === 'directions-to-the-museum') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DirectionsToMuseumActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'clean-house-agency' ||
+            unit.sectionId === 'clean-house-agency' ||
+            (unit.id as any) === 'clean-house-agency'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CleanHouseAgencyActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
                 />
               </div>
             );

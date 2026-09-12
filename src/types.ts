@@ -40,6 +40,8 @@ export type ExerciseType =
   | 'interactive-conversation'
   | 'countable-quantifiers'
   | 'be-past-masterclass'
+  | 'directions-explore'
+  | 'clean-house-agency'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -624,6 +626,18 @@ export interface BePastMasterclassExercise extends BaseExercise {
   initialTab?: string;
 }
 
+export interface DirectionsExploreExercise extends BaseExercise {
+  type: 'directions-explore';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface CleanHouseAgencyExercise extends BaseExercise {
+  type: 'clean-house-agency';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -653,6 +667,8 @@ export type Exercise =
   | InteractiveConversationExercise
   | CountableQuantifiersExercise
   | BePastMasterclassExercise
+  | DirectionsExploreExercise
+  | CleanHouseAgencyExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
