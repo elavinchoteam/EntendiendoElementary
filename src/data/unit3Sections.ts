@@ -3,6 +3,7 @@ import { newsstandImg } from './newsstandData';
 import { peterDreamingImg } from './presentSimpleData';
 import { brutusDogImg } from './presentSimpleQuestionsData';
 import { shoppingWomenImg } from './presentSimpleWhQuestionsData';
+import { DIRECTIONS_EXERCISES, twoWomenDirectionsImg } from './directionsData';
 
 export const UNIT_3_SECTIONS: UnitSection[] = [
   // SECTION 1: Directions to the Museum
@@ -132,6 +133,19 @@ export const UNIT_3_SECTIONS: UnitSection[] = [
         instructionsEs: 'Mira el video del diálogo y completa las 11 actividades y los 5 tests.',
       },
     ],
+  },
+  // SECTION 7: Directions
+  {
+    id: 'directions',
+    number: 7,
+    title: 'Directions',
+    titleEs: 'Direcciones',
+    subtitle: 'Section 7 · Urban Directions Vocabulary & Tasks',
+    description:
+      'Aprende vocabulario esencial para pedir y dar indicaciones en la calle (give directions, in front of, left at, map, near, next to, opposite, right at, street, turn), con 7 actividades interactivas y una evaluación final de 10 tests.',
+    imageUrl: twoWomenDirectionsImg,
+    flashcards: [],
+    exercises: DIRECTIONS_EXERCISES,
   },
 ];
 
