@@ -80,9 +80,9 @@ export const UNITS_DATA: Unit[] = [
     number: 4,
     title: 'Unit 4: Sports',
     titleEs: 'Unidad 4: Deportes',
-    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports',
+    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports · Sección 3: Let\'s Go Swimming · Sección 4: Comparison of Adjectives: Equality · Sección 5: Comparison of Adjectives: Comparatives',
     description:
-      'Aprende vocabulario y comprensión de deportes con informes de radio, historias de lectura sobre aficionados y atletas ("People Are Crazy About Sports"), actividades interactivas y tests de evaluación.',
+      'Aprende vocabulario y comprensión de deportes ("Sports", "People Are Crazy About Sports", "Let\'s Go Swimming") y domina la comparación de igualdad y de comparativos ("Comparison of Adjectives: Equality" & "Comparison of Adjectives: Comparatives") con actividades interactivas y tests de evaluación.',
     imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
     color: '#dc2626',
     category: 'Leisure & Athletics',

@@ -48,6 +48,9 @@ export type ExerciseType =
   | 'present-simple-wh-questions'
   | 'sports-activity'
   | 'people-crazy-sports-activity'
+  | 'swimming-activity'
+  | 'comparison-equality-activity'
+  | 'comparison-comparatives-activity'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -680,6 +683,24 @@ export interface PeopleCrazySportsExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface SwimmingExercise extends BaseExercise {
+  type: 'swimming-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface ComparisonEqualityExercise extends BaseExercise {
+  type: 'comparison-equality-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface ComparisonComparativesExercise extends BaseExercise {
+  type: 'comparison-comparatives-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -717,6 +738,9 @@ export type Exercise =
   | PresentSimpleWhQuestionsExercise
   | SportsExercise
   | PeopleCrazySportsExercise
+  | SwimmingExercise
+  | ComparisonEqualityExercise
+  | ComparisonComparativesExercise
   | UnitTestExercise;
 
 export interface LessonSentence {

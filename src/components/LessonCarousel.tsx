@@ -56,6 +56,9 @@ import { PresentSimpleQuestionsActivity } from './PresentSimpleQuestionsActivity
 import { PresentSimpleWhQuestionsActivity } from './PresentSimpleWhQuestionsActivity';
 import { SportsSection1Activity } from './SportsSection1Activity';
 import { PeopleAreCrazyAboutSportsSection } from './sports2/PeopleAreCrazyAboutSportsSection';
+import { LetsGoSwimmingSection } from './swimming/LetsGoSwimmingSection';
+import { ComparisonAdjectivesEqualitySection } from './comparison-equality/ComparisonAdjectivesEqualitySection';
+import { ComparisonAdjectivesComparativesSection } from './comparison-comparatives/ComparisonAdjectivesComparativesSection';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -177,7 +180,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       ex.type !== 'reading-comprehension' &&
       ex.type !== 'classification-table' &&
       ex.type !== 'checkbox-multiselect' &&
-      ex.type !== 'unit-test'
+      ex.type !== 'unit-test' &&
+      (ex.type as string) !== 'sports-activity' &&
+      (ex.type as string) !== 'people-crazy-sports-activity' &&
+      (ex.type as string) !== 'swimming-activity' &&
+      (ex.type as string) !== 'comparison-equality-activity' &&
+      (ex.type as string) !== 'comparison-comparatives-activity'
   );
 
   const isCustomSequentialUnit =
@@ -209,6 +217,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'sports' ||
     unit.sectionId === 'people-are-crazy-about-sports' ||
     (unit.id as any) === 'people-are-crazy-about-sports' ||
+    unit.sectionId === 'lets-go-swimming' ||
+    (unit.id as any) === 'lets-go-swimming' ||
+    unit.sectionId === 'comparison-adjectives-equality' ||
+    (unit.id as any) === 'comparison-adjectives-equality' ||
+    unit.sectionId === 'comparison-adjectives-comparatives' ||
+    (unit.id as any) === 'comparison-adjectives-comparatives' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -234,7 +248,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'present-simple-yes-no-questions' ||
             (ex.type as string) === 'present-simple-wh-questions' ||
             (ex.type as string) === 'sports-activity' ||
-            (ex.type as string) === 'people-crazy-sports-activity'
+            (ex.type as string) === 'people-crazy-sports-activity' ||
+            (ex.type as string) === 'swimming-activity' ||
+            (ex.type as string) === 'comparison-equality-activity' ||
+            (ex.type as string) === 'comparison-comparatives-activity'
         )
     );
 
@@ -303,6 +320,15 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'people-crazy-sports-activity') {
           icon = Trophy;
           if (!(ex as any).title) title = (ex as any).title || 'People Are Crazy About Sports';
+        } else if ((ex.type as string) === 'swimming-activity') {
+          icon = Trophy;
+          if (!(ex as any).title) title = (ex as any).title || "Let's Go Swimming";
+        } else if ((ex.type as string) === 'comparison-equality-activity') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Comparison of Adjectives: Equality';
+        } else if ((ex.type as string) === 'comparison-comparatives-activity') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Comparison of Adjectives: Comparatives';
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -1384,6 +1410,54 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <PeopleAreCrazyAboutSportsSection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'swimming-activity' ||
+            unit.sectionId === 'lets-go-swimming' ||
+            (unit.id as any) === 'lets-go-swimming'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <LetsGoSwimmingSection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'comparison-equality-activity' ||
+            unit.sectionId === 'comparison-adjectives-equality' ||
+            (unit.id as any) === 'comparison-adjectives-equality'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonAdjectivesEqualitySection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'comparison-comparatives-activity' ||
+            unit.sectionId === 'comparison-adjectives-comparatives' ||
+            (unit.id as any) === 'comparison-adjectives-comparatives'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonAdjectivesComparativesSection
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
