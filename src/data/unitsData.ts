@@ -4,6 +4,7 @@ import { PHONE_SALES_LESSON_TEXT, PHONE_SALES_EXERCISES } from './phoneSalesData
 import { UNIT_2_SECTIONS } from './unit2Sections';
 import { FOOD_SECTION_LESSON_TEXT, FOOD_SECTION_EXERCISES } from './foodSectionData';
 import { UNIT_3_SECTIONS } from './unit3Sections';
+import { UNIT_4_SECTIONS } from './unit4Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -77,18 +78,20 @@ export const UNITS_DATA: Unit[] = [
   {
     id: 4,
     number: 4,
-    title: 'Sports',
-    titleEs: 'Deportes y Actividades',
-    subtitle: 'Unidad 4 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
+    title: 'Unit 4: Sports',
+    titleEs: 'Unidad 4: Deportes',
+    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports',
+    description:
+      'Aprende vocabulario y comprensión de deportes con informes de radio, historias de lectura sobre aficionados y atletas ("People Are Crazy About Sports"), actividades interactivas y tests de evaluación.',
     imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
     color: '#dc2626',
     category: 'Leisure & Athletics',
-    requiredProgressToUnlock: 3,
+    requiredProgressToUnlock: 0,
+    sections: UNIT_4_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: { title: 'Gramática', explanation: 'Sección 1: Sports y Sección 2: People Are Crazy About Sports disponibles.', examples: [] },
   },
   {
     id: 5,

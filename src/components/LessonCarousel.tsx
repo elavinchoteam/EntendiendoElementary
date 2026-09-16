@@ -12,6 +12,7 @@ import {
   Volume2,
   Users,
   Play,
+  Trophy,
 } from 'lucide-react';
 import { Unit } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -53,6 +54,8 @@ import { NewsstandActivity } from './NewsstandActivity';
 import { PresentSimpleActivity } from './PresentSimpleActivity';
 import { PresentSimpleQuestionsActivity } from './PresentSimpleQuestionsActivity';
 import { PresentSimpleWhQuestionsActivity } from './PresentSimpleWhQuestionsActivity';
+import { SportsSection1Activity } from './SportsSection1Activity';
+import { PeopleAreCrazyAboutSportsSection } from './sports2/PeopleAreCrazyAboutSportsSection';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -202,6 +205,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'present-simple-yes-no-questions' ||
     unit.sectionId === 'present-simple-wh-questions' ||
     (unit.id as any) === 'present-simple-wh-questions' ||
+    unit.sectionId === 'sports' ||
+    (unit.id as any) === 'sports' ||
+    unit.sectionId === 'people-are-crazy-about-sports' ||
+    (unit.id as any) === 'people-are-crazy-about-sports' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -225,7 +232,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'newsstand-activity' ||
             (ex.type as string) === 'present-simple-statements' ||
             (ex.type as string) === 'present-simple-yes-no-questions' ||
-            (ex.type as string) === 'present-simple-wh-questions'
+            (ex.type as string) === 'present-simple-wh-questions' ||
+            (ex.type as string) === 'sports-activity' ||
+            (ex.type as string) === 'people-crazy-sports-activity'
         )
     );
 
@@ -288,6 +297,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if (ex.type === 'be-past-masterclass') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'BE in the Past Masterclass';
+        } else if ((ex.type as string) === 'sports-activity') {
+          icon = Trophy;
+          if (!(ex as any).title) title = (ex as any).title || 'Sports';
+        } else if ((ex.type as string) === 'people-crazy-sports-activity') {
+          icon = Trophy;
+          if (!(ex as any).title) title = (ex as any).title || 'People Are Crazy About Sports';
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -1337,6 +1352,38 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <PresentSimpleWhQuestionsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'sports-activity' ||
+            unit.sectionId === 'sports' ||
+            (unit.id as any) === 'sports'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <SportsSection1Activity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'people-crazy-sports-activity' ||
+            unit.sectionId === 'people-are-crazy-about-sports' ||
+            (unit.id as any) === 'people-are-crazy-about-sports'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PeopleAreCrazyAboutSportsSection
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

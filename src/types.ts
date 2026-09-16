@@ -46,6 +46,8 @@ export type ExerciseType =
   | 'present-simple-statements'
   | 'present-simple-yes-no-questions'
   | 'present-simple-wh-questions'
+  | 'sports-activity'
+  | 'people-crazy-sports-activity'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -666,6 +668,18 @@ export interface PresentSimpleWhQuestionsExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface SportsExercise extends BaseExercise {
+  type: 'sports-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface PeopleCrazySportsExercise extends BaseExercise {
+  type: 'people-crazy-sports-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -701,6 +715,8 @@ export type Exercise =
   | PresentSimpleStatementsExercise
   | PresentSimpleQuestionsExercise
   | PresentSimpleWhQuestionsExercise
+  | SportsExercise
+  | PeopleCrazySportsExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
