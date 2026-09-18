@@ -1009,7 +1009,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   })}
                 </div>
               </div>
-            ) : (exercise.vocabularyWords || currentQuestion.vocabularyWords) ? (
+            ) : !currentQuestion.imageUrl && (exercise.vocabularyWords || currentQuestion.vocabularyWords) ? (
               <div className="w-full lg:w-[45%] p-5 sm:p-7 flex flex-col justify-start items-center bg-[#FAF9F5] dark:bg-[#141B2D] border-b lg:border-b-0 lg:border-r border-stone-200 dark:border-slate-800 overflow-y-auto max-h-[580px] lg:max-h-[720px]">
                 <VocabularyHelperCard
                   words={(exercise.vocabularyWords || currentQuestion.vocabularyWords)!}

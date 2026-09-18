@@ -253,3 +253,13 @@ export function speakEnglish(
   synth.speak(utterance);
   return true;
 }
+
+export function speakText(
+  text: string,
+  accent: string = 'US',
+  rate: number = 1.0,
+  onEnd?: () => void
+): boolean {
+  const normalizedAccent: 'US' | 'UK' = accent === 'UK' ? 'UK' : 'US';
+  return speakEnglish(text, rate, normalizedAccent, undefined, onEnd);
+}

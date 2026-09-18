@@ -57,7 +57,7 @@ export const UNITS_DATA: Unit[] = [
     number: 3,
     title: 'Unit 3: Getting Help',
     titleEs: 'Unidad 3: Pedir Ayuda',
-    subtitle: 'Sección 1: Directions to the Museum · Sección 2: Clean-House Agency · Sección 3: Newsstand · Sección 4: Present Simple: Statements · Sección 5: Present Simple: Yes/No Questions · Sección 6: Present Simple: Wh Questions · Sección 7: Directions',
+    subtitle: 'Sección 1: Present Simple · Sección 2: Directions to the Museum · Sección 3: Clean-House Agency · Sección 4: Newsstand · Sección 5: Present Simple: Statements · Sección 6: Present Simple: Yes/No Questions · Sección 7: Present Simple: Wh Questions · Sección 8: Directions',
     description:
       'Aprende a pedir y dar indicaciones en la calle, comprender anuncios, interactuar en situaciones cotidianas y dominar afirmaciones, negaciones y preguntas de Sí/No y Wh- en presente simple con videos, actividades interactivas y tests.',
     imageUrl:
@@ -80,9 +80,9 @@ export const UNITS_DATA: Unit[] = [
     number: 4,
     title: 'Unit 4: Sports',
     titleEs: 'Unidad 4: Deportes',
-    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports · Sección 3: Let\'s Go Swimming · Sección 4: Comparison of Adjectives: Equality · Sección 5: Comparison of Adjectives: Comparatives',
+    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports · Sección 3: Let\'s Go Swimming · Sección 4: Comparison of Adjectives: Equality · Sección 5: Comparison of Adjectives: Comparatives · Sección 6: Comparison of Adjectives: Superlatives',
     description:
-      'Aprende vocabulario y comprensión de deportes ("Sports", "People Are Crazy About Sports", "Let\'s Go Swimming") y domina la comparación de igualdad y de comparativos ("Comparison of Adjectives: Equality" & "Comparison of Adjectives: Comparatives") con actividades interactivas y tests de evaluación.',
+      'Aprende vocabulario y comprensión de deportes ("Sports", "People Are Crazy About Sports", "Let\'s Go Swimming") y domina la comparación de adjetivos de igualdad, comparativos y superlativos ("Comparison of Adjectives: Equality, Comparatives & Superlatives") con actividades interactivas y tests de evaluación.',
     imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
     color: '#dc2626',
     category: 'Leisure & Athletics',

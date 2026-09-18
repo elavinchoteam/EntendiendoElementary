@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CheckCircle2,
   XCircle,
-  RotateCcw,
-  RotateCw,
+  Volume2,
   ChevronDown,
 } from 'lucide-react';
 import { DialogueDropdownExercise as DialogueDropdownType } from '../types';
-import { playFeedbackSound } from '../utils/audio';
+import { playFeedbackSound, speakEnglish, stopSpeaking } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import { VocabularyHelperCard } from './VocabularyHelperCard';
 import { ReversibleInstructionCard } from './ReversibleInstructionCard';
+import { SpeedSelectorButton } from './SpeedSelectorButton';
 
 interface DialogueDropdownExerciseProps {
   exercise: DialogueDropdownType;
@@ -31,8 +31,62 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
   const [selectedValues, setSelectedValues] = useState<Record<string, string>>({});
   // Submitted status
   const [hasChecked, setHasChecked] = useState(false);
-  // Spanish translation toggle
+  // Spanish translation toggle (flip card)
   const [isFlipped, setIsFlipped] = useState(false);
+  // Audio playback state
+  const [currentRate, setCurrentRate] = useState(speechRate);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      stopSpeaking();
+    };
+  }, []);
+
+  const safeAccent = accent === 'UK' ? 'UK' : 'US';
+
+  const handleSpeedChange = (newRate: number) => {
+    setCurrentRate(newRate);
+    if (isPlaying) {
+      handlePlayDialogue(newRate);
+    }
+  };
+
+  const getFullDialogueEn = () => {
+    return exercise.lines
+      .map((l) => {
+        let text = l.textEn;
+        exercise.blanks?.forEach((b) => {
+          const filledWord = selectedValues[b.id] || b.correctAnswer;
+          text = text.replace(`[${b.id}]`, filledWord);
+        });
+        return l.speaker ? `${l.speaker} says: ${text}` : text;
+      })
+      .join('. ');
+  };
+
+  const handlePlayDialogue = (rateToUse?: number) => {
+    const rate = rateToUse !== undefined ? rateToUse : currentRate;
+    stopSpeaking();
+    setIsPlaying(true);
+    speakEnglish(
+      getFullDialogueEn(),
+      rate,
+      safeAccent,
+      () => setIsPlaying(true),
+      () => setIsPlaying(false)
+    );
+  };
+
+  const handleToggleAudio = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      stopSpeaking();
+      setIsPlaying(false);
+    } else {
+      handlePlayDialogue();
+    }
+  };
 
   const handleSelectChange = (blankId: string, val: string) => {
     playFeedbackSound('click');
@@ -151,34 +205,50 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
               : 'bg-white border-slate-200 text-slate-900'
           }`}
         >
-          {exercise.title && (
-            <div className="flex items-center justify-between border-b border-inherit/30 pb-3">
-              <h4 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
-                {exercise.title}
-              </h4>
+          {/* Card Title & Audio Control with Speeds (No flip buttons or indicators) */}
+          <div className="flex items-center justify-between border-b border-inherit/30 pb-3">
+            <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+              {exercise.title || 'Dialogue'}
+            </h4>
+            <div className="flex items-center gap-2">
+              <SpeedSelectorButton
+                currentRate={currentRate}
+                onRateChange={handleSpeedChange}
+                size="sm"
+              />
               <button
                 type="button"
-                id="dialogue-flip-translation-btn"
-                onClick={() => setIsFlipped((prev) => !prev)}
-                className={`p-2 rounded-xl transition-all cursor-pointer border shadow-2xs ${
-                  isFlipped
-                    ? 'bg-emerald-600 text-white border-emerald-500'
+                id="dialogue-audio-speak-btn"
+                onClick={handleToggleAudio}
+                className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                  isPlaying
+                    ? 'bg-sky-500 text-white border-sky-600 ring-2 ring-sky-400/30'
                     : isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
-                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border-emerald-200'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-white/10'
+                    : 'bg-white hover:bg-stone-100 text-sky-600 border-slate-200'
                 }`}
-                title={isFlipped ? 'Ver diálogo en inglés' : 'Ver traducción del diálogo'}
-                aria-label={isFlipped ? 'Ver diálogo en inglés' : 'Ver traducción del diálogo'}
+                aria-label="Audio"
               >
-                <RotateCw className="w-4 h-4" />
+                <Volume2 className="w-4 h-4" />
               </button>
             </div>
-          )}
+          </div>
 
-          {/* Dialogue Card with 3D Reversible Flip */}
+          {/* Dialogue Card with 3D Reversible Flip on click (No flip buttons or text) */}
           <div className="perspective-1000 w-full min-h-[220px]">
             <div
-              className={`relative w-full rounded-2xl transition-transform duration-500 transform-style-3d ${
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (
+                  target.tagName !== 'SELECT' &&
+                  target.tagName !== 'OPTION' &&
+                  !target.closest('button')
+                ) {
+                  playFeedbackSound('flip');
+                  setIsFlipped((prev) => !prev);
+                }
+              }}
+              className={`relative w-full rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d ${
                 isFlipped ? 'rotate-y-180' : ''
               }`}
             >

@@ -3,6 +3,8 @@ import { radioHostImg } from './sports1Data';
 import { swimmingWomenImg } from './swimmingData';
 import { mickStarlightCarImg } from './comparisonEqualityData';
 import { samuraiSamBoxingImg } from './comparisonComparativesData';
+import { madMosStoreImg } from './comparisonSuperlativesData';
+import { SPORTS_2_EXERCISES, sportsFansCheeringImg } from './sports2Data';
 
 export const UNIT_4_SECTIONS: UnitSection[] = [
   // SECTION 1: Sports
@@ -120,5 +122,41 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
           'Aprende y practica las comparaciones de adjetivos en grado comparativo a través de 11 actividades y un test de 5 preguntas.',
       },
     ],
+  },
+  // SECTION 6: Comparison of Adjectives: Superlatives
+  {
+    id: 'comparison-adjectives-superlatives',
+    number: 6,
+    title: 'Comparison of Adjectives: Superlatives',
+    titleEs: 'Comparación de Adjetivos: Superlativos',
+    subtitle: 'Section 6 · Grammar, 11 Activities & Test (5 Tests)',
+    description:
+      'Aprende y practica la comparación de adjetivos en grado superlativo ("the cheapest", "the biggest", "the most terrific", "the best", etc.). Cuenta con 11 actividades con tarjetas reversibles con audio, y un test final de 5 preguntas.',
+    imageUrl: madMosStoreImg,
+    flashcards: [],
+    exercises: [
+      {
+        id: 'comparison-superlatives-main',
+        type: 'comparison-superlatives-activity',
+        title: 'Comparison of Adjectives: Superlatives',
+        instructions:
+          'Learn and practice adjective comparisons with superlative forms through 11 activities and a 5-part test.',
+        instructionsEs:
+          'Aprende y practica las comparaciones de adjetivos en grado superlativo a través de 11 actividades y un test de 5 preguntas.',
+      },
+    ],
+  },
+  // SECTION 7: Sports 2
+  {
+    id: 'sports-2',
+    number: 7,
+    title: 'Sports 2',
+    titleEs: 'Deportes 2',
+    subtitle: 'Section 7 · Sports Vocabulary, 7 Activities & Test (10 Tests)',
+    description:
+      'Aprende vocabulario deportivo clave (athlete, basketball, bicycle, championship, exercise, game, player, race, stadium, win), completa 7 actividades interactivas en orden y realiza el test final de 10 preguntas.',
+    imageUrl: sportsFansCheeringImg,
+    flashcards: [],
+    exercises: SPORTS_2_EXERCISES,
   },
 ];

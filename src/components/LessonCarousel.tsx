@@ -48,6 +48,7 @@ import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
+import { PresentSimpleMasterclassActivity } from './PresentSimpleMasterclassActivity';
 import { DirectionsToMuseumActivity } from './DirectionsToMuseumActivity';
 import { CleanHouseAgencyActivity } from './CleanHouseAgencyActivity';
 import { NewsstandActivity } from './NewsstandActivity';
@@ -59,6 +60,7 @@ import { PeopleAreCrazyAboutSportsSection } from './sports2/PeopleAreCrazyAboutS
 import { LetsGoSwimmingSection } from './swimming/LetsGoSwimmingSection';
 import { ComparisonAdjectivesEqualitySection } from './comparison-equality/ComparisonAdjectivesEqualitySection';
 import { ComparisonAdjectivesComparativesSection } from './comparison-comparatives/ComparisonAdjectivesComparativesSection';
+import { ComparisonAdjectivesSuperlativesSection } from './comparison-superlatives/ComparisonAdjectivesSuperlativesSection';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -201,6 +203,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'countable-quantifiers' ||
     unit.sectionId === 'be-past-masterclass' ||
     (unit.id as any) === 'be-past-masterclass' ||
+    unit.sectionId === 'present-simple-masterclass' ||
+    (unit.id as any) === 'present-simple-masterclass' ||
     unit.sectionId === 'directions-to-the-museum' ||
     (unit.id as any) === 'directions-to-the-museum' ||
     unit.sectionId === 'clean-house-agency' ||
@@ -223,6 +227,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'comparison-adjectives-equality' ||
     unit.sectionId === 'comparison-adjectives-comparatives' ||
     (unit.id as any) === 'comparison-adjectives-comparatives' ||
+    unit.sectionId === 'comparison-adjectives-superlatives' ||
+    (unit.id as any) === 'comparison-adjectives-superlatives' ||
+    unit.sectionId === 'sports-2' ||
+    (unit.id as any) === 'sports-2' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -241,6 +249,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             ex.type === 'interactive-conversation' ||
             ex.type === 'countable-quantifiers' ||
             ex.type === 'be-past-masterclass' ||
+            ex.type === 'present-simple-masterclass' ||
             (ex.type as string) === 'directions-explore' ||
             (ex.type as string) === 'clean-house-agency' ||
             (ex.type as string) === 'newsstand-activity' ||
@@ -251,7 +260,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'people-crazy-sports-activity' ||
             (ex.type as string) === 'swimming-activity' ||
             (ex.type as string) === 'comparison-equality-activity' ||
-            (ex.type as string) === 'comparison-comparatives-activity'
+            (ex.type as string) === 'comparison-comparatives-activity' ||
+            (ex.type as string) === 'comparison-superlatives-activity'
         )
     );
 
@@ -314,6 +324,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if (ex.type === 'be-past-masterclass') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'BE in the Past Masterclass';
+        } else if (ex.type === 'present-simple-masterclass') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Present Simple Masterclass';
         } else if ((ex.type as string) === 'sports-activity') {
           icon = Trophy;
           if (!(ex as any).title) title = (ex as any).title || 'Sports';
@@ -1294,6 +1307,18 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             );
           }
 
+          if (ex.type === 'present-simple-masterclass') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PresentSimpleMasterclassActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
           if ((ex.type as string) === 'directions-explore' || unit.sectionId === 'directions-to-the-museum') {
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
@@ -1458,6 +1483,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <ComparisonAdjectivesComparativesSection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'comparison-superlatives-activity' ||
+            unit.sectionId === 'comparison-adjectives-superlatives' ||
+            (unit.id as any) === 'comparison-adjectives-superlatives'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonAdjectivesSuperlativesSection
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

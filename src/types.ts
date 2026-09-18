@@ -40,6 +40,7 @@ export type ExerciseType =
   | 'interactive-conversation'
   | 'countable-quantifiers'
   | 'be-past-masterclass'
+  | 'present-simple-masterclass'
   | 'directions-explore'
   | 'clean-house-agency'
   | 'newsstand-activity'
@@ -51,6 +52,7 @@ export type ExerciseType =
   | 'swimming-activity'
   | 'comparison-equality-activity'
   | 'comparison-comparatives-activity'
+  | 'comparison-superlatives-activity'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -402,6 +404,8 @@ export interface VocabularyWordItem {
   word: string;
   partOfSpeech: string;
   partOfSpeechEs?: string;
+  phonetic?: string;
+  category?: string;
   translation: string;
   definitionEn: string;
   definitionEs: string;
@@ -635,6 +639,13 @@ export interface BePastMasterclassExercise extends BaseExercise {
   initialTab?: string;
 }
 
+export interface PresentSimpleMasterclassExercise extends BaseExercise {
+  type: 'present-simple-masterclass';
+  instructions?: string;
+  instructionsEs?: string;
+  initialTab?: string;
+}
+
 export interface DirectionsExploreExercise extends BaseExercise {
   type: 'directions-explore';
   instructions?: string;
@@ -701,6 +712,12 @@ export interface ComparisonComparativesExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface ComparisonSuperlativesExercise extends BaseExercise {
+  type: 'comparison-superlatives-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -730,6 +747,7 @@ export type Exercise =
   | InteractiveConversationExercise
   | CountableQuantifiersExercise
   | BePastMasterclassExercise
+  | PresentSimpleMasterclassExercise
   | DirectionsExploreExercise
   | CleanHouseAgencyExercise
   | NewsstandExercise
@@ -741,6 +759,7 @@ export type Exercise =
   | SwimmingExercise
   | ComparisonEqualityExercise
   | ComparisonComparativesExercise
+  | ComparisonSuperlativesExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
