@@ -162,7 +162,7 @@ export function loadVoices(): Promise<SpeechSynthesisVoice[]> {
 export function speakEnglish(
   text: string,
   rate: number = 1.0,
-  accent: 'US' | 'UK' = 'US',
+  accent: 'US' | 'UK' | string = 'US',
   onStart?: () => void,
   onEnd?: () => void,
   voiceGender: 'male' | 'female' = 'male'

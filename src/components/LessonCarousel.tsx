@@ -61,6 +61,8 @@ import { LetsGoSwimmingSection } from './swimming/LetsGoSwimmingSection';
 import { ComparisonAdjectivesEqualitySection } from './comparison-equality/ComparisonAdjectivesEqualitySection';
 import { ComparisonAdjectivesComparativesSection } from './comparison-comparatives/ComparisonAdjectivesComparativesSection';
 import { ComparisonAdjectivesSuperlativesSection } from './comparison-superlatives/ComparisonAdjectivesSuperlativesSection';
+import { InTheRestaurantActivity } from './InTheRestaurantActivity';
+import { SaleAtShoprightActivity } from './SaleAtShoprightActivity';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -187,7 +189,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'people-crazy-sports-activity' &&
       (ex.type as string) !== 'swimming-activity' &&
       (ex.type as string) !== 'comparison-equality-activity' &&
-      (ex.type as string) !== 'comparison-comparatives-activity'
+      (ex.type as string) !== 'comparison-comparatives-activity' &&
+      (ex.type as string) !== 'sale-at-shopright-activity'
   );
 
   const isCustomSequentialUnit =
@@ -231,6 +234,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'comparison-adjectives-superlatives' ||
     unit.sectionId === 'sports-2' ||
     (unit.id as any) === 'sports-2' ||
+    unit.sectionId === 'in-the-restaurant' ||
+    (unit.id as any) === 'in-the-restaurant' ||
+    unit.sectionId === 'sale-at-shopright' ||
+    (unit.id as any) === 'sale-at-shopright' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -261,7 +268,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'swimming-activity' ||
             (ex.type as string) === 'comparison-equality-activity' ||
             (ex.type as string) === 'comparison-comparatives-activity' ||
-            (ex.type as string) === 'comparison-superlatives-activity'
+            (ex.type as string) === 'comparison-superlatives-activity' ||
+            (ex.type as string) === 'in-the-restaurant-activity' ||
+            (ex.type as string) === 'sale-at-shopright-activity'
         )
     );
 
@@ -1499,6 +1508,38 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <ComparisonAdjectivesSuperlativesSection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'in-the-restaurant-activity' ||
+            unit.sectionId === 'in-the-restaurant' ||
+            (unit.id as any) === 'in-the-restaurant'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InTheRestaurantActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'sale-at-shopright-activity' ||
+            unit.sectionId === 'sale-at-shopright' ||
+            (unit.id as any) === 'sale-at-shopright'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <SaleAtShoprightActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

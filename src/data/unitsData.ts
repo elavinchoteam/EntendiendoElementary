@@ -5,6 +5,7 @@ import { UNIT_2_SECTIONS } from './unit2Sections';
 import { FOOD_SECTION_LESSON_TEXT, FOOD_SECTION_EXERCISES } from './foodSectionData';
 import { UNIT_3_SECTIONS } from './unit3Sections';
 import { UNIT_4_SECTIONS } from './unit4Sections';
+import { UNIT_5_SECTIONS } from './unit5Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -80,9 +81,9 @@ export const UNITS_DATA: Unit[] = [
     number: 4,
     title: 'Unit 4: Sports',
     titleEs: 'Unidad 4: Deportes',
-    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports · Sección 3: Let\'s Go Swimming · Sección 4: Comparison of Adjectives: Equality · Sección 5: Comparison of Adjectives: Comparatives · Sección 6: Comparison of Adjectives: Superlatives',
+    subtitle: 'Sección 1: Sports · Sección 2: People Are Crazy About Sports · Sección 3: Let\'s Go Swimming · Sección 4: Comparison of Adjectives: Equality · Sección 5: Comparison of Adjectives: Comparatives · Sección 6: Comparison of Adjectives: Superlatives · Sección 7: Sports 2',
     description:
-      'Aprende vocabulario y comprensión de deportes ("Sports", "People Are Crazy About Sports", "Let\'s Go Swimming") y domina la comparación de adjetivos de igualdad, comparativos y superlativos ("Comparison of Adjectives: Equality, Comparatives & Superlatives") con actividades interactivas y tests de evaluación.',
+      'Aprende vocabulario y comprensión de deportes ("Sports", "People Are Crazy About Sports", "Let\'s Go Swimming", "Sports 2") y domina la comparación de adjetivos de igualdad, comparativos y superlativos ("Comparison of Adjectives: Equality, Comparatives & Superlatives") con actividades interactivas y tests de evaluación.',
     imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
     color: '#dc2626',
     category: 'Leisure & Athletics',
@@ -91,23 +92,24 @@ export const UNITS_DATA: Unit[] = [
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Sección 1: Sports y Sección 2: People Are Crazy About Sports disponibles.', examples: [] },
+    grammar: { title: 'Gramática', explanation: '7 secciones de Deportes y Comparación de Adjetivos disponibles.', examples: [] },
   },
   {
     id: 5,
     number: 5,
-    title: 'Enjoy your Meal!',
-    titleEs: '¡Buen Provecho!',
-    subtitle: 'Unidad 5 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
+    title: 'Unit 5: Enjoy your Meal!',
+    titleEs: 'Unidad 5: ¡Buen Provecho!',
+    subtitle: 'Sección 1: In the Restaurant',
+    description: 'Aprende a ordenar en un restaurante, interactuar con el camarero y comprender diálogos con video, 9 actividades interactivas y test final de 5 preguntas.',
     imageUrl: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80',
     color: '#ea580c',
     category: 'Dining & Restaurants',
-    requiredProgressToUnlock: 4,
+    requiredProgressToUnlock: 0,
+    sections: UNIT_5_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: { title: 'Gramática', explanation: 'Sección 1: In the Restaurant con 9 actividades y test final.', examples: [] },
   },
   {
     id: 6,

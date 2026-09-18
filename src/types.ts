@@ -53,6 +53,8 @@ export type ExerciseType =
   | 'comparison-equality-activity'
   | 'comparison-comparatives-activity'
   | 'comparison-superlatives-activity'
+  | 'in-the-restaurant-activity'
+  | 'sale-at-shopright-activity'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -718,6 +720,18 @@ export interface ComparisonSuperlativesExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface InTheRestaurantExercise extends BaseExercise {
+  type: 'in-the-restaurant-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
+export interface SaleAtShoprightExercise extends BaseExercise {
+  type: 'sale-at-shopright-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -760,6 +774,8 @@ export type Exercise =
   | ComparisonEqualityExercise
   | ComparisonComparativesExercise
   | ComparisonSuperlativesExercise
+  | InTheRestaurantExercise
+  | SaleAtShoprightExercise
   | UnitTestExercise;
 
 export interface LessonSentence {
