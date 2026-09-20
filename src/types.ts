@@ -55,6 +55,7 @@ export type ExerciseType =
   | 'comparison-superlatives-activity'
   | 'in-the-restaurant-activity'
   | 'sale-at-shopright-activity'
+  | 'good-to-see-you-activity'
   | 'unit-test';
 
 export interface GrammarRule {
@@ -732,6 +733,12 @@ export interface SaleAtShoprightExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface GoodToSeeYouExercise extends BaseExercise {
+  type: 'good-to-see-you-activity';
+  instructions?: string;
+  instructionsEs?: string;
+}
+
 export type Exercise =
   | MultipleChoiceExercise
   | FillBlankExercise
@@ -776,6 +783,7 @@ export type Exercise =
   | ComparisonSuperlativesExercise
   | InTheRestaurantExercise
   | SaleAtShoprightExercise
+  | GoodToSeeYouExercise
   | UnitTestExercise;
 
 export interface LessonSentence {

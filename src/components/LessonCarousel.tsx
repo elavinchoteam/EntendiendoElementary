@@ -63,6 +63,9 @@ import { ComparisonAdjectivesComparativesSection } from './comparison-comparativ
 import { ComparisonAdjectivesSuperlativesSection } from './comparison-superlatives/ComparisonAdjectivesSuperlativesSection';
 import { InTheRestaurantActivity } from './InTheRestaurantActivity';
 import { SaleAtShoprightActivity } from './SaleAtShoprightActivity';
+import { GoodToSeeYouActivity } from './GoodToSeeYouActivity';
+import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
+import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -190,7 +193,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'swimming-activity' &&
       (ex.type as string) !== 'comparison-equality-activity' &&
       (ex.type as string) !== 'comparison-comparatives-activity' &&
-      (ex.type as string) !== 'sale-at-shopright-activity'
+      (ex.type as string) !== 'sale-at-shopright-activity' &&
+      (ex.type as string) !== 'good-to-see-you-activity' &&
+      (ex.type as string) !== 'count-non-count-activity' &&
+      (ex.type as string) !== 'nutrition-activity'
   );
 
   const isCustomSequentialUnit =
@@ -238,6 +244,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'in-the-restaurant' ||
     unit.sectionId === 'sale-at-shopright' ||
     (unit.id as any) === 'sale-at-shopright' ||
+    unit.sectionId === 'good-to-see-you' ||
+    (unit.id as any) === 'good-to-see-you' ||
+    unit.sectionId === 'nouns-count-and-non-count' ||
+    (unit.id as any) === 'nouns-count-and-non-count' ||
+    unit.sectionId === 'nutrition' ||
+    (unit.id as any) === 'nutrition' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -270,7 +282,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'comparison-comparatives-activity' ||
             (ex.type as string) === 'comparison-superlatives-activity' ||
             (ex.type as string) === 'in-the-restaurant-activity' ||
-            (ex.type as string) === 'sale-at-shopright-activity'
+            (ex.type as string) === 'sale-at-shopright-activity' ||
+            (ex.type as string) === 'good-to-see-you-activity' ||
+            (ex.type as string) === 'count-non-count-activity' ||
+            (ex.type as string) === 'nutrition-activity'
         )
     );
 
@@ -351,6 +366,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'comparison-comparatives-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Comparison of Adjectives: Comparatives';
+        } else if ((ex.type as string) === 'count-non-count-activity') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Nouns: Count and Non-Count';
+        } else if ((ex.type as string) === 'nutrition-activity') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -1544,6 +1565,50 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
                 />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'good-to-see-you-activity' ||
+            unit.sectionId === 'good-to-see-you' ||
+            (unit.id as any) === 'good-to-see-you'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <GoodToSeeYouActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'count-non-count-activity' ||
+            unit.sectionId === 'nouns-count-and-non-count' ||
+            (unit.id as any) === 'nouns-count-and-non-count'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CountNonCountActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'nutrition-activity' ||
+            unit.sectionId === 'nutrition' ||
+            (unit.id as any) === 'nutrition'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <NutritionSectionActivity />
               </div>
             );
           }
