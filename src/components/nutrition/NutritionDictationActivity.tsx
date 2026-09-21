@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Check, RotateCcw, ArrowRight } from 'lucide-react';
+import { Volume2, VolumeX, Check, RotateCcw, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { DictationSentenceItem, NutritionWordItem } from '../../data/nutritionData';
 import { ReversibleCard } from './ReversibleCard';
 import { speakEnglish, stopSpeaking, playFeedbackSound } from '../../utils/audio';
@@ -25,8 +25,17 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
   const { isDark } = useTheme();
 
   const [inputs, setInputs] = useState<Record<string, string>>({});
+  const [revealedSentences, setRevealedSentences] = useState<Record<string, boolean>>({});
   const [activeAudioId, setActiveAudioId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const toggleReveal = (id: string) => {
+    playFeedbackSound('click');
+    setRevealedSentences((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const handleInputChange = (id: string, value: string) => {
     setInputs((prev) => ({
@@ -82,6 +91,7 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
   const handleReset = () => {
     playFeedbackSound('click');
     setInputs({});
+    setRevealedSentences({});
     setIsSubmitted(false);
   };
 
@@ -198,8 +208,8 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                           ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
                           : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-xs'
                       }`}
-                      title="Listen"
-                      aria-label="Listen"
+                      title="Escuchar audio"
+                      aria-label="Escuchar audio"
                     >
                       {activeAudioId === item.id ? (
                         <VolumeX className="w-4 h-4" />
@@ -224,30 +234,72 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                           : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 shadow-2xs'
                       }`}
                     />
+
+                    {/* Eye Button to view/hide sentence matching Section 7 Sports 2 */}
+                    <button
+                      type="button"
+                      onClick={() => toggleReveal(item.id)}
+                      className={`shrink-0 p-2.5 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer border shadow-2xs ${
+                        revealedSentences[item.id]
+                          ? isDark
+                            ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50 hover:bg-emerald-600/40'
+                            : 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
+                          : isDark
+                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-white/15 hover:border-emerald-400'
+                          : 'bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border-slate-300 hover:border-emerald-300'
+                      }`}
+                      title={revealedSentences[item.id] ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
+                      aria-label={revealedSentences[item.id] ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
+                    >
+                      {revealedSentences[item.id] ? (
+                        <EyeOff className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      ) : (
+                        <Eye className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                      )}
+                    </button>
                   </div>
 
-                  {/* Reversible card for full sentence & translation if submitted */}
-                  {isSubmitted && (
-                    <div className="mt-2">
+                  {/* Reversible card for full sentence & translation if revealed OR submitted */}
+                  {(revealedSentences[item.id] || isSubmitted) && (
+                    <div className="mt-2 animate-in fade-in duration-150">
                       <ReversibleCard
                         textEn={item.sentenceEn}
                         textEs={item.sentenceEs}
                         speed={speed}
                         accent={accent}
-                        minHeightClass="min-h-[70px]"
+                        minHeightClass="min-h-[64px]"
                         childrenFront={
-                          <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-                              Correct sentence:
-                            </span>
-                            <span className="text-sm font-medium text-slate-900 dark:text-white">
-                              {item.sentenceEn}
-                            </span>
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                                {isSubmitted ? 'Oración correcta:' : 'Oración:'}
+                              </span>
+                              <span className="text-sm font-medium text-slate-900 dark:text-white">
+                                {item.sentenceEn}
+                              </span>
+                            </div>
+                            {(!isSubmitted || !allCorrect) && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleInputChange(item.id, item.sentenceEn);
+                                }}
+                                className={`px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all cursor-pointer shrink-0 ${
+                                  isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-emerald-500/30'
+                                    : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-300 shadow-2xs'
+                                }`}
+                                title="Copiar texto al campo de entrada"
+                              >
+                                Copiar al campo
+                              </button>
+                            )}
                           </div>
                         }
                         childrenBack={
-                          <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
                               Traducción:
                             </span>
                             <span className="text-sm font-serif italic text-emerald-950 dark:text-emerald-200">
