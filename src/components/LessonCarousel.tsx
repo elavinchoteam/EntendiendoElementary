@@ -48,6 +48,7 @@ import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
+import { ComparativesSuperlativesMasterclassActivity } from './ComparativesSuperlativesMasterclassActivity';
 import { PresentSimpleMasterclassActivity } from './PresentSimpleMasterclassActivity';
 import { DirectionsToMuseumActivity } from './DirectionsToMuseumActivity';
 import { CleanHouseAgencyActivity } from './CleanHouseAgencyActivity';
@@ -226,6 +227,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'present-simple-yes-no-questions' ||
     unit.sectionId === 'present-simple-wh-questions' ||
     (unit.id as any) === 'present-simple-wh-questions' ||
+    unit.sectionId === 'comparatives-and-superlatives' ||
+    (unit.id as any) === 'comparatives-and-superlatives' ||
     unit.sectionId === 'sports' ||
     (unit.id as any) === 'sports' ||
     unit.sectionId === 'people-are-crazy-about-sports' ||
@@ -275,6 +278,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'present-simple-statements' ||
             (ex.type as string) === 'present-simple-yes-no-questions' ||
             (ex.type as string) === 'present-simple-wh-questions' ||
+            (ex.type as string) === 'comparatives-superlatives-masterclass' ||
             (ex.type as string) === 'sports-activity' ||
             (ex.type as string) === 'people-crazy-sports-activity' ||
             (ex.type as string) === 'swimming-activity' ||
@@ -351,6 +355,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if (ex.type === 'present-simple-masterclass') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Present Simple Masterclass';
+        } else if ((ex.type as string) === 'comparatives-superlatives-masterclass') {
+          icon = Trophy;
+          if (!(ex as any).title) title = (ex as any).title || 'Comparatives and Superlatives';
         } else if ((ex.type as string) === 'sports-activity') {
           icon = Trophy;
           if (!(ex as any).title) title = (ex as any).title || 'Sports';
@@ -512,11 +519,11 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
           onClick={prevSlide}
           disabled={safeCurrentSlide === 0}
           className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
-            safeCurrentSlide === 0
+              safeCurrentSlide === 0
               ? 'opacity-0 pointer-events-none scale-75'
               : isDark
-              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
           title={
             safeCurrentSlide > 0 && slides[safeCurrentSlide - 1]
@@ -541,8 +548,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             safeCurrentSlide >= slides.length - 1
               ? 'opacity-0 pointer-events-none scale-75'
               : isDark
-              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
           title={
             safeCurrentSlide < slides.length - 1 && slides[safeCurrentSlide + 1]
@@ -566,8 +573,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             <div className="flex items-center gap-2">
               <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
                 isDark
-                  ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                  : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                  ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                  : 'bg-sky-100 text-sky-700 border border-sky-200'
               }`}>
                 Actividad {slides.length > 0 ? safeCurrentSlide + 1 : 0} de {slides.length}
               </span>
@@ -586,7 +593,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   onClick={() => goToSlide(idx)}
                   className={`h-2.5 rounded-full transition-all cursor-pointer ${
                     safeCurrentSlide === idx
-                      ? 'w-7 bg-indigo-600 shadow-xs'
+                      ? 'w-7 bg-sky-600 shadow-xs'
                       : isDark
                       ? 'w-2.5 bg-white/20 hover:bg-white/40'
                       : 'w-2.5 bg-slate-300 hover:bg-slate-400'
@@ -643,7 +650,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   <div className="flex items-center justify-between gap-3 pb-3 border-b border-inherit/40 shrink-0">
                     <div className="flex items-center gap-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
-                        isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                        isDark ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'bg-sky-100 text-sky-700 border border-sky-200'
                       }`}>
                         Inglés
                       </span>
@@ -658,8 +665,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                         }}
                         className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                           isDark
-                            ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                            : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                            ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                            : 'bg-slate-50 hover:bg-slate-100 text-sky-700 border-slate-200'
                         }`}
                         aria-label="Audio"
                       >
@@ -680,11 +687,11 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                             className={`inline cursor-pointer rounded-lg px-1.5 py-0.5 transition-all duration-150 mx-0.5 ${
                               isCurrent
                                 ? isDark
-                                ? 'bg-indigo-500 text-white font-bold ring-2 ring-indigo-400'
-                                : 'bg-indigo-600 text-white font-bold ring-2 ring-indigo-300'
+                                ? 'bg-sky-500 text-white font-bold ring-2 ring-sky-400'
+                                : 'bg-sky-600 text-white font-bold ring-2 ring-sky-300'
                                 : isDark
-                                ? 'hover:bg-indigo-500/20 text-slate-100 hover:text-white'
-                                : 'hover:bg-indigo-100 text-slate-800 hover:text-indigo-950'
+                                ? 'hover:bg-sky-500/20 text-slate-100 hover:text-white'
+                                : 'hover:bg-sky-100 text-slate-800 hover:text-sky-950'
                             }`}
                           >
                             {sent.en}{' '}
@@ -1433,6 +1440,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <PresentSimpleWhQuestionsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'comparatives-superlatives-masterclass' ||
+            unit.sectionId === 'comparatives-and-superlatives' ||
+            (unit.id as any) === 'comparatives-and-superlatives'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparativesSuperlativesMasterclassActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

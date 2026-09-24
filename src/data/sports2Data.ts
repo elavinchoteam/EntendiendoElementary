@@ -8,7 +8,7 @@ import {
 import sportsFansCheeringImg from '../assets/images/sports_fans_cheering_1789687796558.jpg';
 
 // ========================================================
-// 10 Key Vocabulary Words for Unit 4 - Section 7: Sports 2
+// 10 Key Vocabulary Words for Unit 4 - Section 8: Sports 2
 // ========================================================
 export const SPORTS_2_VOCABULARY: VocabularyWordItem[] = [
   {

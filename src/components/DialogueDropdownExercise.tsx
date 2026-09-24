@@ -144,11 +144,11 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
                       : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-1 ring-rose-400'
                     : currentVal
                     ? isDark
-                      ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
-                      : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                      ? 'border-sky-500 bg-sky-950/60 text-sky-300'
+                      : 'border-sky-500 bg-sky-50 text-sky-900'
                     : isDark
-                    ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
-                    : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                    ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
+                    : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
                 }`}
               >
                 <option value="" disabled>
@@ -260,15 +260,15 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
                     className={`p-4 rounded-2xl border leading-relaxed text-base sm:text-lg ${
                       line.speaker === 'Customer'
                         ? isDark
-                          ? 'bg-indigo-950/20 border-indigo-500/20'
-                          : 'bg-indigo-50/50 border-indigo-100'
+                          ? 'bg-sky-950/20 border-sky-500/20'
+                          : 'bg-sky-50/50 border-sky-100'
                         : isDark
                         ? 'bg-slate-800/40 border-white/10'
                         : 'bg-slate-50 border-slate-200'
                     }`}
                   >
                     {line.speaker && (
-                      <span className="font-bold text-indigo-600 dark:text-indigo-400 block sm:inline mr-2">
+                      <span className="font-bold text-sky-600 dark:text-sky-400 block sm:inline mr-2">
                         {line.speaker}:
                       </span>
                     )}
@@ -327,7 +327,7 @@ export const DialogueDropdownExercise: React.FC<DialogueDropdownExerciseProps> =
             <button
               id="check-dialogue-dropdown-btn"
               onClick={handleCheck}
-              className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
             >
               Comprobar Respuestas
             </button>

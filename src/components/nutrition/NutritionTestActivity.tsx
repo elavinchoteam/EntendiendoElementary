@@ -132,7 +132,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           className="shadow-sm"
           childrenFront={
             <div className="flex flex-col gap-1">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-800 dark:text-sky-400">
                 Final Test: Nutrition
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
@@ -142,10 +142,10 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           }
           childrenBack={
             <div className="flex flex-col gap-1">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-300">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-900 dark:text-sky-300">
                 Test Final: Nutrición
               </h2>
-              <p className="text-xs sm:text-sm font-serif italic text-emerald-900 dark:text-emerald-200">
+              <p className="text-xs sm:text-sm font-serif italic text-sky-900 dark:text-sky-200">
                 Completa las 10 preguntas para evaluar tu conocimiento del vocabulario sobre nutrición y alimentación saludable.
               </p>
             </div>
@@ -162,7 +162,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
             <img
               src={nutritionChefImg}
               alt="Chef in kitchen"
-              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-4 border-emerald-500/20 shadow-lg mx-auto"
+              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover border-4 border-sky-500/20 shadow-lg mx-auto"
             />
             <div className="absolute -bottom-2 -right-2 p-2.5 rounded-full bg-emerald-600 text-white shadow-md">
               <Award className="w-6 h-6" />
@@ -184,7 +184,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           <button
             type="button"
             onClick={handleStartTest}
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-600/20 transition-all hover:scale-102 active:scale-95 cursor-pointer"
+            className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-md transition-all hover:scale-102 active:scale-95 cursor-pointer"
           >
             <Play className="w-5 h-5 fill-current" />
             <span>Iniciar Test</span>
@@ -218,7 +218,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           childrenFront={
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-0.5">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                   Test {currentItem.testNumber} / {totalQuestions}
                 </span>
                 <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
@@ -235,15 +235,15 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           childrenBack={
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-0.5">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-700 dark:text-sky-400">
                   Test {currentItem.testNumber} / {totalQuestions}
                 </span>
-                <p className="text-sm font-serif italic text-emerald-950 dark:text-emerald-200">
+                <p className="text-sm font-serif italic text-sky-950 dark:text-sky-200">
                   {currentItem.instructionsEs}
                 </p>
               </div>
 
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-xs font-mono font-bold text-emerald-800 dark:text-emerald-300">
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-sky-100 dark:bg-sky-950 text-xs font-mono font-bold text-sky-800 dark:text-sky-300">
                 {currentTestIndex + 1} / {totalQuestions}
               </div>
             </div>
@@ -273,7 +273,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
               {/* Question Number Badge and Audio button */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs">
+                  <span className="px-3 py-1 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 font-mono font-bold text-xs">
                     Pregunta {currentItem.testNumber}
                   </span>
                 </div>
@@ -281,7 +281,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                 <button
                   type="button"
                   onClick={() => speakEnglish(spokenQuestionText, speed, accent)}
-                  className="p-2.5 rounded-xl border transition-all text-slate-600 dark:text-slate-300 hover:text-emerald-600 border-slate-200 dark:border-slate-700 hover:border-emerald-500 shadow-2xs cursor-pointer"
+                  className="p-2.5 rounded-xl border transition-all text-slate-600 dark:text-slate-300 hover:text-sky-600 border-slate-200 dark:border-slate-700 hover:border-sky-500 shadow-2xs cursor-pointer"
                   aria-label="Escuchar oración"
                 >
                   <Volume2 className="w-5 h-5" />
@@ -298,10 +298,10 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                   className={`inline-block mx-2 px-4 py-2 text-base font-bold rounded-xl border-2 transition-all align-middle cursor-pointer shadow-xs ${
                     isVerified
                       ? isCorrect
-                        ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-emerald-900 dark:text-emerald-200 ring-2 ring-emerald-300'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-sky-900 dark:text-sky-200 ring-2 ring-emerald-300'
                         : 'bg-rose-50 dark:bg-rose-950/50 border-rose-500 text-rose-900 dark:text-rose-200 ring-2 ring-rose-300'
                       : selectedVal
-                      ? 'bg-indigo-50 dark:bg-indigo-950/50 border-indigo-600 text-indigo-900 dark:text-indigo-200 ring-2 ring-indigo-200 dark:ring-indigo-900'
+                      ? 'bg-sky-50 dark:bg-sky-950/50 border-sky-600 text-sky-900 dark:text-sky-200 ring-2 ring-sky-200 dark:ring-sky-900'
                       : isDark
                       ? 'bg-slate-800 border-slate-700 text-slate-300'
                       : 'bg-white border-slate-300 text-slate-700'
@@ -329,7 +329,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                       ? 'opacity-40 cursor-not-allowed bg-slate-200 dark:bg-slate-800 text-slate-400'
                       : isVerified
                       ? 'bg-slate-700 hover:bg-slate-800 text-white'
-                      : 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95 shadow-emerald-600/20'
+                      : 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95 shadow-md'
                   }`}
                 >
                   <Check className="w-4 h-4" />
@@ -341,7 +341,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
               {isVerified && (
                 <div className="flex flex-col gap-4 animate-in fade-in duration-200">
                   {isCorrect ? (
-                    <div className="p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 flex items-center gap-3 text-emerald-900 dark:text-emerald-200">
+                    <div className="p-4 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-sky-300 dark:border-sky-800 flex items-center gap-3 text-sky-900 dark:text-sky-200">
                       <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
                       <div>
                         <p className="text-sm font-bold">¡Respuesta Correcta!</p>
@@ -386,7 +386,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                         <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                           Traducción en español:
                         </span>
-                        <p className="text-base font-serif italic text-emerald-950 dark:text-emerald-200">
+                        <p className="text-base font-serif italic text-sky-950 dark:text-sky-200">
                           {currentItem.fullSentenceEs}
                         </p>
                       </div>
@@ -423,8 +423,8 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
               className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
                 selectedVal
                   ? isVerified
-                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95 shadow-emerald-600/20'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95'
+                    ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95 shadow-md'
+                    : 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                   : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
               }`}
             >
@@ -454,7 +454,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
         className="shadow-sm"
         childrenFront={
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-800 dark:text-sky-400">
               Test Results
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
@@ -464,10 +464,10 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
         }
         childrenBack={
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-300">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-900 dark:text-sky-300">
               Resultados del Test
             </h2>
-            <p className="text-xs sm:text-sm font-serif italic text-emerald-900 dark:text-emerald-200">
+            <p className="text-xs sm:text-sm font-serif italic text-sky-900 dark:text-sky-200">
               Obtuviste {correctCount} de {totalQuestions} aciertos ({percentage}%).
             </p>
           </div>
@@ -483,7 +483,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
         <div
           className={`w-20 h-20 rounded-full flex items-center justify-center border-4 shadow-lg ${
             isPassed
-              ? 'bg-emerald-500/10 border-emerald-500 text-emerald-600'
+              ? 'bg-sky-500/10 border-emerald-500 text-emerald-600'
               : 'bg-amber-500/10 border-amber-500 text-amber-600'
           }`}
         >
@@ -505,7 +505,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
           <button
             type="button"
             onClick={handleRestart}
-            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition-all active:scale-95 cursor-pointer"
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-md transition-all active:scale-95 cursor-pointer"
           >
             <RotateCcw className="w-4 h-4" />
             <span>Volver a Iniciar Test</span>
@@ -578,7 +578,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                 }
                 childrenBack={
                   <div className="flex flex-col">
-                    <span className="text-sm font-serif italic text-emerald-950 dark:text-emerald-200">
+                    <span className="text-sm font-serif italic text-sky-950 dark:text-sky-200">
                       {t.fullSentenceEs}
                     </span>
                   </div>

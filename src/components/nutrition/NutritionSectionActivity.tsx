@@ -59,7 +59,7 @@ export const NutritionSectionActivity: React.FC = () => {
       {/* Top Header Bar: Section Branding & Controls */}
       <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 shadow-xs">
+          <div className="w-10 h-10 rounded-2xl bg-sky-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-sky-500/20 shadow-xs">
             <Apple className="w-5 h-5" />
           </div>
           <div>
@@ -108,7 +108,7 @@ export const NutritionSectionActivity: React.FC = () => {
                 onClick={() => handleSelectActivity(index)}
                 className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 select-none border ${
                   isActive
-                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
+                    ? 'bg-sky-600 text-white border-sky-500 shadow-md shadow-md'
                     : isDark
                     ? 'bg-slate-900 hover:bg-slate-800 text-slate-400 border-slate-800 hover:text-slate-200'
                     : 'bg-white hover:bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-900 shadow-xs'
@@ -130,8 +130,8 @@ export const NutritionSectionActivity: React.FC = () => {
           title="Actividad anterior"
           className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
             isDark
-              ? 'bg-[#1E293B]/95 hover:bg-emerald-600 text-white border-white/20 hover:border-emerald-400 shadow-emerald-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-emerald-600 text-slate-800 hover:text-white border-slate-300 hover:border-emerald-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
         >
           <ChevronLeft className="w-6 h-6" />
@@ -146,8 +146,8 @@ export const NutritionSectionActivity: React.FC = () => {
           title="Siguiente actividad"
           className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
             isDark
-              ? 'bg-[#1E293B]/95 hover:bg-emerald-600 text-white border-white/20 hover:border-emerald-400 shadow-emerald-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-emerald-600 text-slate-800 hover:text-white border-slate-300 hover:border-emerald-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
         >
           <ChevronRight className="w-6 h-6" />
@@ -267,7 +267,7 @@ export const NutritionSectionActivity: React.FC = () => {
           className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer ${
             currentActivityIndex === activities.length - 1
               ? 'opacity-30 cursor-not-allowed border-transparent text-slate-400'
-              : 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-xs'
+              : 'bg-sky-600 hover:bg-sky-500 text-white border-emerald-600 shadow-xs'
           }`}
         >
           <span>Siguiente Actividad</span>

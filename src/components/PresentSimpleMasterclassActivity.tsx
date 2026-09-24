@@ -199,8 +199,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
           currentTabIdx === 0
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-slate-800/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-slate-800/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         title={
           currentTabIdx > 0
@@ -222,8 +222,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
           currentTabIdx >= tabList.length - 1
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-slate-800/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-slate-800/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         title={
           currentTabIdx < tabList.length - 1
@@ -248,7 +248,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/15 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400">
                   Unit 3 · Sección 1
                 </span>
                 <span className="text-xs font-mono opacity-60">Grammar Masterclass</span>
@@ -275,7 +275,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                 }
                 className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-all cursor-pointer ${
                   currentlySpeakingId === 'header-intro'
-                    ? 'bg-indigo-600 text-white border-indigo-600'
+                    ? 'bg-sky-600 text-white border-sky-600'
                     : isDark
                     ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                     : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'
@@ -286,7 +286,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                 {currentlySpeakingId === 'header-intro' ? (
                   <VolumeX className="w-4 h-4 text-white animate-pulse" />
                 ) : (
-                  <Volume2 className="w-4 h-4 text-indigo-500" />
+                  <Volume2 className="w-4 h-4 text-sky-500" />
                 )}
               </button>
 
@@ -302,7 +302,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }`}
                   title="Velocidad del audio en toda la lección"
                 >
-                  <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+                  <Gauge className="w-3.5 h-3.5 text-sky-500" />
                   <span>{currentRate}x</span>
                 </button>
 
@@ -323,7 +323,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                         }}
                         className={`px-2.5 py-1.5 rounded-lg text-xs font-mono font-medium text-left flex items-center justify-between transition-colors cursor-pointer ${
                           currentRate === opt.value
-                            ? 'bg-indigo-600 text-white font-bold'
+                            ? 'bg-sky-600 text-white font-bold'
                             : isDark
                             ? 'hover:bg-slate-700 text-slate-300'
                             : 'hover:bg-slate-100 text-slate-700'
@@ -356,7 +356,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
                     isActive
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                      ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                       : isDark
                       ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                       : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -387,8 +387,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                     className={`rounded-3xl border p-5 sm:p-6 transition-all duration-200 cursor-pointer shadow-xs flex flex-col justify-between select-none ${
                       isFlipped
                         ? isDark
-                          ? 'bg-slate-900 border-indigo-500/60 ring-2 ring-indigo-500/20 text-white'
-                          : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20 text-slate-900 shadow-md'
+                          ? 'bg-slate-900 border-sky-500/60 ring-2 ring-sky-500/20 text-white'
+                          : 'bg-white border-sky-500 ring-2 ring-sky-400/20 text-slate-900 shadow-md'
                         : isDark
                         ? 'bg-slate-900 border-white/10 hover:border-slate-700 text-white'
                         : 'bg-white border-slate-200 hover:border-slate-300 text-slate-900'
@@ -397,7 +397,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                     <div>
                       {/* Top Row: Category tag and speaker audio button */}
                       <div className="flex items-center justify-between gap-3 mb-3">
-                        <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-white/10">
+                        <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-sky-600 dark:text-sky-400 border border-slate-200 dark:border-white/10">
                           {isFlipped ? topic.categoryEs : topic.category}
                         </span>
 
@@ -414,7 +414,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           }
                           className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all cursor-pointer ${
                             currentlySpeakingId === `theory-${topic.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -425,7 +425,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           {currentlySpeakingId === `theory-${topic.id}` ? (
                             <VolumeX className="w-3.5 h-3.5 text-white animate-pulse" />
                           ) : (
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           )}
                         </button>
                       </div>
@@ -462,7 +462,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                               onClick={(e) => handleAudioPlay(`ex-${topic.id}-${idx}`, ex.en, e)}
                               className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                                 currentlySpeakingId === `ex-${topic.id}-${idx}`
-                                  ? 'bg-indigo-600 text-white border-indigo-600'
+                                  ? 'bg-sky-600 text-white border-sky-600'
                                   : isDark
                                   ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                   : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -470,7 +470,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                               title="Escuchar ejemplo"
                               aria-label="Escuchar ejemplo"
                             >
-                              <Volume2 className="w-3 h-3 text-indigo-500" />
+                              <Volume2 className="w-3 h-3 text-sky-500" />
                             </button>
                           </div>
                         ))}
@@ -538,8 +538,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                     className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                       isFlipped
                         ? isDark
-                          ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                          : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                          ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                          : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                         : isDark
                         ? 'bg-slate-900 border-white/10'
                         : 'bg-white border-slate-200'
@@ -556,7 +556,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           onClick={(e) => handleAudioPlay(`qc-${item.id}`, item.fullSentenceEn, e)}
                           className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                             currentlySpeakingId === `qc-${item.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -564,7 +564,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           title="Escuchar audio"
                           aria-label="Escuchar audio"
                         >
-                          <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                          <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                         </button>
                       </div>
 
@@ -619,7 +619,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       ) : (
                         /* Back: Spanish Translation & Explanation */
                         <div className="py-1">
-                          <p className="text-base font-semibold mb-2 text-indigo-600 dark:text-indigo-400">
+                          <p className="text-base font-semibold mb-2 text-sky-600 dark:text-sky-400">
                             {item.fullSentenceEs}
                           </p>
                           <p className="text-xs leading-relaxed opacity-85">{item.explanationEs}</p>
@@ -660,7 +660,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
               }`}
             >
               <div className="mb-4">
-                <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                <span className="text-xs font-mono font-bold uppercase text-sky-500">
                   Actividad 6 del archivo PDF
                 </span>
                 <h3 className="text-lg font-bold tracking-tight">The Fun Part — Find Someone Who...</h3>
@@ -680,15 +680,15 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-800/60 border-white/10 hover:border-slate-700'
                           : 'bg-slate-50 border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2 mb-2">
-                        <span className="text-xs font-mono font-bold text-indigo-500">
+                        <span className="text-xs font-mono font-bold text-sky-500">
                           {item.number}. Find someone who:
                         </span>
                         <button
@@ -702,7 +702,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           }
                           className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                             currentlySpeakingId === `fsw-${item.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -710,14 +710,14 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           title="Escuchar audio"
                           aria-label="Escuchar audio"
                         >
-                          <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                          <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                         </button>
                       </div>
 
                       {!isFlipped ? (
                         <div>
                           <p className="text-base font-bold mb-1">{item.promptEn}</p>
-                          <p className="text-xs font-semibold text-indigo-600 dark:text-indigo-400">
+                          <p className="text-xs font-semibold text-sky-600 dark:text-sky-400">
                             {item.questionEn}
                           </p>
                           <div className="mt-2 p-2 rounded-xl bg-white dark:bg-slate-900/80 border border-inherit/20 text-xs">
@@ -728,7 +728,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                         </div>
                       ) : (
                         <div>
-                          <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-1">
+                          <p className="text-sm font-bold text-sky-600 dark:text-sky-400 mb-1">
                             {item.promptEs}
                           </p>
                           <p className="text-xs font-medium mb-2">{item.questionEs}</p>
@@ -755,7 +755,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
               }`}
             >
               <div className="mb-4">
-                <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                <span className="text-xs font-mono font-bold uppercase text-sky-500">
                   Actividad 7 del archivo PDF
                 </span>
                 <h3 className="text-lg font-bold tracking-tight">True or False?</h3>
@@ -776,8 +776,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-800/60 border-white/10 hover:border-slate-700'
                           : 'bg-slate-50 border-slate-200 hover:border-slate-300'
@@ -798,7 +798,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           }
                           className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                             currentlySpeakingId === `tf-${item.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -806,14 +806,14 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           title="Escuchar audio"
                           aria-label="Escuchar audio"
                         >
-                          <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                          <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                         </button>
                       </div>
 
                       {!isFlipped ? (
                         <div>
                           <p className="text-base font-bold mb-2">{item.statementEn}</p>
-                          <p className="text-xs text-indigo-600 dark:text-indigo-400 font-medium mb-3">
+                          <p className="text-xs text-sky-600 dark:text-sky-400 font-medium mb-3">
                             Ask a classmate: {item.questionEn}
                           </p>
 
@@ -855,7 +855,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                         </div>
                       ) : (
                         <div>
-                          <p className="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-1">
+                          <p className="text-base font-bold text-sky-600 dark:text-sky-400 mb-1">
                             {item.statementEs}
                           </p>
                           <p className="text-xs font-medium mb-2">Pregunta en español: {item.questionEs}</p>
@@ -890,7 +890,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
-                  <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                  <span className="text-xs font-mono font-bold uppercase text-sky-500">
                     Actividad 8 del archivo PDF
                   </span>
                   <h3 className="text-lg font-bold tracking-tight">DO or DOES? Complete the Questions</h3>
@@ -927,8 +927,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-800/60 border-white/10 hover:border-slate-700'
                           : 'bg-slate-50 border-slate-200 hover:border-slate-300'
@@ -943,7 +943,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           onClick={(e) => handleAudioPlay(`dodoes-${item.id}`, item.fullSentenceEn, e)}
                           className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                             currentlySpeakingId === `dodoes-${item.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -951,7 +951,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           title="Escuchar audio"
                           aria-label="Escuchar audio"
                         >
-                          <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                          <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                         </button>
                       </div>
 
@@ -1003,7 +1003,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                         </div>
                       ) : (
                         <div>
-                          <p className="text-base font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                          <p className="text-base font-semibold text-sky-600 dark:text-sky-400 mb-1">
                             {item.fullSentenceEs}
                           </p>
                           <p className="text-xs opacity-85">{item.explanationEs}</p>
@@ -1025,7 +1025,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
               }`}
             >
               <div className="mb-4">
-                <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                <span className="text-xs font-mono font-bold uppercase text-sky-500">
                   Actividad 9 del archivo PDF
                 </span>
                 <h3 className="text-lg font-bold tracking-tight">Answer the Questions About Yourself</h3>
@@ -1046,8 +1046,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-800/60 border-white/10 hover:border-slate-700'
                           : 'bg-slate-50 border-slate-200 hover:border-slate-300'
@@ -1068,7 +1068,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           }
                           className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                             currentlySpeakingId === `self-${item.id}`
-                              ? 'bg-indigo-600 text-white border-indigo-600'
+                              ? 'bg-sky-600 text-white border-sky-600'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                               : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -1076,7 +1076,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           title="Escuchar audio"
                           aria-label="Escuchar audio"
                         >
-                          <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                          <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                         </button>
                       </div>
 
@@ -1121,7 +1121,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                         </div>
                       ) : (
                         <div>
-                          <p className="text-base font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                          <p className="text-base font-semibold text-sky-600 dark:text-sky-400 mb-1">
                             {item.questionEs}
                           </p>
                           <p className="text-xs opacity-85 mb-2">{item.explanationEs}</p>
@@ -1154,7 +1154,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
               }`}
             >
               <div className="mb-4">
-                <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                <span className="text-xs font-mono font-bold uppercase text-sky-500">
                   Actividad 10 del archivo PDF
                 </span>
                 <h3 className="text-lg font-bold tracking-tight">Final Challenge — Complete the Mini-Conversations</h3>
@@ -1180,8 +1180,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-800/60 border-white/10 hover:border-slate-700'
                           : 'bg-slate-50 border-slate-200 hover:border-slate-300'
@@ -1189,7 +1189,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                          <span className="text-xs font-mono font-bold uppercase text-sky-500">
                             {diag.dialogueGroup}
                           </span>
                           <button
@@ -1203,7 +1203,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             }
                             className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                               currentlySpeakingId === `mc-${diag.id}`
-                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                ? 'bg-sky-600 text-white border-sky-600'
                                 : isDark
                                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                 : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200'
@@ -1211,7 +1211,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             title="Escuchar diálogo"
                             aria-label="Escuchar diálogo"
                           >
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           </button>
                         </div>
 
@@ -1219,7 +1219,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           <div className="flex flex-col gap-3" onClick={(e) => e.stopPropagation()}>
                             {/* Speaker A */}
                             <div className="flex items-center gap-2">
-                              <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                              <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-sky-500/10 text-sky-600 dark:text-sky-400">
                                 A:
                               </span>
                               <div className="flex-1 flex items-center gap-1.5 text-sm font-semibold">
@@ -1286,7 +1286,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           </div>
                         ) : (
                           <div>
-                            <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                            <p className="text-sm font-semibold text-sky-600 dark:text-sky-400 mb-1">
                               {diag.dialogueGroupEs}
                             </p>
                             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/80 border border-inherit/20 text-xs space-y-1 mb-2">
@@ -1324,7 +1324,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
-                  <span className="text-xs font-mono font-bold uppercase text-indigo-500">
+                  <span className="text-xs font-mono font-bold uppercase text-sky-500">
                     Páginas 9 a 11 del archivo PDF
                   </span>
                   <h3 className="text-lg sm:text-xl font-bold tracking-tight">
@@ -1337,7 +1337,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
 
                 {/* Score badge for Part A */}
                 {strangeDaySubTab === 'A' && (
-                  <div className="self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400 text-xs font-mono font-bold">
+                  <div className="self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-mono font-bold">
                     Puntuación: {partAScore} / 8
                   </div>
                 )}
@@ -1353,7 +1353,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${
                     strangeDaySubTab === 'A'
-                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      ? 'bg-sky-600 text-white border-sky-600'
                       : isDark
                       ? 'bg-slate-800 border-white/10 text-slate-300'
                       : 'bg-slate-100 border-slate-200 text-slate-700'
@@ -1369,7 +1369,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${
                     strangeDaySubTab === 'B'
-                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      ? 'bg-sky-600 text-white border-sky-600'
                       : isDark
                       ? 'bg-slate-800 border-white/10 text-slate-300'
                       : 'bg-slate-100 border-slate-200 text-slate-700'
@@ -1385,7 +1385,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${
                     strangeDaySubTab === 'C'
-                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      ? 'bg-sky-600 text-white border-sky-600'
                       : isDark
                       ? 'bg-slate-800 border-white/10 text-slate-300'
                       : 'bg-slate-100 border-slate-200 text-slate-700'
@@ -1401,7 +1401,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   }}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold border transition-all cursor-pointer ${
                     strangeDaySubTab === 'D'
-                      ? 'bg-indigo-600 text-white border-indigo-600'
+                      ? 'bg-sky-600 text-white border-sky-600'
                       : isDark
                       ? 'bg-slate-800 border-white/10 text-slate-300'
                       : 'bg-slate-100 border-slate-200 text-slate-700'
@@ -1428,8 +1428,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-900 border-white/10'
                           : 'bg-white border-slate-200'
@@ -1445,7 +1445,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             onClick={(e) => handleAudioPlay(`sd-a-${item.id}`, item.promptEn, e)}
                             className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                               currentlySpeakingId === `sd-a-${item.id}`
-                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                ? 'bg-sky-600 text-white border-sky-600'
                                 : isDark
                                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -1453,7 +1453,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             title="Escuchar audio"
                             aria-label="Escuchar audio"
                           >
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           </button>
                         </div>
 
@@ -1494,7 +1494,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           </div>
                         ) : (
                           <div>
-                            <p className="text-base font-semibold text-indigo-600 dark:text-indigo-400 mb-2">
+                            <p className="text-base font-semibold text-sky-600 dark:text-sky-400 mb-2">
                               {item.promptEs}
                             </p>
                             <p className="text-xs leading-relaxed opacity-90">{item.explanationEs}</p>
@@ -1535,8 +1535,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-900 border-white/10'
                           : 'bg-white border-slate-200'
@@ -1552,7 +1552,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             onClick={(e) => handleAudioPlay(`sd-b-${item.id}`, item.fullSentenceEn, e)}
                             className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                               currentlySpeakingId === `sd-b-${item.id}`
-                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                ? 'bg-sky-600 text-white border-sky-600'
                                 : isDark
                                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -1560,7 +1560,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             title="Escuchar audio"
                             aria-label="Escuchar audio"
                           >
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           </button>
                         </div>
 
@@ -1568,7 +1568,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           <div>
                             <p className="text-sm font-semibold mb-3">
                               {item.sentenceBefore}{' '}
-                              <span className="font-mono text-indigo-500 underline">({item.verbPrompt})</span>{' '}
+                              <span className="font-mono text-sky-500 underline">({item.verbPrompt})</span>{' '}
                               {item.sentenceAfter}
                             </p>
 
@@ -1594,7 +1594,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           </div>
                         ) : (
                           <div>
-                            <p className="text-base font-semibold text-indigo-600 dark:text-indigo-400 mb-1">
+                            <p className="text-base font-semibold text-sky-600 dark:text-sky-400 mb-1">
                               {item.fullSentenceEs}
                             </p>
                             <p className="text-xs opacity-85 mb-2">{item.explanationEs}</p>
@@ -1637,8 +1637,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-900 border-white/10'
                           : 'bg-white border-slate-200'
@@ -1655,7 +1655,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             onClick={(e) => handleAudioPlay(`sd-c-${item.id}`, item.correctSentence, e)}
                             className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                               currentlySpeakingId === `sd-c-${item.id}`
-                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                ? 'bg-sky-600 text-white border-sky-600'
                                 : isDark
                                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -1663,7 +1663,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             title="Escuchar oración corregida"
                             aria-label="Escuchar oración corregida"
                           >
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           </button>
                         </div>
 
@@ -1706,7 +1706,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mb-1">
                               ✅ {item.correctSentence}
                             </p>
-                            <p className="text-xs font-medium text-indigo-600 dark:text-indigo-400 mb-2">
+                            <p className="text-xs font-medium text-sky-600 dark:text-sky-400 mb-2">
                               {item.translationEs}
                             </p>
                             <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/80 border border-inherit/20 text-xs space-y-1">
@@ -1739,8 +1739,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
                       className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                         isFlipped
                           ? isDark
-                            ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                            : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                            ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                            : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                           : isDark
                           ? 'bg-slate-900 border-white/10'
                           : 'bg-white border-slate-200'
@@ -1748,7 +1748,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 mb-3">
-                          <span className="text-xs font-mono font-bold text-purple-500 flex items-center gap-1">
+                          <span className="text-xs font-mono font-bold text-sky-500 flex items-center gap-1">
                             <Sparkles className="w-3.5 h-3.5" />
                             {item.number}. Creative Sentence
                           </span>
@@ -1757,7 +1757,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             onClick={(e) => handleAudioPlay(`sd-d-${item.id}`, item.sampleAnswerEn, e)}
                             className={`w-7 h-7 rounded-lg flex items-center justify-center border shrink-0 transition-all cursor-pointer ${
                               currentlySpeakingId === `sd-d-${item.id}`
-                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                ? 'bg-sky-600 text-white border-sky-600'
                                 : isDark
                                 ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                                 : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
@@ -1765,7 +1765,7 @@ export const PresentSimpleMasterclassActivity: React.FC<
                             title="Escuchar ejemplo creativo"
                             aria-label="Escuchar ejemplo creativo"
                           >
-                            <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                            <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                           </button>
                         </div>
 
@@ -1773,19 +1773,19 @@ export const PresentSimpleMasterclassActivity: React.FC<
                           <div>
                             <p className="text-base font-semibold mb-2">
                               {item.promptPrefixEn}{' '}
-                              <span className="text-indigo-500 font-mono">__________</span>{' '}
+                              <span className="text-sky-500 font-mono">__________</span>{' '}
                               {item.promptSuffixEn}
                             </p>
                             <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-inherit/20 text-xs">
                               <p className="opacity-80">💡 Ejemplo sugerido:</p>
-                              <p className="font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">
+                              <p className="font-bold text-sky-600 dark:text-sky-400 mt-0.5">
                                 {item.sampleAnswerEn}
                               </p>
                             </div>
                           </div>
                         ) : (
                           <div>
-                            <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mb-1">
+                            <p className="text-sm font-bold text-sky-600 dark:text-sky-400 mb-1">
                               {item.translationEs}
                             </p>
                             <p className="text-xs font-medium mb-2">Ejemplo en español: {item.sampleAnswerEs}</p>
@@ -1837,10 +1837,10 @@ export const PresentSimpleMasterclassActivity: React.FC<
                   </thead>
                   <tbody className="divide-y divide-inherit/20 font-mono">
                     <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                      <td className="p-3 font-bold text-indigo-500">I / You / We / They</td>
+                      <td className="p-3 font-bold text-sky-500">I / You / We / They</td>
                       <td className="p-3">work / play / like</td>
                       <td className="p-3 text-rose-500">don't work</td>
-                      <td className="p-3 text-indigo-500">Do you work?</td>
+                      <td className="p-3 text-sky-500">Do you work?</td>
                       <td className="p-3 text-emerald-500">Yes, I do / No, I don't</td>
                     </tr>
                     <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
@@ -1855,8 +1855,8 @@ export const PresentSimpleMasterclassActivity: React.FC<
               </div>
 
               {/* Golden Rule Highlight Box */}
-              <div className="p-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-sm flex flex-col gap-2">
-                <h4 className="font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+              <div className="p-5 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sm flex flex-col gap-2">
+                <h4 className="font-bold text-sky-600 dark:text-sky-400 flex items-center gap-2">
                   <Sparkles className="w-4 h-4" />
                   ¡LA REGLA MÁGICA: DOES SE LLEVA LA S!
                 </h4>

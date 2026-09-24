@@ -36,16 +36,16 @@ export const UnitCard: React.FC<UnitCardProps> = ({
       className={`group relative flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 ${
         isActive
           ? isDark
-            ? 'bg-indigo-600/25 border-2 border-indigo-400 shadow-[0_0_30px_rgba(79,70,229,0.25)] scale-[1.01]'
-            : 'bg-white border-2 border-indigo-600 ring-4 ring-indigo-50 shadow-md scale-[1.01]'
+            ? 'bg-sky-600/25 border-2 border-sky-400 shadow-[0_0_30px_rgba(2,132,199,0.25)] scale-[1.01]'
+            : 'bg-white border-2 border-sky-600 ring-4 ring-sky-50 shadow-md scale-[1.01]'
           : isCompleted
           ? isDark
             ? 'bg-white/5 border border-white/10 hover:border-emerald-500/70 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] cursor-pointer'
             : 'bg-white border-slate-200 hover:border-emerald-500 hover:shadow-md cursor-pointer'
           : isUnlocked
           ? isDark
-            ? 'bg-white/5 border border-white/10 hover:border-indigo-400/70 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] cursor-pointer'
-            : 'bg-white border-slate-200 hover:border-indigo-500 hover:shadow-md cursor-pointer'
+            ? 'bg-white/5 border border-white/10 hover:border-sky-400/70 hover:shadow-[0_0_25px_rgba(2,132,199,0.15)] cursor-pointer'
+            : 'bg-white border-slate-200 hover:border-sky-500 hover:shadow-md cursor-pointer'
           : isDark
           ? 'bg-white/5 border border-white/10 opacity-50 cursor-not-allowed'
           : 'bg-slate-100/70 border-slate-200 opacity-60 cursor-not-allowed'
@@ -89,19 +89,17 @@ export const UnitCard: React.FC<UnitCardProps> = ({
 
         {/* Active badge */}
         {isActive && !isCompleted && (
-          <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-indigo-600 border border-indigo-400 text-white text-[10px] font-bold tracking-widest uppercase font-mono shadow-sm">
+          <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md bg-sky-600 border border-sky-400 text-white text-[10px] font-bold tracking-widest uppercase font-mono shadow-sm">
             Active Session
           </div>
         )}
 
-        {/* Category & Cards count Pill */}
-        <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] font-mono text-white/90 border border-white/10">
-          {sectionsCount > 0
-            ? `${sectionsCount} Secciones · Phone Sales, Wrong Color...`
-            : hasContent
-            ? `${cardsCount} cards · ${exercisesCount} exercises`
-            : 'Esperando contenido'}
-        </div>
+        {/* Category & Cards count Pill (removed for Units 1 to 5 as requested) */}
+        {!hasContent && (
+          <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] font-mono text-white/90 border border-white/10">
+            Esperando contenido
+          </div>
+        )}
       </div>
 
       {/* Card Content */}
@@ -111,7 +109,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
             {/* Unit Number - large editorial numerals */}
             <span className={`text-3xl sm:text-4xl font-black font-sans leading-none ${
               isActive
-                ? isDark ? 'text-indigo-400' : 'text-indigo-600'
+                ? isDark ? 'text-sky-400' : 'text-sky-600'
                 : isDark
                 ? 'text-white/20 group-hover:text-white/40'
                 : 'text-slate-300 group-hover:text-slate-400'
@@ -122,7 +120,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
             {/* Status tag */}
             <div className="text-[10px] uppercase font-mono font-bold tracking-wider mt-1">
               {isActive ? (
-                <span className={isDark ? 'text-indigo-400' : 'text-indigo-600'}>Active</span>
+                <span className={isDark ? 'text-sky-400' : 'text-sky-600'}>Active</span>
               ) : isCompleted ? (
                 <span className={isDark ? 'text-emerald-400' : 'text-emerald-600'}>Completed</span>
               ) : hasContent ? (
@@ -135,7 +133,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
 
           {/* Unit Title */}
           <h2 className={`text-base sm:text-lg font-bold tracking-tight leading-snug transition-colors ${
-            isDark ? 'text-white group-hover:text-indigo-200' : 'text-slate-900 group-hover:text-indigo-600'
+            isDark ? 'text-white group-hover:text-sky-200' : 'text-slate-900 group-hover:text-sky-600'
           }`}>
             {unit.title}
           </h2>
@@ -160,7 +158,7 @@ export const UnitCard: React.FC<UnitCardProps> = ({
                 isCompleted
                   ? 'bg-emerald-500 w-full'
                   : (progress?.exercisesFinished || 0) > 0
-                  ? 'bg-indigo-600'
+                  ? 'bg-sky-600'
                   : 'bg-transparent'
               }`}
               style={{
@@ -187,8 +185,8 @@ export const UnitCard: React.FC<UnitCardProps> = ({
             <span className={`font-semibold transition-colors ${
               isUnlocked
                 ? isDark
-                  ? 'text-indigo-400 group-hover:text-indigo-300'
-                  : 'text-indigo-600 group-hover:text-indigo-700'
+                  ? 'text-sky-400 group-hover:text-sky-300'
+                  : 'text-sky-600 group-hover:text-sky-700'
                 : isDark
                 ? 'text-white/20'
                 : 'text-slate-400'

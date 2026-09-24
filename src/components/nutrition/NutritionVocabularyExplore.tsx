@@ -37,7 +37,7 @@ export const NutritionVocabularyExplore: React.FC<NutritionVocabularyExploreProp
         className="shadow-sm"
         childrenFront={
           <div className="flex flex-col gap-1.5">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-800 dark:text-sky-400">
               Nutrition
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -47,10 +47,10 @@ export const NutritionVocabularyExplore: React.FC<NutritionVocabularyExploreProp
         }
         childrenBack={
           <div className="flex flex-col gap-1.5">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-300">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-900 dark:text-sky-300">
               Nutrición
             </h2>
-            <p className="text-xs sm:text-sm font-serif italic text-emerald-900 dark:text-emerald-200 leading-relaxed">
+            <p className="text-xs sm:text-sm font-serif italic text-sky-900 dark:text-sky-200 leading-relaxed">
               Lee la lista de palabras y frases. Lee las oraciones de ejemplo. Escucha las grabaciones y practica decir las palabras y frases. Marca las palabras que te gustaría repasar más tarde.
             </p>
           </div>
@@ -83,7 +83,7 @@ export const NutritionVocabularyExplore: React.FC<NutritionVocabularyExploreProp
                       <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white capitalize">
                         {item.word}
                       </span>
-                      <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-semibold">
                         {item.partOfSpeech}
                       </span>
                       <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-tight">
@@ -97,17 +97,17 @@ export const NutritionVocabularyExplore: React.FC<NutritionVocabularyExploreProp
                     <img
                       src={item.imageUrl}
                       alt={item.word}
-                      className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl object-cover shrink-0 border border-emerald-300 dark:border-emerald-800 shadow-xs opacity-90"
+                      className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl object-cover shrink-0 border border-sky-300 dark:border-sky-800 shadow-xs opacity-90"
                       loading="lazy"
                     />
                     <div className="flex flex-col gap-1 text-left min-w-0">
-                      <span className="text-base sm:text-lg font-bold text-emerald-950 dark:text-emerald-200 capitalize">
+                      <span className="text-base sm:text-lg font-bold text-sky-950 dark:text-sky-200 capitalize">
                         {item.translation}
                       </span>
-                      <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold">
+                      <span className="text-[11px] font-mono uppercase tracking-wider text-sky-700 dark:text-sky-400 font-semibold">
                         {item.partOfSpeechEs}
                       </span>
-                      <p className="text-xs font-serif italic text-emerald-900 dark:text-emerald-300 line-clamp-2 leading-tight">
+                      <p className="text-xs font-serif italic text-sky-900 dark:text-sky-300 line-clamp-2 leading-tight">
                         {item.exampleEs}
                       </p>
                     </div>

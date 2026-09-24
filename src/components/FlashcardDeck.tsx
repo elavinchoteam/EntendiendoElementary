@@ -122,7 +122,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
       <div className="w-full flex items-center justify-between mb-4 px-1">
         <div className="flex items-center gap-2">
           <span className={`text-xs font-mono font-bold uppercase tracking-wider ${
-            isDark ? 'text-indigo-400' : 'text-indigo-600'
+            isDark ? 'text-sky-400' : 'text-sky-600'
           }`}>
             Tarjeta {currentIndex + 1} de {cards.length}
           </span>
@@ -140,7 +140,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               onClick={() => setRate(1.0)}
               className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
                 rate === 1.0
-                  ? 'bg-indigo-600 text-white font-bold shadow-2xs'
+                  ? 'bg-sky-600 text-white font-bold shadow-2xs'
                   : isDark ? 'text-white/50 hover:text-white' : 'text-slate-500 hover:text-slate-900'
               }`}
             >
@@ -150,7 +150,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               onClick={() => setRate(0.75)}
               className={`px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
                 rate === 0.75
-                  ? 'bg-indigo-600 text-white font-bold shadow-2xs'
+                  ? 'bg-sky-600 text-white font-bold shadow-2xs'
                   : isDark ? 'text-white/50 hover:text-white' : 'text-slate-500 hover:text-slate-900'
               }`}
             >
@@ -197,7 +197,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                       : 'bg-emerald-50 border-emerald-300'
                     : isDark
                     ? 'bg-[#111827] border-white/10 hover:border-white/20'
-                    : 'bg-white border-slate-200 hover:border-indigo-400 shadow-xs'
+                    : 'bg-white border-slate-200 hover:border-sky-400 shadow-xs'
                 }`}
               >
                 <div className="flex items-start justify-between">
@@ -209,7 +209,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                       <button
                         onClick={() => handleSpeak(card.word)}
                         className={`p-1 rounded-lg cursor-pointer transition-colors ${
-                          isDark ? 'text-indigo-400 hover:bg-white/10' : 'text-indigo-600 hover:bg-indigo-50'
+                          isDark ? 'text-sky-400 hover:bg-white/10' : 'text-sky-600 hover:bg-sky-50'
                         }`}
                         title="Escuchar pronunciación"
                       >
@@ -276,8 +276,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                 <div className="flex items-center justify-between w-full">
                   <span className={`px-2.5 py-1 rounded-md text-xs font-mono font-semibold uppercase tracking-wider ${
                     isDark
-                      ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                      : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                      ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                      : 'bg-sky-100 text-sky-700 border border-sky-200'
                   }`}>
                     {currentCard.partOfSpeech}
                   </span>
@@ -328,13 +328,13 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                       }}
                       className={`group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm shadow-md transition-all active:scale-95 cursor-pointer font-sans ${
                         isDark
-                          ? 'bg-white text-black hover:bg-indigo-50'
-                          : 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-600/30'
+                          ? 'bg-white text-black hover:bg-sky-50'
+                          : 'bg-sky-600 text-white hover:bg-sky-700 shadow-sky-600/30'
                       }`}
                     >
                       <Volume2 className="w-4 h-4 transition-transform group-hover:scale-110" />
                       <span>Hear Pronunciation ({accent})</span>
-                      <AudioWaveIndicator isPlaying={isSpeaking} colorClass={isDark ? 'bg-indigo-600' : 'bg-white'} size="sm" />
+                      <AudioWaveIndicator isPlaying={isSpeaking} colorClass={isDark ? 'bg-sky-600' : 'bg-white'} size="sm" />
                     </button>
 
                     <button
@@ -371,7 +371,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                       handleSpeak(currentCard.exampleEn);
                     }}
                     className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                      isDark ? 'text-white/40 hover:text-indigo-300 hover:bg-white/10' : 'text-slate-400 hover:text-indigo-600 hover:bg-slate-100'
+                      isDark ? 'text-white/40 hover:text-sky-300 hover:bg-white/10' : 'text-slate-400 hover:text-sky-600 hover:bg-slate-100'
                     }`}
                     title="Escuchar oración de ejemplo"
                   >
@@ -393,8 +393,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               {/* BACK FACE (Spanish translation + explanation + tip) */}
               <div className={`absolute inset-0 w-full h-full rounded-2xl p-6 sm:p-8 flex flex-col justify-between border-2 backface-hidden rotate-y-180 shadow-xl transition-colors ${
                 isDark
-                  ? 'bg-slate-900 border-indigo-500/40 text-white'
-                  : 'bg-white border-indigo-400 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-sky-500/40 text-white'
+                  : 'bg-white border-sky-400 text-slate-900 shadow-md'
               }`}>
                 
                 {/* Header row */}
@@ -414,8 +414,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                     }}
                     className={`flex items-center gap-1 text-xs font-mono font-semibold px-3 py-1 rounded-lg border cursor-pointer transition-colors ${
                       isDark
-                        ? 'text-indigo-300 hover:text-white bg-white/5 border-white/10'
-                        : 'text-indigo-700 hover:text-indigo-900 bg-indigo-50 border-indigo-200'
+                        ? 'text-sky-300 hover:text-white bg-white/5 border-white/10'
+                        : 'text-sky-700 hover:text-sky-900 bg-sky-50 border-sky-200'
                     }`}
                   >
                     <Volume2 className="w-3.5 h-3.5" />
@@ -439,11 +439,11 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
                     <div className={`mt-4 p-3.5 rounded-xl border text-xs sm:text-sm text-left flex items-start gap-2 max-w-lg ${
                       isDark
                         ? 'bg-white/5 border-white/10 text-white/80'
-                        : 'bg-indigo-50/70 border-indigo-100 text-slate-700'
+                        : 'bg-sky-50/70 border-sky-100 text-slate-700'
                     }`}>
-                      <HelpCircle className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                      <HelpCircle className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
                       <div>
-                        <span className={`font-bold ${isDark ? 'text-indigo-300' : 'text-indigo-900'}`}>
+                        <span className={`font-bold ${isDark ? 'text-sky-300' : 'text-sky-900'}`}>
                           Consejo de uso:{' '}
                         </span>
                         <span>{currentCard.tip}</span>
@@ -505,8 +505,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               onClick={handleFlip}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs ${
                 isDark
-                  ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400 shadow-indigo-600/30'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                  ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400 shadow-sky-600/30'
+                  : 'bg-sky-600 hover:bg-sky-500 text-white'
               }`}
             >
               <RotateCw className="w-3.5 h-3.5" />

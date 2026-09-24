@@ -256,15 +256,15 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
                   ? 'bg-slate-900 border-emerald-500/30 text-emerald-100'
                   : 'bg-white border-emerald-300 text-emerald-950'
                 : isDark
-                ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
-                : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
+                ? 'bg-[#151C33] border-white/10 text-white hover:border-sky-500/40'
+                : 'bg-white border-slate-200 text-slate-800 hover:border-sky-300'
             }`}
           >
             {/* Front: English */}
             <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center gap-3 backface-hidden">
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                  isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600'
+                  isDark ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'bg-sky-50 text-sky-600'
                 }`}
               >
                 <Volume2 className="w-4 h-4" />
@@ -302,7 +302,7 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
               'male'
             );
           }}
-          className="p-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer shrink-0"
+          className="p-3 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white shadow-md transition-all cursor-pointer shrink-0"
           title="Escuchar instrucción"
         >
           <Volume2 className="w-5 h-5" />
@@ -472,7 +472,7 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
               }`}
             >
               <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-inherit">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-500 dark:text-indigo-400">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-500 dark:text-sky-400">
                   Chuck Wood's Message (Transcript)
                 </span>
                 <span className="text-[11px] font-mono opacity-60">Toca cualquier oración para escucharla</span>
@@ -490,7 +490,7 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
                           ? 'bg-amber-200 text-slate-900 font-bold ring-2 ring-amber-400 shadow-xs'
                           : isDark
                           ? 'hover:bg-white/10 hover:text-white'
-                          : 'hover:bg-indigo-50 hover:text-indigo-900'
+                          : 'hover:bg-sky-50 hover:text-sky-900'
                       }`}
                       title="Clic para escuchar esta frase"
                     >
@@ -727,7 +727,7 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
                         e.stopPropagation();
                         handleCheckAnswers();
                       }}
-                      className="px-4 sm:px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-sm hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
+                      className="px-4 sm:px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-sm hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
                     >
                       <Check className="w-4 h-4" />
                       <span>Comprobar Respuestas</span>

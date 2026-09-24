@@ -118,7 +118,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               </button>
             )}
 
-            <span className="w-9 h-9 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center text-base font-mono shadow-sm shrink-0">
+            <span className="w-9 h-9 rounded-xl bg-sky-600 text-white font-black flex items-center justify-center text-base font-mono shadow-sm shrink-0">
               {activeSection
                 ? `${unit.number}.${activeSection.number}`
                 : String(unit.number).padStart(2, '0')}
@@ -148,7 +148,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                     className={`col-start-1 row-start-1 backface-hidden px-3.5 py-1.5 rounded-xl border flex items-center justify-center transition-all ${
                       isDark
                         ? 'bg-white/5 border-white/10 group-hover:border-white/25 group-hover:bg-white/10 text-white'
-                        : 'bg-white border-slate-200 group-hover:border-indigo-300 group-hover:shadow-xs text-slate-900'
+                        : 'bg-white border-slate-200 group-hover:border-sky-300 group-hover:shadow-xs text-slate-900'
                     }`}
                   >
                     <h2 className="text-base sm:text-lg font-bold tracking-tight whitespace-nowrap">
@@ -160,8 +160,8 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                   <div
                     className={`col-start-1 row-start-1 backface-hidden rotate-y-180 px-3.5 py-1.5 rounded-xl border flex items-center justify-center transition-all ${
                       isDark
-                        ? 'bg-indigo-950/50 border-indigo-500/40 text-indigo-200'
-                        : 'bg-indigo-50/90 border-indigo-200 text-indigo-900'
+                        ? 'bg-sky-950/50 border-sky-500/40 text-sky-200'
+                        : 'bg-sky-50/90 border-sky-200 text-sky-900'
                     }`}
                   >
                     <span className="text-sm sm:text-base font-serif italic whitespace-nowrap">
@@ -222,8 +222,8 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                   className={`px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
                     isSelected
                       ? isDark
-                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
-                        : 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                        ? 'bg-sky-600 text-white border-sky-500 shadow-sm'
+                        : 'bg-sky-600 text-white border-sky-600 shadow-xs'
                       : isDark
                       ? 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
                       : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-200/70 hover:text-slate-900'
@@ -249,7 +249,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
           {hasSections && !activeSection ? (
             <div className="w-full max-w-[90vw] mx-auto py-3">
               <div className="text-center mb-8">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30 mb-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30 mb-2">
                   <Layers className="w-3.5 h-3.5" />
                   {unit.title}
                 </span>
@@ -283,19 +283,19 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                       }}
                       className={`group relative rounded-2xl border p-5 flex flex-col justify-between transition-all duration-200 cursor-pointer overflow-hidden ${
                         isDark
-                          ? 'bg-slate-900/70 border-white/10 hover:border-indigo-500/70 hover:bg-slate-800/80 hover:shadow-[0_0_25px_rgba(99,102,241,0.15)]'
-                          : 'bg-white border-slate-200 hover:border-indigo-500 hover:shadow-md'
+                          ? 'bg-slate-900/70 border-white/10 hover:border-sky-500/70 hover:bg-slate-800/80 hover:shadow-[0_0_25px_rgba(2,132,199,0.15)]'
+                          : 'bg-white border-slate-200 hover:border-sky-500 hover:shadow-md'
                       }`}
                     >
                       {/* Top section identifier */}
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-2">
-                          <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white font-mono font-bold text-xs flex items-center justify-center shadow-xs">
+                          <span className="w-7 h-7 rounded-lg bg-sky-600 text-white font-mono font-bold text-xs flex items-center justify-center shadow-xs">
                             {String(section.number).padStart(2, '0')}
                           </span>
                           <span
                             className={`text-[11px] font-mono font-bold uppercase tracking-wider ${
-                              isDark ? 'text-indigo-400' : 'text-indigo-600'
+                              isDark ? 'text-sky-400' : 'text-sky-600'
                             }`}
                           >
                             Sección {section.number}
@@ -321,7 +321,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
 
                       {/* Section Titles */}
                       <div className="mb-4">
-                        <h4 className="text-lg font-bold tracking-tight group-hover:text-indigo-500 transition-colors">
+                        <h4 className="text-lg font-bold tracking-tight group-hover:text-sky-500 transition-colors">
                           {section.title}
                         </h4>
                         <p
@@ -346,7 +346,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                       {/* Card Action footer */}
                       <div
                         className={`pt-3 border-t flex items-center justify-between text-xs font-semibold ${
-                          isDark ? 'border-white/10 text-indigo-400' : 'border-slate-100 text-indigo-600'
+                          isDark ? 'border-white/10 text-sky-400' : 'border-slate-100 text-sky-600'
                         }`}
                       >
                         <span>Abrir sección</span>
@@ -363,8 +363,8 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               <div
                 className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${
                   isDark
-                    ? 'bg-white/5 border border-white/10 text-indigo-400'
-                    : 'bg-indigo-50 border border-indigo-100 text-indigo-600'
+                    ? 'bg-white/5 border border-white/10 text-sky-400'
+                    : 'bg-sky-50 border border-sky-100 text-sky-600'
                 }`}
               >
                 <Clock className="w-7 h-7" />
@@ -384,14 +384,14 @@ export const UnitModal: React.FC<UnitModalProps> = ({
               {hasSections ? (
                 <button
                   onClick={() => setSelectedSectionId(null)}
-                  className="mt-6 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-mono font-bold uppercase tracking-wider cursor-pointer"
+                  className="mt-6 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-mono font-bold uppercase tracking-wider cursor-pointer"
                 >
-                  Volver a las 6 Secciones
+                  Volver a las Secciones
                 </button>
               ) : (
                 <button
                   onClick={onClose}
-                  className="mt-6 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-mono font-bold uppercase tracking-wider cursor-pointer"
+                  className="mt-6 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-mono font-bold uppercase tracking-wider cursor-pointer"
                 >
                   Volver a la Lección 1
                 </button>

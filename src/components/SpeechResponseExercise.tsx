@@ -855,7 +855,7 @@ export const SpeechResponseExercise: React.FC<SpeechResponseExerciseProps> = ({
                   className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95 ${
                     isRecording
                       ? 'bg-rose-500 text-white ring-4 ring-rose-300 shadow-rose-500/30'
-                      : 'bg-sky-600 hover:bg-sky-700 text-white shadow-sky-500/30'
+                      : 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-500/30'
                   }`}
                   title={isRecording ? 'Detener grabación' : 'Comenzar a hablar'}
                   aria-label="Grabar respuesta"

@@ -104,14 +104,14 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             minHeightClass="min-h-[220px]"
             childrenFront={
               <div className="w-full flex flex-col items-center justify-center text-center p-4 gap-3">
-                <span className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-md">
+                <span className="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-md">
                   <Award className="w-6 h-6" />
                 </span>
                 <div className="flex flex-col gap-1">
                   <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                     Test: Nouns: Count and Non-Count
                   </h3>
-                  <span className="text-xs sm:text-sm font-mono text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider">
+                  <span className="text-xs sm:text-sm font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider">
                     5 Test Questions
                   </span>
                 </div>
@@ -122,18 +122,18 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             }
             childrenBack={
               <div className="w-full flex flex-col items-center justify-center text-center p-4 gap-3">
-                <span className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+                <span className="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-md">
                   <Award className="w-6 h-6" />
                 </span>
                 <div className="flex flex-col gap-1">
                   <h3 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
                     Test: Sustantivos contables e incontables
                   </h3>
-                  <span className="text-xs sm:text-sm font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">
+                  <span className="text-xs sm:text-sm font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider">
                     5 Preguntas de Examen
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-emerald-900 dark:text-emerald-200 max-w-md leading-relaxed font-serif italic">
+                <p className="text-xs sm:text-sm text-sky-900 dark:text-sky-200 max-w-md leading-relaxed font-serif italic">
                   Pon a prueba tu conocimiento sobre sustantivos contables e incontables. Consulta tus resultados al finalizar.
                 </p>
               </div>
@@ -145,7 +145,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
         <button
           type="button"
           onClick={handleStartTest}
-          className="flex items-center gap-2.5 px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-base font-bold shadow-xl hover:shadow-indigo-500/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="flex items-center gap-2.5 px-8 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white text-base font-bold shadow-xl hover:shadow-sky-500/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <Play className="w-5 h-5 fill-current" />
           <span>Iniciar Test</span>
@@ -175,11 +175,11 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
           </div>
 
           {/* Score Badge */}
-          <div className="px-6 py-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex items-center gap-3">
-            <span className="text-3xl font-black font-mono text-indigo-600 dark:text-indigo-400">
+          <div className="px-6 py-3 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 flex items-center gap-3">
+            <span className="text-3xl font-black font-mono text-sky-600 dark:text-sky-400">
               {score} / 5
             </span>
-            <span className="text-xs sm:text-sm font-bold text-indigo-900 dark:text-indigo-200">
+            <span className="text-xs sm:text-sm font-bold text-sky-900 dark:text-sky-200">
               ({Math.round((score / 5) * 100)}%)
             </span>
           </div>
@@ -225,7 +225,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             <button
               type="button"
               onClick={handleRestartTest}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Reiniciar Test</span>
@@ -273,7 +273,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
         {/* Header with Test Step Indicator */}
         <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <span className="w-7 h-7 rounded-lg bg-indigo-600 text-white font-mono font-bold flex items-center justify-center text-xs">
+            <span className="w-7 h-7 rounded-lg bg-sky-600 text-white font-mono font-bold flex items-center justify-center text-xs">
               {currentTest.testNumber}
             </span>
             <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -308,7 +308,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                       <div
                         className={`inline-flex items-center justify-center min-w-[130px] h-8 sm:h-9 px-3 rounded-lg border-2 border-dashed transition-all ${
                           selectedOpt
-                            ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-200 font-bold'
+                            ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-900 dark:text-sky-200 font-bold'
                             : 'border-slate-300 dark:border-slate-600 bg-slate-100/60 dark:bg-slate-800/60'
                         }`}
                       >
@@ -338,7 +338,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
               {currentTest.dialogueLines.map((line, idx) => (
                 <p
                   key={idx}
-                  className="text-sm sm:text-base leading-relaxed font-serif italic text-emerald-900 dark:text-emerald-300"
+                  className="text-sm sm:text-base leading-relaxed font-serif italic text-sky-900 dark:text-sky-300"
                 >
                   {line.textEs}
                 </p>
@@ -359,7 +359,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                   onClick={() => handleSelectOption(currentTest.id, opt.id)}
                   className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer select-none active:scale-95 ${
                     isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-600 shadow-md ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-600 shadow-md ring-2 ring-sky-400'
                       : isDark
                       ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                       : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs'
@@ -406,7 +406,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                   }}
                   className={`w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center transition-all cursor-pointer ${
                     isCurrent
-                      ? 'bg-indigo-600 text-white ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white ring-2 ring-sky-400'
                       : isAnswered
                       ? isDark
                         ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-800'
@@ -429,7 +429,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             disabled={!currentSelectedOptionId}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
               currentSelectedOptionId
-                ? 'bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95'
+                ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                 : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
             }`}
           >

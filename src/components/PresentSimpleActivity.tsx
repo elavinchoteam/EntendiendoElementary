@@ -122,7 +122,7 @@ export const PresentSimpleActivity: React.FC<PresentSimpleActivityProps> = ({
                 }}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1 cursor-pointer ${
                   isCurrent
-                    ? 'bg-blue-600 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : isCompleted
                     ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                     : isDark
@@ -149,7 +149,7 @@ export const PresentSimpleActivity: React.FC<PresentSimpleActivityProps> = ({
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
             }`}
           >
-            <Gauge className="w-3.5 h-3.5 text-blue-500" />
+            <Gauge className="w-3.5 h-3.5 text-sky-500" />
             <span>{currentRate}x</span>
           </button>
 
@@ -169,7 +169,7 @@ export const PresentSimpleActivity: React.FC<PresentSimpleActivityProps> = ({
                   }}
                   className={`w-full px-3 py-1.5 text-left text-xs font-medium transition-colors flex items-center justify-between cursor-pointer ${
                     currentRate === opt.value
-                      ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold'
+                      ? 'bg-sky-50 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 font-bold'
                       : isDark
                       ? 'text-slate-200 hover:bg-slate-700'
                       : 'text-slate-700 hover:bg-slate-100'

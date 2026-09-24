@@ -53,6 +53,7 @@ export type ExerciseType =
   | 'comparison-equality-activity'
   | 'comparison-comparatives-activity'
   | 'comparison-superlatives-activity'
+  | 'comparatives-superlatives-masterclass'
   | 'in-the-restaurant-activity'
   | 'sale-at-shopright-activity'
   | 'good-to-see-you-activity'
@@ -721,6 +722,13 @@ export interface ComparisonSuperlativesExercise extends BaseExercise {
   instructionsEs?: string;
 }
 
+export interface ComparativesSuperlativesMasterclassExercise extends BaseExercise {
+  type: 'comparatives-superlatives-masterclass';
+  instructions?: string;
+  instructionsEs?: string;
+  initialTab?: string;
+}
+
 export interface InTheRestaurantExercise extends BaseExercise {
   type: 'in-the-restaurant-activity';
   instructions?: string;
@@ -781,6 +789,7 @@ export type Exercise =
   | ComparisonEqualityExercise
   | ComparisonComparativesExercise
   | ComparisonSuperlativesExercise
+  | ComparativesSuperlativesMasterclassExercise
   | InTheRestaurantExercise
   | SaleAtShoprightExercise
   | GoodToSeeYouExercise

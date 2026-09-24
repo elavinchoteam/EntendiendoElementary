@@ -349,7 +349,7 @@ export const ClassificationTableExercise: React.FC<ClassificationTableExercisePr
                     isDark
                       ? 'bg-[#151C33] border-white/10'
                       : 'bg-white border-slate-200 shadow-xs'
-                  } ${selectedPoolItemId ? 'ring-2 ring-indigo-500/40 cursor-pointer' : ''}`}
+                  } ${selectedPoolItemId ? 'ring-2 ring-sky-500/40 cursor-pointer' : ''}`}
                 >
                   <div>
                     {/* Column Header */}
@@ -495,7 +495,7 @@ export const ClassificationTableExercise: React.FC<ClassificationTableExercisePr
                       }}
                       className={`group inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs sm:text-sm font-medium transition-all select-none cursor-pointer shadow-2xs ${
                         isSelected
-                          ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-500/40'
+                          ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-500/40'
                           : isDark
                           ? 'bg-slate-800 hover:bg-slate-700/80 text-slate-200 border-slate-700'
                           : 'bg-stone-50 hover:bg-stone-100 text-stone-800 border-stone-200'

@@ -7,13 +7,37 @@ import { madMosStoreImg } from './comparisonSuperlativesData';
 import { SPORTS_2_EXERCISES, sportsFansCheeringImg } from './sports2Data';
 
 export const UNIT_4_SECTIONS: UnitSection[] = [
-  // SECTION 1: Sports
+  // SECTION 1: Comparatives and Superlatives
+  {
+    id: 'comparatives-and-superlatives',
+    number: 1,
+    title: 'Comparatives and Superlatives',
+    titleEs: 'Comparativos y Superlativos',
+    subtitle: 'Section 1 · Grammar Masterclass & Interactive Practice',
+    description:
+      'Aprende a dominar comparativos y superlativos con adjetivos cortos, terminados en -y, largos, formas irregulares, comparaciones de igualdad y 5 ejercicios interactivos.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'comparatives-superlatives-main',
+        type: 'comparatives-superlatives-masterclass',
+        title: 'Comparatives and Superlatives',
+        instructions:
+          'Learn the rules of comparatives and superlatives, explore bilingual reversible cards with audio, and complete all 5 interactive exercises.',
+        instructionsEs:
+          'Aprende las reglas de comparativos y superlativos, explora tarjetas reversibles bilingües con audio y completa los 5 ejercicios interactivos.',
+      },
+    ],
+  },
+  // SECTION 2: Sports
   {
     id: 'sports',
-    number: 1,
+    number: 2,
     title: 'Sports',
     titleEs: 'Deportes',
-    subtitle: 'Section 1 · Sports Report, 5 Activities & Test (5 Tests)',
+    subtitle: 'Section 2 · Sports Report, 5 Activities & Test (5 Tests)',
     description:
       'Informe deportivo en la radio con Jack Hill sobre béisbol, fútbol, ciclismo (Tour de France), tenis y las Olimpiadas Infantiles en California. 5 actividades interactivas y test final de 5 preguntas.',
     imageUrl: radioHostImg,
@@ -30,13 +54,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 2: People Are Crazy About Sports
+  // SECTION 3: People Are Crazy About Sports
   {
     id: 'people-are-crazy-about-sports',
-    number: 2,
+    number: 3,
     title: 'People Are Crazy About Sports',
     titleEs: 'La Gente Está Loca por los Deportes',
-    subtitle: 'Section 2 · Reading Story, 7 Activities & Test (5 Tests)',
+    subtitle: 'Section 3 · Reading Story, 7 Activities & Test (5 Tests)',
     description:
       'Lectura sobre por qué a la gente le encanta ver deportes: el estudio del Profesor Len Sanders de Georgetown University, atletas profesionales y aficionados masivos. 7 actividades interactivas y test de 5 preguntas.',
     imageUrl:
@@ -54,13 +78,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 3: Let's Go Swimming
+  // SECTION 4: Let's Go Swimming
   {
     id: 'lets-go-swimming',
-    number: 3,
+    number: 4,
     title: "Let's Go Swimming",
     titleEs: 'Vamos a Nadar',
-    subtitle: 'Section 3 · Dialogue, 6 Activities & Interaction (3 Parts)',
+    subtitle: 'Section 4 · Dialogue, 6 Activities & Interaction (3 Parts)',
     description:
       'Diálogo entre dos amigas decidiendo planes para la tarde: descartan ir al centro comercial y deciden ir a nadar. 6 actividades interactivas y 1 actividad de interacción en 3 partes con tarjetas reversibles y audio.',
     imageUrl: swimmingWomenImg,
@@ -77,13 +101,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 4: Comparison of Adjectives: Equality
+  // SECTION 5: Comparison of Adjectives: Equality
   {
     id: 'comparison-adjectives-equality',
-    number: 4,
+    number: 5,
     title: 'Comparison of Adjectives: Equality',
     titleEs: 'Comparación de Adjetivos: Igualdad',
-    subtitle: 'Section 4 · Grammar, 11 Activities & Test (5 Tests)',
+    subtitle: 'Section 5 · Grammar, 11 Activities & Test (5 Tests)',
     description:
       'Aprende y practica la comparación de igualdad con la estructura "as + adjetivo + as" (tan... como). Cuenta con 11 actividades con tarjetas reversibles con audio, y un test de evaluación de 5 preguntas.',
     imageUrl: mickStarlightCarImg,
@@ -100,13 +124,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 5: Comparison of Adjectives: Comparatives
+  // SECTION 6: Comparison of Adjectives: Comparatives
   {
     id: 'comparison-adjectives-comparatives',
-    number: 5,
+    number: 6,
     title: 'Comparison of Adjectives: Comparatives',
     titleEs: 'Comparación de Adjetivos: Comparativos',
-    subtitle: 'Section 5 · Grammar, 11 Activities & Test (5 Tests)',
+    subtitle: 'Section 6 · Grammar, 11 Activities & Test (5 Tests)',
     description:
       'Aprende y practica la comparación de adjetivos en grado comparativo ("stronger than", "more popular", "less comfortable", etc.). Cuenta con 11 actividades con tarjetas reversibles con audio, y un test final de 5 preguntas.',
     imageUrl: samuraiSamBoxingImg,
@@ -123,13 +147,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 6: Comparison of Adjectives: Superlatives
+  // SECTION 7: Comparison of Adjectives: Superlatives
   {
     id: 'comparison-adjectives-superlatives',
-    number: 6,
+    number: 7,
     title: 'Comparison of Adjectives: Superlatives',
     titleEs: 'Comparación de Adjetivos: Superlativos',
-    subtitle: 'Section 6 · Grammar, 11 Activities & Test (5 Tests)',
+    subtitle: 'Section 7 · Grammar, 11 Activities & Test (5 Tests)',
     description:
       'Aprende y practica la comparación de adjetivos en grado superlativo ("the cheapest", "the biggest", "the most terrific", "the best", etc.). Cuenta con 11 actividades con tarjetas reversibles con audio, y un test final de 5 preguntas.',
     imageUrl: madMosStoreImg,
@@ -146,13 +170,13 @@ export const UNIT_4_SECTIONS: UnitSection[] = [
       },
     ],
   },
-  // SECTION 7: Sports 2
+  // SECTION 8: Sports 2
   {
     id: 'sports-2',
-    number: 7,
+    number: 8,
     title: 'Sports 2',
     titleEs: 'Deportes 2',
-    subtitle: 'Section 7 · Sports Vocabulary, 7 Activities & Test (10 Tests)',
+    subtitle: 'Section 8 · Sports Vocabulary, 7 Activities & Test (10 Tests)',
     description:
       'Aprende vocabulario deportivo clave (athlete, basketball, bicycle, championship, exercise, game, player, race, stadium, win), completa 7 actividades interactivas en orden y realiza el test final de 10 preguntas.',
     imageUrl: sportsFansCheeringImg,

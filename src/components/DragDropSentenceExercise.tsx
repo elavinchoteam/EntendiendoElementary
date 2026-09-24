@@ -335,7 +335,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse" />
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse" />
               <h2 className="text-base sm:text-lg font-bold tracking-tight">
                 {exercise.instructions || 'Drag the correct answer/s into place.'}
               </h2>
@@ -354,8 +354,8 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                 }}
                 className={`p-2 rounded-xl border transition-all cursor-pointer ${
                   isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                    : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                 }`}
                 title="Escuchar instrucción"
                 aria-label="Escuchar instrucción"
@@ -373,8 +373,8 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
           <div
             className={`absolute inset-0 backface-hidden rotate-y-180 rounded-2xl p-4 sm:px-6 flex items-center justify-between border ${
               isDark
-                ? 'bg-indigo-950/90 border-indigo-800 text-indigo-100 shadow-inner'
-                : 'bg-indigo-50 border-indigo-200 text-indigo-900'
+                ? 'bg-sky-950/90 border-sky-800 text-sky-100 shadow-inner'
+                : 'bg-sky-50 border-sky-200 text-sky-900'
             }`}
           >
             <div className="flex items-center gap-3">
@@ -383,7 +383,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                 {exercise.instructionsEs || 'Arrastra la(s) respuesta(s) correcta(s) a su lugar.'}
               </h2>
             </div>
-            <span className="text-xs text-indigo-500 dark:text-indigo-400 flex items-center gap-1 font-medium bg-white/70 dark:bg-indigo-900/50 px-2.5 py-1 rounded-lg">
+            <span className="text-xs text-sky-500 dark:text-sky-400 flex items-center gap-1 font-medium bg-white/70 dark:bg-sky-900/50 px-2.5 py-1 rounded-lg">
               <RotateCw className="w-3.5 h-3.5" />
               <span>Inglés</span>
             </span>
@@ -414,7 +414,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                   type="button"
                   id={`media-play-overlay-btn-${exercise.id}`}
                   onClick={handleTogglePlayMedia}
-                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
+                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-sky-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
                   title="Reproducir audio"
                   aria-label="Reproducir audio"
                 >
@@ -435,7 +435,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                 aria-label={isPlaying ? 'Detener' : 'Reproducir'}
               >
                 {isPlaying ? (
-                  <Pause className="w-4 h-4 fill-current text-indigo-400" />
+                  <Pause className="w-4 h-4 fill-current text-sky-400" />
                 ) : (
                   <Play className="w-4 h-4 fill-current text-slate-200" />
                 )}
@@ -474,7 +474,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                     setIsSpeedMenuOpen((prev) => !prev);
                   }}
                   className={`w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ${
-                    isSpeedMenuOpen ? 'text-indigo-400 bg-white/10' : ''
+                    isSpeedMenuOpen ? 'text-sky-400 bg-white/10' : ''
                   }`}
                   title="Velocidad de reproducción"
                   aria-label="Velocidad"
@@ -492,7 +492,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                         onClick={(e) => handleSelectSpeed(sp.value, e)}
                         className={`px-2 py-1 text-xs font-mono rounded-md text-left transition-colors cursor-pointer ${
                           Math.abs(playerSpeed - sp.value) < 0.01
-                            ? 'bg-indigo-600 text-white font-bold'
+                            ? 'bg-sky-600 text-white font-bold'
                             : 'text-slate-300 hover:bg-slate-800'
                         }`}
                       >
@@ -586,7 +586,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
           <div className="flex flex-col gap-6">
             {/* Cabecera del diálogo con botón de audio parlante (solo icono) */}
             <div className="flex items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
-              <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
+              <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
                 Complete the Dialogue
               </span>
 
@@ -600,10 +600,10 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                   }}
                   className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                     speakingTarget === 'dialogue'
-                      ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                      : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                      : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                   }`}
                   aria-label="Audio"
                 >
@@ -650,7 +650,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                                 ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                                 : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400'
                               : placedOptionId
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300'
+                              ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300'
                               : isDark
                               ? 'border-slate-600 bg-slate-800 text-slate-200 hover:border-slate-500'
                               : 'border-slate-300 bg-white text-slate-800 hover:border-slate-400'
@@ -686,9 +686,9 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                                 ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
                                 : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
                               : isDragOver
-                              ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                              ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
                               : placedOptionId
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                              ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
                               : isDark
                               ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
                               : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
@@ -757,8 +757,8 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                           isPlaced
                             ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
                             : isDark
-                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-indigo-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                            : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-indigo-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-sky-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                            : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-sky-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
                         }`}
                         title={`Haz clic o arrastra: ${opt.text}`}
                       >
@@ -812,7 +812,7 @@ export const DragDropSentenceExercise: React.FC<DragDropSentenceExerciseProps> =
                   disabled={!placedOptionId}
                   className={`px-6 py-3 rounded-xl font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer ${
                     placedOptionId
-                      ? 'bg-indigo-600 hover:bg-indigo-500 text-white hover:scale-[1.02] active:scale-[0.98]'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white hover:scale-[1.02] active:scale-[0.98]'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed opacity-60'
                   }`}
                 >

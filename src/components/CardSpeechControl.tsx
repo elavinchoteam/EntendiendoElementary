@@ -96,10 +96,10 @@ export const CardSpeechControl: React.FC<CardSpeechControlProps> = ({
           isSmall ? 'w-8 h-8' : 'w-9 h-9'
         } ${
           isPlaying
-            ? 'bg-emerald-600 text-white ring-2 ring-emerald-400'
+            ? 'bg-sky-600 text-white ring-2 ring-sky-400'
             : isDark
-            ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700'
-            : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
+            ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700'
+            : 'bg-slate-50 hover:bg-slate-100 text-sky-700 border border-slate-200'
         }`}
       >
         {isPlaying ? (
@@ -122,13 +122,13 @@ export const CardSpeechControl: React.FC<CardSpeechControlProps> = ({
             isSmall ? 'h-8 px-2 text-[11px]' : 'h-9 px-2.5 text-xs'
           } ${
             isMenuOpen
-              ? 'bg-emerald-600 text-white border-emerald-500'
+              ? 'bg-sky-600 text-white border-sky-500'
               : isDark
               ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-              : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
+              : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
           }`}
         >
-          <Gauge className={isSmall ? 'w-3 h-3 text-emerald-400' : 'w-3.5 h-3.5 text-emerald-400'} />
+          <Gauge className={isSmall ? 'w-3 h-3 text-sky-500' : 'w-3.5 h-3.5 text-sky-500'} />
           <span>{formatSpeedLabel(currentSpeed)}</span>
         </button>
 
@@ -158,10 +158,10 @@ export const CardSpeechControl: React.FC<CardSpeechControlProps> = ({
                   onClick={(e) => handleSelectSpeed(sp.value, e)}
                   className={`w-full px-3 py-1.5 text-xs font-mono font-medium flex items-center justify-between transition-colors cursor-pointer text-left ${
                     isSelected
-                      ? 'bg-emerald-600 text-white font-bold'
+                      ? 'bg-sky-600 text-white font-bold'
                       : isDark
                       ? 'hover:bg-slate-800 text-slate-200'
-                      : 'hover:bg-emerald-50 text-slate-700'
+                      : 'hover:bg-sky-50 text-slate-700'
                   }`}
                 >
                   <span>{sp.label}</span>

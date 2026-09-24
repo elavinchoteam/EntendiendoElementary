@@ -210,7 +210,7 @@ export const DragWordToImageExercise: React.FC<DragWordToImageExerciseProps> = (
                   isUsed
                     ? 'opacity-40 bg-slate-200/50 dark:bg-slate-800/40 border-slate-300 dark:border-slate-700 line-through text-slate-400 cursor-not-allowed'
                     : isSelected
-                    ? 'bg-emerald-600 text-white border-emerald-500 shadow-md ring-2 ring-emerald-400 scale-105 cursor-pointer'
+                    ? 'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400 scale-105 cursor-pointer'
                     : isDark
                     ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700 hover:border-emerald-500 cursor-grab'
                     : 'bg-white hover:bg-emerald-50 text-slate-800 border-slate-200 hover:border-emerald-300 shadow-xs cursor-grab'
@@ -392,8 +392,8 @@ export const DragWordToImageExercise: React.FC<DragWordToImageExerciseProps> = (
           disabled={Object.keys(placedWords).length === 0}
           className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2 ${
             isAllCorrect
-              ? 'bg-emerald-600 text-white shadow-emerald-500/25'
-              : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed'
+              ? 'bg-emerald-600 text-white shadow-md'
+              : 'bg-sky-600 hover:bg-sky-500 text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed'
           }`}
         >
           {isAllCorrect ? <Sparkles className="w-4 h-4" /> : <Check className="w-4 h-4" />}

@@ -111,7 +111,7 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
         className="shadow-sm"
         childrenFront={
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-800 dark:text-emerald-400">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-800 dark:text-sky-400">
               {title}
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
@@ -121,10 +121,10 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
         }
         childrenBack={
           <div className="flex flex-col gap-1">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-emerald-900 dark:text-emerald-300">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-sky-900 dark:text-sky-300">
               {title}
             </h2>
-            <p className="text-xs sm:text-sm font-serif italic text-emerald-900 dark:text-emerald-200">
+            <p className="text-xs sm:text-sm font-serif italic text-sky-900 dark:text-sky-200">
               Escribe las oraciones que escuchas en el dictado. Presta atención a la puntuación.
             </p>
           </div>
@@ -227,11 +227,11 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                       className={`flex-1 h-11 px-4 rounded-xl border text-sm transition-all focus:outline-hidden ${
                         isSubmitted
                           ? isItemCorrect
-                            ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-500 text-sky-900 dark:text-sky-200'
                             : 'bg-rose-50 dark:bg-rose-950/30 border-rose-500 text-rose-900 dark:text-rose-200'
                           : isDark
-                          ? 'bg-slate-900 border-slate-700 text-white focus:border-indigo-500'
-                          : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 shadow-2xs'
+                          ? 'bg-slate-900 border-slate-700 text-white focus:border-sky-500'
+                          : 'bg-white border-slate-300 text-slate-900 focus:border-sky-500 shadow-2xs'
                       }`}
                     />
 
@@ -242,19 +242,19 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                       className={`shrink-0 p-2.5 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer border shadow-2xs ${
                         revealedSentences[item.id]
                           ? isDark
-                            ? 'bg-emerald-600/30 text-emerald-300 border-emerald-500/50 hover:bg-emerald-600/40'
-                            : 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
+                            ? 'bg-sky-600/30 text-sky-300 border-sky-500/50 hover:bg-sky-600/40'
+                            : 'bg-sky-100 text-sky-800 border-sky-300 hover:bg-sky-200'
                           : isDark
-                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-white/15 hover:border-emerald-400'
-                          : 'bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border-slate-300 hover:border-emerald-300'
+                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-white/15 hover:border-sky-400'
+                          : 'bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 border-slate-300 hover:border-sky-300'
                       }`}
                       title={revealedSentences[item.id] ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
                       aria-label={revealedSentences[item.id] ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
                     >
                       {revealedSentences[item.id] ? (
-                        <EyeOff className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <EyeOff className="w-4 h-4 text-sky-600 dark:text-sky-400" />
                       ) : (
-                        <Eye className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <Eye className="w-4 h-4 text-sky-600 dark:text-sky-400" />
                       )}
                     </button>
                   </div>
@@ -287,8 +287,8 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                                 }}
                                 className={`px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all cursor-pointer shrink-0 ${
                                   isDark
-                                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-emerald-500/30'
-                                    : 'bg-white hover:bg-emerald-50 text-emerald-700 border-emerald-300 shadow-2xs'
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-sky-500/30'
+                                    : 'bg-white hover:bg-sky-50 text-emerald-700 border-emerald-300 shadow-2xs'
                                 }`}
                                 title="Copiar texto al campo de entrada"
                               >
@@ -302,7 +302,7 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                             <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
                               Traducción:
                             </span>
-                            <span className="text-sm font-serif italic text-emerald-950 dark:text-emerald-200">
+                            <span className="text-sm font-serif italic text-sky-950 dark:text-sky-200">
                               {item.sentenceEs}
                             </span>
                           </div>
@@ -338,7 +338,7 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                   disabled={!allAnswered}
                   className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
                     allAnswered
-                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
                   }`}
                 >
@@ -349,7 +349,7 @@ export const NutritionDictationActivity: React.FC<NutritionDictationActivityProp
                 <button
                   type="button"
                   onClick={onNextActivity}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Siguiente Actividad</span>
                   <ArrowRight className="w-4 h-4" />

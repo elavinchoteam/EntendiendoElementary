@@ -84,8 +84,8 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
         } ${
           isFlipped
             ? isDark
-              ? 'bg-slate-900 border-emerald-500/40 text-white'
-              : 'bg-white border-emerald-300 text-slate-900'
+              ? 'bg-slate-900 border-sky-500/40 text-white'
+              : 'bg-white border-sky-300 text-slate-900'
             : isDark
             ? 'bg-slate-900 border-white/10 text-white hover:border-white/20'
             : 'bg-white border-slate-200 text-slate-800 hover:border-slate-300'
@@ -143,7 +143,7 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
             {icon && <div className="shrink-0">{icon}</div>}
             <div className="flex flex-col gap-0.5">
               {titleEs && (
-                <h3 className="text-base sm:text-lg font-bold tracking-tight text-emerald-700 dark:text-emerald-400">
+                <h3 className="text-base sm:text-lg font-bold tracking-tight text-sky-700 dark:text-sky-400">
                   {titleEs}
                 </h3>
               )}
@@ -170,10 +170,10 @@ export const ReversibleInstructionCard: React.FC<ReversibleInstructionCardProps>
               onClick={handleSpeak}
               className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
                 isPlaying
-                  ? 'bg-emerald-600 text-white border-emerald-700 ring-2 ring-emerald-400/30'
+                  ? 'bg-sky-600 text-white border-sky-700 ring-2 ring-sky-400/30'
                   : isDark
-                  ? 'bg-slate-800 hover:bg-slate-700 text-emerald-400 border-white/10'
-                  : 'bg-white hover:bg-emerald-50 text-emerald-600 border-emerald-200'
+                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-white/10'
+                  : 'bg-white hover:bg-sky-50 text-sky-600 border-sky-200'
               }`}
               title="Escuchar instrucción"
               aria-label="Escuchar instrucción"

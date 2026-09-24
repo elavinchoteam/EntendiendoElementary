@@ -165,8 +165,8 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
           currentActivityIdx === 0
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         aria-label="Actividad anterior"
         title={currentActivityIdx > 0 ? `Actividad anterior: ${ACTIVITIES_META[currentActivityIdx - 1].title}` : 'Inicio'}
@@ -184,8 +184,8 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
           currentActivityIdx >= ACTIVITIES_META.length - 1
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         aria-label="Siguiente actividad"
         title={currentActivityIdx < ACTIVITIES_META.length - 1 ? `Siguiente actividad: ${ACTIVITIES_META[currentActivityIdx + 1].title}` : 'Fin'}
@@ -220,7 +220,7 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
             </button>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">
+              <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wide">
                 Unit 5 · Sec 2
               </span>
               <span className="text-slate-300 dark:text-slate-700">/</span>
@@ -228,7 +228,7 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                 {ACTIVITIES_META[currentActivityIdx].title}
               </span>
               {currentActivityIdx === 7 && (
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30">
+                <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-500/30">
                   5 Tests
                 </span>
               )}
@@ -264,7 +264,7 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                 }}
                 className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                   currentAccent === 'US'
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -278,7 +278,7 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                 }}
                 className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
                   currentAccent === 'UK'
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : 'text-slate-500 hover:text-slate-900 dark:hover:text-slate-200'
                 }`}
               >
@@ -294,8 +294,8 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                 onClick={() => setIsSpeedMenuOpen(!isSpeedMenuOpen)}
                 className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer ${
                   isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                    : 'bg-white hover:bg-slate-100 text-indigo-900 border-slate-200 shadow-xs'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                    : 'bg-white hover:bg-slate-100 text-sky-900 border-slate-200 shadow-xs'
                 }`}
                 aria-label="Audio Speed"
               >
@@ -323,14 +323,14 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                       }}
                       className={`w-full px-3 py-1.5 text-xs text-left font-semibold flex items-center justify-between cursor-pointer transition-colors ${
                         currentRate === sp.value
-                          ? 'bg-indigo-500/20 text-indigo-600 dark:text-indigo-400'
+                          ? 'bg-sky-500/20 text-sky-600 dark:text-sky-400'
                           : isDark
                           ? 'hover:bg-slate-800 text-slate-300'
                           : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
                       <span>{sp.label}</span>
-                      {currentRate === sp.value && <span className="text-indigo-500">✓</span>}
+                      {currentRate === sp.value && <span className="text-sky-500">✓</span>}
                     </button>
                   ))}
                 </div>
@@ -353,11 +353,11 @@ export const SaleAtShoprightActivity: React.FC<SaleAtShoprightActivityProps> = (
                   onClick={() => goToSlide(idx)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
                     isActive
-                      ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400 scale-[1.02]'
+                      ? 'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400 scale-[1.02]'
                       : isPast
                       ? isDark
-                        ? 'bg-slate-900/90 text-indigo-400/80 border-slate-800 hover:bg-slate-800'
-                        : 'bg-white text-indigo-800 border-indigo-200 hover:bg-indigo-50'
+                        ? 'bg-slate-900/90 text-sky-400/80 border-slate-800 hover:bg-slate-800'
+                        : 'bg-white text-sky-800 border-sky-200 hover:bg-sky-50'
                       : isDark
                       ? 'bg-slate-900/50 text-slate-400 border-slate-800/80 hover:bg-slate-800'
                       : 'bg-white/80 text-slate-600 border-slate-200 hover:bg-slate-100'

@@ -368,8 +368,8 @@ export const FoodDropdownExercise: React.FC<FoodDropdownExerciseProps> = ({
               disabled={Object.keys(selectedValues).length === 0}
               className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2 ${
                 isAllCorrect
-                  ? 'bg-emerald-600 text-white shadow-emerald-500/25'
-                  : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed'
+                  ? 'bg-emerald-600 text-white shadow-md'
+                  : 'bg-sky-600 hover:bg-sky-500 text-white shadow-md disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
             >
               {isAllCorrect ? <Sparkles className="w-4 h-4" /> : <Check className="w-4 h-4" />}

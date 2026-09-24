@@ -329,8 +329,8 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
               isSpeakingInstruction
                 ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
                 : isDark
-                ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400'
+                : 'bg-sky-600 hover:bg-sky-500 text-white'
             }`}
             title={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
             aria-label={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
@@ -358,14 +358,14 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
               className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wide transition-all cursor-pointer border shadow-xs ${
                 showStoryDrawer
                   ? isDark
-                    ? 'bg-indigo-950/70 border-indigo-500/50 text-indigo-300'
-                    : 'bg-indigo-50 border-indigo-300 text-indigo-700'
+                    ? 'bg-sky-950/70 border-sky-500/50 text-sky-300'
+                    : 'bg-sky-50 border-sky-300 text-sky-700'
                   : isDark
                   ? 'bg-white/5 border-white/10 text-slate-300 hover:bg-white/10'
                   : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100'
               }`}
             >
-              <FileText className="w-4 h-4 text-indigo-500" />
+              <FileText className="w-4 h-4 text-sky-500" />
               <span>
                 {showStoryDrawer
                   ? `Ocultar Texto: "${story?.title || ''}"`
@@ -402,19 +402,19 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                       ? 'bg-[#0E2218] border-emerald-500/40 text-emerald-100'
                       : 'bg-emerald-50/95 border-emerald-300 text-emerald-950'
                     : isDark
-                    ? 'bg-[#181D33] border-indigo-500/30 text-slate-100'
-                    : 'bg-white border-indigo-100 text-slate-800'
+                    ? 'bg-[#181D33] border-sky-500/30 text-slate-100'
+                    : 'bg-white border-sky-100 text-slate-800'
                 }`}
                 title="Haz clic para voltear la historia entre inglés y español"
               >
                 {/* Front: English Story with paragraph audio buttons */}
                 <div className={`${isStoryFlipped ? 'invisible' : 'visible'} backface-hidden flex flex-col gap-3`}>
-                  <div className="flex items-center justify-between border-b border-indigo-500/20 pb-2">
+                  <div className="flex items-center justify-between border-b border-sky-500/20 pb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
+                      <span className="text-xs font-bold uppercase tracking-wider text-sky-400">
                         English Story
                       </span>
-                      <span className="text-[11px] px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-300">
+                      <span className="text-[11px] px-2 py-0.5 rounded-md bg-sky-500/20 text-sky-300">
                         {story?.title || ''}
                       </span>
                     </div>
@@ -428,9 +428,9 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                         className={`p-2 rounded-lg transition-colors flex items-start justify-between gap-2 group ${
                           activeStoryParagraph === idx
                             ? isDark
-                              ? 'bg-indigo-500/20 text-indigo-200 ring-1 ring-indigo-400'
-                              : 'bg-indigo-50 text-indigo-900 ring-1 ring-indigo-300'
-                            : 'hover:bg-indigo-500/5'
+                              ? 'bg-sky-500/20 text-sky-200 ring-1 ring-sky-400'
+                              : 'bg-sky-50 text-sky-900 ring-1 ring-sky-300'
+                            : 'hover:bg-sky-500/5'
                         }`}
                       >
                         <p className="flex-1 select-none">{para}</p>
@@ -451,8 +451,8 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                           }}
                           className={`p-1.5 rounded-md shrink-0 transition-colors ${
                             activeStoryParagraph === idx
-                              ? 'bg-indigo-600 text-white animate-pulse'
-                              : 'text-indigo-400 hover:text-indigo-300 hover:bg-indigo-500/20'
+                              ? 'bg-sky-600 text-white animate-pulse'
+                              : 'text-sky-400 hover:text-sky-300 hover:bg-sky-500/20'
                           }`}
                           title="Escuchar este párrafo"
                         >
@@ -509,10 +509,10 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
         </div>
         <div className="flex items-center gap-3 text-[11px]">
           <span className="flex items-center gap-1">
-            <RotateCw className="w-3 h-3 text-indigo-400" /> Voltear tarjeta para leer el texto
+            <RotateCw className="w-3 h-3 text-sky-400" /> Voltear tarjeta para leer el texto
           </span>
           <span className="flex items-center gap-1">
-            <Volume2 className="w-3 h-3 text-indigo-400" /> Escuchar oración
+            <Volume2 className="w-3 h-3 text-sky-400" /> Escuchar oración
           </span>
         </div>
       </div>
@@ -571,7 +571,7 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                     isSelected
                       ? 'border-cyan-400 ring-4 ring-cyan-400/30 bg-cyan-500/10 scale-[1.02] shadow-md'
                       : isDragOver
-                      ? 'border-indigo-400 bg-indigo-500/10 scale-[1.02]'
+                      ? 'border-sky-400 bg-sky-500/10 scale-[1.02]'
                       : isCorrect
                       ? 'border-emerald-500 bg-emerald-500/5 ring-2 ring-emerald-400/30'
                       : isIncorrect
@@ -664,8 +664,8 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                       <div
                         className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl p-3 sm:p-4 flex flex-col justify-between border shadow-inner ${
                           isDark
-                            ? 'bg-[#181D33] border-indigo-500/40 text-slate-100'
-                            : 'bg-slate-900 border-indigo-400 text-white'
+                            ? 'bg-[#181D33] border-sky-500/40 text-slate-100'
+                            : 'bg-slate-900 border-sky-400 text-white'
                         }`}
                       >
                         <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
@@ -700,7 +700,7 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                             className={`px-2.5 py-1 rounded-lg text-xs font-medium flex items-center gap-1.5 cursor-pointer ${
                               isSpeaking
                                 ? 'bg-rose-600 text-white animate-pulse'
-                                : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                                : 'bg-sky-600 hover:bg-sky-500 text-white'
                             }`}
                           >
                             <Volume2 className="w-3.5 h-3.5" />
@@ -814,7 +814,7 @@ export const PictureOrderingExercise: React.FC<PictureOrderingExerciseProps> = (
                 <button
                   type="button"
                   onClick={(e) => handlePlayItemSentence(zoomImageItem, e)}
-                  className="p-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white shrink-0 ml-2"
+                  className="p-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white shrink-0 ml-2"
                   title="Escuchar"
                 >
                   <Volume2 className="w-4 h-4" />

@@ -109,7 +109,7 @@ export const PresentSimpleQuestionsActivity: React.FC<PresentSimpleQuestionsActi
       >
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+            <div className="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 mb-1">
               Unit 3: Getting Help · Section 5
             </div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
@@ -136,7 +136,7 @@ export const PresentSimpleQuestionsActivity: React.FC<PresentSimpleQuestionsActi
                 }`}
                 aria-label="Audio Speed"
               >
-                <Gauge className="w-4 h-4 text-blue-500" />
+                <Gauge className="w-4 h-4 text-sky-500" />
                 <span>{currentRate}x</span>
               </button>
 
@@ -159,9 +159,9 @@ export const PresentSimpleQuestionsActivity: React.FC<PresentSimpleQuestionsActi
                         setCurrentRate(opt.value);
                         setIsRateMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs font-semibold flex items-center justify-between hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer ${
+                      className={`w-full text-left px-3 py-1.5 text-xs font-semibold flex items-center justify-between hover:bg-sky-50 dark:hover:bg-slate-700 cursor-pointer ${
                         currentRate === opt.value
-                          ? 'text-blue-600 dark:text-blue-400 font-bold'
+                          ? 'text-sky-600 dark:text-sky-400 font-bold'
                           : ''
                       }`}
                     >
@@ -195,7 +195,7 @@ export const PresentSimpleQuestionsActivity: React.FC<PresentSimpleQuestionsActi
                     isActive
                       ? isTest
                         ? 'bg-emerald-600 text-white shadow-xs'
-                        : 'bg-blue-600 text-white shadow-xs'
+                        : 'bg-sky-600 text-white shadow-xs'
                       : isCompleted
                       ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700'
                       : isDark
@@ -260,7 +260,7 @@ export const PresentSimpleQuestionsActivity: React.FC<PresentSimpleQuestionsActi
           type="button"
           onClick={handleNext}
           disabled={currentActivityIdx === 10}
-          className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-all flex items-center gap-1 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-xs"
+          className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm transition-all flex items-center gap-1 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-xs"
         >
           <span>Siguiente</span>
           <ChevronRight className="w-4 h-4" />

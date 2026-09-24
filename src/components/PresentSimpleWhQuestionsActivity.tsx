@@ -111,7 +111,7 @@ export const PresentSimpleWhQuestionsActivity: React.FC<PresentSimpleWhQuestions
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-300">
                 Unit 3 · Getting Help · Sección 6
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -140,7 +140,7 @@ export const PresentSimpleWhQuestionsActivity: React.FC<PresentSimpleWhQuestions
                 }`}
                 title="Velocidad de reproducción"
               >
-                <Gauge className="w-4 h-4 text-blue-500" />
+                <Gauge className="w-4 h-4 text-sky-500" />
                 <span>{currentRate.toFixed(2).replace('.00', '')}x</span>
               </button>
 
@@ -163,7 +163,7 @@ export const PresentSimpleWhQuestionsActivity: React.FC<PresentSimpleWhQuestions
                       }}
                       className={`w-full px-3 py-2 text-left text-xs font-semibold flex items-center justify-between transition ${
                         currentRate === opt.value
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-sky-600 text-white'
                           : isDark
                           ? 'text-slate-300 hover:bg-slate-700'
                           : 'text-slate-700 hover:bg-slate-100'
@@ -231,12 +231,12 @@ export const PresentSimpleWhQuestionsActivity: React.FC<PresentSimpleWhQuestions
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 shrink-0 ${
                   isCurrent
                     ? isTestPill
-                      ? 'bg-purple-600 text-white shadow-sm ring-2 ring-purple-400'
-                      : 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-400'
+                      ? 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-400'
+                      : 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-400'
                     : isCompleted
                     ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
                     : isTestPill
-                    ? 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300 hover:bg-purple-100'
+                    ? 'bg-sky-50 text-sky-700 dark:bg-sky-950/40 dark:text-sky-300 hover:bg-sky-100'
                     : isDark
                     ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'

@@ -556,7 +556,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                   onClick={handleCheck}
                   className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer ${
                     selectedOptId
-                      ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -566,7 +566,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                 <button
                   type="button"
                   onClick={() => goToSlide(currentActivityIdx + 1)}
-                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-500 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
                 >
                   <span>Siguiente</span>
                   <ChevronRight className="w-4 h-4" />
@@ -867,7 +867,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                   onClick={handleCheckAct9}
                   className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer ${
                     allBlanksFilled
-                      ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -877,7 +877,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                 <button
                   type="button"
                   onClick={() => goToSlide(9)}
-                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-500 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
                 >
                   <span>Ir al Test (Actividad 10)</span>
                   <ChevronRight className="w-4 h-4" />
@@ -985,8 +985,8 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
               <div
                 className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 overflow-hidden ${
                   isDark
-                    ? 'bg-slate-900 border-indigo-500/30 text-white'
-                    : 'bg-white border-indigo-200 text-slate-900 shadow-md'
+                    ? 'bg-slate-900 border-sky-500/30 text-white'
+                    : 'bg-white border-sky-200 text-slate-900 shadow-md'
                 }`}
               >
                 {/* Header */}
@@ -995,8 +995,8 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 ${
                         isDark
-                          ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                          : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                          ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                          : 'bg-sky-100 text-sky-800 border border-sky-200'
                       }`}
                     >
                       <Award className="w-3.5 h-3.5" />
@@ -1016,10 +1016,10 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                     }
                     className={`p-2 rounded-xl border transition-all cursor-pointer ${
                       playingSentenceIdx === 999
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800/80 hover:bg-slate-700 text-indigo-300 border-white/10'
-                        : 'bg-white hover:bg-indigo-50 text-indigo-700 border-slate-200 shadow-xs'
+                        ? 'bg-slate-800/80 hover:bg-slate-700 text-sky-300 border-white/10'
+                        : 'bg-white hover:bg-sky-50 text-sky-700 border-slate-200 shadow-xs'
                     }`}
                     aria-label="Audio"
                   >
@@ -1029,7 +1029,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
 
                 {/* Body */}
                 <div className="flex-1 my-4 flex flex-col justify-center items-center text-center px-2">
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-indigo-600/10 dark:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-sky-600/10 dark:bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-4 shadow-inner">
                     <Award className="w-8 h-8 sm:w-9 sm:h-9" />
                   </div>
 
@@ -1047,7 +1047,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1.5">
-                      <Play className="w-4 h-4 text-indigo-500" /> Authentic Video Dialogue
+                      <Play className="w-4 h-4 text-sky-500" /> Authentic Video Dialogue
                     </span>
                     <span>•</span>
                     <span className="flex items-center gap-1.5">
@@ -1070,7 +1070,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                       playFeedbackSound('click');
                       setIsTestStarted(true);
                     }}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Play className="w-5 h-5 fill-current" />
                     <span>Start Test</span>
@@ -1167,7 +1167,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                       playFeedbackSound('click');
                       setIsTestStarted(true);
                     }}
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
                     <Play className="w-5 h-5 fill-current" />
                     <span>Iniciar Test</span>
@@ -1189,7 +1189,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
           }`}
         >
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-500/20 text-sky-400 border border-sky-500/30">
               Test {activeTestSubIndex + 1} of {questions.length}
             </span>
             <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
@@ -1215,7 +1215,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                   }}
                   className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center border ${
                     isActive
-                      ? 'bg-indigo-600 text-white border-indigo-500 shadow-md scale-105 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 shadow-md scale-105 ring-2 ring-sky-400'
                       : isQCorrect
                       ? 'bg-emerald-600/20 text-emerald-500 border-emerald-500/40 hover:bg-emerald-600/30'
                       : isQAnswered
@@ -1441,7 +1441,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                   onClick={handleCheckTestQuestion}
                   className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer ${
                     selectedOptId
-                      ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -1455,7 +1455,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                     playFeedbackSound('click');
                     setActiveTestSubIndex(activeTestSubIndex + 1);
                   }}
-                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-500 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
                 >
                   <span>Siguiente Test ({activeTestSubIndex + 2})</span>
                   <ChevronRight className="w-4 h-4" />
@@ -1464,7 +1464,7 @@ export const DirectionsToMuseumActivity: React.FC<DirectionsToMuseumActivityProp
                 <button
                   type="button"
                   onClick={handleResetEntireTest}
-                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
+                  className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-500 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>Repetir Test</span>

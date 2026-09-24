@@ -253,15 +253,15 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                   ? 'bg-slate-900 border-emerald-500/30 text-emerald-100'
                   : 'bg-white border-emerald-300 text-emerald-950'
                 : isDark
-                ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
-                : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
+                ? 'bg-[#151C33] border-white/10 text-white hover:border-sky-500/40'
+                : 'bg-white border-slate-200 text-slate-800 hover:border-sky-300'
             }`}
           >
             {/* Front: English */}
             <div className="absolute inset-0 p-3.5 sm:p-4 flex items-center gap-3 backface-hidden">
               <div
                 className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
-                  isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600'
+                  isDark ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'bg-sky-50 text-sky-600'
                 }`}
               >
                 <Volume2 className="w-4 h-4" />
@@ -682,7 +682,7 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
                 type="button"
                 id="check-true-false-answers-btn"
                 onClick={handleCheckAnswers}
-                className="px-4 sm:px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-sm hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-sm hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
               >
                 <Check className="w-4 h-4" />
                 <span>Comprobar Respuestas</span>
@@ -754,11 +754,11 @@ export const TrueFalseSelectionExercise: React.FC<TrueFalseSelectionExerciseProp
               <div
                 className={`w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all ${
                   isDark
-                    ? 'bg-slate-900/60 border-indigo-500/20 text-slate-300'
-                    : 'bg-indigo-50/50 border-indigo-200 text-slate-700'
+                    ? 'bg-slate-900/60 border-sky-500/20 text-slate-300'
+                    : 'bg-sky-50/50 border-sky-200 text-slate-700'
                 }`}
               >
-                <div className="flex items-center gap-2 mb-1.5 font-semibold text-indigo-600 dark:text-indigo-400">
+                <div className="flex items-center gap-2 mb-1.5 font-semibold text-sky-600 dark:text-sky-400">
                   <Info className="w-4 h-4 shrink-0" />
                   <span>Explicación:</span>
                 </div>

@@ -66,7 +66,7 @@ export const ProgressModal: React.FC<ProgressModalProps> = ({
           }`}>
             <div>
               <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
-                isDark ? 'text-indigo-400' : 'text-indigo-600'
+                isDark ? 'text-sky-400' : 'text-sky-600'
               }`}>
                 {percentage}%
               </div>
@@ -76,7 +76,7 @@ export const ProgressModal: React.FC<ProgressModalProps> = ({
             </div>
             <div>
               <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
-                isDark ? 'text-indigo-400' : 'text-indigo-600'
+                isDark ? 'text-sky-400' : 'text-sky-600'
               }`}>
                 {completedCount}/{units.length}
               </div>
@@ -195,8 +195,8 @@ export const ProgressModal: React.FC<ProgressModalProps> = ({
                     ? 'bg-white/5 text-white/30 border border-white/5 cursor-not-allowed'
                     : 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
                   : isDark
-                  ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                  ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400'
+                  : 'bg-sky-600 hover:bg-sky-500 text-white'
               }`}
             >
               <Unlock className="w-3.5 h-3.5" />

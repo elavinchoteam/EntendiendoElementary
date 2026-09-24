@@ -83,7 +83,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-emerald-500/15 border border-sky-500/30 text-emerald-600 dark:text-emerald-400">
                 Unit 2 · Actividad 1
               </span>
               <span className="text-xs font-mono opacity-60">Grammar Masterclass</span>
@@ -113,7 +113,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('theory')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'theory'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -128,7 +128,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('ex1')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex1'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -143,7 +143,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('ex2')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex2'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -158,7 +158,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('ex3')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex3'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -173,7 +173,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('bonus')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'bonus'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -188,7 +188,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             onClick={() => setActiveTab('answers')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'answers'
-                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -374,7 +374,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
                         className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer border ${
                           selected === 'C'
                             ? item.correctType === 'C'
-                              ? 'bg-emerald-600 text-white border-emerald-600'
+                              ? 'bg-sky-600 text-white border-sky-500'
                               : 'bg-red-600 text-white border-red-600'
                             : isDark
                             ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700'
@@ -392,7 +392,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
                         className={`px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer border ${
                           selected === 'NC'
                             ? item.correctType === 'NC'
-                              ? 'bg-emerald-600 text-white border-emerald-600'
+                              ? 'bg-sky-600 text-white border-sky-500'
                               : 'bg-red-600 text-white border-red-600'
                             : isDark
                             ? 'bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700'
@@ -485,7 +485,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
 
                         if (isChosen) {
                           if (opt.isCorrect) {
-                            btnStyle = 'bg-emerald-600 text-white border-emerald-600 shadow-xs';
+                            btnStyle = 'bg-sky-600 text-white border-sky-500 shadow-xs';
                           } else {
                             btnStyle = 'bg-red-600 text-white border-red-600 shadow-xs';
                           }
@@ -623,7 +623,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
                           className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all cursor-pointer border ${
                             isSelected
                               ? isAcceptable
-                                ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
                                 : 'bg-red-600 text-white border-red-600 shadow-xs'
                               : isDark
                               ? 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'
@@ -753,7 +753,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
 
                     {/* Corrected sentence box */}
                     {isRevealed && (
-                      <div className="p-3 rounded-xl border bg-emerald-500/10 border-emerald-500/30 text-xs mb-3">
+                      <div className="p-3 rounded-xl border bg-sky-500/10 border-sky-500/30 text-xs mb-3">
                         <span className="font-bold text-emerald-600 dark:text-emerald-400 block mb-1">
                           {item.hasMistake ? 'Corrección recomendada:' : '¡Oración correcta!'}
                         </span>
@@ -778,7 +778,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
                         e.stopPropagation();
                         setRevealedBonus((prev) => ({ ...prev, [item.id]: !prev[item.id] }));
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
+                      className="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold cursor-pointer shadow-xs transition-colors"
                     >
                       {isRevealed ? 'Ocultar respuesta' : 'Ver solución'}
                     </button>
@@ -824,7 +824,7 @@ export const CountableQuantifiersActivity: React.FC<CountableQuantifiersActivity
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs sm:text-sm border-collapse">
                 <thead>
-                  <tr className="border-b border-inherit/20 text-emerald-600 dark:text-emerald-400 font-mono">
+                  <tr className="border-b border-inherit/20 text-sky-600 dark:text-sky-400 font-mono">
                     <th className="py-2.5 px-3">Quantifier</th>
                     <th className="py-2.5 px-3">Countable</th>
                     <th className="py-2.5 px-3">Non-count</th>

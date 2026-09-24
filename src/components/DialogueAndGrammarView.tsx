@@ -64,7 +64,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
             onClick={() => setActiveTab('dialogue')}
             className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               activeTab === 'dialogue'
-                ? 'bg-indigo-600 border border-indigo-400 text-white shadow-xs'
+                ? 'bg-sky-600 border border-sky-400 text-white shadow-xs'
                 : isDark
                 ? 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'
                 : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
@@ -78,7 +78,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
             onClick={() => setActiveTab('grammar')}
             className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors cursor-pointer ${
               activeTab === 'grammar'
-                ? 'bg-indigo-600 border border-indigo-400 text-white shadow-xs'
+                ? 'bg-sky-600 border border-sky-400 text-white shadow-xs'
                 : isDark
                 ? 'bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10'
                 : 'bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
@@ -93,7 +93,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
           <button
             onClick={() => setShowTranslations(!showTranslations)}
             className={`text-xs font-mono underline cursor-pointer transition-colors ${
-              isDark ? 'text-indigo-300 hover:text-white' : 'text-indigo-600 hover:text-indigo-800'
+              isDark ? 'text-sky-300 hover:text-white' : 'text-sky-600 hover:text-sky-800'
             }`}
           >
             {showTranslations ? 'Ocultar español' : 'Mostrar español'}
@@ -113,8 +113,8 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
               onClick={handlePlayFullDialogue}
               className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border text-xs font-mono font-medium cursor-pointer transition-colors ${
                 isDark
-                  ? 'bg-white/5 border-white/10 text-indigo-300 hover:text-white hover:bg-white/10'
-                  : 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100'
+                  ? 'bg-white/5 border-white/10 text-sky-300 hover:text-white hover:bg-white/10'
+                  : 'bg-sky-50 border-sky-200 text-sky-700 hover:bg-sky-100'
               }`}
             >
               <Volume2 className="w-3.5 h-3.5" />
@@ -134,8 +134,8 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
                   className={`p-4 rounded-xl border transition-all ${
                     isPlaying
                       ? isDark
-                        ? 'border-indigo-400/80 bg-indigo-500/10 shadow-sm'
-                        : 'border-indigo-400 bg-indigo-50/70 shadow-sm'
+                        ? 'border-sky-400/80 bg-sky-500/10 shadow-sm'
+                        : 'border-sky-400 bg-sky-50/70 shadow-sm'
                       : isDark
                       ? isEven
                         ? 'bg-[#111827] border-white/10'
@@ -149,8 +149,8 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
                     <div className="flex items-center gap-2">
                       <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase tracking-wider ${
                         isEven
-                          ? isDark ? 'bg-indigo-500/20 text-indigo-300' : 'bg-indigo-100 text-indigo-800'
-                          : isDark ? 'bg-purple-500/20 text-purple-300' : 'bg-purple-100 text-purple-800'
+                          ? isDark ? 'bg-sky-500/20 text-sky-300' : 'bg-sky-100 text-sky-800'
+                          : isDark ? 'bg-sky-500/20 text-sky-300' : 'bg-sky-100 text-sky-800'
                       }`}>
                         {line.speaker}
                       </span>
@@ -159,7 +159,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
                     <button
                       onClick={() => handleSpeakLine(line.textEn, idx)}
                       className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
-                        isDark ? 'text-white/40 hover:text-indigo-300 hover:bg-white/10' : 'text-slate-400 hover:text-indigo-600 hover:bg-slate-100'
+                        isDark ? 'text-white/40 hover:text-sky-300 hover:bg-white/10' : 'text-slate-400 hover:text-sky-600 hover:bg-slate-100'
                       }`}
                       title="Escuchar esta frase"
                     >
@@ -191,7 +191,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
             isDark ? 'bg-[#111827] border-white/10' : 'bg-white border-slate-200 shadow-sm'
           }`}>
             <h3 className={`text-lg font-bold font-serif italic ${
-              isDark ? 'text-indigo-300' : 'text-indigo-900'
+              isDark ? 'text-sky-300' : 'text-sky-900'
             }`}>
               {grammar.title}
             </h3>
@@ -226,7 +226,7 @@ export const DialogueAndGrammarView: React.FC<DialogueAndGrammarViewProps> = ({
                       <button
                         onClick={() => speakEnglish(eg.en, speechRate, accent)}
                         className={`p-1.5 rounded-lg transition-colors cursor-pointer shrink-0 ${
-                          isDark ? 'text-white/40 hover:text-indigo-300 hover:bg-white/10' : 'text-slate-400 hover:text-indigo-600 hover:bg-slate-200'
+                          isDark ? 'text-white/40 hover:text-sky-300 hover:bg-white/10' : 'text-slate-400 hover:text-sky-600 hover:bg-slate-200'
                         }`}
                         title="Escuchar ejemplo"
                       >

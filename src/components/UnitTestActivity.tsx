@@ -467,8 +467,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             <div
               className={`absolute inset-0 w-full h-full rounded-3xl p-6 sm:p-8 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 overflow-hidden ${
                 isDark
-                  ? 'bg-slate-900 border-indigo-500/30 text-white'
-                  : 'bg-white border-indigo-200 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-sky-500/30 text-white'
+                  : 'bg-white border-sky-200 text-slate-900 shadow-md'
               }`}
             >
               {/* Card Header */}
@@ -477,8 +477,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 ${
                       isDark
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                        : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                        ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                        : 'bg-sky-100 text-sky-800 border border-sky-200'
                     }`}
                   >
                     <Award className="w-3.5 h-3.5" />
@@ -498,10 +498,10 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     }}
                     className={`p-2 rounded-xl border transition-all cursor-pointer ${
                       speakingTarget === 'test-intro'
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800/80 hover:bg-slate-700 text-indigo-300 border-white/10'
-                        : 'bg-white hover:bg-indigo-50 text-indigo-700 border-slate-200 shadow-xs'
+                        ? 'bg-slate-800/80 hover:bg-slate-700 text-sky-300 border-white/10'
+                        : 'bg-white hover:bg-sky-50 text-sky-700 border-slate-200 shadow-xs'
                     }`}
                     title="Listen / Stop"
                     aria-label="Escuchar presentación del test"
@@ -509,8 +509,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     <Volume2 className="w-4 h-4" />
                   </button>
 
-                  <div className="flex items-center gap-1.5 text-xs text-indigo-600/80 dark:text-indigo-400/80 font-medium">
-                    <RotateCw className="w-3.5 h-3.5 text-indigo-500" />
+                  <div className="flex items-center gap-1.5 text-xs text-sky-600/80 dark:text-sky-400/80 font-medium">
+                    <RotateCw className="w-3.5 h-3.5 text-sky-500" />
                     <span className="hidden sm:inline">Click to flip</span>
                   </div>
                 </div>
@@ -518,7 +518,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
               {/* Card Body */}
               <div className="flex-1 my-4 flex flex-col justify-center items-center text-center px-2">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-indigo-600/10 dark:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-sky-600/10 dark:bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-4 shadow-inner">
                   <Award className="w-8 h-8 sm:w-9 sm:h-9" />
                 </div>
 
@@ -537,7 +537,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-indigo-500" /> {readingStory ? 'Story Reading' : 'Authentic Audio'}
+                    <Clock className="w-4 h-4 text-sky-500" /> {readingStory ? 'Story Reading' : 'Authentic Audio'}
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
@@ -555,7 +555,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 <button
                   id="start-test-btn"
                   onClick={handleStartTest}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   <span>Start Test</span>
@@ -632,7 +632,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 <button
                   id="start-test-btn-back"
                   onClick={handleStartTest}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-base shadow-lg shadow-emerald-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-5 h-5 fill-current" />
                   <span>Comenzar Test</span>
@@ -660,8 +660,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           <span
             className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
               isDark
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                : 'bg-sky-100 text-sky-700 border border-sky-200'
             }`}
           >
             Test {activeQuestionIdx + 1} of {totalQuestions}
@@ -690,7 +690,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 }}
                 className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center border ${
                   isActive
-                    ? 'bg-indigo-600 text-white border-indigo-500 shadow-md scale-105 ring-2 ring-indigo-400'
+                    ? 'bg-sky-600 text-white border-sky-500 shadow-md scale-105 ring-2 ring-sky-400'
                     : isCorrect
                     ? 'bg-emerald-600/20 text-emerald-500 border-emerald-500/40 hover:bg-emerald-600/30'
                     : isAnswered
@@ -762,8 +762,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
           {/* Score display */}
           <div className="flex items-center justify-center gap-6 mb-8">
-            <div className="p-4 sm:p-5 rounded-2xl border border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-950/30 flex flex-col items-center min-w-[120px]">
-              <span className="text-3xl sm:text-4xl font-black text-indigo-600 dark:text-indigo-400">
+            <div className="p-4 sm:p-5 rounded-2xl border border-sky-500/30 bg-sky-50/50 dark:bg-sky-950/30 flex flex-col items-center min-w-[120px]">
+              <span className="text-3xl sm:text-4xl font-black text-sky-600 dark:text-sky-400">
                 {totalCorrect} / {totalQuestions}
               </span>
               <span className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">
@@ -829,7 +829,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 setIsTestCompleted(false);
                 setActiveQuestionIdx(0);
               }}
-              className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Revisar Preguntas</span>
@@ -874,7 +874,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0" />
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shrink-0" />
               <h2 className="text-base sm:text-lg font-semibold tracking-tight text-slate-800 dark:text-slate-100">
                 {currentQuestion?.instructions || 'Choose the correct answer.'}
               </h2>
@@ -892,10 +892,10 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 }}
                 className={`p-2 rounded-xl border transition-all cursor-pointer ${
                   speakingTarget === 'test-instruction'
-                    ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                     : isDark
-                    ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                    : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                 }`}
                 title="Listen / Stop"
                 aria-label="Escuchar instrucción"
@@ -903,8 +903,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 <Volume2 className="w-4 h-4" />
               </button>
 
-              <div className="flex items-center gap-1 text-xs text-indigo-600 dark:text-indigo-400 font-medium">
-                <RotateCw className="w-3.5 h-3.5 text-indigo-500" />
+              <div className="flex items-center gap-1 text-xs text-sky-600 dark:text-sky-400 font-medium">
+                <RotateCw className="w-3.5 h-3.5 text-sky-500" />
                 <span className="hidden sm:inline">Traducir</span>
               </div>
             </div>
@@ -1032,7 +1032,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     {!isPlayingMedia && (
                       <button
                         onClick={handleTogglePlayMedia}
-                        className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
+                        className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-sky-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
                         title="Play"
                         aria-label="Reproducir audio"
                       >
@@ -1052,7 +1052,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                       aria-label={isPlayingMedia ? 'Detener reproducción' : 'Reproducir'}
                     >
                       {isPlayingMedia ? (
-                        <Pause className="w-4 h-4 fill-current text-indigo-400" />
+                        <Pause className="w-4 h-4 fill-current text-sky-400" />
                       ) : (
                         <Play className="w-4 h-4 fill-current text-slate-200" />
                       )}
@@ -1090,7 +1090,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                           setIsSpeedMenuOpen((prev) => !prev);
                         }}
                         className={`w-7 h-7 rounded-lg flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer ${
-                          isSpeedMenuOpen ? 'text-indigo-400 bg-white/10' : ''
+                          isSpeedMenuOpen ? 'text-sky-400 bg-white/10' : ''
                         }`}
                         title="Playback speed"
                         aria-label="Velocidad de reproducción"
@@ -1107,7 +1107,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                               onClick={(e) => handleSelectSpeed(sp.value, e)}
                               className={`px-2 py-1 text-xs font-mono rounded-md text-left transition-colors ${
                                 Math.abs(playerSpeed - sp.value) < 0.01
-                                  ? 'bg-indigo-600 text-white font-bold'
+                                  ? 'bg-sky-600 text-white font-bold'
                                   : 'text-slate-300 hover:bg-slate-800'
                               }`}
                             >
@@ -1226,7 +1226,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     {/* Sentence with Drop Slot */}
                     <div className="flex flex-col gap-4">
                       <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
-                        <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
+                        <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
                           Complete the Sentence
                         </span>
 
@@ -1254,10 +1254,10 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             }}
                             className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                               speakingTarget === 'test-drag-sentence'
-                                ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                                 : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                                : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                             }`}
                             aria-label="Audio"
                           >
@@ -1310,9 +1310,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                                   ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
                                                   : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
                                                 : isDragOver
-                                                ? 'border-indigo-500 bg-indigo-500/20 ring-2 ring-indigo-400 scale-105'
+                                                ? 'border-sky-500 bg-sky-500/20 ring-2 ring-sky-400 scale-105'
                                                 : placedOpt
-                                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
                                                 : isDark
                                                 ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
                                                 : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
@@ -1371,9 +1371,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                           ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
                                           : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
                                         : isDragOver
-                                        ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                                        ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
                                         : currentSelectedOptionId
-                                        ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                                        ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
                                         : isDark
                                         ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
                                         : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
@@ -1450,9 +1450,9 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                   ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
                                   : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
                                 : isDragOver
-                                ? 'border-indigo-500 bg-indigo-500/20 scale-105 shadow-md ring-2 ring-indigo-400'
+                                ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
                                 : currentSelectedOptionId
-                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 font-mono font-bold shadow-xs'
+                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
                                 : isDark
                                 ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
                                 : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
@@ -1519,8 +1519,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 isPlaced
                                   ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
                                   : isDark
-                                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-indigo-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                                  : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-indigo-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-sky-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                                  : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-sky-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
                               }`}
                               title={`Haz clic o arrastra: ${opt.text}`}
                             >
@@ -1536,7 +1536,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                   <div className="flex flex-col justify-between flex-1 my-2 gap-8">
                     <div className="flex flex-col gap-6">
                       <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
-                        <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
+                        <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
                           Complete the Sentence
                         </span>
 
@@ -1556,10 +1556,10 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             }}
                             className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                               speakingTarget === 'test-dropdown-sentence'
-                                ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                                 : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                                : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                             }`}
                             aria-label="Audio"
                           >
@@ -1604,11 +1604,11 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                             : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
                                           : currentSelectedOptionId
                                           ? isDark
-                                            ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
-                                            : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                                            ? 'border-sky-500 bg-sky-950/60 text-sky-300'
+                                            : 'border-sky-500 bg-sky-50 text-sky-900'
                                           : isDark
-                                          ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
-                                          : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                                          ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
+                                          : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
                                       }`}
                                     >
                                       <option value="" disabled>
@@ -1666,11 +1666,11 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                     : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
                                   : currentSelectedOptionId
                                   ? isDark
-                                    ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300'
-                                    : 'border-indigo-500 bg-indigo-50 text-indigo-900'
+                                    ? 'border-sky-500 bg-sky-950/60 text-sky-300'
+                                    : 'border-sky-500 bg-sky-50 text-sky-900'
                                   : isDark
-                                  ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-indigo-400'
-                                  : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-400'
+                                  ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
+                                  : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
                               }`}
                             >
                               <option value="" disabled>
@@ -1700,7 +1700,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                     <div className="mb-6">
                       <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono uppercase font-bold text-indigo-600 dark:text-indigo-400">
+                          <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
                             Question
                           </span>
                         </div>
@@ -1714,10 +1714,10 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             }}
                             className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                               speakingTarget === 'test-question'
-                                ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                                 : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                                : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                             }`}
                             aria-label="Audio"
                           >
@@ -1746,8 +1746,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         let optionBg = isDark ? 'bg-slate-800/60' : 'bg-slate-50/70';
 
                         if (isSelected) {
-                          optionBorder = 'border-indigo-600 dark:border-indigo-400 ring-2 ring-indigo-500/20';
-                          optionBg = isDark ? 'bg-indigo-950/40' : 'bg-indigo-50/80';
+                          optionBorder = 'border-sky-600 dark:border-sky-400 ring-2 ring-sky-500/20';
+                          optionBg = isDark ? 'bg-sky-950/40' : 'bg-sky-50/80';
                         }
 
                         if (isAnswerChecked) {
@@ -1778,7 +1778,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                             <div
                               className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                                 isSelected
-                                  ? 'border-indigo-600 bg-indigo-600 text-white dark:border-indigo-400 dark:bg-indigo-500'
+                                  ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-500'
                                   : isDark
                                   ? 'border-slate-600 bg-slate-900'
                                   : 'border-slate-400 bg-white'
@@ -1804,8 +1804,8 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 }}
                                 className={`p-1.5 rounded-lg opacity-0 hover:opacity-100 group-hover:opacity-100 transition-opacity ${
                                   speakingTarget === `opt-${opt.id}`
-                                    ? 'opacity-100 bg-indigo-600 text-white'
-                                    : 'text-slate-400 hover:text-indigo-600'
+                                    ? 'opacity-100 bg-sky-600 text-white'
+                                    : 'text-slate-400 hover:text-sky-600'
                                 }`}
                                 title="Listen"
                                 aria-label={`Escuchar ${opt.text}`}
@@ -1904,7 +1904,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md ${
                           !hasAnswerSelected
                             ? 'opacity-40 pointer-events-none bg-slate-400 text-white'
-                            : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 cursor-pointer'
+                            : 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/30 hover:scale-[1.02] active:scale-95 cursor-pointer'
                         }`}
                       >
                         Check Answer
@@ -1949,15 +1949,15 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             isDark ? 'bg-[#0F172A] border-slate-700/80 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}
         >
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 dark:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4 shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-4 shadow-inner">
             <Clock className="w-8 h-8" />
           </div>
 
           <span
             className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider mb-3 ${
               isDark
-                ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                : 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                : 'bg-sky-100 text-sky-700 border border-sky-200'
             }`}
           >
             Test {activeQuestionIdx + 1} of {totalQuestions}
@@ -1978,7 +1978,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
               playFeedbackSound('click');
               setActiveQuestionIdx(0);
             }}
-            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Test 1</span>

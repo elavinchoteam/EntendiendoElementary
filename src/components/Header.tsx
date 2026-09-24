@@ -33,13 +33,13 @@ export const Header: React.FC<HeaderProps> = ({
         
         {/* Left Branding */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center font-bold text-xs text-white shadow-sm shadow-indigo-600/30 shrink-0">
+          <div className="w-9 h-9 bg-sky-600 rounded-xl flex items-center justify-center font-bold text-xs text-white shadow-sm shadow-sky-600/30 shrink-0">
             EN
           </div>
           <h1 className="text-lg sm:text-xl font-bold tracking-tight flex items-baseline gap-2">
             <span>English at Work</span>
             <span className={`font-serif italic font-normal text-sm sm:text-base ${
-              isDark ? 'text-indigo-400' : 'text-indigo-600'
+              isDark ? 'text-sky-400' : 'text-sky-600'
             }`}>
               Interactive Classes
             </span>
@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
             {isDark ? (
               <Sun className="w-4 h-4 text-amber-400" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-600" />
+              <Moon className="w-4 h-4 text-sky-600" />
             )}
           </button>
 
@@ -72,11 +72,11 @@ export const Header: React.FC<HeaderProps> = ({
           <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs ${
             isDark ? 'bg-white/5 border-white/10 text-white/80' : 'bg-slate-100 border-slate-200 text-slate-800'
           }`}>
-            <Volume2 className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
+            <Volume2 className={`w-3.5 h-3.5 ${isDark ? 'text-sky-400' : 'text-sky-600'}`} />
             <button
               onClick={onToggleAccent}
               title="Alternar acento de voz"
-              className="hover:text-indigo-600 dark:hover:text-indigo-300 font-mono font-medium transition-colors cursor-pointer"
+              className="hover:text-sky-600 dark:hover:text-sky-300 font-mono font-medium transition-colors cursor-pointer"
             >
               {accent === 'US' ? 'US 🇺🇸' : 'UK 🇬🇧'}
             </button>
@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => onChangeSpeechRate(speechRate === 1.0 ? 0.75 : 1.0)}
               title="Velocidad de pronunciación"
-              className="hover:text-indigo-600 dark:hover:text-indigo-300 font-mono font-medium transition-colors cursor-pointer"
+              className="hover:text-sky-600 dark:hover:text-sky-300 font-mono font-medium transition-colors cursor-pointer"
             >
               {speechRate}x
             </button>
@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onToggleAccent}
             className={`sm:hidden p-2 rounded-xl border text-xs font-mono ${
-              isDark ? 'bg-white/5 border-white/10 text-indigo-300' : 'bg-slate-100 border-slate-200 text-indigo-700'
+              isDark ? 'bg-white/5 border-white/10 text-sky-300' : 'bg-slate-100 border-slate-200 text-sky-700'
             }`}
             title="Acento"
           >

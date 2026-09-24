@@ -257,15 +257,15 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                   ? 'bg-[#0F241A] border-emerald-500/30 text-emerald-100'
                   : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
                 : isDark
-                ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
-                : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
+                ? 'bg-[#151C33] border-white/10 text-white hover:border-sky-500/40'
+                : 'bg-white border-slate-200 text-slate-800 hover:border-sky-300'
             }`}
           >
             {/* Front: English */}
             <div className="absolute inset-0 px-4 py-3 flex items-center gap-3 backface-hidden">
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                  isDark ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30' : 'bg-indigo-50 text-indigo-600'
+                  isDark ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30' : 'bg-sky-50 text-sky-600'
                 }`}
               >
                 <Volume2 className="w-3.5 h-3.5" />
@@ -498,8 +498,8 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                           className={`rounded px-1.5 py-0.5 cursor-pointer transition-all ${
                             isHighlighted
                               ? isDark
-                                ? 'bg-indigo-600 text-white font-semibold ring-2 ring-indigo-400'
-                                : 'bg-indigo-100 text-indigo-950 font-semibold ring-2 ring-indigo-300'
+                                ? 'bg-sky-600 text-white font-semibold ring-2 ring-sky-400'
+                                : 'bg-sky-100 text-sky-950 font-semibold ring-2 ring-sky-300'
                               : isDark
                               ? 'hover:bg-white/10 text-slate-300'
                               : 'hover:bg-slate-100 text-slate-700'
@@ -565,8 +565,8 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                       ? 'bg-[#0F241A] border-emerald-500/30 text-emerald-100'
                       : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
                     : isDark
-                    ? 'bg-slate-900/60 border-white/10 text-white hover:border-indigo-400'
-                    : 'bg-slate-50 border-slate-200 text-slate-900 hover:border-indigo-300'
+                    ? 'bg-slate-900/60 border-white/10 text-white hover:border-sky-400'
+                    : 'bg-slate-50 border-slate-200 text-slate-900 hover:border-sky-300'
                 }`}
               >
                 {/* Front: English Question */}
@@ -661,8 +661,8 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                             : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
                           : isSelected
                           ? isDark
-                            ? 'border-indigo-400 bg-indigo-600/20 text-white ring-2 ring-indigo-500'
-                            : 'border-indigo-500 bg-indigo-50/80 text-indigo-950 ring-2 ring-indigo-400'
+                            ? 'border-sky-400 bg-sky-600/20 text-white ring-2 ring-sky-500'
+                            : 'border-sky-500 bg-sky-50/80 text-sky-950 ring-2 ring-sky-400'
                           : isDark
                           ? 'border-white/10 hover:border-white/20 bg-slate-900/40 text-slate-100'
                           : 'border-slate-200 hover:border-slate-300 bg-white text-slate-800'
@@ -814,7 +814,7 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                 type="button"
                 id={`check-answer-btn-${exercise.id}`}
                 onClick={handleCheckAnswer}
-                className="px-4 sm:px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-xs hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs sm:text-sm tracking-normal shadow-xs hover:shadow transition-all cursor-pointer flex items-center gap-2 shrink-0 active:scale-95"
               >
                 <Check className="w-4 h-4" />
                 <span>Comprobar Respuestas</span>

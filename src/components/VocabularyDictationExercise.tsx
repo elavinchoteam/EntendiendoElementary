@@ -191,8 +191,8 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                               ? 'border-amber-500 bg-amber-500/10 text-amber-700 dark:text-amber-300'
                               : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300'
                             : isDark
-                            ? 'bg-slate-800 border-white/10 text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40'
-                            : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30'
+                            ? 'bg-slate-800 border-white/10 text-white focus:border-sky-500 focus:ring-2 focus:ring-sky-500/40'
+                            : 'bg-white border-slate-300 text-slate-900 focus:border-sky-500 focus:ring-2 focus:ring-sky-500/30'
                         }`}
                       />
                     </div>
@@ -205,19 +205,19 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                       className={`shrink-0 p-2.5 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer border shadow-2xs ${
                         isRevealed
                           ? isDark
-                            ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/50 hover:bg-indigo-600/40'
-                            : 'bg-indigo-100 text-indigo-800 border-indigo-300 hover:bg-indigo-200'
+                            ? 'bg-sky-600/30 text-sky-300 border-sky-500/50 hover:bg-sky-600/40'
+                            : 'bg-sky-100 text-sky-800 border-sky-300 hover:bg-sky-200'
                           : isDark
-                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-white/15 hover:border-indigo-400'
-                          : 'bg-white hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border-slate-300 hover:border-indigo-300'
+                          ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-white/15 hover:border-sky-400'
+                          : 'bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 border-slate-300 hover:border-sky-300'
                       }`}
                       title={isRevealed ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
                       aria-label={isRevealed ? 'Ocultar oración' : 'Ver la oración que debes escribir'}
                     >
                       {isRevealed ? (
-                        <EyeOff className="w-4 h-4 text-indigo-500" />
+                        <EyeOff className="w-4 h-4 text-sky-500" />
                       ) : (
-                        <Eye className="w-4 h-4 text-indigo-500" />
+                        <Eye className="w-4 h-4 text-sky-500" />
                       )}
                     </button>
                   </div>
@@ -255,8 +255,8 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                             ? 'bg-slate-900 border-emerald-500/50 text-white'
                             : 'bg-white border-emerald-400 text-slate-900 shadow-sm ring-1 ring-emerald-300/40'
                           : isDark
-                          ? 'bg-slate-900 border-indigo-500/30 text-white'
-                          : 'bg-white border-indigo-200 text-slate-900 shadow-xs'
+                          ? 'bg-slate-900 border-sky-500/30 text-white'
+                          : 'bg-white border-sky-200 text-slate-900 shadow-xs'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
@@ -265,7 +265,7 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                             className={`text-[11px] font-bold uppercase tracking-wider ${
                               flippedSentences[item.id]
                                 ? 'text-emerald-600 dark:text-emerald-400'
-                                : 'text-indigo-600 dark:text-indigo-400'
+                                : 'text-sky-600 dark:text-sky-400'
                             }`}
                           >
                             {flippedSentences[item.id] ? 'Traducción:' : 'Oración:'}
@@ -299,8 +299,8 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
                             onClick={() => handleInputChange(item.id, item.sentenceEn)}
                             className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                               isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-indigo-500/30'
-                                : 'bg-white hover:bg-indigo-50 text-indigo-700 border-indigo-200 shadow-xs'
+                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-sky-500/30'
+                                : 'bg-white hover:bg-sky-50 text-sky-700 border-sky-200 shadow-xs'
                             }`}
                             title="Pegar esta oración en el campo de texto"
                           >
@@ -320,7 +320,7 @@ export const VocabularyDictationExercise: React.FC<VocabularyDictationExercisePr
             <button
               id="check-dictation-btn"
               onClick={handleCheck}
-              className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
             >
               Comprobar Respuestas
             </button>

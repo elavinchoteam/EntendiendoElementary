@@ -144,8 +144,8 @@ function MainApp() {
   return (
     <div className={`min-h-screen flex flex-col font-sans overflow-x-hidden transition-colors duration-200 ${
       isDark
-        ? 'bg-[#0F172A] text-white selection:bg-indigo-500 selection:text-white'
-        : 'bg-slate-50 text-slate-900 selection:bg-indigo-600 selection:text-white'
+        ? 'bg-[#0F172A] text-white selection:bg-sky-500 selection:text-white'
+        : 'bg-slate-50 text-slate-900 selection:bg-sky-600 selection:text-white'
     }`}>
       
       {/* Top Editorial Navbar with Brand, Theme switch and Audio Settings */}
@@ -171,7 +171,7 @@ function MainApp() {
               }`}>
                 Programa del Curso · 12 Unidades
               </h3>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20">
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                 Unidad 1 Activa
               </span>
             </div>
@@ -199,36 +199,6 @@ function MainApp() {
               />
             );
           })}
-        </div>
-
-        {/* Bottom Educational Quality Banner */}
-        <div className={`mt-10 p-6 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4 transition-colors ${
-          isDark ? 'bg-[#111827] border-white/10 text-white' : 'bg-white border-slate-200 text-slate-900 shadow-xs'
-        }`}>
-          <div className="flex items-center gap-3.5">
-            <div className={`w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 ${
-              isDark ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' : 'bg-indigo-50 border-indigo-200 text-indigo-600'
-            }`}>
-              <Volume2 className="w-6 h-6" />
-            </div>
-            <div>
-              <h4 className="text-sm sm:text-base font-bold">
-                Didáctica con Audio Nativo Integrado y Tarjetas Reversibles
-              </h4>
-              <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
-                Unidad 1 cargada con Lesson 1: "Phone Sales", audio pronunciado, ejercicio de emparejamiento y tarjetas reversibles.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto">
-            <button
-              onClick={() => handleOpenUnit(activeUnit)}
-              className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md cursor-pointer active:scale-95 transition-all font-mono uppercase tracking-wider"
-            >
-              Abrir Unidad {activeUnit.number}
-            </button>
-          </div>
         </div>
       </main>
 

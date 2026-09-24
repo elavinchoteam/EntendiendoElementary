@@ -391,15 +391,15 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
               className={`font-semibold px-0.5 rounded not-italic inline-block transition-colors ${
                 isPlaying
                   ? isDark
-                    ? 'bg-indigo-500/30 text-indigo-200 ring-1 ring-indigo-400/50'
-                    : 'bg-indigo-100 text-indigo-950 ring-1 ring-indigo-300'
+                    ? 'bg-sky-500/30 text-sky-200 ring-1 ring-sky-400/50'
+                    : 'bg-sky-100 text-sky-950 ring-1 ring-sky-300'
                   : isSpanish
                   ? isDark
                     ? 'text-emerald-300'
                     : 'text-emerald-700'
                   : isDark
-                  ? 'text-indigo-300'
-                  : 'text-indigo-700'
+                  ? 'text-sky-300'
+                  : 'text-sky-700'
               }`}
             >
               {part}
@@ -479,8 +479,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
               isSpeakingInstruction
                 ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
                 : isDark
-                ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
-                : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400'
+                : 'bg-sky-600 hover:bg-sky-500 text-white'
             }`}
             title={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
             aria-label={isSpeakingInstruction ? 'Detener audio' : 'Escuchar instrucción'}
@@ -508,15 +508,15 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
               className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold tracking-wide transition-all cursor-pointer border shadow-xs ${
                 showStoryDrawer
                   ? isDark
-                    ? 'bg-indigo-600/30 text-indigo-300 border-indigo-500/40'
-                    : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                    ? 'bg-sky-600/30 text-sky-300 border-sky-500/40'
+                    : 'bg-sky-50 text-sky-700 border-sky-200'
                   : isDark
                   ? 'bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border-white/15 hover:border-white/25'
                   : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-slate-200 hover:border-slate-300'
               }`}
               title={showStoryDrawer ? 'Ocultar historia' : 'Ver historia'}
             >
-              <FileText className="w-3.5 h-3.5 text-indigo-500" />
+              <FileText className="w-3.5 h-3.5 text-sky-500" />
               <span>
                 {showStoryDrawer
                   ? 'Ocultar Texto de la Historia'
@@ -557,8 +557,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider ${
                         isDark
-                          ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                          : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
+                          ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                          : 'bg-sky-100 text-sky-800 border border-sky-200'
                       }`}
                     >
                       {story ? story.title : 'English'}
@@ -572,8 +572,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                         isPlayingStoryAudio
                           ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
                           : isDark
-                          ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400'
-                          : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                          ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400'
+                          : 'bg-sky-600 hover:bg-sky-500 text-white'
                       }`}
                       title={isPlayingStoryAudio ? 'Detener pronunciación' : 'Escuchar pronunciación'}
                     >
@@ -592,7 +592,7 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                               handlePlaySentenceAudio(p, `story-p-${idx}`);
                             }}
                             className={`text-sm sm:text-base leading-relaxed font-sans transition-colors cursor-pointer rounded px-1.5 py-0.5 hover:bg-white/10 ${
-                              playingSentenceId === `story-p-${idx}` ? 'text-indigo-400 font-semibold' : ''
+                              playingSentenceId === `story-p-${idx}` ? 'text-sky-400 font-semibold' : ''
                             }`}
                           >
                             {p}
@@ -612,7 +612,7 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                             handlePlaySentenceAudio(sent.en, `lesson-s-${idx}`);
                           }}
                           className={`inline-block mr-1.5 text-sm sm:text-base leading-relaxed font-sans transition-colors cursor-pointer rounded px-1 py-0.5 hover:bg-white/10 ${
-                            playingSentenceId === `lesson-s-${idx}` ? 'text-indigo-400 font-semibold' : ''
+                            playingSentenceId === `lesson-s-${idx}` ? 'text-sky-400 font-semibold' : ''
                           }`}
                         >
                           {sent.en}
@@ -648,8 +648,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                         isPlayingStoryAudio
                           ? 'bg-rose-600 hover:bg-rose-700 text-white animate-pulse'
                           : isDark
-                          ? 'bg-emerald-600 hover:bg-emerald-500 text-white border border-emerald-400'
-                          : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                          ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400'
+                          : 'bg-sky-600 hover:bg-sky-500 text-white'
                       }`}
                       title="Escuchar pronunciación en inglés"
                     >
@@ -819,7 +819,7 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                           onClick={(e) => handlePlaySentenceAudio(pair.field, pair.id, e)}
                           className={`p-1.5 rounded-lg transition-all shrink-0 cursor-pointer ${
                             playingSentenceId === pair.id
-                              ? 'bg-indigo-600 text-white animate-pulse'
+                              ? 'bg-sky-600 text-white animate-pulse'
                               : isDark
                               ? 'text-slate-400 hover:text-white hover:bg-white/10'
                               : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'
@@ -883,8 +883,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                                 ? 'bg-[#0F241A] border-emerald-500/40 text-emerald-200'
                                 : 'bg-emerald-50/90 border-emerald-300 text-emerald-950 shadow-xs'
                               : isDark
-                              ? 'border-indigo-400/40 bg-indigo-950/30 text-white hover:border-indigo-400'
-                              : 'border-indigo-300 bg-indigo-50/70 text-indigo-950 hover:border-indigo-400'
+                              ? 'border-sky-400/40 bg-sky-950/30 text-white hover:border-sky-400'
+                              : 'border-sky-300 bg-sky-50/70 text-sky-950 hover:border-sky-400'
                           }`}
                           title="Toca para voltear traducción"
                         >
@@ -959,11 +959,11 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                         className={`w-full min-h-[58px] rounded-xl sm:rounded-2xl border-2 border-dashed flex items-center justify-center transition-all cursor-pointer select-none ${
                           selectedPoolItem
                             ? isDark
-                              ? 'border-indigo-400 bg-indigo-500/10 text-indigo-300 ring-2 ring-indigo-500/40 animate-pulse'
-                              : 'border-indigo-500 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-400/40 animate-pulse'
+                              ? 'border-sky-400 bg-sky-500/10 text-sky-300 ring-2 ring-sky-500/40 animate-pulse'
+                              : 'border-sky-500 bg-sky-50 text-sky-700 ring-2 ring-sky-400/40 animate-pulse'
                             : isDark
-                            ? 'border-white/15 bg-white/[0.02] text-slate-500 hover:border-indigo-400/60 hover:bg-white/[0.04]'
-                            : 'border-slate-200 bg-slate-50/50 text-slate-400 hover:border-indigo-300 hover:bg-slate-50'
+                            ? 'border-white/15 bg-white/[0.02] text-slate-500 hover:border-sky-400/60 hover:bg-white/[0.04]'
+                            : 'border-slate-200 bg-slate-50/50 text-slate-400 hover:border-sky-300 hover:bg-slate-50'
                         }`}
                         title={
                           selectedPoolItem
@@ -1035,15 +1035,15 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                               : 'opacity-30 border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed'
                             : isSelected
                             ? isDark
-                              ? 'border-indigo-400 bg-indigo-600/30 text-white ring-2 ring-indigo-500 shadow-md scale-[1.01]'
-                              : 'border-indigo-500 bg-indigo-50 text-indigo-900 ring-2 ring-indigo-400 shadow-md scale-[1.01]'
+                              ? 'border-sky-400 bg-sky-600/30 text-white ring-2 ring-sky-500 shadow-md scale-[1.01]'
+                              : 'border-sky-500 bg-sky-50 text-sky-900 ring-2 ring-sky-400 shadow-md scale-[1.01]'
                             : isOptionFlipped
                             ? isDark
                               ? 'border-emerald-500/40 bg-[#0F241A] text-emerald-200'
                               : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
                             : isDark
-                            ? 'border-white/15 bg-white/10 hover:border-indigo-400 hover:bg-white/15 text-white'
-                            : 'border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 text-slate-800'
+                            ? 'border-white/15 bg-white/10 hover:border-sky-400 hover:bg-white/15 text-white'
+                            : 'border-slate-200 bg-white hover:border-sky-400 hover:bg-sky-50/50 text-slate-800'
                         }`}
                         title={
                           isUsed
@@ -1188,8 +1188,8 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                 className={`px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer shadow-sm ${
                   isAllFilled
                     ? isDark
-                      ? 'bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400 active:scale-95 shadow-indigo-600/30'
-                      : 'bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white border border-sky-400 active:scale-95 shadow-sky-600/30'
+                      : 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                     : isDark
                     ? 'bg-white/5 border border-white/10 text-white/30 cursor-not-allowed'
                     : 'bg-slate-200 text-slate-400 cursor-not-allowed'
@@ -1204,10 +1204,10 @@ export const MatchingTableExercise: React.FC<MatchingTableExerciseProps> = ({
                   isAllCorrect
                     ? isDark
                       ? 'bg-emerald-600 hover:bg-emerald-500 text-white'
-                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                      : 'bg-sky-600 hover:bg-sky-500 text-white'
                     : isDark
-                    ? 'bg-indigo-600 hover:bg-indigo-500 text-white'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                    ? 'bg-sky-600 hover:bg-sky-500 text-white'
+                    : 'bg-sky-600 hover:bg-sky-500 text-white'
                 }`}
               >
                 {isAllCorrect ? '¡Completado con Éxito!' : 'Intentar de Nuevo'}

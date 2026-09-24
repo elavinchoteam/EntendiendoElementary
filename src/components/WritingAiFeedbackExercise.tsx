@@ -167,8 +167,8 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                   ? 'bg-[#0F241A] border-emerald-500/30 text-emerald-100'
                   : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
                 : isDark
-                ? 'bg-[#151C33] border-white/10 text-white hover:border-indigo-500/40'
-                : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
+                ? 'bg-[#151C33] border-white/10 text-white hover:border-sky-500/40'
+                : 'bg-white border-slate-200 text-slate-800 hover:border-sky-300'
             }`}
           >
             {/* Front: English Instruction */}
@@ -176,8 +176,8 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
               <div
                 className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                   isDark
-                    ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                    : 'bg-indigo-50 text-indigo-600'
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                    : 'bg-sky-50 text-sky-600'
                 }`}
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -257,14 +257,14 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                     ? 'bg-[#0F241A] border-emerald-500/30 text-emerald-100'
                     : 'bg-emerald-50/90 border-emerald-200 text-emerald-950'
                   : isDark
-                  ? 'bg-[#151C33] border-white/10 text-slate-200 hover:border-indigo-400'
-                  : 'bg-white border-slate-200 text-slate-800 hover:border-indigo-300'
+                  ? 'bg-[#151C33] border-white/10 text-slate-200 hover:border-sky-400'
+                  : 'bg-white border-slate-200 text-slate-800 hover:border-sky-300'
               }`}
             >
               {/* Front: English Prompt */}
               <div className="backface-hidden flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-indigo-500 dark:text-indigo-400 font-bold flex items-center gap-1.5">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-sky-500 dark:text-sky-400 font-bold flex items-center gap-1.5">
                     <FileCheck className="w-3.5 h-3.5" /> Prompt / Consigna (Click para traducir)
                   </span>
                   <button
@@ -382,8 +382,8 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                 }
                 className={`w-full bg-transparent resize-y rounded-xl p-3 outline-none text-xs sm:text-sm md:text-base leading-relaxed font-sans transition-colors ${
                   isDark
-                    ? 'text-white placeholder:text-slate-500 focus:ring-2 focus:ring-indigo-500/40'
-                    : 'text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500/30'
+                    ? 'text-white placeholder:text-slate-500 focus:ring-2 focus:ring-sky-500/40'
+                    : 'text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500/30'
                 }`}
                 style={{ minHeight: '180px' }}
               />
@@ -416,10 +416,10 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                     requestsLeft <= 0
                       ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed border border-transparent'
                       : isAnalyzing
-                      ? 'bg-indigo-500 text-white cursor-wait animate-pulse'
+                      ? 'bg-sky-500 text-white cursor-wait animate-pulse'
                       : wordsCount < 4
-                      ? 'bg-indigo-400/40 text-indigo-200 dark:text-indigo-400 cursor-not-allowed'
-                      : 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-md hover:scale-[1.02] active:scale-95'
+                      ? 'bg-sky-400/40 text-sky-200 dark:text-sky-400 cursor-not-allowed'
+                      : 'bg-sky-600 hover:bg-sky-500 text-white hover:shadow-md hover:scale-[1.02] active:scale-95'
                   }`}
                 >
                   {isAnalyzing ? (
@@ -476,7 +476,7 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
               <div className="flex items-center gap-2">
                 {/* Attempt indicator */}
                 {currentFeedback && (
-                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-500 dark:text-indigo-300 border border-indigo-500/20">
+                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-500 dark:text-sky-300 border border-sky-500/20">
                     Revisión #{currentFeedback.attemptNumber}
                   </span>
                 )}
@@ -579,7 +579,7 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                         : 'bg-white border-slate-200 text-slate-800'
                     }`}
                   >
-                    <h4 className="font-bold text-xs uppercase font-mono tracking-wider text-indigo-500 dark:text-indigo-400 mb-1 flex items-center justify-between">
+                    <h4 className="font-bold text-xs uppercase font-mono tracking-wider text-sky-500 dark:text-sky-400 mb-1 flex items-center justify-between">
                       <span>
                         {isFeedbackSpanish
                           ? exercise.id?.includes('wrong-color')
@@ -597,7 +597,7 @@ export const WritingAiFeedbackExercise: React.FC<WritingAiFeedbackExerciseProps>
                         className="p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded transition-all"
                         title="Escuchar modelo sugerido"
                       >
-                        <Volume2 className="w-3.5 h-3.5 text-indigo-500" />
+                        <Volume2 className="w-3.5 h-3.5 text-sky-500" />
                       </button>
                     </h4>
                     <p className="italic text-xs sm:text-sm">

@@ -288,7 +288,7 @@ export const CleanHouseActivity2: React.FC<CleanHouseActivity2Props> = ({
                 onClick={handleCheck}
                 className={`px-6 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all cursor-pointer ${
                   isAllAnswered
-                    ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
+                    ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
                     : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                 }`}
               >

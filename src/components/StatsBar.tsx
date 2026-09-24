@@ -42,7 +42,7 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
         {/* Metric 1: Student Status / Expiration */}
         <div className="flex items-center px-4 py-3.5 sm:px-6 sm:py-4 gap-3">
           <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${
-            isDark ? 'bg-white/5 border-white/10 text-indigo-400' : 'bg-white border-slate-200 text-indigo-600 shadow-2xs'
+            isDark ? 'bg-white/5 border-white/10 text-sky-400' : 'bg-white border-slate-200 text-sky-600 shadow-2xs'
           }`}>
             <Clock className="w-5 h-5" />
           </div>
@@ -81,13 +81,13 @@ export const StatsBar: React.FC<StatsBarProps> = ({ stats, totalUnits }) => {
         {/* Metric 3: Average Test Score */}
         <div className="flex items-center px-4 py-3.5 sm:px-6 sm:py-4 gap-3">
           <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 ${
-            isDark ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' : 'bg-indigo-50 border-indigo-200 text-indigo-600 shadow-2xs'
+            isDark ? 'bg-sky-500/10 border-sky-500/20 text-sky-400' : 'bg-sky-50 border-sky-200 text-sky-600 shadow-2xs'
           }`}>
             <Activity className="w-5 h-5" />
           </div>
           <div>
             <div className={`text-sm sm:text-base font-bold tracking-tight ${
-              isDark ? 'text-indigo-300' : 'text-indigo-700'
+              isDark ? 'text-sky-300' : 'text-sky-700'
             }`}>
               {averageScore}%
             </div>

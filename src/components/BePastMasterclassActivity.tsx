@@ -82,7 +82,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-500/15 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400">
                 Unit 1 · Actividad 1
               </span>
               <span className="text-xs font-mono opacity-60">Grammar Masterclass</span>
@@ -112,7 +112,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('theory')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'theory'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -127,7 +127,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('ex1')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex1'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -142,7 +142,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('ex2')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex2'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -157,7 +157,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('ex3')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'ex3'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -172,7 +172,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('wh')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'wh'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -187,7 +187,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('quiz')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'quiz'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -202,7 +202,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             onClick={() => setActiveTab('answers')}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2 border ${
               activeTab === 'answers'
-                ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                ? 'bg-sky-600 text-white border-sky-600 shadow-xs'
                 : isDark
                 ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
                 : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
@@ -231,8 +231,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`rounded-3xl border p-5 sm:p-6 transition-all duration-200 cursor-pointer shadow-xs flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500/60 ring-2 ring-indigo-500/20 text-white'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20 text-slate-900 shadow-md'
+                        ? 'bg-slate-900 border-sky-500/60 ring-2 ring-sky-500/20 text-white'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20 text-slate-900 shadow-md'
                       : isDark
                       ? 'bg-slate-900 border-white/10 hover:border-slate-700 text-white'
                       : 'bg-white border-slate-200 hover:border-slate-300 text-slate-900'
@@ -241,7 +241,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   <div>
                     {/* Top Row: Category tag and speech control */}
                     <div className="flex items-center justify-between gap-3 mb-3">
-                      <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-slate-200 dark:border-white/10">
+                      <span className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-sky-600 dark:text-sky-400 border border-slate-200 dark:border-white/10">
                         {isFlipped ? topic.categoryEs : topic.category}
                       </span>
 
@@ -349,8 +349,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                        ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                       : isDark
                       ? 'bg-slate-900 border-white/10'
                       : 'bg-white border-slate-200'
@@ -358,7 +358,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-mono font-bold flex items-center justify-center">
                         {item.number}
                       </span>
                       <CardSpeechControl
@@ -374,7 +374,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                       ) : (
                         <span>
                           {item.sentenceBefore}{' '}
-                          <span className="inline-block px-3 py-0.5 border-b-2 border-indigo-500 font-mono text-indigo-600 dark:text-indigo-400">
+                          <span className="inline-block px-3 py-0.5 border-b-2 border-sky-500 font-mono text-sky-600 dark:text-sky-400">
                             {selected || '____'}
                           </span>{' '}
                           {item.sentenceAfter}
@@ -485,8 +485,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                        ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                       : isDark
                       ? 'bg-slate-900 border-white/10'
                       : 'bg-white border-slate-200'
@@ -494,7 +494,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-mono font-bold flex items-center justify-center">
                         {item.number}
                       </span>
                       <CardSpeechControl
@@ -510,7 +510,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                       ) : (
                         <span>
                           {item.sentenceBefore}{' '}
-                          <span className="inline-block px-3 py-0.5 border-b-2 border-indigo-500 font-mono text-indigo-600 dark:text-indigo-400">
+                          <span className="inline-block px-3 py-0.5 border-b-2 border-sky-500 font-mono text-sky-600 dark:text-sky-400">
                             {selected || '______'}
                           </span>{' '}
                           {item.sentenceAfter}
@@ -617,8 +617,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                        ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                       : isDark
                       ? 'bg-slate-900 border-white/10'
                       : 'bg-white border-slate-200'
@@ -626,7 +626,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-mono font-bold flex items-center justify-center">
                         {item.number}
                       </span>
                       <CardSpeechControl
@@ -646,12 +646,12 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                     </div>
 
                     <div className="p-3 rounded-xl border bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-white/10 mb-3">
-                      <span className="text-xs font-mono text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider block mb-1">
+                      <span className="text-xs font-mono text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider block mb-1">
                         Question / Pregunta:
                       </span>
                       {isRevealed || isFlipped ? (
                         <div>
-                          <p className="text-base font-bold text-indigo-600 dark:text-indigo-300">
+                          <p className="text-base font-bold text-sky-600 dark:text-sky-300">
                             {isFlipped ? item.questionEs : item.questionEn}
                           </p>
                           <div className="mt-2 text-xs opacity-80 flex flex-col gap-1">
@@ -682,7 +682,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                       }
                       className={`px-3 py-1.5 rounded-xl font-semibold border cursor-pointer ${
                         isRevealed
-                          ? 'bg-indigo-600 text-white border-indigo-600'
+                          ? 'bg-sky-600 text-white border-sky-600'
                           : isDark
                           ? 'bg-slate-800 border-white/10 hover:bg-slate-700'
                           : 'bg-slate-100 border-slate-200 hover:bg-slate-200'
@@ -747,8 +747,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                        ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                       : isDark
                       ? 'bg-slate-900 border-white/10'
                       : 'bg-white border-slate-200'
@@ -756,7 +756,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-mono font-bold flex items-center justify-center">
                         {item.number}
                       </span>
                       <CardSpeechControl
@@ -772,7 +772,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                       ) : (
                         <span>
                           {item.sentenceBefore}{' '}
-                          <span className="inline-block px-3 py-0.5 border-b-2 border-indigo-500 font-mono text-indigo-600 dark:text-indigo-400">
+                          <span className="inline-block px-3 py-0.5 border-b-2 border-sky-500 font-mono text-sky-600 dark:text-sky-400">
                             {selected || '____'}
                           </span>{' '}
                           {item.sentenceAfter}
@@ -857,7 +857,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-indigo-500/15 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400">
+                <span className="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400">
                   Puntaje: {quizScore} / {BE_PRESENT_PAST_QUIZ.length}
                 </span>
 
@@ -891,8 +891,8 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                     isFlipped
                       ? isDark
-                        ? 'bg-slate-900 border-indigo-500 ring-2 ring-indigo-500/20'
-                        : 'bg-white border-indigo-500 ring-2 ring-indigo-400/20'
+                        ? 'bg-slate-900 border-sky-500 ring-2 ring-sky-500/20'
+                        : 'bg-white border-sky-500 ring-2 ring-sky-400/20'
                       : isDark
                       ? 'bg-slate-900 border-white/10'
                       : 'bg-white border-slate-200'
@@ -900,7 +900,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-mono font-bold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-mono font-bold flex items-center justify-center">
                         {q.number}
                       </span>
                       <CardSpeechControl
@@ -990,14 +990,14 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
             }`}
           >
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-indigo-600" />
+              <BookOpen className="w-5 h-5 text-sky-600" />
               <span>Tabla Resumen Rápida: Presente vs Pasado</span>
             </h3>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs sm:text-sm border-collapse">
                 <thead>
-                  <tr className="border-b border-inherit/20 text-indigo-600 dark:text-indigo-400 font-mono uppercase tracking-wider">
+                  <tr className="border-b border-inherit/20 text-sky-600 dark:text-sky-400 font-mono uppercase tracking-wider">
                     <th className="py-2.5 px-3">Pronombre</th>
                     <th className="py-2.5 px-3">Presente (Afirmativo)</th>
                     <th className="py-2.5 px-3">Pasado (Afirmativo)</th>
@@ -1023,21 +1023,21 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                   <tr>
                     <td className="py-2.5 px-3 font-bold font-mono">You</td>
                     <td className="py-2.5 px-3 font-mono">You are (You're)</td>
-                    <td className="py-2.5 px-3 font-mono font-bold text-indigo-600">were</td>
+                    <td className="py-2.5 px-3 font-mono font-bold text-sky-600">were</td>
                     <td className="py-2.5 px-3 font-mono">weren't</td>
                     <td className="py-2.5 px-3 font-mono">Were you...?</td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-3 font-bold font-mono">We</td>
                     <td className="py-2.5 px-3 font-mono">We are (We're)</td>
-                    <td className="py-2.5 px-3 font-mono font-bold text-indigo-600">were</td>
+                    <td className="py-2.5 px-3 font-mono font-bold text-sky-600">were</td>
                     <td className="py-2.5 px-3 font-mono">weren't</td>
                     <td className="py-2.5 px-3 font-mono">Were we...?</td>
                   </tr>
                   <tr>
                     <td className="py-2.5 px-3 font-bold font-mono">They</td>
                     <td className="py-2.5 px-3 font-mono">They are (They're)</td>
-                    <td className="py-2.5 px-3 font-mono font-bold text-indigo-600">were</td>
+                    <td className="py-2.5 px-3 font-mono font-bold text-sky-600">were</td>
                     <td className="py-2.5 px-3 font-mono">weren't</td>
                     <td className="py-2.5 px-3 font-mono">Were they...?</td>
                   </tr>
@@ -1054,7 +1054,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 isDark ? 'bg-slate-900 border-white/10' : 'bg-white border-slate-200'
               }`}
             >
-              <h4 className="font-bold text-base mb-3 text-indigo-600 dark:text-indigo-400">
+              <h4 className="font-bold text-base mb-3 text-sky-600 dark:text-sky-400">
                 Clave de Respuestas: Ejercicio 1 y 2
               </h4>
               <div className="space-y-3 text-xs">
@@ -1100,7 +1100,7 @@ export const BePastMasterclassActivity: React.FC<BePastMasterclassActivityProps>
                 isDark ? 'bg-slate-900 border-white/10' : 'bg-white border-slate-200'
               }`}
             >
-              <h4 className="font-bold text-base mb-3 text-indigo-600 dark:text-indigo-400">
+              <h4 className="font-bold text-base mb-3 text-sky-600 dark:text-sky-400">
                 Clave de Respuestas: Ejercicio 3, WH- & Test
               </h4>
               <div className="space-y-3 text-xs">
