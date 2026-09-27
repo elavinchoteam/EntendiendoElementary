@@ -183,8 +183,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
             id: 'wrong-color-q1',
             question: 'Why was Ms. Green late for work?',
             questionEs: '¿Por qué la Sra. Green llegó tarde al trabajo?',
-            explanation: 'She waited for the delivery of her new chair, but the delivery man brought the wrong chair.',
-            explanationEs: 'Esperó la entrega de su nueva silla, pero el repartidor trajo la silla equivocada.',
+            explanation:
+              'Ms. Green was late for work because she stayed home waiting for the delivery of her new chair, but the delivery man brought the wrong chair ("Today Ms. Green was very late for work. She waited for the delivery of her new chair. But the delivery man brought the wrong chair").',
+            explanationEs:
+              'La Sra. Green llegó muy tarde al trabajo porque se quedó esperando la entrega de su nueva silla, pero el repartidor le trajo la silla equivocada ("Today Ms. Green was very late for work. She waited for the delivery of her new chair. But the delivery man brought the wrong chair").',
             correctAnswerId: 'wc-q1-opt3',
             options: [
               {
@@ -211,8 +213,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
             id: 'wrong-color-q2',
             question: "What was the delivery man's mistake?",
             questionEs: '¿Cuál fue el error del repartidor?',
-            explanation: "Ms. Green ordered a brown chair, but received Mr. Brown's green chair instead.",
-            explanationEs: 'La Sra. Green pidió una silla marrón, pero en su lugar recibió la silla verde del Sr. Brown.',
+            explanation:
+              'Ms. Green had ordered a brown chair, but the delivery man mistakenly brought her a green chair ("I ordered a brown chair, not green!"), which was the chair ordered by another customer named Mr. Brown.',
+            explanationEs:
+              'La Sra. Green había pedido una silla marrón, pero el repartidor le trajo por error una silla verde ("I ordered a brown chair, not green!"), la cual pertenecía a otro cliente llamado Sr. Brown.',
             correctAnswerId: 'wc-q2-opt3',
             options: [
               {
@@ -283,8 +287,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
             id: 'wrong-color-q3',
             question: "Why did the store manager laugh when he found Ms. Green's order?",
             questionEs: '¿Por qué se rió el gerente de la tienda cuando encontró el pedido de la Sra. Green?',
-            explanation: "He laughed because he understood that Ms. Green and Mr. Brown had received each other's chairs.",
-            explanationEs: 'Se rió porque comprendió que la Sra. Green y el Sr. Brown habían recibido las sillas cambiadas.',
+            explanation:
+              'The store manager laughed because he realized the humorous mix-up: Mr. Brown had ordered a green chair and received Ms. Green\'s chair, while Ms. Green got Mr. Brown\'s green chair ("Ha, he laughed. Another customer, Mr. Brown, ordered a green chair and got your chair instead. Isn\'t that funny?").',
+            explanationEs:
+              'El gerente de la tienda se rio porque comprendió la divertida confusión: el Sr. Brown había pedido una silla verde y recibió la de la Sra. Green, mientras que ella recibió la silla verde del Sr. Brown ("Ha, he laughed. Another customer, Mr. Brown, ordered a green chair and got your chair instead. Isn\'t that funny?").',
             correctAnswerId: 'wc-q3-opt2',
             options: [
               {
@@ -311,8 +317,10 @@ export const UNIT_1_SECTIONS: UnitSection[] = [
             id: 'wrong-color-q4',
             question: 'How did Ms. Green get her brown chair?',
             questionEs: '¿Cómo consiguió la Sra. Green su silla marrón?',
-            explanation: 'She met Mr. Brown outside the closed store, and they exchanged their chairs.',
-            explanationEs: 'Se encontró con el Sr. Brown fuera de la tienda cerrada y cambiaron sus sillas.',
+            explanation:
+              'After work, Ms. Green went to the store, but it was already closed. Outside, she met Mr. Brown waiting for his green chair, and they happily exchanged chairs with each other ("I can help you with your chair, said Ms. Green. And she smiled for the first time that day").',
+            explanationEs:
+              'Después del trabajo, la Sra. Green fue a la tienda pero ya estaba cerrada. Afuera conoció al Sr. Brown que esperaba su silla verde, y se ayudaron mutuamente intercambiando sus sillas ("I can help you with your chair, said Ms. Green. And she smiled for the first time that day").',
             correctAnswerId: 'wc-q4-opt2',
             options: [
               {

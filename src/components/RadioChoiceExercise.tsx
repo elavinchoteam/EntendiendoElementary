@@ -8,6 +8,7 @@ import {
   Volume2,
   VolumeX,
   FileText,
+  Info,
   CheckCircle2,
   XCircle,
   Gauge,
@@ -859,6 +860,27 @@ export const RadioChoiceExercise: React.FC<RadioChoiceExerciseProps> = ({
                     </span>
                   </>
                 )}
+              </div>
+            )}
+
+            {/* Detailed Explanation */}
+            {hasChecked && (exercise.explanation || exercise.explanationEs) && (
+              <div
+                className={`w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all animate-in fade-in duration-200 ${
+                  isDark
+                    ? 'bg-slate-900/60 border-sky-500/20 text-slate-300'
+                    : 'bg-sky-50/50 border-sky-200 text-slate-700'
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-1.5 font-semibold text-sky-600 dark:text-sky-400">
+                  <Info className="w-4 h-4 shrink-0" />
+                  <span>Explicación:</span>
+                </div>
+                <p className="leading-relaxed">
+                  {isQuestionFlipped && exercise.explanationEs
+                    ? exercise.explanationEs
+                    : exercise.explanationEs || exercise.explanation}
+                </p>
               </div>
             )}
           </div>

@@ -78,6 +78,7 @@ export interface BaseExercise {
   titleEs?: string;
   question?: string;
   explanation?: string;
+  explanationEs?: string;
   audioPrompt?: string;
 }
 
@@ -143,6 +144,8 @@ export interface DropdownCompletionExercise extends BaseExercise {
   blanks: DropdownBlank[];
   template: string; // e.g. "This is the biggest sale of the {0}. The sale price for one magazine is only {1}. This is the price if you buy {2} magazines."
   translationEs?: string;
+  explanation?: string;
+  explanationEs?: string;
 }
 
 export interface TrueFalseStatement {

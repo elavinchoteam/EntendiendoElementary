@@ -11,6 +11,7 @@ import {
   Play,
   Pause,
   HelpCircle,
+  Info,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import {
@@ -655,6 +656,27 @@ export const ReadingComprehensionExercise: React.FC<ReadingComprehensionExercise
                       );
                     })}
                   </div>
+
+                  {/* Detailed Explanation */}
+                  {hasChecked && (q.explanation || q.explanationEs) && (
+                    <div
+                      className={`mt-3 w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all animate-in fade-in duration-200 ${
+                        isDark
+                          ? 'bg-slate-900/60 border-sky-500/20 text-slate-300'
+                          : 'bg-sky-50/50 border-sky-200 text-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1.5 font-semibold text-sky-600 dark:text-sky-400">
+                        <Info className="w-4 h-4 shrink-0" />
+                        <span>Explicación:</span>
+                      </div>
+                      <p className="leading-relaxed">
+                        {flippedQuestionIds.includes(q.id) && q.explanationEs
+                          ? q.explanationEs
+                          : q.explanationEs || q.explanation}
+                      </p>
+                    </div>
+                  )}
 
                   {/* Divider line between Question 1 and Question 2 */}
                   {qIndex < exercise.questions.length - 1 && (

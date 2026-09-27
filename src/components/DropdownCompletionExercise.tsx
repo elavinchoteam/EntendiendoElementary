@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RotateCcw, Check, Sparkles, Volume2, VolumeX, FileText, ChevronDown, ChevronUp, CheckCircle2, XCircle, Gauge } from 'lucide-react';
+import { Play, Pause, RotateCcw, Check, Sparkles, Volume2, VolumeX, FileText, ChevronDown, ChevronUp, CheckCircle2, XCircle, Gauge, Info } from 'lucide-react';
 import { DropdownCompletionExercise as DropdownExerciseType, LessonSentence } from '../types';
 import { speakEnglish, playFeedbackSound } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
@@ -774,12 +774,31 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
                       )}
                     </div>
                   )}
+
+                  {/* Detailed Explanation */}
+                  {hasChecked && (exercise.explanation || exercise.explanationEs) && (
+                    <div
+                      className={`w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all animate-in fade-in duration-200 ${
+                        isDark
+                          ? 'bg-slate-900/60 border-sky-500/20 text-slate-300'
+                          : 'bg-sky-50/50 border-sky-200 text-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1.5 font-semibold text-sky-600 dark:text-sky-400">
+                        <Info className="w-4 h-4 shrink-0" />
+                        <span>Explicación:</span>
+                      </div>
+                      <p className="leading-relaxed">
+                        {exercise.explanationEs || exercise.explanation}
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* REVERSO / BACK: Traducción al Español */}
               <div
-                className={`absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-7 flex flex-col justify-center border backface-hidden rotate-y-180 transition-colors duration-200 ${
+                className={`absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-7 flex flex-col justify-between border backface-hidden rotate-y-180 transition-colors duration-200 overflow-y-auto ${
                   isDark
                     ? 'bg-slate-900 border-emerald-500/40 text-white'
                     : 'bg-white border-emerald-300 text-slate-900 shadow-md'
@@ -790,6 +809,24 @@ export const DropdownCompletionExercise: React.FC<DropdownCompletionExerciseProp
                     {translationText}
                   </p>
                 </div>
+                {hasChecked && (exercise.explanation || exercise.explanationEs) && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={`mt-4 w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all animate-in fade-in duration-200 shrink-0 ${
+                      isDark
+                        ? 'bg-slate-900/60 border-emerald-500/30 text-emerald-200'
+                        : 'bg-emerald-50/80 border-emerald-200 text-emerald-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1.5 font-semibold text-emerald-600 dark:text-emerald-400">
+                      <Info className="w-4 h-4 shrink-0" />
+                      <span>Explicación:</span>
+                    </div>
+                    <p className="leading-relaxed">
+                      {exercise.explanationEs || exercise.explanation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

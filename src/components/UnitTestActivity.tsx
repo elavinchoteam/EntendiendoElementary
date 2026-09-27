@@ -17,6 +17,7 @@ import {
   Clock,
   BookOpen,
   ChevronDown,
+  Info,
 } from 'lucide-react';
 import { UnitTestExercise, UnitTestQuestion } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -55,6 +56,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
   const [isQuestionFlipped, setIsQuestionFlipped] = useState<boolean>(false);
   const [isReferenceFlipped, setIsReferenceFlipped] = useState<boolean>(false);
   const [isTestCompleted, setIsTestCompleted] = useState<boolean>(false);
+  const [flippedOptionIds, setFlippedOptionIds] = useState<string[]>([]);
 
   // Active question index (0 for Test 1, up to 5 for Test 6)
   const [activeQuestionIdx, setActiveQuestionIdx] = useState<number>(0);
@@ -161,6 +163,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
     setIsPlayingMedia(false);
     setElapsedSeconds(0);
     setIsDragOver(false);
+    setFlippedOptionIds([]);
     return () => {
       stopSpeaking();
       if (timerRef.current) clearInterval(timerRef.current);
@@ -302,6 +305,14 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
     );
   };
 
+  // Toggle flip on option card
+  const handleToggleFlipOption = (optId: string) => {
+    playFeedbackSound('flip');
+    setFlippedOptionIds((prev) =>
+      prev.includes(optId) ? prev.filter((id) => id !== optId) : [...prev, optId]
+    );
+  };
+
   // Start the test handler
   const handleStartTest = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -309,6 +320,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
     playFeedbackSound('click');
     setIsTestStarted(true);
     setIsCardFlipped(false);
+    setFlippedOptionIds([]);
     setActiveQuestionIdx(0);
   };
 
@@ -827,6 +839,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
               id="review-unit-test-btn"
               onClick={() => {
                 setIsTestCompleted(false);
+                setFlippedOptionIds([]);
                 setActiveQuestionIdx(0);
               }}
               className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
@@ -841,6 +854,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 setSelectedAnswers({});
                 setSubmittedAnswers({});
                 setIsTestCompleted(false);
+                setFlippedOptionIds([]);
                 setActiveQuestionIdx(0);
               }}
               className={`px-6 py-2.5 rounded-xl border font-bold text-sm transition-all cursor-pointer flex items-center gap-2 ${
@@ -1507,24 +1521,43 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                           const isPlaced = isMultiSlotQuestion
                             ? currentMultiSlotPlaced.includes(opt.id)
                             : currentSelectedOptionId === opt.id;
+                          const isOptFlipped = flippedOptionIds.includes(opt.id);
 
                           return (
                             <div
                               key={opt.id}
-                              id={`drag-option-${opt.id}`}
-                              draggable={!isAnswerChecked}
-                              onDragStart={(e) => handleDragStart(e, opt.id)}
-                              onClick={() => handleSelectOption(opt.id)}
-                              className={`px-4 py-2.5 rounded-xl border text-sm sm:text-base font-mono font-semibold transition-all select-none shadow-xs ${
-                                isPlaced
-                                  ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
-                                  : isDark
-                                  ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-sky-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                                  : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-sky-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
-                              }`}
-                              title={`Haz clic o arrastra: ${opt.text}`}
+                              className="perspective-1000 min-h-[46px]"
                             >
-                              {opt.text}
+                              <div
+                                id={`drag-option-${opt.id}`}
+                                draggable={!isAnswerChecked}
+                                onDragStart={(e) => handleDragStart(e, opt.id)}
+                                onClick={() => handleToggleFlipOption(opt.id)}
+                                onDoubleClick={() => handleSelectOption(opt.id)}
+                                className={`relative min-h-[46px] min-w-[90px] rounded-xl border text-sm sm:text-base font-mono font-semibold transition-transform duration-500 transform-style-3d select-none shadow-xs cursor-pointer ${
+                                  isOptFlipped ? 'rotate-y-180' : ''
+                                } ${
+                                  isPlaced
+                                    ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
+                                    : isOptFlipped
+                                    ? isDark
+                                      ? 'border-emerald-500/40 bg-[#0F241A] text-emerald-100'
+                                      : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
+                                    : isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-sky-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                                    : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-sky-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
+                                }`}
+                                title={`Arrastra o haz doble clic para colocar: ${opt.text}`}
+                              >
+                                {/* Front Face */}
+                                <div className="px-4 py-2.5 flex items-center justify-center backface-hidden">
+                                  {opt.text}
+                                </div>
+                                {/* Back Face */}
+                                <div className="absolute inset-0 px-4 py-2.5 flex items-center justify-center backface-hidden rotate-y-180 italic text-emerald-700 dark:text-emerald-300">
+                                  {opt.textEs || opt.text}
+                                </div>
+                              </div>
                             </div>
                           );
                         })}
@@ -1736,16 +1769,20 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                       </h3>
                     </div>
 
-                    {/* Opciones con Radio buttons grandes y espaciados */}
+                    {/* Opciones con Radio buttons reversibles */}
                     <div className="flex flex-col gap-3 sm:gap-4 my-6">
                       {currentQuestion.options.map((opt) => {
                         const isSelected = currentSelectedOptionId === opt.id;
                         const isCorrectAnswer = opt.id === currentQuestion.correctAnswerId;
+                        const isOptFlipped = flippedOptionIds.includes(opt.id);
 
                         let optionBorder = isDark ? 'border-slate-700' : 'border-slate-200';
                         let optionBg = isDark ? 'bg-slate-800/60' : 'bg-slate-50/70';
 
-                        if (isSelected) {
+                        if (isOptFlipped) {
+                          optionBorder = isDark ? 'border-emerald-500/40 ring-1 ring-emerald-500/30' : 'border-emerald-300 ring-1 ring-emerald-400/30';
+                          optionBg = isDark ? 'bg-[#0F241A]' : 'bg-emerald-50/90';
+                        } else if (isSelected) {
                           optionBorder = 'border-sky-600 dark:border-sky-400 ring-2 ring-sky-500/20';
                           optionBg = isDark ? 'bg-sky-950/40' : 'bg-sky-50/80';
                         }
@@ -1761,59 +1798,161 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         }
 
                         return (
-                          <label
+                          <div
                             key={opt.id}
-                            id={`test-option-${opt.id}`}
-                            onClick={() => {
-                              if (isAnswerChecked) return;
-                              playFeedbackSound('click');
-                              setSelectedAnswers((prev) => ({
-                                ...prev,
-                                [currentQuestion.id]: opt.id,
-                              }));
-                            }}
-                            className={`w-full p-4 rounded-2xl border transition-all cursor-pointer flex items-center gap-4 select-none ${optionBorder} ${optionBg} hover:scale-[1.01]`}
+                            className="perspective-1000 w-full min-h-[64px]"
                           >
-                            {/* Radio input circle */}
                             <div
-                              className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                                isSelected
-                                  ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-500'
-                                  : isDark
-                                  ? 'border-slate-600 bg-slate-900'
-                                  : 'border-slate-400 bg-white'
-                              }`}
+                              id={`test-option-${opt.id}`}
+                              onClick={() => handleToggleFlipOption(opt.id)}
+                              onDoubleClick={(e) => {
+                                e.stopPropagation();
+                                if (isAnswerChecked) return;
+                                playFeedbackSound('click');
+                                setSelectedAnswers((prev) => ({
+                                  ...prev,
+                                  [currentQuestion.id]: opt.id,
+                                }));
+                              }}
+                              className={`relative w-full h-full min-h-[64px] rounded-2xl border transition-transform duration-500 transform-style-3d cursor-pointer select-none shadow-xs hover:scale-[1.005] ${
+                                isOptFlipped ? 'rotate-y-180' : ''
+                              } ${optionBorder} ${optionBg}`}
                             >
-                              {isSelected && (
-                                <div className="w-2.5 h-2.5 rounded-full bg-white shrink-0" />
-                              )}
-                            </div>
+                              {/* ANVERSO / FRONT: English text + Radio button + Audio button */}
+                              <div className="absolute inset-0 p-4 flex items-center justify-between gap-4 backface-hidden">
+                                <div className="flex items-center gap-4 flex-1 min-w-0">
+                                  {/* Radio input circle */}
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (isAnswerChecked) return;
+                                      playFeedbackSound('click');
+                                      setSelectedAnswers((prev) => ({
+                                        ...prev,
+                                        [currentQuestion.id]: opt.id,
+                                      }));
+                                    }}
+                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                                      isSelected
+                                        ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-500'
+                                        : isDark
+                                        ? 'border-slate-600 bg-slate-900'
+                                        : 'border-slate-400 bg-white'
+                                    }`}
+                                  >
+                                    {isSelected && (
+                                      <div className="w-2.5 h-2.5 rounded-full bg-white shrink-0" />
+                                    )}
+                                  </div>
 
-                            {/* Option label text */}
-                            <div className="flex-1 flex items-center justify-between gap-2">
-                              <span className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-100">
-                                {opt.text}
-                              </span>
+                                  {/* Option label text in English */}
+                                  <span className="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-100 flex-1 min-w-0">
+                                    {opt.text}
+                                  </span>
+                                </div>
 
-                              {/* Sound button for option */}
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleListenSpeech(opt.text, `opt-${opt.id}`);
-                                }}
-                                className={`p-1.5 rounded-lg opacity-0 hover:opacity-100 group-hover:opacity-100 transition-opacity ${
-                                  speakingTarget === `opt-${opt.id}`
-                                    ? 'opacity-100 bg-sky-600 text-white'
-                                    : 'text-slate-400 hover:text-sky-600'
-                                }`}
-                                title="Listen"
-                                aria-label={`Escuchar ${opt.text}`}
-                              >
-                                <Volume2 className="w-3.5 h-3.5" />
-                              </button>
+                                <div className="flex items-center gap-2 shrink-0">
+                                  {/* Audio speaker button */}
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleListenSpeech(opt.text, `opt-${opt.id}`);
+                                    }}
+                                    className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                      speakingTarget === `opt-${opt.id}`
+                                        ? 'bg-sky-600 text-white'
+                                        : isDark
+                                        ? 'text-slate-400 hover:text-white hover:bg-white/10'
+                                        : 'text-slate-400 hover:text-sky-600 hover:bg-slate-100'
+                                    }`}
+                                    title="Listen"
+                                    aria-label={`Escuchar ${opt.text}`}
+                                  >
+                                    <Volume2 className="w-3.5 h-3.5" />
+                                  </button>
+
+                                  {/* Status icon if checked */}
+                                  {isAnswerChecked && isSelected && (
+                                    <div className="shrink-0 ml-1">
+                                      {isCorrectAnswer ? (
+                                        <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                                      ) : (
+                                        <XCircle className="w-5 h-5 text-rose-500" />
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* REVERSO / BACK: Spanish translation + Radio button + Audio button */}
+                              <div className="absolute inset-0 p-4 flex items-center justify-between gap-4 backface-hidden rotate-y-180">
+                                <div className="flex items-center gap-4 flex-1 min-w-0">
+                                  {/* Radio input circle on back face */}
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      if (isAnswerChecked) return;
+                                      playFeedbackSound('click');
+                                      setSelectedAnswers((prev) => ({
+                                        ...prev,
+                                        [currentQuestion.id]: opt.id,
+                                      }));
+                                    }}
+                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all cursor-pointer ${
+                                      isSelected
+                                        ? 'border-emerald-600 bg-emerald-600 text-white dark:border-emerald-400 dark:bg-emerald-500'
+                                        : isDark
+                                        ? 'border-emerald-700 bg-emerald-950'
+                                        : 'border-emerald-400 bg-white'
+                                    }`}
+                                  >
+                                    {isSelected && (
+                                      <div className="w-2.5 h-2.5 rounded-full bg-white shrink-0" />
+                                    )}
+                                  </div>
+
+                                  {/* Translated text in Spanish */}
+                                  <span className="text-base sm:text-lg font-medium italic text-emerald-900 dark:text-emerald-100 flex-1 min-w-0">
+                                    {opt.textEs || opt.text}
+                                  </span>
+                                </div>
+
+                                <div className="flex items-center gap-2 shrink-0">
+                                  {/* Audio speaker button (speaks English) */}
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleListenSpeech(opt.text, `opt-${opt.id}`);
+                                    }}
+                                    className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                                      speakingTarget === `opt-${opt.id}`
+                                        ? 'bg-emerald-600 text-white'
+                                        : isDark
+                                        ? 'text-emerald-400 hover:text-white hover:bg-emerald-500/20'
+                                        : 'text-emerald-700 hover:text-emerald-900 hover:bg-emerald-100'
+                                    }`}
+                                    title="Listen in English"
+                                    aria-label={`Escuchar ${opt.text}`}
+                                  >
+                                    <Volume2 className="w-3.5 h-3.5" />
+                                  </button>
+
+                                  {/* Status icon if checked */}
+                                  {isAnswerChecked && isSelected && (
+                                    <div className="shrink-0 ml-1">
+                                      {isCorrectAnswer ? (
+                                        <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                                      ) : (
+                                        <XCircle className="w-5 h-5 text-rose-500" />
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
                             </div>
-                          </label>
+                          </div>
                         );
                       })}
                     </div>
@@ -1825,34 +1964,49 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
               <div className="pt-4 border-t border-inherit/40 flex flex-col gap-4">
                 {/* Feedback Message if checked */}
                 {isAnswerChecked && (
-                  <div
-                    className={`p-4 rounded-2xl border flex items-start gap-3 animate-in fade-in duration-200 ${
-                      isAnswerCorrect
-                        ? isDark
-                          ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200'
-                          : 'bg-emerald-50 border-emerald-300 text-emerald-900'
-                        : isDark
-                        ? 'bg-rose-950/40 border-rose-500/50 text-rose-200'
-                        : 'bg-rose-50 border-rose-300 text-rose-900'
-                    }`}
-                  >
-                    {isAnswerCorrect ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                    ) : (
-                      <XCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                    )}
-
-                    <div className="flex-1 text-sm leading-relaxed">
-                      <div className="font-bold mb-1">
-                        {isAnswerCorrect ? '¡Correcto! / Correct!' : 'Incorrecto / Not quite'}
-                      </div>
-                      <p>
-                        {isQuestionFlipped && currentQuestion.explanationEs
-                          ? currentQuestion.explanationEs
-                          : currentQuestion.explanation ||
-                            (isAnswerCorrect ? 'Great job! That is the correct answer.' : 'Review the story and try again.')}
-                      </p>
+                  <div className="flex flex-col gap-3">
+                    <div
+                      className={`w-full flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium animate-in fade-in slide-in-from-top-1 duration-150 ${
+                        isAnswerCorrect
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                          : 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                      }`}
+                    >
+                      {isAnswerCorrect ? (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500" />
+                          <span className="leading-snug">¡Excelente trabajo! Has seleccionado la respuesta correcta.</span>
+                          <Sparkles className="w-3.5 h-3.5 text-emerald-500 animate-bounce shrink-0" />
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="w-4 h-4 shrink-0 text-rose-500" />
+                          <span className="leading-snug">
+                            Respuesta incorrecta. Revisa el audio o la historia y vuelve a intentarlo.
+                          </span>
+                        </>
+                      )}
                     </div>
+
+                    {(currentQuestion.explanation || currentQuestion.explanationEs) && (
+                      <div
+                        className={`w-full p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm border transition-all animate-in fade-in duration-200 ${
+                          isDark
+                            ? 'bg-slate-900/60 border-sky-500/20 text-slate-300'
+                            : 'bg-sky-50/50 border-sky-200 text-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 mb-1.5 font-semibold text-sky-600 dark:text-sky-400">
+                          <Info className="w-4 h-4 shrink-0" />
+                          <span>Explicación:</span>
+                        </div>
+                        <p className="leading-relaxed">
+                          {isQuestionFlipped && currentQuestion.explanationEs
+                            ? currentQuestion.explanationEs
+                            : currentQuestion.explanationEs || currentQuestion.explanation}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
 

@@ -126,7 +126,9 @@ export const PHONE_SALES_EXERCISES: Exercise[] = [
     instructions: "Listen to Chuck Wood's message, and complete the sentences.",
     instructionsEs: 'Escucha el mensaje de Chuck Wood y completa las oraciones.',
     explanation:
-      'Chuck Wood anuncia la mayor venta del año ("sale of the year"). El precio de oferta es $10 por 10 revistas, lo que resulta en $1.00 cada una ("only $1.00"). Este precio aplica si compras diez revistas ("ten magazines").',
+      'Chuck Wood anuncia la mayor venta del año ("our biggest sale of the year!"). El precio especial es de solo $1.00 por cada revista ("only $1.00"), ya que ofrece 10 revistas por $10 ("$10 for ten magazines"). Este precio con descuento aplica si compras diez revistas ("ten magazines").',
+    explanationEs:
+      'Chuck Wood anuncia la mayor venta del año ("our biggest sale of the year!"). El precio especial es de solo $1.00 por cada revista ("only $1.00"), ya que ofrece 10 revistas por $10 ("$10 for ten magazines"). Este precio con descuento aplica si compras diez revistas ("ten magazines").',
     audioPrompt:
       'Hi, there! This is Chuck Wood calling from "Working People Magazine." We have something good for you today: our biggest sale of the year! The price of our magazine was $2.50 each. Now it\'s only $10 for ten magazines. That\'s $1 each. Call now! The number is 555-9663. Don\'t forget! That number was 555-9663. Remember: "Working People Magazine" works for you!',
     template:
@@ -212,7 +214,9 @@ export const PHONE_SALES_EXERCISES: Exercise[] = [
     instructions: 'Choose the best answers to the questions below.',
     instructionsEs: 'Elige las mejores respuestas a las siguientes preguntas.',
     explanation:
-      'Chuck Wood llama para informar sobre la mayor oferta del año de su revista ("our biggest sale of the year!"). Ofrece 10 revistas por $10, lo que equivale a $1 cada una.',
+      'Chuck Wood llama a las personas para hablarles sobre su oferta ("Tell them about his sale"). En el audio dice claramente: "We have something good for you today: our biggest sale of the year!" y ofrece la promoción de 10 revistas por $10 ($1 cada una). No llama para hablar sobre el trabajo de las personas ni sobre cómo encontrar empleo.',
+    explanationEs:
+      'Chuck Wood llama a las personas para hablarles sobre su oferta ("Tell them about his sale"). En el audio dice claramente: "We have something good for you today: our biggest sale of the year!" y ofrece la promoción de 10 revistas por $10 ($1 cada una). No llama para hablar sobre el trabajo de las personas ni sobre cómo encontrar empleo.',
     audioPrompt:
       'Hi, there! This is Chuck Wood calling from "Working People Magazine." We have something good for you today: our biggest sale of the year! The price of our magazine was $2.50 each. Now it\'s only $10 for ten magazines. That\'s $1 each. Call now! The number is 555-9663. Don\'t forget! That number was 555-9663. Remember: "Working People Magazine" works for you!',
     sentences: [
@@ -263,7 +267,9 @@ export const PHONE_SALES_EXERCISES: Exercise[] = [
     instructions: 'Choose the best answers to the questions below.',
     instructionsEs: 'Elige las mejores respuestas a las siguientes preguntas.',
     explanation:
-      'Decir "our biggest sale of the year" (nuestra mayor oferta del año) implica que hay otras ofertas durante el año, pero esta es la más grande.',
+      'Al afirmar que es "our biggest sale of the year!" (¡nuestra mayor oferta del año!), la palabra "biggest" (la más grande) significa que hay otras ofertas durante el curso del año ("There are other sales during the year"), pero esta es la de mayor descuento de todas. No significa que haya ofertas cada semana ni que sea la única venta del año.',
+    explanationEs:
+      'Al afirmar que es "our biggest sale of the year!" (¡nuestra mayor oferta del año!), la palabra "biggest" (la más grande) significa que hay otras ofertas durante el curso del año ("There are other sales during the year"), pero esta es la de mayor descuento de todas. No significa que haya ofertas cada semana ni que sea la única venta del año.',
     audioPrompt:
       'Hi, there! This is Chuck Wood calling from "Working People Magazine." We have something good for you today: our biggest sale of the year! The price of our magazine was $2.50 each. Now it\'s only $10 for ten magazines. That\'s $1 each. Call now! The number is 555-9663. Don\'t forget! That number was 555-9663. Remember: "Working People Magazine" works for you!',
     sentences: [
