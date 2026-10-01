@@ -38,6 +38,8 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
 
   // User answers map: { [testId]: optionId }
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
+  // Checked questions map: { [testId]: boolean }
+  const [checkedQuestions, setCheckedQuestions] = useState<Record<string, boolean>>({});
   // Is test submitted
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -45,15 +47,26 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
   const currentTest: CountNonCountTestItem | undefined =
     testStep >= 1 && testStep <= 5 ? COUNT_NON_COUNT_TESTS[currentTestIndex] : undefined;
 
+  const currentSelectedOptionId = currentTest ? userAnswers[currentTest.id] : undefined;
+  const isQuestionChecked = currentTest ? Boolean(checkedQuestions[currentTest.id]) : false;
+  const isCorrect = currentTest && currentSelectedOptionId === currentTest.correctAnswerId;
+
   const handleStartTest = () => {
     playFeedbackSound('click');
     setTestStep(1);
   };
 
   const handleSelectOption = (testId: string, optionId: string) => {
-    if (isSubmitted) return;
+    if (checkedQuestions[testId]) return;
     playFeedbackSound('click');
     setUserAnswers((prev) => ({ ...prev, [testId]: optionId }));
+  };
+
+  const handleCheckCurrent = () => {
+    if (!currentTest || !currentSelectedOptionId || isQuestionChecked) return;
+    const correct = currentSelectedOptionId === currentTest.correctAnswerId;
+    playFeedbackSound(correct ? 'correct' : 'wrong');
+    setCheckedQuestions((prev) => ({ ...prev, [currentTest.id]: true }));
   };
 
   const handleNextTest = () => {
@@ -81,6 +94,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
   const handleRestartTest = () => {
     playFeedbackSound('click');
     setUserAnswers({});
+    setCheckedQuestions({});
     setIsSubmitted(false);
     setTestStep(0);
   };
@@ -239,7 +253,6 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
   /* CASE 3: INDIVIDUAL TEST QUESTIONS (Test 1 de 5, Test 2 de 5, ..., Test 5 de 5) */
   if (!currentTest) return null;
 
-  const currentSelectedOptionId = userAnswers[currentTest.id];
   const selectedOpt = currentTest.options.find((o) => o.id === currentSelectedOptionId);
 
   const fullTextEn = currentTest.dialogueLines
@@ -308,7 +321,11 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                       <div
                         className={`inline-flex items-center justify-center min-w-[130px] h-8 sm:h-9 px-3 rounded-lg border-2 border-dashed transition-all ${
                           selectedOpt
-                            ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-900 dark:text-sky-200 font-bold'
+                            ? isQuestionChecked
+                              ? isCorrect
+                                ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-bold'
+                                : 'border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-bold'
+                              : 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-900 dark:text-sky-200 font-bold'
                             : 'border-slate-300 dark:border-slate-600 bg-slate-100/60 dark:bg-slate-800/60'
                         }`}
                       >
@@ -352,18 +369,37 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
           <div className="flex flex-wrap items-center gap-3">
             {currentTest.options.map((opt: DragDropOption) => {
               const isSelected = currentSelectedOptionId === opt.id;
+              const isCorrectOpt = opt.id === currentTest.correctAnswerId;
+
+              let btnStyle = isDark
+                ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
+                : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs';
+
+              if (isQuestionChecked) {
+                if (isSelected) {
+                  btnStyle = isCorrect
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-md ring-2 ring-emerald-400'
+                    : 'bg-rose-600 text-white border-rose-600 shadow-md ring-2 ring-rose-400';
+                } else if (isCorrectOpt) {
+                  btnStyle = isDark
+                    ? 'bg-emerald-950/40 border-emerald-500 text-emerald-300 ring-1 ring-emerald-400'
+                    : 'bg-emerald-50 border-emerald-400 text-emerald-800 ring-1 ring-emerald-300';
+                } else {
+                  btnStyle = 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700 text-slate-400';
+                }
+              } else if (isSelected) {
+                btnStyle = 'bg-sky-600 text-white border-sky-600 shadow-md ring-2 ring-sky-400';
+              }
+
               return (
                 <button
                   key={opt.id}
                   type="button"
+                  disabled={isQuestionChecked}
                   onClick={() => handleSelectOption(currentTest.id, opt.id)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer select-none active:scale-95 ${
-                    isSelected
-                      ? 'bg-sky-600 text-white border-sky-600 shadow-md ring-2 ring-sky-400'
-                      : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
-                      : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs'
-                  }`}
+                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all select-none active:scale-95 ${
+                    isQuestionChecked ? 'cursor-default' : 'cursor-pointer'
+                  } ${btnStyle}`}
                 >
                   {opt.text}
                 </button>
@@ -371,6 +407,34 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             })}
           </div>
         </div>
+
+        {/* Explanation Box after Check */}
+        {isQuestionChecked && (
+          <div
+            className={`p-4 rounded-2xl border animate-in fade-in duration-200 flex flex-col gap-2 ${
+              isCorrect
+                ? isDark
+                  ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
+                  : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                : isDark
+                ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
+                : 'bg-rose-50 border-rose-200 text-rose-950'
+            }`}
+          >
+            <div className="flex items-center gap-2 font-bold text-sm">
+              {isCorrect ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+              ) : (
+                <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+              )}
+              <span>{isCorrect ? '¡Correcto!' : 'Respuesta Incorrecta'}</span>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed">{currentTest.explanationEn}</p>
+            <p className="text-xs sm:text-sm leading-relaxed italic text-slate-600 dark:text-slate-300">
+              {currentTest.explanationEs}
+            </p>
+          </div>
+        )}
 
         {/* Navigation between Test Questions */}
         <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
@@ -394,7 +458,8 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
           <div className="flex items-center gap-1.5">
             {COUNT_NON_COUNT_TESTS.map((t, idx) => {
               const stepNum = idx + 1;
-              const isAnswered = Boolean(userAnswers[t.id]);
+              const isItemChecked = Boolean(checkedQuestions[t.id]);
+              const isItemCorrect = userAnswers[t.id] === t.correctAnswerId;
               const isCurrent = stepNum === testStep;
               return (
                 <button
@@ -407,10 +472,18 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                   className={`w-7 h-7 rounded-lg text-xs font-mono font-bold flex items-center justify-center transition-all cursor-pointer ${
                     isCurrent
                       ? 'bg-sky-600 text-white ring-2 ring-sky-400'
-                      : isAnswered
+                      : isItemChecked
+                      ? isItemCorrect
+                        ? isDark
+                          ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-800'
+                          : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                        : isDark
+                        ? 'bg-rose-950/70 text-rose-400 border border-rose-800'
+                        : 'bg-rose-100 text-rose-800 border border-rose-300'
+                      : Boolean(userAnswers[t.id])
                       ? isDark
-                        ? 'bg-emerald-950/70 text-emerald-400 border border-emerald-800'
-                        : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                        ? 'bg-slate-700 text-slate-200 border border-slate-600'
+                        : 'bg-slate-200 text-slate-800 border border-slate-300'
                       : isDark
                       ? 'bg-slate-800 text-slate-400 border border-slate-700'
                       : 'bg-slate-100 text-slate-600 border border-slate-200'
@@ -423,19 +496,30 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
             })}
           </div>
 
-          <button
-            type="button"
-            onClick={handleNextTest}
-            disabled={!currentSelectedOptionId}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
-              currentSelectedOptionId
-                ? 'bg-sky-600 hover:bg-sky-500 text-white active:scale-95'
-                : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
-            }`}
-          >
-            <span>{testStep === 5 ? 'Finalizar' : 'Siguiente'}</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          {!isQuestionChecked ? (
+            <button
+              type="button"
+              onClick={handleCheckCurrent}
+              disabled={!currentSelectedOptionId}
+              className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
+                currentSelectedOptionId
+                  ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
+                  : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
+              }`}
+            >
+              <Check className="w-4 h-4" />
+              <span>Comprobar</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleNextTest}
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer bg-sky-600 hover:bg-sky-700 text-white active:scale-95"
+            >
+              <span>{testStep === 5 ? 'Finalizar' : 'Siguiente'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
     </div>

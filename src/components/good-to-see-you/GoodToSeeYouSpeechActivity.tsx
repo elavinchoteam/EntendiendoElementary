@@ -320,7 +320,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                 onClick={() => setShowTranscript((prev) => !prev)}
                 className={`absolute top-3 right-3 p-2 rounded-xl backdrop-blur-md border transition-all cursor-pointer shadow-md ${
                   showTranscript
-                    ? 'bg-indigo-600 text-white border-indigo-400'
+                    ? 'bg-sky-600 text-white border-sky-400'
                     : 'bg-black/60 hover:bg-black/80 text-white/80 border-white/20'
                 }`}
                 aria-label="Transcripción"
@@ -353,7 +353,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                     );
                     setCurrentSentenceIdx(matchedIdx !== -1 ? matchedIdx : null);
                   }}
-                  className="flex-1 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="flex-1 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-600"
                 />
                 <span className="font-mono text-xs text-slate-500 dark:text-slate-400 shrink-0 w-10 text-right">
                   {formatTime(durationSeconds)}
@@ -366,7 +366,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                   <button
                     type="button"
                     onClick={handleTogglePlay}
-                    className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all cursor-pointer shadow-sm"
+                    className="p-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white transition-all cursor-pointer shadow-sm"
                     aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
                   >
                     {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
@@ -396,7 +396,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                           : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 shadow-xs'
                       }`}
                     >
-                      <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+                      <Gauge className="w-3.5 h-3.5 text-sky-500" />
                       <span>{formatSpeedLabel(currentRate)}</span>
                     </button>
 
@@ -416,7 +416,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                             }}
                             className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors cursor-pointer ${
                               Math.abs(currentRate - sp.value) < 0.01
-                                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-bold'
+                                ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-bold'
                                 : isDark
                                 ? 'text-slate-300 hover:bg-slate-700'
                                 : 'text-slate-700 hover:bg-slate-100'
@@ -424,7 +424,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                           >
                             <span>{sp.label}</span>
                             {Math.abs(currentRate - sp.value) < 0.01 && (
-                              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-sky-500" />
                             )}
                           </button>
                         ))}
@@ -476,7 +476,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                   }`}
                 >
                   <div className="flex items-center justify-between pb-2 border-b border-inherit/40 shrink-0">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                       Diálogo
                     </span>
                     <button
@@ -487,7 +487,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                         speakEnglish(GOOD_TO_SEE_YOU_AUDIO_TEXT, currentRate, safeAccent, undefined, undefined, 'male');
                       }}
                       className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                        isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600'
+                        isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600'
                       }`}
                       aria-label="Audio"
                     >
@@ -501,8 +501,8 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                         className={`p-1 rounded-md ${
                           currentSentenceIdx === idx
                             ? isDark
-                              ? 'bg-indigo-950/70 text-indigo-300 font-semibold'
-                              : 'bg-indigo-100 text-indigo-950 font-semibold'
+                              ? 'bg-sky-950/70 text-sky-300 font-semibold'
+                              : 'bg-sky-100 text-sky-950 font-semibold'
                             : ''
                         }`}
                       >
@@ -580,7 +580,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                     speakEnglish(exercise.instructions, currentRate, safeAccent, undefined, undefined, 'female');
                   }}
                   className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                    isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600'
+                    isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600'
                   }`}
                   aria-label="Audio"
                 >
@@ -611,7 +611,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
 
           {/* Subtitle helper */}
           <div className="flex items-center gap-2 px-1 text-xs text-slate-500 dark:text-slate-400">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+            <Sparkles className="w-3.5 h-3.5 text-sky-500" />
             <span>{exercise.subtitleEs || exercise.subtitle}</span>
           </div>
 
@@ -634,8 +634,8 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
               {/* Front: English Prompt */}
               <div className="absolute inset-0 px-5 py-4 flex items-center justify-between backface-hidden">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/40 flex items-center justify-center shrink-0">
-                    <Headphones className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  <div className="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800/40 flex items-center justify-center shrink-0">
+                    <Headphones className="w-4 h-4 text-sky-600 dark:text-sky-400" />
                   </div>
                   <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                     "{exercise.promptStatement}"
@@ -655,7 +655,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                     );
                   }}
                   className={`p-2 rounded-xl border transition-colors cursor-pointer shrink-0 ml-2 ${
-                    isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600 shadow-xs'
+                    isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600 shadow-xs'
                   }`}
                   aria-label="Audio"
                 >
@@ -725,8 +725,8 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                           : 'bg-white border-slate-200 opacity-70'
                         : isSelected
                         ? isDark
-                          ? 'border-indigo-500 bg-indigo-950/40 ring-2 ring-indigo-500/50'
-                          : 'border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-600/30'
+                          ? 'border-sky-500 bg-sky-950/40 ring-2 ring-sky-500/50'
+                          : 'border-sky-600 bg-sky-50/70 ring-2 ring-sky-600/30'
                         : isDark
                         ? 'bg-slate-900 border-white/10 hover:border-white/30'
                         : 'bg-white border-slate-200 hover:border-slate-300'
@@ -738,7 +738,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                         <div
                           className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${
                             isSelected
-                              ? 'border-indigo-600 bg-indigo-600 dark:border-indigo-500 dark:bg-indigo-500'
+                              ? 'border-sky-600 bg-sky-600 dark:border-sky-500 dark:bg-sky-500'
                               : isDark
                               ? 'border-slate-600 bg-slate-800'
                               : 'border-slate-300 bg-white'
@@ -765,7 +765,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                             speakEnglish(opt.text, currentRate, safeAccent, undefined, undefined, 'female');
                           }}
                           className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                            isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600'
+                            isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600'
                           }`}
                           aria-label="Audio"
                         >
@@ -836,7 +836,7 @@ export const GoodToSeeYouSpeechActivity: React.FC<GoodToSeeYouSpeechActivityProp
                 className={`py-2.5 px-5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm ${
                   isRecording
                     ? 'bg-rose-600 hover:bg-rose-500 text-white animate-pulse shadow-rose-600/30'
-                    : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/30'
+                    : 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/30'
                 }`}
               >
                 {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}

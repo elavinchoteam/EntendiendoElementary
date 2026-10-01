@@ -118,7 +118,7 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
               disabled={!isAllFilled}
               className={`px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 ${
                 isAllFilled
-                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'
+                  ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-md'
                   : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
               }`}
             >
@@ -130,7 +130,7 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
               <button
                 type="button"
                 onClick={onNext}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
               >
                 <span>Siguiente</span>
                 <CheckCircle2 className="w-4 h-4" />
@@ -156,7 +156,7 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
           {/* Word Bank */}
           <div
             className={`p-4 rounded-2xl border ${
-              isDark ? 'bg-slate-900 border-slate-700' : 'bg-indigo-50/60 border-indigo-200'
+              isDark ? 'bg-slate-900 border-slate-700' : 'bg-sky-50/60 border-sky-200'
             }`}
           >
             <div className="text-xs font-mono font-bold text-slate-500 uppercase mb-2">
@@ -178,10 +178,10 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
                       isUsed
                         ? 'opacity-30 line-through bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 cursor-not-allowed'
                         : isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400 scale-105'
+                        ? 'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400 scale-105'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
-                        : 'bg-white hover:bg-indigo-100 text-slate-800 border-indigo-300 shadow-xs'
+                        : 'bg-white hover:bg-sky-100 text-slate-800 border-sky-300 shadow-xs'
                     }`}
                   >
                     {word}
@@ -210,7 +210,7 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-inherit/40">
-                  <span className="text-xs font-mono font-semibold text-indigo-600 dark:text-indigo-400 uppercase">
+                  <span className="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400 uppercase">
                     Passage
                   </span>
 
@@ -219,10 +219,10 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
                     onClick={handlePlay}
                     className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                       isPlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                        : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                        : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -255,8 +255,8 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
                                 ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300'
                                 : 'border-red-500 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300'
                               : placedWord
-                              ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-300'
-                              : 'border-dashed border-slate-400 dark:border-slate-600 hover:border-indigo-500 text-slate-400 bg-slate-50 dark:bg-slate-800'
+                              ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-900 dark:text-sky-300'
+                              : 'border-dashed border-slate-400 dark:border-slate-600 hover:border-sky-500 text-slate-400 bg-slate-50 dark:bg-slate-800'
                           }`}
                         >
                           {placedWord || (
@@ -281,19 +281,19 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
               <div
                 className={`absolute inset-0 w-full h-full rounded-2xl border p-5 sm:p-6 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xs transition-colors ${
                   isDark
-                    ? 'bg-slate-900 border-indigo-500/40 text-white'
-                    : 'bg-white border-indigo-300 text-slate-900'
+                    ? 'bg-slate-900 border-sky-500/40 text-white'
+                    : 'bg-white border-sky-300 text-slate-900'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-inherit/40">
-                  <span className="text-xs font-mono font-semibold text-indigo-600 dark:text-indigo-400 uppercase">
+                  <span className="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400 uppercase">
                     Traducción
                   </span>
 
                   <button
                     type="button"
                     onClick={handlePlay}
-                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-indigo-600 dark:text-indigo-400"
+                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sky-600 dark:text-sky-400"
                     aria-label="Audio"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -302,12 +302,12 @@ export const Activity5ClozeSentences: React.FC<Activity5ClozeSentencesProps> = (
 
                 <div className="py-4 text-base sm:text-lg leading-loose font-serif text-slate-800 dark:text-slate-200">
                   Comprar en el Supermercado Shopright te{' '}
-                  <strong className="text-indigo-700 dark:text-indigo-400 underline">ahorra</strong>{' '}
+                  <strong className="text-sky-700 dark:text-sky-400 underline">ahorra</strong>{' '}
                   dinero. En la oferta, puedes comprar comida para hacer una{' '}
-                  <strong className="text-indigo-700 dark:text-indigo-400 underline">cena</strong> sin
+                  <strong className="text-sky-700 dark:text-sky-400 underline">cena</strong> sin
                   grasa. Otra palabra para comida sin grasa es comida{' '}
-                  <strong className="text-indigo-700 dark:text-indigo-400 underline">ligera</strong>. El{' '}
-                  <strong className="text-indigo-700 dark:text-indigo-400 underline">pavo</strong> sin
+                  <strong className="text-sky-700 dark:text-sky-400 underline">ligera</strong>. El{' '}
+                  <strong className="text-sky-700 dark:text-sky-400 underline">pavo</strong> sin
                   sal está en oferta.
                 </div>
               </div>

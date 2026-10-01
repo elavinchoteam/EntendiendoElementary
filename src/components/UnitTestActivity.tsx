@@ -916,11 +916,6 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
               >
                 <Volume2 className="w-4 h-4" />
               </button>
-
-              <div className="flex items-center gap-1 text-xs text-sky-600 dark:text-sky-400 font-medium">
-                <RotateCw className="w-3.5 h-3.5 text-sky-500" />
-                <span className="hidden sm:inline">Traducir</span>
-              </div>
             </div>
           </div>
 
@@ -928,21 +923,39 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           <div
             className={`absolute inset-0 w-full h-full rounded-2xl px-5 py-3.5 flex items-center justify-between border backface-hidden rotate-y-180 transition-colors ${
               isDark
-                ? 'bg-slate-900 border-emerald-500/30 text-white'
-                : 'bg-white border-emerald-200 text-slate-900 shadow-xs'
+                ? 'bg-[#131E32] border-slate-700 text-white'
+                : 'bg-white border-slate-200 text-slate-900 shadow-xs'
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
-              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-emerald-100">
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shrink-0" />
+              <h2 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100 italic">
                 {currentQuestion?.instructionsEs || 'Elige la respuesta correcta.'}
               </h2>
             </div>
 
-            <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-              <RotateCw className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="hidden sm:inline">Volver al inglés</span>
-              <span className="sm:hidden">Volver</span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleListenSpeech(
+                    currentQuestion?.instructions || 'Choose the correct answer.',
+                    'test-instruction'
+                  );
+                }}
+                className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                  speakingTarget === 'test-instruction'
+                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                    : isDark
+                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                }`}
+                title="Listen / Stop"
+                aria-label="Escuchar instrucción"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
             </div>
           </div>
         </div>
@@ -1237,277 +1250,349 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 {currentQuestion.type === 'drag-drop' ? (
                   /* VISTA DRAG & DROP PARA TEST 3 (Y SIMILARES) */
                   <div className="flex flex-col justify-between flex-1 my-2 gap-8">
-                    {/* Sentence with Drop Slot */}
-                    <div className="flex flex-col gap-4">
-                      <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
-                        <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
-                          Complete the Sentence
-                        </span>
+                    {/* Complete the Sentence Reversible Card (3D Card) */}
+                    <div className="perspective-1000">
+                      <div
+                        onClick={() => {
+                          playFeedbackSound('flip');
+                          setIsQuestionFlipped((prev) => !prev);
+                        }}
+                        className={`grid grid-cols-1 grid-rows-1 w-full rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border p-4 sm:p-5 shadow-xs ${
+                          isQuestionFlipped ? 'rotate-y-180' : ''
+                        } ${
+                          isDark
+                            ? 'bg-slate-900 border-slate-700 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                        }`}
+                      >
+                        {/* FRONT FACE: English Sentence with Drop Target Slot */}
+                        <div className="col-start-1 row-start-1 w-full flex flex-col gap-4 backface-hidden">
+                          <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Complete the Sentence
+                            </span>
 
-                        <div className="flex items-center gap-2">
-                          <button
-                            id="listen-drag-sentence-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (isMultiSlotQuestion) {
-                                const placedWords = currentMultiSlotPlaced
-                                  .map((id) => currentQuestion.options.find((o) => o.id === id)?.text)
-                                  .filter(Boolean)
-                                  .join(' ');
-                                const textToSpeak = placedWords || currentQuestion.audioPrompt || '';
-                                handleListenSpeech(textToSpeak, 'test-drag-sentence');
-                                return;
-                              }
-                              const selectedText = currentQuestion.options.find(
-                                (o) => o.id === currentSelectedOptionId
-                              )?.text;
-                              const prefix = currentQuestion.sentencePrefix || currentQuestion.question || '';
-                              const suffix = currentQuestion.sentenceSuffix || '';
-                              const textToSpeak = `${prefix} ${selectedText || 'blank'} ${suffix}`.trim();
-                              handleListenSpeech(textToSpeak, 'test-drag-sentence');
-                            }}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                              speakingTarget === 'test-drag-sentence'
-                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
-                                : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
-                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
-                            }`}
-                            aria-label="Audio"
-                          >
-                            <Volume2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Oración con Drop Target Slot (soporta dialogueLines) */}
-                      {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
-                        <div className="space-y-3.5 pt-2 text-base sm:text-lg font-medium leading-relaxed">
-                          {currentQuestion.dialogueLines.map((line, lIdx) => {
-                            if (line.hasBlank) {
-                              if (isMultiSlotQuestion) {
-                                const totalSlots = currentQuestion.slotsCount || currentQuestion.correctWords?.length || 6;
-                                return (
-                                  <div
-                                    key={lIdx}
-                                    className="flex flex-wrap items-center gap-2 text-slate-900 dark:text-white"
-                                  >
-                                    <span>
-                                      {isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}
-                                    </span>
-
-                                    {/* Multi Drop Slots */}
-                                    <div className="flex flex-wrap items-center gap-2 my-1">
-                                      {Array.from({ length: totalSlots }).map((_, sIdx) => {
-                                        const placedOptId = currentMultiSlotPlaced[sIdx];
-                                        const placedOpt = currentQuestion.options.find((o) => o.id === placedOptId);
-                                        const isCorrectWord =
-                                          isAnswerChecked &&
-                                          placedOpt &&
-                                          placedOpt.text === currentQuestion.correctWords?.[sIdx];
-
-                                        return (
-                                          <div
-                                            key={sIdx}
-                                            id={`multi-slot-${sIdx}`}
-                                            onDragOver={handleDragOver}
-                                            onDragLeave={handleDragLeave}
-                                            onDrop={handleDrop}
-                                            onClick={() => {
-                                              if (placedOptId && !isAnswerChecked) {
-                                                handleRemoveMultiSlot(sIdx);
-                                              }
-                                            }}
-                                            className={`min-w-[60px] sm:min-w-[76px] h-11 px-2.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
-                                              isAnswerChecked
-                                                ? isCorrectWord
-                                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
-                                                  : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
-                                                : isDragOver
-                                                ? 'border-sky-500 bg-sky-500/20 ring-2 ring-sky-400 scale-105'
-                                                : placedOpt
-                                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                                                : isDark
-                                                ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
-                                                : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
-                                            }`}
-                                            title={
-                                              placedOpt
-                                                ? 'Haz clic para quitar de la casilla'
-                                                : `Arrastra una palabra o haz clic en las opciones`
-                                            }
-                                          >
-                                            {placedOpt ? (
-                                              <div className="flex items-center gap-1.5">
-                                                <span>{placedOpt.text}</span>
-                                                {!isAnswerChecked && (
-                                                  <XCircle className="w-3.5 h-3.5 text-slate-400 hover:text-rose-500 transition-colors" />
-                                                )}
-                                              </div>
-                                            ) : (
-                                              <span className="text-xs text-slate-400 italic font-mono">_</span>
-                                            )}
-                                          </div>
-                                        );
-                                      })}
-                                    </div>
-
-                                    <span>
-                                      {isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}
-                                    </span>
-                                  </div>
-                                );
-                              }
-
-                              return (
-                                <div
-                                  key={lIdx}
-                                  className="flex flex-wrap items-center gap-2.5 text-slate-900 dark:text-white"
-                                >
-                                  <span>
-                                    {isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}
-                                  </span>
-
-                                  {/* Drop Slot Target */}
-                                  <div
-                                    id="drag-drop-target-slot"
-                                    onDragOver={handleDragOver}
-                                    onDragLeave={handleDragLeave}
-                                    onDrop={handleDrop}
-                                    onClick={() => {
-                                      if (currentSelectedOptionId && !isAnswerChecked) {
-                                        handleRemovePlacedOption();
-                                      }
-                                    }}
-                                    className={`min-w-[120px] sm:min-w-[140px] h-11 px-3.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
-                                      isAnswerChecked
-                                        ? isAnswerCorrect
-                                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
-                                          : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
-                                        : isDragOver
-                                        ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
-                                        : currentSelectedOptionId
-                                        ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
-                                        : isDark
-                                        ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
-                                        : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
-                                    } ${
-                                      currentSelectedOptionId && !isAnswerChecked
-                                        ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                                        : ''
-                                    }`}
-                                    title={
-                                      currentSelectedOptionId
-                                        ? 'Haz clic para quitar de la casilla'
-                                        : 'Arrastra aquí o haz clic en una opción abajo'
-                                    }
-                                  >
-                                    {currentSelectedOptionId ? (
-                                      <div className="flex items-center gap-2">
-                                        <span>
-                                          {
-                                            currentQuestion.options.find(
-                                              (o) => o.id === currentSelectedOptionId
-                                            )?.text
-                                          }
-                                        </span>
-                                        {!isAnswerChecked && (
-                                          <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
-                                        )}
-                                      </div>
-                                    ) : (
-                                      <span className="text-xs sm:text-sm text-slate-400 italic">
-                                        ________
-                                      </span>
-                                    )}
-                                  </div>
-
-                                  <span>
-                                    {isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}
-                                  </span>
-                                </div>
-                              );
-                            }
-
-                            return (
-                              <p
-                                key={lIdx}
-                                className="text-slate-700 dark:text-slate-300 whitespace-pre-line"
-                              >
-                                {isQuestionFlipped ? line.textEs || line.textEn : line.textEn}
-                              </p>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="flex flex-wrap items-center gap-3 text-lg sm:text-xl font-medium text-slate-900 dark:text-white pt-4 leading-relaxed">
-                          <span>
-                            {isQuestionFlipped
-                              ? currentQuestion.sentencePrefixEs || currentQuestion.questionEs || ''
-                              : currentQuestion.sentencePrefix || currentQuestion.question || ''}
-                          </span>
-
-                          {/* Drop Slot Target */}
-                          <div
-                            id="drag-drop-target-slot"
-                            onDragOver={handleDragOver}
-                            onDragLeave={handleDragLeave}
-                            onDrop={handleDrop}
-                            onClick={() => {
-                              if (currentSelectedOptionId && !isAnswerChecked) {
-                                handleRemovePlacedOption();
-                              }
-                            }}
-                            className={`min-w-[140px] sm:min-w-[160px] h-12 px-4 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
-                              isAnswerChecked
-                                ? isAnswerCorrect
-                                  ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
-                                  : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
-                                : isDragOver
-                                ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
-                                : currentSelectedOptionId
-                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
-                                : isDark
-                                ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
-                                : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
-                            } ${
-                              currentSelectedOptionId && !isAnswerChecked
-                                ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
-                                : ''
-                            }`}
-                            title={
-                              currentSelectedOptionId
-                                ? 'Haz clic para quitar de la casilla'
-                                : 'Arrastra aquí o haz clic en una opción abajo'
-                            }
-                          >
-                            {currentSelectedOptionId ? (
-                              <div className="flex items-center gap-2">
-                                <span>
-                                  {
-                                    currentQuestion.options.find(
-                                      (o) => o.id === currentSelectedOptionId
-                                    )?.text
+                            <div className="flex items-center gap-2">
+                              <button
+                                id="listen-drag-sentence-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (isMultiSlotQuestion) {
+                                    const placedWords = currentMultiSlotPlaced
+                                      .map((id) => currentQuestion.options.find((o) => o.id === id)?.text)
+                                      .filter(Boolean)
+                                      .join(' ');
+                                    const textToSpeak = placedWords || currentQuestion.audioPrompt || '';
+                                    handleListenSpeech(textToSpeak, 'test-drag-sentence');
+                                    return;
                                   }
-                                </span>
-                                {!isAnswerChecked && (
-                                  <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
-                                )}
-                              </div>
-                            ) : (
-                              <span className="text-xs sm:text-sm text-slate-400 italic">
-                                ________
-                              </span>
-                            )}
+                                  const selectedText = currentQuestion.options.find(
+                                    (o) => o.id === currentSelectedOptionId
+                                  )?.text;
+                                  const prefix = currentQuestion.sentencePrefix || currentQuestion.question || '';
+                                  const suffix = currentQuestion.sentenceSuffix || '';
+                                  const textToSpeak = `${prefix} ${selectedText || 'blank'} ${suffix}`.trim();
+                                  handleListenSpeech(textToSpeak, 'test-drag-sentence');
+                                }}
+                                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                  speakingTarget === 'test-drag-sentence'
+                                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                    : isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                                }`}
+                                aria-label="Audio"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
 
-                          <span>
-                            {isQuestionFlipped
-                              ? currentQuestion.sentenceSuffixEs || '.'
-                              : currentQuestion.sentenceSuffix || '.'}
-                          </span>
+                          {/* Oración con Drop Target Slot (soporta dialogueLines) */}
+                          {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                            <div className="space-y-3.5 pt-2 text-base sm:text-lg font-medium leading-relaxed">
+                              {currentQuestion.dialogueLines.map((line, lIdx) => {
+                                if (line.hasBlank) {
+                                  if (isMultiSlotQuestion) {
+                                    const totalSlots = currentQuestion.slotsCount || currentQuestion.correctWords?.length || 6;
+                                    return (
+                                      <div
+                                        key={lIdx}
+                                        className="flex flex-wrap items-center gap-2 text-slate-900 dark:text-white"
+                                      >
+                                        <span>
+                                          {line.prefix}
+                                        </span>
+
+                                        {/* Multi Drop Slots */}
+                                        <div
+                                          className="flex flex-wrap items-center gap-2 my-1"
+                                          onClick={(e) => e.stopPropagation()}
+                                        >
+                                          {Array.from({ length: totalSlots }).map((_, sIdx) => {
+                                            const placedOptId = currentMultiSlotPlaced[sIdx];
+                                            const placedOpt = currentQuestion.options.find((o) => o.id === placedOptId);
+                                            const isCorrectWord =
+                                              isAnswerChecked &&
+                                              placedOpt &&
+                                              placedOpt.text === currentQuestion.correctWords?.[sIdx];
+
+                                            return (
+                                              <div
+                                                key={sIdx}
+                                                id={`multi-slot-${sIdx}`}
+                                                onDragOver={handleDragOver}
+                                                onDragLeave={handleDragLeave}
+                                                onDrop={handleDrop}
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  if (placedOptId && !isAnswerChecked) {
+                                                    handleRemoveMultiSlot(sIdx);
+                                                  }
+                                                }}
+                                                className={`min-w-[60px] sm:min-w-[76px] h-11 px-2.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                                                  isAnswerChecked
+                                                    ? isCorrectWord
+                                                      ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                                      : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                                    : isDragOver
+                                                    ? 'border-sky-500 bg-sky-500/20 ring-2 ring-sky-400 scale-105'
+                                                    : placedOpt
+                                                    ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                                    : isDark
+                                                    ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                                    : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                                                }`}
+                                                title={
+                                                  placedOpt
+                                                    ? 'Haz clic para quitar de la casilla'
+                                                    : `Arrastra una palabra o haz clic en las opciones`
+                                                }
+                                              >
+                                                {placedOpt ? (
+                                                  <div className="flex items-center gap-1.5">
+                                                    <span>{placedOpt.text}</span>
+                                                    {!isAnswerChecked && (
+                                                      <XCircle className="w-3.5 h-3.5 text-slate-400 hover:text-rose-500 transition-colors" />
+                                                    )}
+                                                  </div>
+                                                ) : (
+                                                  <span className="text-xs text-slate-400 italic font-mono">_</span>
+                                                )}
+                                              </div>
+                                            );
+                                          })}
+                                        </div>
+
+                                        <span>
+                                          {line.suffix}
+                                        </span>
+                                      </div>
+                                    );
+                                  }
+
+                                  return (
+                                    <div
+                                      key={lIdx}
+                                      className="flex flex-wrap items-center gap-2.5 text-slate-900 dark:text-white"
+                                    >
+                                      <span>
+                                        {line.prefix}
+                                      </span>
+
+                                      {/* Drop Slot Target */}
+                                      <div
+                                        id="drag-drop-target-slot"
+                                        onDragOver={handleDragOver}
+                                        onDragLeave={handleDragLeave}
+                                        onDrop={handleDrop}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          if (currentSelectedOptionId && !isAnswerChecked) {
+                                            handleRemovePlacedOption();
+                                          }
+                                        }}
+                                        className={`min-w-[120px] sm:min-w-[140px] h-11 px-3.5 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                                          isAnswerChecked
+                                            ? isAnswerCorrect
+                                              ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                              : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                            : isDragOver
+                                            ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
+                                            : currentSelectedOptionId
+                                            ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
+                                            : isDark
+                                            ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                            : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                                        } ${
+                                          currentSelectedOptionId && !isAnswerChecked
+                                            ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                            : ''
+                                        }`}
+                                        title={
+                                          currentSelectedOptionId
+                                            ? 'Haz clic para quitar de la casilla'
+                                            : 'Arrastra aquí o haz clic en una opción abajo'
+                                        }
+                                      >
+                                        {currentSelectedOptionId ? (
+                                          <div className="flex items-center gap-2">
+                                            <span>
+                                              {
+                                                currentQuestion.options.find(
+                                                  (o) => o.id === currentSelectedOptionId
+                                                )?.text
+                                              }
+                                            </span>
+                                            {!isAnswerChecked && (
+                                              <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
+                                            )}
+                                          </div>
+                                        ) : (
+                                          <span className="text-xs sm:text-sm text-slate-400 italic">
+                                            ________
+                                          </span>
+                                        )}
+                                      </div>
+
+                                      <span>
+                                        {line.suffix}
+                                      </span>
+                                    </div>
+                                  );
+                                }
+
+                                return (
+                                  <p
+                                    key={lIdx}
+                                    className="text-slate-700 dark:text-slate-300 whitespace-pre-line"
+                                  >
+                                    {line.textEn}
+                                  </p>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className="flex flex-wrap items-center gap-3 text-lg sm:text-xl font-medium text-slate-900 dark:text-white pt-4 leading-relaxed">
+                              <span>
+                                {currentQuestion.sentencePrefix || currentQuestion.question || ''}
+                              </span>
+
+                              {/* Drop Slot Target */}
+                              <div
+                                id="drag-drop-target-slot"
+                                onDragOver={handleDragOver}
+                                onDragLeave={handleDragLeave}
+                                onDrop={handleDrop}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (currentSelectedOptionId && !isAnswerChecked) {
+                                    handleRemovePlacedOption();
+                                  }
+                                }}
+                                className={`min-w-[140px] sm:min-w-[160px] h-12 px-4 rounded-xl border-2 flex items-center justify-center transition-all select-none ${
+                                  isAnswerChecked
+                                    ? isAnswerCorrect
+                                      ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-mono font-bold'
+                                      : 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400 font-mono font-bold'
+                                    : isDragOver
+                                    ? 'border-sky-500 bg-sky-500/20 scale-105 shadow-md ring-2 ring-sky-400'
+                                    : currentSelectedOptionId
+                                    ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 font-mono font-bold shadow-xs'
+                                    : isDark
+                                    ? 'border-dashed border-slate-600 bg-slate-800/40 text-slate-400 hover:border-slate-500'
+                                    : 'border-dashed border-slate-400 bg-slate-100/70 text-slate-400 hover:border-slate-500'
+                                } ${
+                                  currentSelectedOptionId && !isAnswerChecked
+                                    ? 'cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                                    : ''
+                                }`}
+                                title={
+                                  currentSelectedOptionId
+                                    ? 'Haz clic para quitar de la casilla'
+                                    : 'Arrastra aquí o haz clic en una opción abajo'
+                                }
+                              >
+                                {currentSelectedOptionId ? (
+                                  <div className="flex items-center gap-2">
+                                    <span>
+                                      {
+                                        currentQuestion.options.find(
+                                          (o) => o.id === currentSelectedOptionId
+                                        )?.text
+                                      }
+                                    </span>
+                                    {!isAnswerChecked && (
+                                      <XCircle className="w-4 h-4 text-slate-400 hover:text-rose-500 transition-colors" />
+                                    )}
+                                  </div>
+                                ) : (
+                                  <span className="text-xs sm:text-sm text-slate-400 italic">
+                                    ________
+                                  </span>
+                                )}
+                              </div>
+
+                              <span>
+                                {currentQuestion.sentenceSuffix || '.'}
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      )}
+
+                        {/* BACK FACE: Spanish Translation */}
+                        <div className="col-start-1 row-start-1 w-full flex flex-col gap-4 backface-hidden rotate-y-180">
+                          <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Complete the Sentence
+                            </span>
+
+                            <div className="flex items-center gap-2">
+                              <button
+                                id="listen-drag-sentence-back-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const textToSpeak = currentQuestion.audioPrompt || currentQuestion.question || '';
+                                  handleListenSpeech(textToSpeak, 'test-drag-sentence-back');
+                                }}
+                                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                  speakingTarget === 'test-drag-sentence-back'
+                                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                    : isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                                }`}
+                                aria-label="Audio"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Traducción al español */}
+                          {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                            <div className="space-y-3.5 pt-2 text-base sm:text-lg font-medium leading-relaxed">
+                              {currentQuestion.dialogueLines.map((line, lIdx) => (
+                                <p
+                                  key={lIdx}
+                                  className="text-slate-900 dark:text-white whitespace-pre-line"
+                                >
+                                  {line.textEs || line.textEn}
+                                </p>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="pt-4 text-lg sm:text-xl font-medium text-slate-900 dark:text-white leading-relaxed">
+                              <p className="whitespace-pre-line">
+                                {currentQuestion.questionEs ||
+                                  (currentQuestion.sentencePrefixEs
+                                    ? `${currentQuestion.sentencePrefixEs} _____ ${currentQuestion.sentenceSuffixEs || ''}`
+                                    : currentQuestion.question)}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     {/* Options Pool Area at the bottom of the right panel, matching screenshot */}
@@ -1539,10 +1624,6 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                                 } ${
                                   isPlaced
                                     ? 'opacity-30 border-dashed border-slate-400 bg-slate-200/50 dark:bg-slate-800/40 text-slate-400 pointer-events-none scale-95'
-                                    : isOptFlipped
-                                    ? isDark
-                                      ? 'border-emerald-500/40 bg-[#0F241A] text-emerald-100'
-                                      : 'border-emerald-300 bg-emerald-50/90 text-emerald-950'
                                     : isDark
                                     ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-600 hover:border-sky-400 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
                                     : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-sky-500 hover:scale-105 active:scale-95 cursor-grab active:cursor-grabbing'
@@ -1567,206 +1648,295 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                 ) : currentQuestion.type === 'dropdown' ? (
                   /* VISTA DROPDOWN PARA TEST 1-10 (SHOPPING 2 Y SIMILARES) */
                   <div className="flex flex-col justify-between flex-1 my-2 gap-8">
-                    <div className="flex flex-col gap-6">
-                      <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
-                        <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
-                          Complete the Sentence
-                        </span>
+                    {/* Complete the Sentence Reversible Card for Dropdown */}
+                    <div className="perspective-1000">
+                      <div
+                        onClick={() => {
+                          playFeedbackSound('flip');
+                          setIsQuestionFlipped((prev) => !prev);
+                        }}
+                        className={`grid grid-cols-1 grid-rows-1 w-full rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border p-4 sm:p-5 shadow-xs ${
+                          isQuestionFlipped ? 'rotate-y-180' : ''
+                        } ${
+                          isDark
+                            ? 'bg-slate-900 border-slate-700 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                        }`}
+                      >
+                        {/* FRONT FACE: English Sentence with Dropdown Select */}
+                        <div className="col-start-1 row-start-1 w-full flex flex-col gap-4 backface-hidden">
+                          <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Complete the Sentence
+                            </span>
 
-                        <div className="flex items-center gap-2">
-                          <button
-                            id="listen-dropdown-sentence-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const selectedOpt = currentQuestion.options.find(
-                                (o) => o.id === currentSelectedOptionId
-                              );
-                              const selectedText = selectedOpt?.text || '';
-                              const prefix = currentQuestion.sentencePrefix || '';
-                              const suffix = currentQuestion.sentenceSuffix || '';
-                              const textToSpeak = `${prefix} ${selectedText} ${suffix}`.trim() || currentQuestion.question;
-                              handleListenSpeech(textToSpeak, 'test-dropdown-sentence');
-                            }}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                              speakingTarget === 'test-dropdown-sentence'
-                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
-                                : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
-                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
-                            }`}
-                            aria-label="Audio"
-                          >
-                            <Volume2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Sentence with Dropdown Select (clic para voltear) */}
-                      {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
-                        <div
-                          onClick={() => setIsQuestionFlipped((prev) => !prev)}
-                          className="space-y-4 pt-2 text-base sm:text-xl font-medium leading-relaxed cursor-pointer select-none"
-                        >
-                          {currentQuestion.dialogueLines.map((line, lIdx) => {
-                            if (line.hasBlank) {
-                              return (
-                                <div
-                                  key={lIdx}
-                                  className="flex flex-wrap items-center gap-3 text-slate-900 dark:text-white"
-                                >
-                                  <span>{isQuestionFlipped ? line.prefixEs || line.prefix : line.prefix}</span>
-                                  <div
-                                    className="relative inline-flex items-center my-1"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <select
-                                      id={`test-dropdown-select-${currentQuestion.id}`}
-                                      value={currentSelectedOptionId || ''}
-                                      disabled={isAnswerChecked}
-                                      onChange={(e) => {
-                                        playFeedbackSound('click');
-                                        setSelectedAnswers((prev) => ({
-                                          ...prev,
-                                          [currentQuestion.id]: e.target.value,
-                                        }));
-                                      }}
-                                      className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
-                                        isAnswerChecked
-                                          ? isAnswerCorrect
-                                            ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
-                                            : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
-                                          : currentSelectedOptionId
-                                          ? isDark
-                                            ? 'border-sky-500 bg-sky-950/60 text-sky-300'
-                                            : 'border-sky-500 bg-sky-50 text-sky-900'
-                                          : isDark
-                                          ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
-                                          : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
-                                      }`}
-                                    >
-                                      <option value="" disabled>
-                                        -- select --
-                                      </option>
-                                      {currentQuestion.options.map((opt) => (
-                                        <option key={opt.id} value={opt.id}>
-                                          {opt.text}
-                                        </option>
-                                      ))}
-                                    </select>
-                                    <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                                  </div>
-                                  <span>{isQuestionFlipped ? line.suffixEs || line.suffix : line.suffix}</span>
-                                </div>
-                              );
-                            }
-                            return (
-                              <div key={lIdx} className="text-slate-800 dark:text-slate-200">
-                                {isQuestionFlipped ? line.textEs || line.textEn : line.textEn}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div
-                          onClick={() => setIsQuestionFlipped((prev) => !prev)}
-                          className="flex flex-wrap items-center gap-3 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white pt-2 leading-relaxed cursor-pointer select-none"
-                        >
-                          <span>
-                            {isQuestionFlipped
-                              ? currentQuestion.sentencePrefixEs || currentQuestion.sentencePrefix
-                              : currentQuestion.sentencePrefix}
-                          </span>
-
-                          <div
-                            className="relative inline-flex items-center my-1"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <select
-                              id={`test-dropdown-select-${currentQuestion.id}`}
-                              value={currentSelectedOptionId || ''}
-                              disabled={isAnswerChecked}
-                              onChange={(e) => {
-                                playFeedbackSound('click');
-                                setSelectedAnswers((prev) => ({
-                                  ...prev,
-                                  [currentQuestion.id]: e.target.value,
-                                }));
-                              }}
-                              className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
-                                isAnswerChecked
-                                  ? isAnswerCorrect
-                                    ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
-                                    : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
-                                  : currentSelectedOptionId
-                                  ? isDark
-                                    ? 'border-sky-500 bg-sky-950/60 text-sky-300'
-                                    : 'border-sky-500 bg-sky-50 text-sky-900'
-                                  : isDark
-                                  ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
-                                  : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
-                              }`}
-                            >
-                              <option value="" disabled>
-                                -- select --
-                              </option>
-                              {currentQuestion.options.map((opt) => (
-                                <option key={opt.id} value={opt.id}>
-                                  {opt.text}
-                                </option>
-                              ))}
-                            </select>
-                            <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                            <div className="flex items-center gap-2">
+                              <button
+                                id="listen-dropdown-sentence-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const selectedOpt = currentQuestion.options.find(
+                                    (o) => o.id === currentSelectedOptionId
+                                  );
+                                  const selectedText = selectedOpt?.text || '';
+                                  const prefix = currentQuestion.sentencePrefix || '';
+                                  const suffix = currentQuestion.sentenceSuffix || '';
+                                  const textToSpeak = `${prefix} ${selectedText} ${suffix}`.trim() || currentQuestion.question;
+                                  handleListenSpeech(textToSpeak, 'test-dropdown-sentence');
+                                }}
+                                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                  speakingTarget === 'test-dropdown-sentence'
+                                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                    : isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                                }`}
+                                aria-label="Audio"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
                           </div>
 
-                          <span>
-                            {isQuestionFlipped
-                              ? currentQuestion.sentenceSuffixEs || currentQuestion.sentenceSuffix
-                              : currentQuestion.sentenceSuffix}
-                          </span>
+                          {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                            <div className="space-y-4 pt-2 text-base sm:text-xl font-medium leading-relaxed">
+                              {currentQuestion.dialogueLines.map((line, lIdx) => {
+                                if (line.hasBlank) {
+                                  return (
+                                    <div
+                                      key={lIdx}
+                                      className="flex flex-wrap items-center gap-3 text-slate-900 dark:text-white"
+                                    >
+                                      <span>{line.prefix}</span>
+                                      <div
+                                        className="relative inline-flex items-center my-1"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <select
+                                          id={`test-dropdown-select-${currentQuestion.id}`}
+                                          value={currentSelectedOptionId || ''}
+                                          disabled={isAnswerChecked}
+                                          onChange={(e) => {
+                                            playFeedbackSound('click');
+                                            setSelectedAnswers((prev) => ({
+                                              ...prev,
+                                              [currentQuestion.id]: e.target.value,
+                                            }));
+                                          }}
+                                          className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
+                                            isAnswerChecked
+                                              ? isAnswerCorrect
+                                                ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
+                                                : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
+                                              : currentSelectedOptionId
+                                              ? isDark
+                                                ? 'border-sky-500 bg-sky-950/60 text-sky-300'
+                                                : 'border-sky-500 bg-sky-50 text-sky-900'
+                                              : isDark
+                                              ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
+                                              : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
+                                          }`}
+                                        >
+                                          <option value="" disabled>
+                                            -- select --
+                                          </option>
+                                          {currentQuestion.options.map((opt) => (
+                                            <option key={opt.id} value={opt.id}>
+                                              {opt.text}
+                                            </option>
+                                          ))}
+                                        </select>
+                                        <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                                      </div>
+                                      <span>{line.suffix}</span>
+                                    </div>
+                                  );
+                                }
+                                return (
+                                  <div key={lIdx} className="text-slate-800 dark:text-slate-200">
+                                    {line.textEn}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          ) : (
+                            <div className="flex flex-wrap items-center gap-3 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white pt-2 leading-relaxed">
+                              <span>{currentQuestion.sentencePrefix}</span>
+
+                              <div
+                                className="relative inline-flex items-center my-1"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <select
+                                  id={`test-dropdown-select-${currentQuestion.id}`}
+                                  value={currentSelectedOptionId || ''}
+                                  disabled={isAnswerChecked}
+                                  onChange={(e) => {
+                                    playFeedbackSound('click');
+                                    setSelectedAnswers((prev) => ({
+                                      ...prev,
+                                      [currentQuestion.id]: e.target.value,
+                                    }));
+                                  }}
+                                  className={`appearance-none px-4 py-2 pr-9 rounded-xl font-semibold text-base sm:text-lg border-2 transition-all cursor-pointer shadow-xs ${
+                                    isAnswerChecked
+                                      ? isAnswerCorrect
+                                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold ring-2 ring-emerald-400/40'
+                                        : 'border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-400/40'
+                                      : currentSelectedOptionId
+                                      ? isDark
+                                        ? 'border-sky-500 bg-sky-950/60 text-sky-300'
+                                        : 'border-sky-500 bg-sky-50 text-sky-900'
+                                      : isDark
+                                      ? 'border-slate-600 bg-slate-800 text-slate-300 hover:border-sky-400'
+                                      : 'border-slate-300 bg-white text-slate-700 hover:border-sky-400'
+                                  }`}
+                                >
+                                  <option value="" disabled>
+                                    -- select --
+                                  </option>
+                                  {currentQuestion.options.map((opt) => (
+                                    <option key={opt.id} value={opt.id}>
+                                      {opt.text}
+                                    </option>
+                                  ))}
+                                </select>
+                                <ChevronDown className="w-5 h-5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                              </div>
+
+                              <span>{currentQuestion.sentenceSuffix}</span>
+                            </div>
+                          )}
                         </div>
-                      )}
+
+                        {/* BACK FACE: Spanish Translation */}
+                        <div className="col-start-1 row-start-1 w-full flex flex-col gap-4 backface-hidden rotate-y-180">
+                          <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Complete the Sentence
+                            </span>
+
+                            <div className="flex items-center gap-2">
+                              <button
+                                id="listen-dropdown-sentence-back-btn"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const textToSpeak = currentQuestion.audioPrompt || currentQuestion.question || '';
+                                  handleListenSpeech(textToSpeak, 'test-dropdown-sentence-back');
+                                }}
+                                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                  speakingTarget === 'test-dropdown-sentence-back'
+                                    ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                    : isDark
+                                    ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                    : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                                }`}
+                                aria-label="Audio"
+                              >
+                                <Volume2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {currentQuestion.dialogueLines && currentQuestion.dialogueLines.length > 0 ? (
+                            <div className="space-y-4 pt-2 text-base sm:text-xl font-medium leading-relaxed">
+                              {currentQuestion.dialogueLines.map((line, lIdx) => (
+                                <div key={lIdx} className="text-slate-900 dark:text-white">
+                                  {line.textEs || line.textEn}
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="pt-2 text-lg sm:text-2xl font-medium text-slate-900 dark:text-white leading-relaxed">
+                              <p className="whitespace-pre-line">
+                                {currentQuestion.questionEs ||
+                                  (currentQuestion.sentencePrefixEs
+                                    ? `${currentQuestion.sentencePrefixEs} _____ ${currentQuestion.sentenceSuffixEs || ''}`
+                                    : currentQuestion.question)}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ) : (
                   /* VISTA RADIO CHOICES (TEST 1, TEST 2, ETC.) */
                   <div>
-                    <div className="mb-6">
-                      <div className="flex items-center justify-between gap-3 pb-2 border-b border-inherit">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
-                            Question
-                          </span>
+                    {/* Question Reversible Card (3D Card) */}
+                    <div className="mb-6 perspective-1000">
+                      <div
+                        onClick={() => {
+                          playFeedbackSound('flip');
+                          setIsQuestionFlipped((prev) => !prev);
+                        }}
+                        className={`relative w-full min-h-[92px] rounded-2xl cursor-pointer select-none transition-transform duration-500 transform-style-3d border shadow-xs ${
+                          isQuestionFlipped ? 'rotate-y-180' : ''
+                        } ${
+                          isDark
+                            ? 'bg-slate-900 border-slate-700 text-white'
+                            : 'bg-white border-slate-200 text-slate-900'
+                        }`}
+                      >
+                        {/* FRONT: English Question */}
+                        <div className="w-full p-4 flex flex-col justify-between backface-hidden gap-2">
+                          <div className="flex items-center justify-between gap-3 pb-1 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Question {activeQuestionIdx + 1}
+                            </span>
+                            <button
+                              id="listen-test-question-btn"
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleListenSpeech(currentQuestion.question, 'test-question');
+                              }}
+                              className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                speakingTarget === 'test-question'
+                                  ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                  : isDark
+                                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                  : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                              }`}
+                              aria-label="Audio"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          <h3 className="text-base sm:text-lg font-bold tracking-tight">
+                            {currentQuestion.question}
+                          </h3>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <button
-                            id="listen-test-question-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleListenSpeech(currentQuestion.question, 'test-question');
-                            }}
-                            className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                              speakingTarget === 'test-question'
-                                ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
-                                : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
-                                : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
-                            }`}
-                            aria-label="Audio"
-                          >
-                            <Volume2 className="w-3.5 h-3.5" />
-                          </button>
+                        {/* BACK: Spanish Translation */}
+                        <div className="absolute inset-0 w-full h-full p-4 flex flex-col justify-between backface-hidden rotate-y-180 gap-2">
+                          <div className="flex items-center justify-between gap-3 pb-1 border-b border-inherit/30">
+                            <span className="text-xs font-mono uppercase font-bold text-sky-600 dark:text-sky-400">
+                              Pregunta {activeQuestionIdx + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleListenSpeech(currentQuestion.question, 'test-question-back');
+                              }}
+                              className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
+                                speakingTarget === 'test-question-back'
+                                  ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
+                                  : isDark
+                                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                                  : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
+                              }`}
+                              aria-label="Audio"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                          <h3 className="text-base sm:text-lg font-bold tracking-tight italic text-slate-800 dark:text-slate-100">
+                            {currentQuestion.questionEs || currentQuestion.question}
+                          </h3>
                         </div>
                       </div>
-
-                      <h3
-                        onClick={() => setIsQuestionFlipped((prev) => !prev)}
-                        className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white mt-3 cursor-pointer select-none"
-                      >
-                        {isQuestionFlipped
-                          ? currentQuestion.questionEs || '¿Quién es la persona que llama?'
-                          : currentQuestion.question}
-                      </h3>
                     </div>
 
                     {/* Opciones con Radio buttons reversibles */}
@@ -1779,10 +1949,7 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
                         let optionBorder = isDark ? 'border-slate-700' : 'border-slate-200';
                         let optionBg = isDark ? 'bg-slate-800/60' : 'bg-slate-50/70';
 
-                        if (isOptFlipped) {
-                          optionBorder = isDark ? 'border-emerald-500/40 ring-1 ring-emerald-500/30' : 'border-emerald-300 ring-1 ring-emerald-400/30';
-                          optionBg = isDark ? 'bg-[#0F241A]' : 'bg-emerald-50/90';
-                        } else if (isSelected) {
+                        if (isSelected) {
                           optionBorder = 'border-sky-600 dark:border-sky-400 ring-2 ring-sky-500/20';
                           optionBg = isDark ? 'bg-sky-950/40' : 'bg-sky-50/80';
                         }

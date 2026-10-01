@@ -33,6 +33,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
   const [currentTestIndex, setCurrentTestIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [verifiedAnswers, setVerifiedAnswers] = useState<Record<string, boolean>>({});
+  const [isQuestionFlipped, setIsQuestionFlipped] = useState(false);
 
   const currentItem: NutritionTestItem = NUTRITION_TESTS[currentTestIndex];
   const totalQuestions = NUTRITION_TESTS.length; // 10
@@ -43,6 +44,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
     setCurrentTestIndex(0);
     setAnswers({});
     setVerifiedAnswers({});
+    setIsQuestionFlipped(false);
   };
 
   const handleSelectOption = (testId: string, option: string) => {
@@ -80,6 +82,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
   const handleNext = () => {
     playFeedbackSound('click');
     stopSpeaking();
+    setIsQuestionFlipped(false);
     if (currentTestIndex < totalQuestions - 1) {
       setCurrentTestIndex((prev) => prev + 1);
     } else {
@@ -98,6 +101,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
   const handlePrev = () => {
     playFeedbackSound('click');
     stopSpeaking();
+    setIsQuestionFlipped(false);
     if (currentTestIndex > 0) {
       setCurrentTestIndex((prev) => prev - 1);
     }
@@ -110,6 +114,7 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
     setCurrentTestIndex(0);
     setAnswers({});
     setVerifiedAnswers({});
+    setIsQuestionFlipped(false);
   };
 
   // Calculate score
@@ -288,34 +293,61 @@ export const NutritionTestActivity: React.FC<NutritionTestActivityProps> = ({
                 </button>
               </div>
 
-              {/* The Sentence with Dropdown matching screenshots */}
-              <div className="text-lg sm:text-xl font-medium leading-loose text-slate-800 dark:text-slate-100">
-                <span>{currentItem.sentenceBefore}</span>
-
-                <select
-                  value={selectedVal}
-                  onChange={(e) => handleSelectOption(currentItem.id, e.target.value)}
-                  className={`inline-block mx-2 px-4 py-2 text-base font-bold rounded-xl border-2 transition-all align-middle cursor-pointer shadow-xs ${
-                    isVerified
-                      ? isCorrect
-                        ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-sky-900 dark:text-sky-200 ring-2 ring-emerald-300'
-                        : 'bg-rose-50 dark:bg-rose-950/50 border-rose-500 text-rose-900 dark:text-rose-200 ring-2 ring-rose-300'
-                      : selectedVal
-                      ? 'bg-sky-50 dark:bg-sky-950/50 border-sky-600 text-sky-900 dark:text-sky-200 ring-2 ring-sky-200 dark:ring-sky-900'
-                      : isDark
-                      ? 'bg-slate-800 border-slate-700 text-slate-300'
-                      : 'bg-white border-slate-300 text-slate-700'
+              {/* Reversible Test Question Card (3D Card) */}
+              <div className="w-full perspective-1000">
+                <div
+                  onClick={() => {
+                    playFeedbackSound('flip');
+                    setIsQuestionFlipped((prev) => !prev);
+                  }}
+                  className={`relative w-full min-h-[100px] p-5 rounded-2xl border transition-transform duration-500 transform-style-3d cursor-pointer select-none shadow-xs ${
+                    isQuestionFlipped ? 'rotate-y-180' : ''
+                  } ${
+                    isDark
+                      ? 'bg-slate-900 border-slate-700 text-slate-100'
+                      : 'bg-white border-slate-200 text-slate-800'
                   }`}
                 >
-                  <option value="">-- Select --</option>
-                  {currentItem.options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
+                  {/* FRONT: Sentence with Dropdown */}
+                  <div className="w-full h-full flex flex-col justify-center backface-hidden">
+                    <div className="text-lg sm:text-xl font-medium leading-loose">
+                      <span>{currentItem.sentenceBefore}</span>
 
-                <span>{currentItem.sentenceAfter}</span>
+                      <select
+                        value={selectedVal}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => handleSelectOption(currentItem.id, e.target.value)}
+                        className={`inline-block mx-2 px-4 py-2 text-base font-bold rounded-xl border-2 transition-all align-middle cursor-pointer shadow-xs ${
+                          isVerified
+                            ? isCorrect
+                              ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-600 text-sky-900 dark:text-sky-200 ring-2 ring-emerald-300'
+                              : 'bg-rose-50 dark:bg-rose-950/50 border-rose-500 text-rose-900 dark:text-rose-200 ring-2 ring-rose-300'
+                            : selectedVal
+                            ? 'bg-sky-50 dark:bg-sky-950/50 border-sky-600 text-sky-900 dark:text-sky-200 ring-2 ring-sky-200 dark:ring-sky-900'
+                            : isDark
+                            ? 'bg-slate-800 border-slate-700 text-slate-300'
+                            : 'bg-white border-slate-300 text-slate-700'
+                        }`}
+                      >
+                        <option value="">-- Select --</option>
+                        {currentItem.options.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                      </select>
+
+                      <span>{currentItem.sentenceAfter}</span>
+                    </div>
+                  </div>
+
+                  {/* BACK: Spanish Translation */}
+                  <div className="absolute inset-0 w-full h-full p-5 flex items-center backface-hidden rotate-y-180">
+                    <p className="text-lg sm:text-xl font-medium italic leading-relaxed text-slate-800 dark:text-slate-100">
+                      {currentItem.fullSentenceEs}
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Action Button: VERIFICAR RESPUESTA (Only shown when not yet verified, or allows re-verification) */}

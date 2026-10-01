@@ -14,6 +14,7 @@ import {
   DialogueTurn,
   museumVideo,
 } from '../data/directionsToTheMuseumData';
+import carDirectionsImg from '../assets/images/car_directions_1789432067226.jpg';
 import { useTheme } from '../context/ThemeContext';
 import { speakEnglish, stopSpeaking } from '../utils/audio';
 
@@ -79,7 +80,40 @@ export const MuseumVideoPlayer: React.FC<MuseumVideoPlayerProps> = ({
     };
   }, []);
 
+  const playDialogueSequence = (index: number) => {
+    if (index >= MUSEUM_DIALOGUE_TURNS.length) {
+      setIsPlaying(false);
+      setPlayingTurnId(null);
+      setCurrentTime(duration);
+      return;
+    }
+    const turn = MUSEUM_DIALOGUE_TURNS[index];
+    setPlayingTurnId(turn.id);
+    setCurrentTime(Math.round(((index + 1) / MUSEUM_DIALOGUE_TURNS.length) * duration));
+    speakEnglish(
+      turn.en,
+      playbackRate,
+      accent,
+      undefined,
+      () => {
+        playDialogueSequence(index + 1);
+      }
+    );
+  };
+
   const handleTogglePlay = () => {
+    if (!museumVideo) {
+      if (isPlaying) {
+        stopSpeaking();
+        setIsPlaying(false);
+        setPlayingTurnId(null);
+      } else {
+        setIsPlaying(true);
+        playDialogueSequence(0);
+      }
+      return;
+    }
+
     if (!videoRef.current) return;
     stopSpeaking();
     setPlayingTurnId(null);
@@ -173,18 +207,39 @@ export const MuseumVideoPlayer: React.FC<MuseumVideoPlayerProps> = ({
     >
       {/* Video Container Area */}
       <div className="relative aspect-[16/10] sm:aspect-[16/9] bg-black overflow-hidden flex items-center justify-center group">
-        <video
-          ref={videoRef}
-          src={museumVideo}
-          playsInline
-          preload="metadata"
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={() => setIsPlaying(false)}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          className="w-full h-full object-contain cursor-pointer"
-          onClick={handleTogglePlay}
-        />
+        {museumVideo ? (
+          <video
+            ref={videoRef}
+            src={museumVideo}
+            playsInline
+            preload="metadata"
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={() => setIsPlaying(false)}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            className="w-full h-full object-contain cursor-pointer"
+            onClick={handleTogglePlay}
+          />
+        ) : (
+          <div
+            className="relative w-full h-full cursor-pointer flex items-center justify-center"
+            onClick={handleTogglePlay}
+          >
+            <img
+              src={carDirectionsImg}
+              alt="Directions to the Museum"
+              className="w-full h-full object-cover opacity-80"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/20 flex flex-col justify-end p-4">
+              <span className="text-xs font-mono font-bold tracking-wider text-sky-400 uppercase">
+                Audio Dialogue Player
+              </span>
+              <p className="text-white font-medium text-sm">
+                Directions to the Art Museum
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Big Center Play Button Overlay when paused */}
         {!isPlaying && (

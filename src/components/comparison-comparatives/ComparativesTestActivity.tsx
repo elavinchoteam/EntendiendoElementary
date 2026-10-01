@@ -231,11 +231,11 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-md">
+                  <div className="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-md">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-500">
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-500">
                       Actividad 12 · Test Final
                     </span>
                     <h3 className="text-xl sm:text-2xl font-bold tracking-tight mt-0.5">
@@ -250,10 +250,10 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                   onClick={handleSpeakStartCard}
                   className={`p-3 rounded-2xl border transition-all cursor-pointer ${
                     isSpeakingIntro
-                      ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                      : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                      : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                   }`}
                   aria-label="Audio"
                 >
@@ -263,13 +263,13 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
 
               <div className="my-6">
                 <p className="text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-300">
-                  This final test contains <span className="font-bold text-indigo-600 dark:text-indigo-400">5 interactive questions</span> (Test 1 to Test 5) in sequential order. You will test your understanding of comparative adjectives including <span className="font-semibold">-er than</span>, <span className="font-semibold">more than</span>, <span className="font-semibold">less than</span>, and irregular comparatives (<span className="font-semibold">better</span>, <span className="font-semibold">worse</span>).
+                  This final test contains <span className="font-bold text-sky-600 dark:text-sky-400">5 interactive questions</span> (Test 1 to Test 5) in sequential order. You will test your understanding of comparative adjectives including <span className="font-semibold">-er than</span>, <span className="font-semibold">more than</span>, <span className="font-semibold">less than</span>, and irregular comparatives (<span className="font-semibold">better</span>, <span className="font-semibold">worse</span>).
                 </p>
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800">
                     5 Preguntas
                   </span>
                 </div>
@@ -280,7 +280,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                     e.stopPropagation();
                     handleStartTest();
                   }}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-mono font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-mono font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <Play className="w-4 h-4 fill-white" />
                   <span>Start Test</span>
@@ -298,11 +298,11 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-md">
+                  <div className="w-12 h-12 rounded-2xl bg-sky-600 text-white flex items-center justify-center shadow-md">
                     <Award className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-500">
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-sky-500">
                       Actividad 12 · Test Final
                     </span>
                     <h3 className="text-xl sm:text-2xl font-bold tracking-tight mt-0.5">
@@ -317,10 +317,10 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                   onClick={handleSpeakStartCard}
                   className={`p-3 rounded-2xl border transition-all cursor-pointer ${
                     isSpeakingIntro
-                      ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                      : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                      : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                   }`}
                   aria-label="Audio"
                 >
@@ -330,13 +330,13 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
 
               <div className="my-6">
                 <p className="text-base sm:text-lg leading-relaxed italic text-slate-700 dark:text-slate-300">
-                  Este test final contiene <span className="font-bold text-indigo-600 dark:text-indigo-400">5 preguntas interactivas</span> (Test 1 a Test 5) en orden secuencial. Evaluarás tu comprensión de adjetivos comparativos incluyendo <span className="font-semibold">-er than</span>, <span className="font-semibold">more than</span>, <span className="font-semibold">less than</span> y comparativos irregulares (<span className="font-semibold">better</span>, <span className="font-semibold">worse</span>).
+                  Este test final contiene <span className="font-bold text-sky-600 dark:text-sky-400">5 preguntas interactivas</span> (Test 1 a Test 5) en orden secuencial. Evaluarás tu comprensión de adjetivos comparativos incluyendo <span className="font-semibold">-er than</span>, <span className="font-semibold">more than</span>, <span className="font-semibold">less than</span> y comparativos irregulares (<span className="font-semibold">better</span>, <span className="font-semibold">worse</span>).
                 </p>
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800">
                     5 Preguntas
                   </span>
                 </div>
@@ -347,7 +347,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                     e.stopPropagation();
                     handleStartTest();
                   }}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-mono font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-mono font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
                 >
                   <Play className="w-4 h-4 fill-white" />
                   <span>Comenzar Test</span>
@@ -365,11 +365,11 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
     const isPerfect = correctCount === tests.length;
     return (
       <div className="w-full max-w-xl mx-auto py-10 px-4 text-center flex flex-col items-center justify-center animate-in zoom-in-95 duration-300">
-        <div className="w-20 h-20 rounded-3xl bg-indigo-600 text-white flex items-center justify-center mb-6 shadow-xl">
+        <div className="w-20 h-20 rounded-3xl bg-sky-600 text-white flex items-center justify-center mb-6 shadow-xl">
           <Award className="w-10 h-10" />
         </div>
 
-        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 mb-3">
+        <span className="px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800 mb-3">
           Test Final Completado
         </span>
 
@@ -384,7 +384,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
         {/* Score Badge */}
         <div className="my-6 px-6 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-4">
           <div className="text-center">
-            <span className="block text-3xl font-black font-mono text-indigo-600 dark:text-indigo-400">
+            <span className="block text-3xl font-black font-mono text-sky-600 dark:text-sky-400">
               {correctCount} / {tests.length}
             </span>
             <span className="text-xs uppercase tracking-wider text-slate-500 font-mono">
@@ -401,7 +401,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
         <button
           type="button"
           onClick={handleResetEntireTest}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-mono text-xs font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer"
         >
           <RotateCcw className="w-4 h-4" />
           <span>Repetir Test</span>
@@ -431,7 +431,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                 }}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
                   isCurrent
-                    ? 'bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-300'
+                    ? 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-300'
                     : isSub
                     ? isCorr
                       ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
@@ -560,13 +560,13 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                             }}
                             className={`inline-flex items-center min-w-[130px] sm:min-w-[160px] px-3 py-1 rounded-xl border-2 border-dashed font-semibold transition-all select-none ${
                               isDragOver
-                                ? 'bg-indigo-500/20 border-indigo-400 scale-105'
+                                ? 'bg-sky-500/20 border-sky-400 scale-105'
                                 : placedOption
                                 ? isChecked
                                   ? isCorrect
                                     ? 'bg-emerald-500/15 border-emerald-500 text-emerald-600 dark:text-emerald-300 font-bold'
                                     : 'bg-rose-500/15 border-rose-500 text-rose-600 dark:text-rose-300 font-bold'
-                                  : 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-400 text-indigo-700 dark:text-indigo-300 font-bold shadow-xs'
+                                  : 'bg-sky-50 dark:bg-sky-950/40 border-sky-400 text-sky-700 dark:text-sky-300 font-bold shadow-xs'
                                 : isDark
                                 ? 'bg-slate-800/80 border-slate-600 text-slate-400'
                                 : 'bg-slate-100 border-slate-300 text-slate-400'
@@ -630,10 +630,10 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -664,10 +664,10 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -696,7 +696,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                     onClick={() => handleOptionClick(opt.id)}
                     className={`px-4 py-2 rounded-xl font-medium text-sm sm:text-base border transition-all cursor-pointer select-none ${
                       isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-102 ring-2 ring-indigo-300'
+                        ? 'bg-sky-600 text-white border-sky-600 shadow-md scale-102 ring-2 ring-sky-300'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600'
                         : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-slate-400 shadow-xs'
@@ -719,7 +719,7 @@ export const ComparativesTestActivity: React.FC<ComparativesTestActivityProps> =
                 className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
                   !placedOptionId || isChecked
                     ? 'opacity-40 cursor-not-allowed bg-slate-300 dark:bg-slate-800 text-slate-500'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg'
+                    : 'bg-sky-600 hover:bg-sky-700 text-white shadow-md hover:shadow-lg'
                 }`}
               >
                 <Check className="w-4 h-4" />

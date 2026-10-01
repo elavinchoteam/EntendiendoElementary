@@ -87,10 +87,10 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
             onClick={handleSpeak}
             className={`shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
               isPlaying
-                ? 'bg-indigo-600 border-indigo-600 text-white animate-pulse'
+                ? 'bg-sky-600 border-sky-600 text-white animate-pulse'
                 : isDark
-                ? 'bg-slate-800 border-slate-700 text-indigo-400 hover:bg-slate-700'
-                : 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100'
+                ? 'bg-slate-800 border-slate-700 text-sky-400 hover:bg-slate-700'
+                : 'bg-sky-50 border-sky-200 text-sky-700 hover:bg-sky-100'
             }`}
             aria-label="Audio"
           >
@@ -115,7 +115,7 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
             onClick={handleSpeak}
             className={`shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
               isPlaying
-                ? 'bg-indigo-600 border-indigo-600 text-white animate-pulse'
+                ? 'bg-sky-600 border-sky-600 text-white animate-pulse'
                 : isDark
                 ? 'bg-slate-800 border-slate-700 text-emerald-400 hover:bg-slate-700'
                 : 'bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100'

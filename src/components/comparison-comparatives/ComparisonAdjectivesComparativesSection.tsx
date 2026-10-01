@@ -133,8 +133,8 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
           currentActivityIdx === 0
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         title={
           currentActivityIdx > 0
@@ -156,8 +156,8 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
           currentActivityIdx >= activitiesList.length - 1
             ? 'opacity-0 pointer-events-none scale-75'
             : isDark
-            ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-            : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+            ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+            : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
         }`}
         title={
           currentActivityIdx < activitiesList.length - 1
@@ -181,11 +181,11 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
       >
         {/* Title / Activity Indicator */}
         <div className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-xl bg-indigo-600 text-white font-mono font-black text-sm flex items-center justify-center shadow-xs shrink-0">
+          <span className="w-9 h-9 rounded-xl bg-sky-600 text-white font-mono font-black text-sm flex items-center justify-center shadow-xs shrink-0">
             {currentActivityIdx + 1}
           </span>
           <div>
-            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-500">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-sky-500">
               Sección 5 · Comparison of Adjectives: Comparatives
             </span>
             <h2 className="text-base sm:text-lg font-bold tracking-tight">
@@ -212,7 +212,7 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
               }`}
               title="Velocidad del audio en toda la sección"
             >
-              <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+              <Gauge className="w-3.5 h-3.5 text-sky-500" />
               <span>{currentRate}x</span>
             </button>
 
@@ -238,7 +238,7 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
                     }}
                     className={`w-full flex items-center justify-between px-3.5 py-1.5 text-xs font-mono transition-colors cursor-pointer ${
                       currentRate === opt.value
-                        ? 'bg-indigo-600 text-white font-bold'
+                        ? 'bg-sky-600 text-white font-bold'
                         : isDark
                         ? 'hover:bg-slate-800 text-slate-300'
                         : 'hover:bg-slate-100 text-slate-700'
@@ -307,21 +307,21 @@ export const ComparisonAdjectivesComparativesSection: React.FC<ComparisonAdjecti
                 }}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-xl font-mono text-xs font-bold whitespace-nowrap transition-all cursor-pointer border select-none ${
                   isCurrent
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-102 ring-2 ring-indigo-300'
+                    ? 'bg-sky-600 text-white border-sky-600 shadow-md scale-102 ring-2 ring-sky-300'
                     : isCompleted
                     ? isDark
                       ? 'bg-emerald-950/40 text-emerald-400 border-emerald-800/60'
                       : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     : item.isTest
                     ? isDark
-                      ? 'bg-purple-950/30 text-purple-300 border-purple-800/50 hover:bg-purple-900/40'
-                      : 'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100'
+                      ? 'bg-sky-950/30 text-sky-300 border-sky-800/50 hover:bg-sky-900/40'
+                      : 'bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100'
                     : isDark
                     ? 'bg-slate-900 border-slate-800 text-slate-400 hover:bg-slate-800 hover:text-white'
                     : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                 }`}
               >
-                {item.isTest && <Award className="w-3.5 h-3.5 text-purple-400" />}
+                {item.isTest && <Award className="w-3.5 h-3.5 text-sky-400" />}
                 <span>{item.label}</span>
                 {isCompleted && <Check className="w-3 h-3 text-emerald-500 ml-0.5" />}
               </button>

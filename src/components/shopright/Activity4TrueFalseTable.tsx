@@ -114,7 +114,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
               disabled={!isAllAnswered}
               className={`px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 ${
                 isAllAnswered
-                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'
+                  ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-md'
                   : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
               }`}
             >
@@ -126,7 +126,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
               <button
                 type="button"
                 onClick={onNext}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
               >
                 <span>Siguiente</span>
                 <CheckCircle2 className="w-4 h-4" />
@@ -177,7 +177,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                     {/* Header with Statement Number & Audio Button */}
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-start gap-2.5">
-                        <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-800 dark:text-indigo-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-6 h-6 rounded-full bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
                         <p className="font-semibold text-sm sm:text-base leading-snug">
@@ -190,10 +190,10 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                         onClick={(e) => handlePlay(st.statementEn, st.id, e)}
                         className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
                           isPlaying
-                            ? 'bg-indigo-600 text-white border-indigo-500'
+                            ? 'bg-sky-600 text-white border-sky-500'
                             : isDark
-                            ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                            : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                            ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                            : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                         }`}
                         aria-label="Audio"
                       >
@@ -223,7 +223,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                           }
                         } else if (isSelected) {
                           btnStyle =
-                            'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400';
+                            'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400';
                         }
 
                         return (
@@ -248,16 +248,16 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                   <div
                     className={`absolute inset-0 w-full h-full rounded-2xl border p-4 sm:p-5 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xs transition-colors ${
                       isDark
-                        ? 'bg-slate-900 border-indigo-500/40 text-white'
-                        : 'bg-white border-indigo-300 text-slate-900'
+                        ? 'bg-slate-900 border-sky-500/40 text-white'
+                        : 'bg-white border-sky-300 text-slate-900'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2 border-b border-inherit/40 pb-2">
                       <div className="flex items-start gap-2.5">
-                        <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-800 dark:text-indigo-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-6 h-6 rounded-full bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
-                        <p className="font-semibold text-sm sm:text-base leading-snug text-indigo-900 dark:text-indigo-300">
+                        <p className="font-semibold text-sm sm:text-base leading-snug text-sky-900 dark:text-sky-300">
                           {st.statementEs}
                         </p>
                       </div>
@@ -265,7 +265,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                       <button
                         type="button"
                         onClick={(e) => handlePlay(st.statementEn, st.id, e)}
-                        className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-indigo-600 dark:text-indigo-400"
+                        className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sky-600 dark:text-sky-400"
                         aria-label="Audio"
                       >
                         <Volume2 className="w-4 h-4" />
@@ -273,7 +273,7 @@ export const Activity4TrueFalseTable: React.FC<Activity4TrueFalseTableProps> = (
                     </div>
 
                     <div className="py-2 text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                      <span className="font-bold text-indigo-800 dark:text-indigo-400">
+                      <span className="font-bold text-sky-800 dark:text-sky-400">
                         Respuesta correcta: {st.correctAnswer}
                       </span>
                       <p className="mt-1">{st.explanationEs}</p>

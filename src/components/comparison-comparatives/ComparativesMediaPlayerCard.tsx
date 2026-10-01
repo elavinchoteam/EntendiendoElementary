@@ -209,7 +209,7 @@ export const ComparativesMediaPlayerCard: React.FC<ComparativesMediaPlayerCardPr
           }}
         >
           <div
-            className="bg-indigo-600 h-full rounded-full transition-all duration-150"
+            className="bg-sky-600 h-full rounded-full transition-all duration-150"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -268,7 +268,7 @@ export const ComparativesMediaPlayerCard: React.FC<ComparativesMediaPlayerCardPr
                     onClick={(e) => handleSelectRate(sp.value, e)}
                     className={`w-full flex items-center justify-between px-3 py-1 text-xs font-mono transition-colors cursor-pointer ${
                       currentRate === sp.value
-                        ? 'bg-indigo-600 text-white font-bold'
+                        ? 'bg-sky-600 text-white font-bold'
                         : isDark
                         ? 'hover:bg-slate-800 text-slate-300'
                         : 'hover:bg-slate-100 text-slate-700'

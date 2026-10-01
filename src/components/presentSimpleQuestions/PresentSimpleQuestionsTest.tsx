@@ -392,11 +392,7 @@ export const PresentSimpleQuestionsTest: React.FC<PresentSimpleQuestionsTestProp
                     {currentQ.question}
                   </div>
                 ) : (
-                  <div
-                    className={`text-base sm:text-lg font-medium leading-relaxed italic whitespace-pre-line ${
-                      isDark ? 'text-amber-300' : 'text-amber-800'
-                    }`}
-                  >
+                  <div className="text-base sm:text-lg font-medium leading-relaxed italic whitespace-pre-line text-slate-800 dark:text-slate-100">
                     {currentQ.questionEs}
                   </div>
                 )}
@@ -471,11 +467,7 @@ export const PresentSimpleQuestionsTest: React.FC<PresentSimpleQuestionsTestProp
                           {opt.text}
                         </div>
                       ) : (
-                        <div
-                          className={`text-base font-medium italic ${
-                            isDark ? 'text-amber-300' : 'text-amber-800'
-                          }`}
-                        >
+                        <div className="text-base font-medium italic text-slate-800 dark:text-slate-100">
                           {opt.textEs}
                         </div>
                       )}

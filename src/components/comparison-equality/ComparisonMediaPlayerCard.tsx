@@ -154,7 +154,7 @@ export const ComparisonMediaPlayerCard: React.FC<ComparisonMediaPlayerCardProps>
           <button
             type="button"
             onClick={handleTogglePlay}
-            className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/40 hover:bg-indigo-600/80 text-white flex items-center justify-center backdrop-blur-xs transition-all cursor-pointer border border-white/30 shadow-lg hover:scale-105"
+            className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/40 hover:bg-sky-600/80 text-white flex items-center justify-center backdrop-blur-xs transition-all cursor-pointer border border-white/30 shadow-lg hover:scale-105"
             aria-label="Play audio"
           >
             <Play className="w-7 h-7 fill-white ml-0.5" />
@@ -168,7 +168,7 @@ export const ComparisonMediaPlayerCard: React.FC<ComparisonMediaPlayerCardProps>
         <div className="w-full flex items-center gap-2">
           <div className="flex-1 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
             <div
-              className="h-full bg-indigo-600 transition-all duration-300"
+              className="h-full bg-sky-600 transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -185,7 +185,7 @@ export const ComparisonMediaPlayerCard: React.FC<ComparisonMediaPlayerCardProps>
               onClick={handleTogglePlay}
               className={`p-2 rounded-xl transition-all cursor-pointer border ${
                 isPlaying
-                  ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                  ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                   : isDark
                   ? 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
@@ -228,7 +228,7 @@ export const ComparisonMediaPlayerCard: React.FC<ComparisonMediaPlayerCardProps>
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
               }`}
             >
-              <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+              <Gauge className="w-3.5 h-3.5 text-sky-500" />
               <span>{COMPARISON_PLAYBACK_SPEEDS.find((s) => s.value === currentRate)?.label || `${currentRate}x`}</span>
             </button>
 
@@ -245,7 +245,7 @@ export const ComparisonMediaPlayerCard: React.FC<ComparisonMediaPlayerCardProps>
                     onClick={() => handleSelectSpeed(spd.value)}
                     className={`w-full px-2.5 py-1.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all cursor-pointer ${
                       currentRate === spd.value
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-sky-600 text-white'
                         : isDark
                         ? 'hover:bg-slate-700 text-slate-300'
                         : 'hover:bg-slate-100 text-slate-700'

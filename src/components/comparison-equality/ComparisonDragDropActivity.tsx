@@ -212,9 +212,9 @@ export const ComparisonDragDropActivity: React.FC<ComparisonDragDropActivityProp
                                 ? isCorrect
                                   ? 'bg-emerald-100 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200'
                                   : 'bg-rose-100 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-200'
-                                : 'bg-indigo-50 dark:bg-indigo-950/50 border-indigo-500 text-indigo-900 dark:text-indigo-200 shadow-xs'
+                                : 'bg-sky-50 dark:bg-sky-950/50 border-sky-500 text-sky-900 dark:text-sky-200 shadow-xs'
                               : isDragOver
-                              ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30 scale-105'
+                              ? 'border-sky-500 bg-sky-50/50 dark:bg-sky-950/30 scale-105'
                               : isDark
                               ? 'border-dashed border-slate-600 bg-slate-800/60 text-slate-400'
                               : 'border-dashed border-slate-300 bg-slate-50 text-slate-400'
@@ -251,10 +251,10 @@ export const ComparisonDragDropActivity: React.FC<ComparisonDragDropActivityProp
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -283,10 +283,10 @@ export const ComparisonDragDropActivity: React.FC<ComparisonDragDropActivityProp
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -315,8 +315,8 @@ export const ComparisonDragDropActivity: React.FC<ComparisonDragDropActivityProp
                     isSelected
                       ? 'opacity-40 border-dashed border-slate-400 pointer-events-none'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700 hover:border-indigo-500 hover:scale-105 active:scale-95'
-                      : 'bg-slate-50 hover:bg-indigo-50 text-slate-900 border-slate-300 hover:border-indigo-400 hover:scale-105 active:scale-95'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-white border-slate-700 hover:border-sky-500 hover:scale-105 active:scale-95'
+                      : 'bg-slate-50 hover:bg-sky-50 text-slate-900 border-slate-300 hover:border-sky-400 hover:scale-105 active:scale-95'
                   }`}
                 >
                   {opt.text}
@@ -349,7 +349,7 @@ export const ComparisonDragDropActivity: React.FC<ComparisonDragDropActivityProp
               className={`px-6 py-2.5 rounded-xl font-bold text-sm sm:text-base shadow-md transition-all cursor-pointer flex items-center gap-2 ${
                 !placedOptionId
                   ? 'opacity-50 cursor-not-allowed bg-slate-300 dark:bg-slate-800 text-slate-500'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-600/30 hover:scale-102 active:scale-98'
+                  : 'bg-sky-600 hover:bg-sky-700 text-white shadow-sky-600/30 hover:scale-102 active:scale-98'
               }`}
             >
               <Check className="w-4 h-4" />

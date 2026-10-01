@@ -280,8 +280,8 @@ export const NutritionClozeActivity: React.FC<NutritionClozeActivityProps> = ({
                           ? isSlotCorrect
                             ? 'bg-emerald-500/10 border-emerald-500 text-emerald-700 dark:text-emerald-300'
                             : 'bg-rose-500/10 border-rose-500 text-rose-700 dark:text-rose-300'
-                          : 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-500 text-indigo-900 dark:text-indigo-200 shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 text-slate-400 hover:border-indigo-400'
+                          : 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 shadow-xs'
+                        : 'bg-slate-100 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 text-slate-400 hover:border-sky-400'
                     }`}
                   >
                     {currentVal ? (
@@ -318,7 +318,7 @@ export const NutritionClozeActivity: React.FC<NutritionClozeActivityProps> = ({
                       isUsed
                         ? 'opacity-30 cursor-not-allowed bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400'
                         : isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-600 ring-2 ring-indigo-400 shadow-md scale-102'
+                        ? 'bg-sky-600 text-white border-sky-600 ring-2 ring-sky-400 shadow-md scale-102'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600'
                         : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-200 shadow-xs'
@@ -398,7 +398,7 @@ export const NutritionClozeActivity: React.FC<NutritionClozeActivityProps> = ({
                 <button
                   type="button"
                   onClick={onNextActivity}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Siguiente Actividad</span>
                   <ArrowRight className="w-4 h-4" />

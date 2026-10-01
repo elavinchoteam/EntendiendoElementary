@@ -104,10 +104,10 @@ export const ComparisonReversibleCard: React.FC<ComparisonReversibleCardProps> =
               onClick={handleSpeak}
               className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                 isPlaying
-                  ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                  ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                   : isDark
-                  ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                  : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                  : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
               }`}
               aria-label="Audio"
             >
@@ -135,10 +135,10 @@ export const ComparisonReversibleCard: React.FC<ComparisonReversibleCardProps> =
               onClick={handleSpeak}
               className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                 isPlaying
-                  ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                  ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                   : isDark
-                  ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                  : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                  ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                  : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
               }`}
               aria-label="Audio"
             >

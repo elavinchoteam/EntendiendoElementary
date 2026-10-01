@@ -198,7 +198,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                 onClick={() => setShowTranscript((prev) => !prev)}
                 className={`absolute top-3 right-3 p-2 rounded-xl backdrop-blur-md border transition-all cursor-pointer shadow-md ${
                   showTranscript
-                    ? 'bg-indigo-600 text-white border-indigo-400'
+                    ? 'bg-sky-600 text-white border-sky-400'
                     : 'bg-black/60 hover:bg-black/80 text-white/80 border-white/20'
                 }`}
                 aria-label="Transcripción"
@@ -231,7 +231,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                     );
                     setCurrentSentenceIdx(matchedIdx !== -1 ? matchedIdx : null);
                   }}
-                  className="flex-1 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                  className="flex-1 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-600"
                 />
                 <span className="font-mono text-xs text-slate-500 dark:text-slate-400 shrink-0 w-10 text-right">
                   {formatTime(durationSeconds)}
@@ -246,7 +246,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                     type="button"
                     id="player-play-btn"
                     onClick={handleTogglePlay}
-                    className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all cursor-pointer shadow-sm"
+                    className="p-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white transition-all cursor-pointer shadow-sm"
                     aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
                   >
                     {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
@@ -281,7 +281,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                           : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 shadow-xs'
                       }`}
                     >
-                      <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+                      <Gauge className="w-3.5 h-3.5 text-sky-500" />
                       <span>{formatSpeedLabel(currentRate)}</span>
                     </button>
 
@@ -301,7 +301,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                             }}
                             className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors cursor-pointer ${
                               Math.abs(currentRate - sp.value) < 0.01
-                                ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-bold'
+                                ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-bold'
                                 : isDark
                                 ? 'text-slate-300 hover:bg-slate-700'
                                 : 'text-slate-700 hover:bg-slate-100'
@@ -309,7 +309,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                           >
                             <span>{sp.label}</span>
                             {Math.abs(currentRate - sp.value) < 0.01 && (
-                              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-sky-500" />
                             )}
                           </button>
                         ))}
@@ -370,7 +370,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
               >
                 {/* Header: Speaker button only */}
                 <div className="flex items-center justify-between pb-3 border-b border-inherit/40 shrink-0">
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                     Inglés
                   </span>
                   <button
@@ -382,8 +382,8 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                     }}
                     className={`p-2 rounded-xl border transition-colors cursor-pointer ${
                       isDark
-                        ? 'border-white/10 hover:bg-white/10 text-indigo-300'
-                        : 'border-slate-200 hover:bg-slate-100 text-indigo-600 shadow-xs'
+                        ? 'border-white/10 hover:bg-white/10 text-sky-300'
+                        : 'border-slate-200 hover:bg-slate-100 text-sky-600 shadow-xs'
                     }`}
                     aria-label="Audio"
                   >
@@ -402,8 +402,8 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                         className={`p-2.5 rounded-xl transition-all cursor-pointer border ${
                           isCurrent
                             ? isDark
-                              ? 'bg-indigo-950/70 border-indigo-500 text-white shadow-xs'
-                              : 'bg-indigo-50 border-indigo-400 text-indigo-950 shadow-xs'
+                              ? 'bg-sky-950/70 border-sky-500 text-white shadow-xs'
+                              : 'bg-sky-50 border-sky-400 text-sky-950 shadow-xs'
                             : isDark
                             ? 'border-transparent hover:bg-white/5 text-slate-200'
                             : 'border-transparent hover:bg-slate-100 text-slate-800'

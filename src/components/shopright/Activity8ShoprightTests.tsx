@@ -124,8 +124,8 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
             <div
               className={`relative w-full min-h-[500px] sm:min-h-[520px] rounded-3xl p-5 sm:p-7 flex flex-col justify-between border backface-hidden shadow-xl transition-colors duration-200 ${
                 isDark
-                  ? 'bg-slate-900 border-indigo-500/40 text-white'
-                  : 'bg-white border-indigo-300 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-sky-500/40 text-white'
+                  : 'bg-white border-sky-300 text-slate-900 shadow-md'
               }`}
             >
               {/* Header Front */}
@@ -134,8 +134,8 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 ${
                       isDark
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                        : 'bg-indigo-100 text-indigo-900 border border-indigo-200'
+                        ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                        : 'bg-sky-100 text-sky-900 border border-sky-200'
                     }`}
                   >
                     <Award className="w-3.5 h-3.5" />
@@ -154,10 +154,10 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   }
                   className={`p-2 rounded-xl border transition-all cursor-pointer ${
                     playingKey === 'start-test-card-en'
-                      ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                      : 'bg-white hover:bg-indigo-50 text-indigo-900 border-slate-200 shadow-xs'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                      : 'bg-white hover:bg-sky-50 text-sky-900 border-slate-200 shadow-xs'
                   }`}
                   aria-label="Audio"
                 >
@@ -167,7 +167,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
 
               {/* Body Front */}
               <div className="flex-1 my-2 sm:my-3 flex flex-col justify-center items-center text-center px-2">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-indigo-600/10 dark:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3 shadow-inner shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-600/10 dark:bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-3 shadow-inner shrink-0">
                   <Award className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
 
@@ -185,7 +185,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-indigo-500" /> Sequential Mastery
+                    <Sparkles className="w-4 h-4 text-sky-500" /> Sequential Mastery
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
@@ -208,7 +208,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                     playFeedbackSound('click');
                     setIsTestStarted(true);
                   }}
-                  className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                   <span>Iniciar Test</span>
@@ -220,8 +220,8 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
             <div
               className={`absolute inset-0 w-full h-full rounded-3xl p-5 sm:p-7 flex flex-col justify-between border backface-hidden rotate-y-180 shadow-xl transition-colors duration-200 ${
                 isDark
-                  ? 'bg-slate-900 border-indigo-500/40 text-white'
-                  : 'bg-white border-indigo-300 text-slate-900 shadow-md'
+                  ? 'bg-slate-900 border-sky-500/40 text-white'
+                  : 'bg-white border-sky-300 text-slate-900 shadow-md'
               }`}
             >
               {/* Header Back */}
@@ -230,8 +230,8 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 ${
                       isDark
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                        : 'bg-indigo-100 text-indigo-900 border border-indigo-200'
+                        ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
+                        : 'bg-sky-100 text-sky-900 border border-sky-200'
                     }`}
                   >
                     <Award className="w-3.5 h-3.5" />
@@ -250,10 +250,10 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   }
                   className={`p-2 rounded-xl border transition-all cursor-pointer ${
                     playingKey === 'start-test-card-es'
-                      ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                      ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                       : isDark
-                      ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-white/10'
-                      : 'bg-white hover:bg-indigo-50 text-indigo-900 border-slate-200 shadow-xs'
+                      ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-white/10'
+                      : 'bg-white hover:bg-sky-50 text-sky-900 border-slate-200 shadow-xs'
                   }`}
                   aria-label="Audio"
                 >
@@ -263,7 +263,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
 
               {/* Body Back */}
               <div className="flex-1 my-2 sm:my-3 flex flex-col justify-center items-center text-center px-2">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-indigo-600/10 dark:bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3 shadow-inner shrink-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-600/10 dark:bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 mb-3 shadow-inner shrink-0">
                   <Award className="w-7 h-7 sm:w-8 sm:h-8" />
                 </div>
 
@@ -271,7 +271,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   Ofertas en Shopright · Test de Dominio
                 </h3>
 
-                <p className="text-xs sm:text-sm md:text-base leading-relaxed text-slate-700 dark:text-indigo-100/90 max-w-lg mb-3">
+                <p className="text-xs sm:text-sm md:text-base leading-relaxed text-slate-700 dark:text-sky-100/90 max-w-lg mb-3">
                   Evalúa tu comprensión lectora de anuncios de supermercado, precios de oferta y vocabulario de comida saludable. Esta evaluación contiene {SHOPRIGHT_MASTERY_TESTS.length} pruebas secuenciales: Test 1 a Test 5.
                 </p>
 
@@ -281,7 +281,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-indigo-500" /> Dominio Secuencial
+                    <Sparkles className="w-4 h-4 text-sky-500" /> Dominio Secuencial
                   </span>
                   <span>•</span>
                   <span className="flex items-center gap-1.5">
@@ -304,7 +304,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                     playFeedbackSound('click');
                     setIsTestStarted(true);
                   }}
-                  className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm sm:text-base shadow-lg shadow-sky-600/30 hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                   <span>Iniciar Test</span>
@@ -326,7 +326,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
           isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200 shadow-xs'
         }`}
       >
-        <div className="w-16 h-16 rounded-full bg-indigo-500/20 text-indigo-500 flex items-center justify-center">
+        <div className="w-16 h-16 rounded-full bg-sky-500/20 text-sky-500 flex items-center justify-center">
           <Award className="w-8 h-8" />
         </div>
         <h2 className="font-bold text-xl sm:text-2xl text-slate-900 dark:text-white">
@@ -338,7 +338,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
 
         <div className="my-2 p-4 rounded-xl border border-inherit/40 bg-slate-50 dark:bg-slate-800/60 flex items-center gap-6">
           <div className="text-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">
+            <span className="text-2xl sm:text-3xl font-extrabold text-sky-600 dark:text-sky-400">
               {totalCorrect}/{SHOPRIGHT_MASTERY_TESTS.length}
             </span>
             <div className="text-xs text-slate-500 uppercase font-semibold">Aciertos</div>
@@ -355,7 +355,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
         <button
           type="button"
           onClick={handleRestartAll}
-          className="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer flex items-center gap-2"
+          className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-700 text-white shadow-md transition-all cursor-pointer flex items-center gap-2"
         >
           <RotateCcw className="w-4 h-4" />
           <span>Repetir Test</span>
@@ -390,7 +390,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                 }}
                 className={`px-3 py-1.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 border ${
                   isActive
-                    ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400 scale-105'
+                    ? 'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400 scale-105'
                     : isDark
                     ? 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'
                     : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
@@ -446,7 +446,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                 {/* Header with Title & Audio Button */}
                 <div className="flex items-start justify-between gap-3 pb-3 border-b border-inherit/40">
                   <div>
-                    <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase">
+                    <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase">
                       {currentQ.title} · Comprehension
                     </span>
                     <h3 className="text-base sm:text-lg font-bold mt-1 leading-snug">
@@ -459,10 +459,10 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                     onClick={(e) => handlePlayText(currentQ.questionEn, `q-${currentQ.testNumber}`, e)}
                     className={`p-1.5 rounded-lg border transition-all cursor-pointer shrink-0 ${
                       playingKey === `q-${currentQ.testNumber}`
-                        ? 'bg-indigo-600 text-white border-indigo-500'
+                        ? 'bg-sky-600 text-white border-sky-500'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                        : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                        : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -492,7 +492,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                       }
                     } else if (isSelected) {
                       optStyle =
-                        'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-500 text-indigo-900 dark:text-indigo-200 ring-2 ring-indigo-400';
+                        'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 ring-2 ring-sky-400';
                     }
 
                     return (
@@ -508,7 +508,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                           <div
                             className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 ${
                               isSelected
-                                ? 'border-indigo-600 bg-indigo-600'
+                                ? 'border-sky-600 bg-sky-600'
                                 : 'border-slate-400 dark:border-slate-500'
                             }`}
                           >
@@ -522,7 +522,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                         <button
                           type="button"
                           onClick={(e) => handlePlayText(opt.en, `opt-${opt.id}`, e)}
-                          className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                          className="p-1 rounded-lg text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
                           aria-label="Audio"
                         >
                           <Volume2 className="w-3.5 h-3.5" />
@@ -544,7 +544,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                       }}
                       className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all cursor-pointer flex items-center gap-2 ${
                         selectedOptionId
-                          ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'
+                          ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-md'
                           : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
                       }`}
                     >
@@ -558,7 +558,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                         e.stopPropagation();
                         handleNextTest();
                       }}
-                      className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
+                      className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
                     >
                       <span>
                         {currentTestIndex < SHOPRIGHT_MASTERY_TESTS.length - 1
@@ -575,16 +575,16 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
               <div
                 className={`absolute inset-0 w-full h-full min-h-[300px] rounded-2xl border p-5 sm:p-6 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xs transition-colors ${
                   isDark
-                    ? 'bg-slate-900 border-indigo-500/40 text-white'
-                    : 'bg-white border-indigo-300 text-slate-900'
+                    ? 'bg-slate-900 border-sky-500/40 text-white'
+                    : 'bg-white border-sky-300 text-slate-900'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3 pb-3 border-b border-inherit/40">
                   <div>
-                    <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase">
+                    <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase">
                       {currentQ.titleEs} · Traducción
                     </span>
-                    <h3 className="text-base sm:text-lg font-bold mt-1 leading-snug text-indigo-900 dark:text-indigo-300">
+                    <h3 className="text-base sm:text-lg font-bold mt-1 leading-snug text-sky-900 dark:text-sky-300">
                       {currentQ.questionEs}
                     </h3>
                   </div>
@@ -592,7 +592,7 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   <button
                     type="button"
                     onClick={(e) => handlePlayText(currentQ.questionEn, `q-${currentQ.testNumber}`, e)}
-                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-indigo-600 dark:text-indigo-400"
+                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sky-600 dark:text-sky-400"
                     aria-label="Audio"
                   >
                     <Volume2 className="w-4 h-4" />
@@ -610,8 +610,8 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
                   ))}
                 </div>
 
-                <div className="p-3 rounded-xl border border-indigo-300/60 bg-indigo-50/40 dark:bg-indigo-950/20 text-xs sm:text-sm">
-                  <span className="font-bold text-indigo-800 dark:text-indigo-400">
+                <div className="p-3 rounded-xl border border-sky-300/60 bg-sky-50/40 dark:bg-sky-950/20 text-xs sm:text-sm">
+                  <span className="font-bold text-sky-800 dark:text-sky-400">
                     Explicación:
                   </span>
                   <p className="mt-0.5 text-slate-700 dark:text-slate-300">
@@ -621,6 +621,34 @@ export const Activity8ShoprightTests: React.FC<Activity8ShoprightTestsProps> = (
               </div>
             </div>
           </div>
+
+          {/* Explanation Box after Submit */}
+          {isSubmitted && (
+            <div
+              className={`p-4 rounded-2xl border animate-in fade-in duration-200 flex flex-col gap-2 ${
+                isCorrect
+                  ? isDark
+                    ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-200'
+                    : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                  : isDark
+                  ? 'bg-rose-950/40 border-rose-500/40 text-rose-200'
+                  : 'bg-rose-50 border-rose-200 text-rose-950'
+              }`}
+            >
+              <div className="flex items-center gap-2 font-bold text-sm">
+                {isCorrect ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                ) : (
+                  <XCircle className="w-4 h-4 text-rose-500 shrink-0" />
+                )}
+                <span>{isCorrect ? '¡Correcto!' : 'Respuesta Incorrecta'}</span>
+              </div>
+              <p className="text-xs sm:text-sm leading-relaxed">{currentQ.explanationEn}</p>
+              <p className="text-xs sm:text-sm leading-relaxed italic text-slate-600 dark:text-slate-300">
+                {currentQ.explanationEs}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

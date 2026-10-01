@@ -382,7 +382,7 @@ export const Activity5PersonMatching: React.FC<Activity5PersonMatchingProps> = (
               <button
                 type="button"
                 onClick={onNext}
-                className="px-6 py-2.5 rounded-xl font-bold text-sm bg-indigo-600 hover:bg-indigo-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
+                className="px-6 py-2.5 rounded-xl font-bold text-sm bg-sky-600 hover:bg-sky-700 text-white shadow-md transition-all cursor-pointer active:scale-95 flex items-center gap-2"
               >
                 <span>Siguiente</span>
                 <ChevronRight className="w-4 h-4" />

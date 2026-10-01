@@ -285,7 +285,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                 onClick={() => setCurrentPartIndex(idx)}
                 className={`px-3 py-1.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 ${
                   isCurrent
-                    ? 'bg-indigo-600 text-white shadow-xs'
+                    ? 'bg-sky-600 text-white shadow-xs'
                     : isDone
                     ? isDark
                       ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/30'
@@ -313,7 +313,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                 : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100 shadow-xs'
             }`}
           >
-            <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+            <Gauge className="w-3.5 h-3.5 text-sky-500" />
             <span>{formatSpeedLabel(currentRate)}</span>
           </button>
 
@@ -333,7 +333,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                   }}
                   className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors cursor-pointer ${
                     Math.abs(currentRate - sp.value) < 0.01
-                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 font-bold'
+                      ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 font-bold'
                       : isDark
                       ? 'text-slate-300 hover:bg-slate-700'
                       : 'text-slate-700 hover:bg-slate-100'
@@ -341,7 +341,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                 >
                   <span>{sp.label}</span>
                   {Math.abs(currentRate - sp.value) < 0.01 && (
-                    <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-sky-500" />
                   )}
                 </button>
               ))}
@@ -378,7 +378,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
             >
               <div className="flex items-center justify-between text-xs font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 <span>Seleccionar personaje:</span>
-                <span className="text-indigo-600 dark:text-indigo-400">
+                <span className="text-sky-600 dark:text-sky-400">
                   {selectedCharacterId === 'character-1' ? 'Practicando: Paul' : 'Practicando: Pam'}
                 </span>
               </div>
@@ -470,7 +470,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                     speakEnglish(activePart.instructions, currentRate, safeAccent, undefined, undefined, 'female');
                   }}
                   className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                    isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600'
+                    isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600'
                   }`}
                   aria-label="Audio"
                 >
@@ -582,8 +582,8 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                           : 'border-amber-500 bg-amber-500/10 ring-2 ring-amber-500/40'
                         : isUserCharacter
                         ? isDark
-                          ? 'border-indigo-500/40 bg-indigo-950/20'
-                          : 'border-indigo-300 bg-indigo-50/40'
+                          ? 'border-sky-500/40 bg-sky-950/20'
+                          : 'border-sky-300 bg-sky-50/40'
                         : isDark
                         ? 'border-white/10 bg-slate-900'
                         : 'border-slate-200 bg-white'
@@ -616,7 +616,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                             speakEnglish(turn.textEn, currentRate, safeAccent, undefined, undefined, speakerGender);
                           }}
                           className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                            isDark ? 'border-white/10 hover:bg-white/10 text-indigo-300' : 'border-slate-200 hover:bg-slate-100 text-indigo-600'
+                            isDark ? 'border-white/10 hover:bg-white/10 text-sky-300' : 'border-slate-200 hover:bg-slate-100 text-sky-600'
                           }`}
                           aria-label="Audio"
                         >
@@ -690,7 +690,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
                   type="button"
                   id={`next-interaction-part-btn-${currentPartIndex + 1}`}
                   onClick={() => setCurrentPartIndex((prev) => prev + 1)}
-                  className="py-2 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-indigo-600 hover:bg-indigo-500 text-white flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+                  className="py-2 px-4 rounded-xl font-bold text-xs uppercase tracking-wider bg-sky-600 hover:bg-sky-500 text-white flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
                 >
                   <span>Siguiente parte</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -717,7 +717,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
               className={`flex items-center gap-1 font-bold ${
                 currentPartIndex === 0
                   ? 'text-slate-400 cursor-not-allowed opacity-50'
-                  : 'text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer'
+                  : 'text-sky-600 dark:text-sky-400 hover:underline cursor-pointer'
               }`}
             >
               <ArrowLeft className="w-3.5 h-3.5" />
@@ -735,7 +735,7 @@ export const Activity7Interaction: React.FC<Activity7InteractionProps> = ({
               className={`flex items-center gap-1 font-bold ${
                 currentPartIndex === INTERACTION_PARTS.length - 1
                   ? 'text-slate-400 cursor-not-allowed opacity-50'
-                  : 'text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer'
+                  : 'text-sky-600 dark:text-sky-400 hover:underline cursor-pointer'
               }`}
             >
               <span>Siguiente parte</span>

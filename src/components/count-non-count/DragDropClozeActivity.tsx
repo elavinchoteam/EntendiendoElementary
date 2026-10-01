@@ -242,7 +242,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                 <button
                   type="button"
                   onClick={handleTogglePlayMedia}
-                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
+                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-sky-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
                   aria-label="Reproducir video"
                 >
                   <Play className="w-6 h-6 fill-current translate-x-0.5" />
@@ -259,7 +259,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                 aria-label={isPlayingMedia ? 'Pausar' : 'Reproducir'}
               >
                 {isPlayingMedia ? (
-                  <Pause className="w-4 h-4 fill-current text-indigo-400" />
+                  <Pause className="w-4 h-4 fill-current text-sky-400" />
                 ) : (
                   <Play className="w-4 h-4 fill-current text-slate-200" />
                 )}
@@ -271,7 +271,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
               >
                 <div className="w-full h-1.5 bg-slate-600 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-indigo-500 rounded-full transition-all duration-150"
+                    className="h-full bg-sky-500 rounded-full transition-all duration-150"
                     style={{
                       width: `${Math.min(100, (elapsedSeconds / duration) * 100)}%`,
                     }}
@@ -345,13 +345,13 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                             onDrop={handleDrop}
                             className={`inline-flex items-center justify-center min-w-[120px] h-8 sm:h-9 px-3 rounded-lg border-2 border-dashed transition-all ${
                               isDragOver
-                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 scale-105'
+                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 scale-105'
                                 : placedOption
                                 ? isChecked
                                   ? isCorrect
                                     ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-200 font-bold'
                                     : 'border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-200 font-bold'
-                                  : 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-900 dark:text-indigo-200 font-bold'
+                                  : 'border-sky-500 bg-sky-50 dark:bg-sky-950/30 text-sky-900 dark:text-sky-200 font-bold'
                                 : 'border-slate-300 dark:border-slate-600 bg-slate-100/60 dark:bg-slate-800/60'
                             }`}
                           >
@@ -406,7 +406,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                     disabled={isChecked}
                     className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-all cursor-pointer select-none active:scale-95 ${
                       isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-md ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-600 shadow-md ring-2 ring-sky-400'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'
                         : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 shadow-xs'
@@ -467,7 +467,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                   disabled={!placedOptionId}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md cursor-pointer ${
                     placedOptionId
-                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white active:scale-95'
+                      ? 'bg-sky-600 hover:bg-sky-700 text-white active:scale-95'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-600 cursor-not-allowed shadow-none'
                   }`}
                 >
@@ -479,7 +479,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                   <button
                     type="button"
                     onClick={onNextActivity}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
                   >
                     <Sparkles className="w-4 h-4" />
                     <span>Siguiente</span>

@@ -76,8 +76,8 @@ export const CountNonCountActivity: React.FC<CountNonCountActivityProps> = ({
           onClick={handlePrev}
           className={`fixed sm:absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
             isDark
-              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
           title="Actividad anterior"
           aria-label="Actividad anterior"
@@ -93,8 +93,8 @@ export const CountNonCountActivity: React.FC<CountNonCountActivityProps> = ({
           onClick={handleNext}
           className={`fixed sm:absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-40 w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center border shadow-2xl transition-all cursor-pointer select-none ${
             isDark
-              ? 'bg-[#1E293B]/95 hover:bg-indigo-600 text-white border-white/20 hover:border-indigo-400 shadow-indigo-950/70 hover:scale-110 active:scale-95'
-              : 'bg-white/95 hover:bg-indigo-600 text-slate-800 hover:text-white border-slate-300 hover:border-indigo-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
+              ? 'bg-[#1E293B]/95 hover:bg-sky-600 text-white border-white/20 hover:border-sky-400 shadow-sky-950/70 hover:scale-110 active:scale-95'
+              : 'bg-white/95 hover:bg-sky-600 text-slate-800 hover:text-white border-slate-300 hover:border-sky-600 shadow-slate-400/60 hover:scale-110 active:scale-95'
           }`}
           title="Siguiente actividad"
           aria-label="Siguiente actividad"
@@ -118,7 +118,7 @@ export const CountNonCountActivity: React.FC<CountNonCountActivityProps> = ({
                 onClick={() => goToActivity(idx)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all cursor-pointer border ${
                   isCurrent
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm ring-2 ring-indigo-400/40'
+                    ? 'bg-sky-600 text-white border-sky-600 shadow-sm ring-2 ring-sky-400/40'
                     : isDark
                     ? 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700'
                     : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-2xs'

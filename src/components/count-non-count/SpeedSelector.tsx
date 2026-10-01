@@ -53,7 +53,7 @@ export const SpeedSelector: React.FC<SpeedSelectorProps> = ({
         }`}
         title="Velocidad de reproducción"
       >
-        <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+        <Gauge className="w-3.5 h-3.5 text-sky-500" />
         <span>{activeLabel}</span>
       </button>
 
@@ -76,15 +76,15 @@ export const SpeedSelector: React.FC<SpeedSelectorProps> = ({
                 className={`w-full flex items-center justify-between px-3 py-1.5 text-xs font-mono transition-colors cursor-pointer ${
                   isSelected
                     ? isDark
-                      ? 'bg-indigo-600/30 text-indigo-300 font-bold'
-                      : 'bg-indigo-50 text-indigo-700 font-bold'
+                      ? 'bg-sky-600/30 text-sky-300 font-bold'
+                      : 'bg-sky-50 text-sky-700 font-bold'
                     : isDark
                     ? 'hover:bg-slate-800 text-slate-300'
                     : 'hover:bg-slate-100 text-slate-700'
                 }`}
               >
                 <span>{sp.label}</span>
-                {isSelected && <Check className="w-3.5 h-3.5 text-indigo-500" />}
+                {isSelected && <Check className="w-3.5 h-3.5 text-sky-500" />}
               </button>
             );
           })}

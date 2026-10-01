@@ -195,7 +195,7 @@ export const SuperlativesMediaPlayerCard: React.FC<SuperlativesMediaPlayerCardPr
           </span>
           <div className="flex-1 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden relative cursor-pointer">
             <div
-              className="h-full bg-indigo-600 dark:bg-indigo-500 transition-all duration-300 rounded-full"
+              className="h-full bg-sky-600 dark:bg-sky-500 transition-all duration-300 rounded-full"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -214,7 +214,7 @@ export const SuperlativesMediaPlayerCard: React.FC<SuperlativesMediaPlayerCardPr
               onClick={handleTogglePlay}
               className={`p-2 rounded-xl transition-all cursor-pointer flex items-center justify-center ${
                 isPlaying
-                  ? 'bg-indigo-600 text-white shadow-sm'
+                  ? 'bg-sky-600 text-white shadow-sm'
                   : isDark
                   ? 'bg-slate-800 hover:bg-slate-700 text-slate-200'
                   : 'bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 shadow-xs'
@@ -256,12 +256,12 @@ export const SuperlativesMediaPlayerCard: React.FC<SuperlativesMediaPlayerCardPr
               onClick={() => setIsSpeedMenuOpen((prev) => !prev)}
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                 isDark
-                  ? 'bg-slate-800 border-slate-700 hover:bg-slate-750 text-slate-200'
+                  ? 'bg-slate-800 border-slate-700 hover:bg-slate-755 text-slate-200'
                   : 'bg-white border-slate-200 hover:bg-slate-100 text-slate-700 shadow-xs'
               }`}
               aria-label="Playback speed"
             >
-              <Gauge className="w-3.5 h-3.5 text-indigo-500" />
+              <Gauge className="w-3.5 h-3.5 text-sky-500" />
               <span className="font-mono">{currentRate}x</span>
             </button>
 
@@ -283,7 +283,7 @@ export const SuperlativesMediaPlayerCard: React.FC<SuperlativesMediaPlayerCardPr
                     onClick={() => handleRateSelect(sp.value)}
                     className={`w-full px-3 py-1.5 text-left text-xs flex items-center justify-between transition-colors cursor-pointer ${
                       currentRate === sp.value
-                        ? 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 font-bold'
+                        ? 'bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 font-bold'
                         : isDark
                         ? 'hover:bg-slate-800'
                         : 'hover:bg-slate-100'
@@ -291,7 +291,7 @@ export const SuperlativesMediaPlayerCard: React.FC<SuperlativesMediaPlayerCardPr
                   >
                     <span>{sp.label}</span>
                     {currentRate === sp.value && (
-                      <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                      <Check className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                     )}
                   </button>
                 ))}

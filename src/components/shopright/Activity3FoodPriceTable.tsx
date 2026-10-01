@@ -123,7 +123,7 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
               disabled={!isAllFilled}
               className={`px-5 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-1.5 ${
                 isAllFilled
-                  ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'
+                  ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-md'
                   : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
               }`}
             >
@@ -135,7 +135,7 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
               <button
                 type="button"
                 onClick={onNext}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+                className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
               >
                 <span>Siguiente</span>
                 <CheckCircle2 className="w-4 h-4" />
@@ -161,7 +161,7 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
           {/* Options Pool */}
           <div
             className={`p-4 rounded-2xl border ${
-              isDark ? 'bg-slate-900 border-slate-700' : 'bg-indigo-50/60 border-indigo-200'
+              isDark ? 'bg-slate-900 border-slate-700' : 'bg-sky-50/60 border-sky-200'
             }`}
           >
             <div className="text-xs font-mono font-bold text-slate-500 uppercase mb-2">
@@ -182,10 +182,10 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
                       isUsed
                         ? 'opacity-30 line-through bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 cursor-not-allowed'
                         : isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400 scale-105'
+                        ? 'bg-sky-600 text-white border-sky-500 shadow-md ring-2 ring-sky-400 scale-105'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-100 border-slate-700'
-                        : 'bg-white hover:bg-indigo-100 text-slate-800 border-indigo-300 shadow-xs'
+                        : 'bg-white hover:bg-sky-100 text-slate-800 border-sky-300 shadow-xs'
                     }`}
                   >
                     {opt}
@@ -246,10 +246,10 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
                             onClick={(e) => handlePlay(row.foodEn, row.id, e)}
                             className={`p-1 rounded-lg border transition-all cursor-pointer ${
                               playingId === row.id
-                                ? 'bg-indigo-600 text-white border-indigo-500'
+                                ? 'bg-sky-600 text-white border-sky-500'
                                 : isDark
-                                ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                                : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                                ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                                : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                             }`}
                             aria-label="Audio"
                           >
@@ -272,8 +272,8 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
                                   ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300'
                                   : 'border-red-500 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300'
                                 : placedPrice
-                                ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-900 dark:text-indigo-300'
-                                : 'border-slate-300 dark:border-slate-700 hover:border-indigo-400 text-slate-400'
+                                ? 'border-sky-500 bg-sky-50 dark:bg-sky-950/40 text-sky-900 dark:text-sky-300'
+                                : 'border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-400'
                             }`}
                           >
                             {placedPrice ? (
@@ -297,18 +297,18 @@ export const Activity3FoodPriceTable: React.FC<Activity3FoodPriceTableProps> = (
 
                       {/* BACK: Spanish Translation */}
                       <div
-                        className={`absolute inset-0 w-full h-full p-3 sm:p-4 grid grid-cols-12 items-center gap-2 backface-hidden rotate-y-180 border-t border-b border-indigo-300/40 ${
+                        className={`absolute inset-0 w-full h-full p-3 sm:p-4 grid grid-cols-12 items-center gap-2 backface-hidden rotate-y-180 border-t border-b border-sky-300/40 ${
                           isDark ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'
                         }`}
                       >
                         <div className="col-span-6 flex items-center justify-between pr-2">
-                          <span className="font-semibold text-sm sm:text-base text-indigo-800 dark:text-indigo-300">
+                          <span className="font-semibold text-sm sm:text-base text-sky-800 dark:text-sky-300">
                             {row.foodEs}
                           </span>
                           <button
                             type="button"
                             onClick={(e) => handlePlay(row.foodEn, row.id, e)}
-                            className="p-1 rounded-lg border border-slate-300 dark:border-slate-700 text-indigo-600 dark:text-indigo-400"
+                            className="p-1 rounded-lg border border-slate-300 dark:border-slate-700 text-sky-600 dark:text-sky-400"
                             aria-label="Audio"
                           >
                             <Volume2 className="w-3.5 h-3.5" />

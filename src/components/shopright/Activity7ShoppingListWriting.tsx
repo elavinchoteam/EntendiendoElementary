@@ -149,7 +149,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
           <button
             type="button"
             onClick={onNext}
-            className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer flex items-center gap-1.5"
           >
             <span>Continuar al Test</span>
             <CheckCircle2 className="w-4 h-4" />
@@ -189,7 +189,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 pb-2 border-b border-inherit/40">
-                  <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase">
+                  <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase">
                     Writing Prompt
                   </span>
 
@@ -198,10 +198,10 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                     onClick={handlePlayPrompt}
                     className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                       isPlayingPrompt
-                        ? 'bg-indigo-600 text-white border-indigo-500'
+                        ? 'bg-sky-600 text-white border-sky-500'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                        : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                        : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -218,26 +218,26 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
               <div
                 className={`absolute inset-0 w-full h-full min-h-[110px] rounded-2xl border p-4 sm:p-5 flex flex-col justify-between backface-hidden rotate-y-180 shadow-xs transition-colors ${
                   isDark
-                    ? 'bg-slate-900 border-indigo-500/40 text-white'
-                    : 'bg-white border-indigo-300 text-slate-900'
+                    ? 'bg-slate-900 border-sky-500/40 text-white'
+                    : 'bg-white border-sky-300 text-slate-900'
                 }`}
               >
                 <div className="flex items-center justify-between gap-2 pb-2 border-b border-inherit/40">
-                  <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 uppercase">
+                  <span className="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase">
                     Instrucción en Español
                   </span>
 
                   <button
                     type="button"
                     onClick={handlePlayPrompt}
-                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-indigo-600 dark:text-indigo-400"
+                    className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-sky-600 dark:text-sky-400"
                     aria-label="Audio"
                   >
                     <Volume2 className="w-4 h-4" />
                   </button>
                 </div>
 
-                <p className="text-sm sm:text-base leading-relaxed text-indigo-900 dark:text-indigo-300">
+                <p className="text-sm sm:text-base leading-relaxed text-sky-900 dark:text-sky-300">
                   {SHOPRIGHT_WRITING_PROMPT.promptEs}
                 </p>
               </div>
@@ -262,10 +262,10 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                     onClick={handlePlayUserText}
                     className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                       isPlayingText
-                        ? 'bg-indigo-600 text-white border-indigo-500'
+                        ? 'bg-sky-600 text-white border-sky-500'
                         : isDark
-                        ? 'bg-slate-800 text-indigo-300 border-slate-700'
-                        : 'bg-slate-50 text-indigo-900 border-slate-200'
+                        ? 'bg-slate-800 text-sky-300 border-slate-700'
+                        : 'bg-slate-50 text-sky-900 border-slate-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -276,7 +276,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                 <button
                   type="button"
                   onClick={handleInsertSample}
-                  className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline cursor-pointer"
+                  className="text-xs font-semibold text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
                 >
                   Usar ejemplo
                 </button>
@@ -291,8 +291,8 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
               placeholder={SHOPRIGHT_WRITING_PROMPT.placeholderEn}
               className={`w-full p-3.5 rounded-xl border text-sm sm:text-base resize-y leading-relaxed outline-none transition-all ${
                 isDark
-                  ? 'bg-slate-800/80 border-slate-700 text-white focus:border-indigo-500'
-                  : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-indigo-600'
+                  ? 'bg-slate-800/80 border-slate-700 text-white focus:border-sky-500'
+                  : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-600'
               }`}
             />
 
@@ -301,7 +301,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
               <button
                 type="button"
                 onClick={() => setShowModelAnswer(!showModelAnswer)}
-                className="text-xs font-semibold text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs font-semibold text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 flex items-center gap-1.5 cursor-pointer"
               >
                 <BookOpen className="w-3.5 h-3.5" />
                 <span>{showModelAnswer ? 'Ocultar modelo' : 'Ver modelo sugerido'}</span>
@@ -314,11 +314,11 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                   disabled={wordsCount < 5 || isAnalyzing}
                   className={`px-4 py-2 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center gap-2 ${
                     wordsCount >= 5 && !isAnalyzing
-                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md'
+                      ? 'bg-sky-600 hover:bg-sky-700 text-white shadow-md'
                       : 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
                   }`}
                 >
-                  <Sparkles className="w-4 h-4 text-indigo-200" />
+                  <Sparkles className="w-4 h-4 text-sky-200" />
                   <span>{isAnalyzing ? 'Revisando...' : 'Revisión IA'}</span>
                 </button>
 
@@ -339,8 +339,8 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
 
             {/* Model Answer Preview */}
             {showModelAnswer && (
-              <div className="p-4 rounded-xl border border-indigo-300/60 bg-indigo-50/50 dark:bg-indigo-950/20 text-xs sm:text-sm flex flex-col gap-2 animate-in fade-in">
-                <span className="font-bold text-indigo-800 dark:text-indigo-300">
+              <div className="p-4 rounded-xl border border-sky-300/60 bg-sky-50/50 dark:bg-sky-950/20 text-xs sm:text-sm flex flex-col gap-2 animate-in fade-in">
+                <span className="font-bold text-sky-800 dark:text-sky-300">
                   Modelo de respuesta:
                 </span>
                 <pre className="whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300">
@@ -358,12 +358,12 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
               >
                 <div className="flex items-center justify-between gap-2 border-b border-inherit/40 pb-2">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-indigo-500" />
+                    <Sparkles className="w-4 h-4 text-sky-500" />
                     <span className="font-bold text-sm text-slate-900 dark:text-white">
                       Retroalimentación de la IA
                     </span>
                   </div>
-                  <span className="text-lg font-black text-indigo-600 dark:text-indigo-400">
+                  <span className="text-lg font-black text-sky-600 dark:text-sky-400">
                     {feedback.score}/100
                   </span>
                 </div>
@@ -382,7 +382,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                     <div className="text-slate-500">Vocabulario</div>
                   </div>
                   <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-inherit/40">
-                    <div className="font-bold text-indigo-600 dark:text-indigo-400">
+                    <div className="font-bold text-sky-600 dark:text-sky-400">
                       {feedback.relevanceScore}%
                     </div>
                     <div className="text-slate-500">Relevancia</div>
@@ -396,7 +396,7 @@ export const Activity7ShoppingListWriting: React.FC<Activity7ShoppingListWriting
                     </p>
                   ))}
                   {feedback.suggestions.map((s, i) => (
-                    <p key={i} className="flex items-start gap-1.5 text-indigo-700 dark:text-indigo-300">
+                    <p key={i} className="flex items-start gap-1.5 text-sky-700 dark:text-sky-300">
                       <span>💡</span> {s}
                     </p>
                   ))}

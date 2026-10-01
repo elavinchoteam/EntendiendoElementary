@@ -253,7 +253,7 @@ export const NutritionDialogueActivity: React.FC<NutritionDialogueActivityProps>
                                   ? 'bg-emerald-100 dark:bg-emerald-950/40 border-emerald-500 text-emerald-900 dark:text-emerald-200'
                                   : 'bg-rose-100 dark:bg-rose-950/40 border-rose-500 text-rose-900 dark:text-rose-200'
                                 : userChoice
-                                ? 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-500 text-indigo-900 dark:text-indigo-200'
+                                ? 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200'
                                 : isDark
                                 ? 'bg-slate-900 border-slate-700 text-slate-300'
                                 : 'bg-white border-slate-300 text-slate-800 shadow-2xs'
@@ -332,7 +332,7 @@ export const NutritionDialogueActivity: React.FC<NutritionDialogueActivityProps>
                 <button
                   type="button"
                   onClick={onNextActivity}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-bold shadow-md transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Siguiente Actividad</span>
                   <ArrowRight className="w-4 h-4" />

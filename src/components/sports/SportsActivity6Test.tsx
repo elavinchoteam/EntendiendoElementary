@@ -499,11 +499,6 @@ export const SportsActivity6Test: React.FC<SportsActivity6TestProps> = ({
                   <h3 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-slate-100 leading-snug">
                     {isQuestionCardFlipped ? currentQ.questionEs : currentQ.question}
                   </h3>
-                  {isQuestionCardFlipped && (
-                    <div className="text-xs text-amber-600 dark:text-amber-400 mt-1 font-mono">
-                      Test {currentQ.testNumber} (Español)
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -531,7 +526,11 @@ export const SportsActivity6Test: React.FC<SportsActivity6TestProps> = ({
                     isDark ? 'bg-slate-800/80 border-slate-750' : 'bg-slate-50 border-slate-200'
                   }`}
                 >
-                  <span>{currentQ.sentencePrefix}</span>
+                  <span>
+                    {isQuestionCardFlipped
+                      ? currentQ.sentencePrefixEs || currentQ.sentencePrefix
+                      : currentQ.sentencePrefix}
+                  </span>
 
                   {/* Drop Slot Target */}
                   <span
@@ -553,11 +552,18 @@ export const SportsActivity6Test: React.FC<SportsActivity6TestProps> = ({
                     }`}
                   >
                     {selectedOptId
-                      ? currentQ.options.find((o) => o.id === selectedOptId)?.text
+                      ? isQuestionCardFlipped
+                        ? currentQ.options.find((o) => o.id === selectedOptId)?.textEs ||
+                          currentQ.options.find((o) => o.id === selectedOptId)?.text
+                        : currentQ.options.find((o) => o.id === selectedOptId)?.text
                       : 'Haz clic para colocar aquí'}
                   </span>
 
-                  <span>{currentQ.sentenceSuffix}</span>
+                  <span>
+                    {isQuestionCardFlipped
+                      ? currentQ.sentenceSuffixEs || currentQ.sentenceSuffix
+                      : currentQ.sentenceSuffix}
+                  </span>
                 </div>
 
                 {/* Draggable/Selectable Options Pool */}
@@ -593,7 +599,7 @@ export const SportsActivity6Test: React.FC<SportsActivity6TestProps> = ({
                               : 'bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100 shadow-xs'
                           }`}
                         >
-                          <span>{opt.text}</span>
+                          <span>{isQuestionCardFlipped ? opt.textEs || opt.text : opt.text}</span>
                           <button
                             type="button"
                             onClick={(e) => handlePlayOption(opt.text, e)}
@@ -655,7 +661,7 @@ export const SportsActivity6Test: React.FC<SportsActivity6TestProps> = ({
                             />
                           )}
                         </span>
-                        <span>{opt.text}</span>
+                        <span>{isQuestionCardFlipped ? opt.textEs || opt.text : opt.text}</span>
                       </div>
 
                       <button

@@ -147,7 +147,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                 <button
                   type="button"
                   onClick={handleTogglePlay}
-                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-indigo-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
+                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-black/60 hover:bg-sky-600 text-white flex items-center justify-center transition-transform hover:scale-110 active:scale-95 shadow-xl border border-white/20 cursor-pointer"
                   aria-label="Reproducir video"
                 >
                   <Play className="w-6 h-6 fill-current translate-x-0.5" />
@@ -164,7 +164,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
                 aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
               >
                 {isPlaying ? (
-                  <Pause className="w-4 h-4 fill-current text-indigo-400" />
+                  <Pause className="w-4 h-4 fill-current text-sky-400" />
                 ) : (
                   <Play className="w-4 h-4 fill-current text-slate-200" />
                 )}
@@ -176,7 +176,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
               >
                 <div className="w-full h-1.5 bg-slate-600 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-indigo-500 rounded-full transition-all duration-150"
+                    className="h-full bg-sky-500 rounded-full transition-all duration-150"
                     style={{
                       width: `${Math.min(100, (elapsedSeconds / duration) * 100)}%`,
                     }}
@@ -267,7 +267,7 @@ export const Activity1Explore: React.FC<Activity1ExploreProps> = ({
             <button
               type="button"
               onClick={handleTogglePlay}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold shadow-md transition-transform active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs sm:text-sm font-bold shadow-md transition-transform active:scale-95 cursor-pointer"
             >
               {isPlaying ? (
                 <>

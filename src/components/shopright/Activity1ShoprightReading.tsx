@@ -67,10 +67,10 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
           onClick={(e) => handlePlay(SHOPRIGHT_AD_FULL_EN, 'full-ad', e)}
           className={`p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
             playingId === 'full-ad'
-              ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+              ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
               : isDark
-              ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-              : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border-indigo-200 shadow-xs'
+              ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+              : 'bg-sky-50 hover:bg-sky-100 text-sky-900 border-sky-200 shadow-xs'
           }`}
           aria-label="Audio"
         >
@@ -104,7 +104,7 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2 border-b border-inherit/40 pb-2">
-                    <span className="text-xs font-mono font-semibold text-indigo-600 dark:text-indigo-400 uppercase">
+                    <span className="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400 uppercase">
                       Shopright Ad
                     </span>
 
@@ -113,10 +113,10 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
                       onClick={(e) => handlePlay(item.en, item.id, e)}
                       className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                         isPlaying
-                          ? 'bg-indigo-600 text-white border-indigo-500'
+                          ? 'bg-sky-600 text-white border-sky-500'
                           : isDark
-                          ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                          : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                          ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                          : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                       }`}
                       aria-label="Audio"
                     >
@@ -133,12 +133,12 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
                 <div
                   className={`absolute inset-0 w-full h-full rounded-2xl p-4 sm:p-5 flex flex-col justify-between border backface-hidden rotate-y-180 shadow-xs transition-colors ${
                     isDark
-                      ? 'bg-slate-900 border-indigo-500/40 text-slate-100'
-                      : 'bg-white border-indigo-300 text-slate-900'
+                      ? 'bg-slate-900 border-sky-500/40 text-slate-100'
+                      : 'bg-white border-sky-300 text-slate-900'
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2 border-b border-inherit/40 pb-2">
-                    <span className="text-xs font-mono font-semibold text-indigo-600 dark:text-indigo-400 uppercase">
+                    <span className="text-xs font-mono font-semibold text-sky-600 dark:text-sky-400 uppercase">
                       Traducción
                     </span>
                     <button
@@ -146,10 +146,10 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
                       onClick={(e) => handlePlay(item.en, item.id, e)}
                       className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
                         isPlaying
-                          ? 'bg-indigo-600 text-white border-indigo-500'
+                          ? 'bg-sky-600 text-white border-sky-500'
                           : isDark
-                          ? 'bg-slate-800 hover:bg-slate-700 text-indigo-300 border-slate-700'
-                          : 'bg-slate-50 hover:bg-indigo-50 text-indigo-900 border-slate-200'
+                          ? 'bg-slate-800 hover:bg-slate-700 text-sky-300 border-slate-700'
+                          : 'bg-slate-50 hover:bg-sky-50 text-sky-900 border-slate-200'
                       }`}
                       aria-label="Audio"
                     >
@@ -172,7 +172,7 @@ export const Activity1ShoprightReading: React.FC<Activity1ShoprightReadingProps>
           <button
             type="button"
             onClick={onNext}
-            className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
+            className="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer flex items-center gap-2"
           >
             <CheckCircle2 className="w-4 h-4" />
             <span>Continuar</span>

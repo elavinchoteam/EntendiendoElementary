@@ -365,11 +365,7 @@ export const PresentSimpleWhQuestionsTest: React.FC<PresentSimpleWhQuestionsTest
                   </div>
                 ) : (
                   // Back side: Spanish Translation
-                  <div
-                    className={`space-y-2 text-base sm:text-lg leading-relaxed font-medium ${
-                      isDark ? 'text-amber-300' : 'text-amber-800'
-                    }`}
-                  >
+                  <div className="space-y-2 text-base sm:text-lg leading-relaxed font-medium italic text-slate-800 dark:text-slate-100">
                     {currentTest.promptLinesEs.map((line, lIdx) => (
                       <p key={lIdx}>{line}</p>
                     ))}

@@ -216,13 +216,13 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                             }}
                             className={`inline-flex items-center min-w-[130px] sm:min-w-[160px] px-3 py-1 rounded-xl border-2 border-dashed font-semibold transition-all select-none ${
                               isDragOver
-                                ? 'bg-indigo-500/20 border-indigo-400 scale-105'
+                                ? 'bg-sky-500/20 border-sky-400 scale-105'
                                 : placedOption
                                 ? isChecked
                                   ? isCorrect
                                     ? 'bg-emerald-500/15 border-emerald-500 text-emerald-600 dark:text-emerald-300 font-bold'
                                     : 'bg-rose-500/15 border-rose-500 text-rose-600 dark:text-rose-300 font-bold'
-                                  : 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-400 text-indigo-700 dark:text-indigo-300 font-bold shadow-xs'
+                                  : 'bg-sky-50 dark:bg-sky-950/40 border-sky-400 text-sky-700 dark:text-sky-300 font-bold shadow-xs'
                                 : isDark
                                 ? 'bg-slate-800/80 border-slate-600 text-slate-400'
                                 : 'bg-slate-100 border-slate-300 text-slate-400'
@@ -286,10 +286,10 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -320,10 +320,10 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                     onClick={handleSpeakDialogue}
                     className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                       isDialoguePlaying
-                        ? 'bg-indigo-600 text-white border-indigo-500 ring-2 ring-indigo-400'
+                        ? 'bg-sky-600 text-white border-sky-500 ring-2 ring-sky-400'
                         : isDark
-                        ? 'bg-slate-800 hover:bg-slate-700 text-indigo-400 border-slate-700'
-                        : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+                        ? 'bg-slate-800 hover:bg-slate-700 text-sky-400 border-slate-700'
+                        : 'bg-sky-50 hover:bg-sky-100 text-sky-700 border-sky-200'
                     }`}
                     aria-label="Audio"
                   >
@@ -344,7 +344,7 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-xs font-mono text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-mono text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" /> Limpiar selección
                 </button>
@@ -363,7 +363,7 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                     onClick={() => handleOptionClick(opt.id)}
                     className={`px-4 py-2 rounded-xl font-medium text-sm sm:text-base border transition-all cursor-pointer select-none ${
                       isSelected
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-md scale-102 ring-2 ring-indigo-300'
+                        ? 'bg-sky-600 text-white border-sky-600 shadow-md scale-102 ring-2 ring-sky-300'
                         : isDark
                         ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700 hover:border-slate-600'
                         : 'bg-white hover:bg-slate-50 text-slate-800 border-slate-300 hover:border-slate-400 shadow-xs'
@@ -386,7 +386,7 @@ export const ComparativesDragDropActivity: React.FC<ComparativesDragDropActivity
                 className={`flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-sm uppercase tracking-wider transition-all cursor-pointer ${
                   !placedOptionId || (isChecked && isCorrect)
                     ? 'opacity-40 cursor-not-allowed bg-slate-300 dark:bg-slate-800 text-slate-500'
-                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg'
+                    : 'bg-sky-600 hover:bg-sky-700 text-white shadow-md hover:shadow-lg'
                 }`}
               >
                 <Check className="w-4 h-4" />
