@@ -1,6 +1,7 @@
 import { LessonSentence, RadioChoiceOption, UnitTestQuestion } from '../types';
+import museumVideo from '../assets/video_direction_to_the_museum.mp4';
 
-export const museumVideo = '';
+export { museumVideo };
 
 export interface DialogueTurn {
   id: string;

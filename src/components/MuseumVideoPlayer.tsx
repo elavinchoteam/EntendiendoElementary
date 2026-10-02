@@ -121,10 +121,20 @@ export const MuseumVideoPlayer: React.FC<MuseumVideoPlayerProps> = ({
       videoRef.current.pause();
       setIsPlaying(false);
     } else {
+      if (videoRef.current.ended) {
+        videoRef.current.currentTime = 0;
+        setCurrentTime(0);
+      }
       videoRef.current.play().catch((err) => {
         console.warn('Video play error:', err);
       });
       setIsPlaying(true);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current && videoRef.current.duration && !isNaN(videoRef.current.duration)) {
+      setDuration(videoRef.current.duration);
     }
   };
 
@@ -213,6 +223,7 @@ export const MuseumVideoPlayer: React.FC<MuseumVideoPlayerProps> = ({
             src={museumVideo}
             playsInline
             preload="metadata"
+            onLoadedMetadata={handleLoadedMetadata}
             onTimeUpdate={handleTimeUpdate}
             onEnded={() => setIsPlaying(false)}
             onPlay={() => setIsPlaying(true)}
