@@ -47,6 +47,7 @@ import { DialogueExploreExercise } from './DialogueExploreExercise';
 import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
+import { CountableUncountableMasterclassActivity } from './CountableUncountableMasterclassActivity';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
 import { ComparativesSuperlativesMasterclassActivity } from './ComparativesSuperlativesMasterclassActivity';
 import { PresentSimpleMasterclassActivity } from './PresentSimpleMasterclassActivity';
@@ -189,6 +190,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       ex.type !== 'classification-table' &&
       ex.type !== 'checkbox-multiselect' &&
       ex.type !== 'unit-test' &&
+      (ex.type as string) !== 'countable-uncountable-masterclass' &&
       (ex.type as string) !== 'sports-activity' &&
       (ex.type as string) !== 'people-crazy-sports-activity' &&
       (ex.type as string) !== 'swimming-activity' &&
@@ -243,6 +245,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'comparison-adjectives-superlatives' ||
     unit.sectionId === 'sports-2' ||
     (unit.id as any) === 'sports-2' ||
+    unit.sectionId === 'countable-and-uncountable-nouns' ||
+    (unit.id as any) === 'countable-and-uncountable-nouns' ||
     unit.sectionId === 'in-the-restaurant' ||
     (unit.id as any) === 'in-the-restaurant' ||
     unit.sectionId === 'sale-at-shopright' ||
@@ -279,6 +283,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'present-simple-yes-no-questions' ||
             (ex.type as string) === 'present-simple-wh-questions' ||
             (ex.type as string) === 'comparatives-superlatives-masterclass' ||
+            (ex.type as string) === 'countable-uncountable-masterclass' ||
             (ex.type as string) === 'sports-activity' ||
             (ex.type as string) === 'people-crazy-sports-activity' ||
             (ex.type as string) === 'swimming-activity' ||
@@ -1552,6 +1557,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <ComparisonAdjectivesSuperlativesSection
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'countable-uncountable-masterclass' ||
+            unit.sectionId === 'countable-and-uncountable-nouns' ||
+            (unit.id as any) === 'countable-and-uncountable-nouns'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CountableUncountableMasterclassActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
