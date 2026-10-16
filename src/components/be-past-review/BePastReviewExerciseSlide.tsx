@@ -445,37 +445,47 @@ export const BePastReviewExerciseSlide: React.FC<BePastReviewExerciseSlideProps>
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                       Diálogo · English
                     </span>
-                    <span className="text-[10px] font-mono opacity-60 flex items-center gap-1 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                      Clic para traducir al castellano ↻
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        playFeedbackSound('flip');
+                        setIsDialogueFlipped((prev) => !prev);
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 hover:bg-sky-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Ver traducción al castellano"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Castellano</span>
+                    </button>
                   </div>
 
                   <div className="space-y-4 text-base sm:text-lg leading-relaxed font-medium my-auto">
-              {activity.dialogueLines.map((line, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-wrap items-baseline gap-x-2 gap-y-2 font-medium"
-                >
-                  {line.prefix && <span>{line.prefix}</span>}
+                    {activity.dialogueLines.map((line, idx) => (
+                      <div
+                        key={idx}
+                        className="flex flex-wrap items-baseline gap-x-2 gap-y-2 font-medium"
+                      >
+                        {line.prefix && <span>{line.prefix}</span>}
 
-                  {/* Slot 1 */}
-                  {line.slot && renderSlot(line.slot)}
+                        {/* Slot 1 */}
+                        {line.slot && renderSlot(line.slot)}
 
-                  {line.middleText && <span>{line.middleText}</span>}
+                        {line.middleText && <span>{line.middleText}</span>}
 
-                  {/* Slot 2 */}
-                  {line.slot2 && renderSlot(line.slot2)}
+                        {/* Slot 2 */}
+                        {line.slot2 && renderSlot(line.slot2)}
 
-                  {line.middleText2 && <span>{line.middleText2}</span>}
+                        {line.middleText2 && <span>{line.middleText2}</span>}
 
-                  {/* Slot 3 */}
-                  {line.slot3 && renderSlot(line.slot3)}
+                        {/* Slot 3 */}
+                        {line.slot3 && renderSlot(line.slot3)}
 
-                  {line.suffix && <span>{line.suffix}</span>}
+                        {line.suffix && <span>{line.suffix}</span>}
 
-                  {!line.slot && !line.prefix && line.fullEn && <span>{line.fullEn}</span>}
-                </div>
-              ))}
+                        {!line.slot && !line.prefix && line.fullEn && <span>{line.fullEn}</span>}
+                      </div>
+                    ))}
                   </div>
 
                   <div className="pt-2 mt-3 border-t border-inherit/15 flex items-center justify-between text-[10px] font-mono opacity-60">
@@ -487,21 +497,32 @@ export const BePastReviewExerciseSlide: React.FC<BePastReviewExerciseSlideProps>
                 {/* REVERSO / BACK: Traducción al castellano */}
                 <div
                   className={`absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-6 flex flex-col justify-between backface-hidden rotate-y-180 transition-opacity ${
-                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50/90 text-emerald-950 border border-emerald-200'
+                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50/95 text-emerald-950 border border-emerald-300'
                   } ${!isDialogueFlipped ? 'invisible pointer-events-none' : ''}`}
                 >
                   <div className="flex items-center justify-between pb-2 mb-3 border-b border-inherit/20">
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                       Traducción al Castellano
                     </span>
-                    <span className="text-[10px] font-mono opacity-60 flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      Clic para volver al ejercicio ↻
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        playFeedbackSound('flip');
+                        setIsDialogueFlipped((prev) => !prev);
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Volver al ejercicio en inglés"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Inglés</span>
+                    </button>
                   </div>
 
                   <div className="space-y-3 font-serif italic text-base sm:text-lg leading-relaxed text-slate-800 dark:text-emerald-100 my-auto py-1">
                     {activity.dialogueLines.map((line, idx) => (
                       <p key={idx} className="flex items-baseline gap-2">
+                        <span className="font-sans not-italic text-emerald-600 dark:text-emerald-400 font-bold select-none">•</span>
                         <span>{line.fullEs || line.prefixEs || line.fullEn}</span>
                       </p>
                     ))}

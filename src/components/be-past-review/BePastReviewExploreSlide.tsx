@@ -7,6 +7,7 @@ import {
   BookOpen,
   ArrowRight,
   Sparkles,
+  RotateCcw,
 } from 'lucide-react';
 import {
   policeAlibiImg,
@@ -310,7 +311,18 @@ export const BePastReviewExploreSlide: React.FC<BePastReviewExploreSlideProps> =
                     <span className="text-xs font-mono font-bold uppercase text-sky-600 dark:text-sky-400">
                       English Script
                     </span>
-                    <span className="text-[11px] font-mono opacity-60">Clic para traducir al español ↻</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFlipCard();
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-sky-500/15 border border-sky-500/30 text-sky-600 dark:text-sky-400 hover:bg-sky-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Ver traducción al castellano"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Castellano</span>
+                    </button>
                   </div>
 
                   <div className="space-y-2.5 text-sm sm:text-base font-medium leading-relaxed my-auto py-2">
@@ -333,14 +345,25 @@ export const BePastReviewExploreSlide: React.FC<BePastReviewExploreSlideProps> =
                 {/* BACK: Spanish Translation */}
                 <div
                   className={`absolute inset-0 backface-hidden rotate-y-180 rounded-3xl p-5 sm:p-6 flex flex-col justify-between ${
-                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50 text-emerald-950'
+                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50 text-emerald-950 border border-emerald-300'
                   }`}
                 >
                   <div className="flex items-center justify-between pb-2 border-b border-inherit/20 shrink-0">
                     <span className="text-xs font-mono font-bold uppercase text-emerald-600 dark:text-emerald-400">
-                      Traducción al Español
+                      Traducción al Castellano
                     </span>
-                    <span className="text-[11px] font-mono opacity-60">Clic para volver al inglés ↻</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFlipCard();
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Volver al guión en inglés"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Inglés</span>
+                    </button>
                   </div>
 
                   <div className="space-y-2.5 text-sm sm:text-base font-serif italic leading-relaxed my-auto py-2">

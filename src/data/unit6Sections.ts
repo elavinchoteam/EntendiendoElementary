@@ -7,7 +7,18 @@ import {
   BePastActivityItem,
   BePastTestItem,
 } from './bePastReviewData';
+import {
+  mrAmericaImg,
+  COMPARISON_REVIEW_REFERENCE_AUDIO,
+  COMPARISON_REVIEW_ACTIVITIES,
+  COMPARISON_REVIEW_TESTS,
+  ComparisonActivityItem,
+  ComparisonTestItem,
+} from './comparisonAdjectivesReviewData';
 
+// ---------------------------------------------------------------------------
+// TYPES SECTION 1: BE-PAST: REVIEW
+// ---------------------------------------------------------------------------
 export interface BePastReviewExploreItem {
   id: string;
   type: 'be-past-review-explore';
@@ -37,6 +48,41 @@ export type BePastReviewSectionExercise =
   | BePastReviewExerciseItem
   | BePastReviewTestExerciseItem;
 
+// ---------------------------------------------------------------------------
+// TYPES SECTION 2: COMPARISON OF ADJECTIVES: REVIEW
+// ---------------------------------------------------------------------------
+export interface ComparisonReviewExploreItem {
+  id: string;
+  type: 'comparison-review-explore';
+  title: string;
+  titleEs?: string;
+}
+
+export interface ComparisonReviewExerciseItem {
+  id: string;
+  type: 'comparison-review-exercise';
+  title: string;
+  titleEs?: string;
+  activityData: ComparisonActivityItem;
+}
+
+export interface ComparisonReviewTestExerciseItem {
+  id: string;
+  type: 'comparison-review-test';
+  title: string;
+  titleEs?: string;
+  totalQuestions: number;
+  testData: ComparisonTestItem[];
+}
+
+export type ComparisonReviewSectionExercise =
+  | ComparisonReviewExploreItem
+  | ComparisonReviewExerciseItem
+  | ComparisonReviewTestExerciseItem;
+
+// ---------------------------------------------------------------------------
+// SECTION 1 DATA
+// ---------------------------------------------------------------------------
 export const BE_PAST_REVIEW_LESSON_TEXT: LessonText = {
   title: 'Review 1 · Section 1: Be-Past: Review',
   stepTitle: 'Step 1: Explore',
@@ -94,6 +140,65 @@ export const BE_PAST_REVIEW_EXERCISES: BePastReviewSectionExercise[] = [
   },
 ];
 
+// ---------------------------------------------------------------------------
+// SECTION 2 DATA: COMPARISON OF ADJECTIVES: REVIEW
+// ---------------------------------------------------------------------------
+export const COMPARISON_REVIEW_LESSON_TEXT: LessonText = {
+  title: 'Review 1 · Section 2: Comparison of Adjectives: Review',
+  stepTitle: 'Step 1: Explore',
+  audioText: COMPARISON_REVIEW_REFERENCE_AUDIO,
+  textEn: "- Ahh! He's as strong as last year's Mr. America!\n- Ooh! He's even stronger!\n- Wow! He's the strongest!",
+  textEs: "- ¡Ahh! ¡Él es tan fuerte como el Mr. América del año pasado!\n- ¡Ooh! ¡Él es incluso más fuerte!\n- ¡Guau! ¡Él es el más fuerte!",
+  imageSrc: mrAmericaImg,
+  durationSeconds: 11,
+  sentences: [
+    {
+      en: "Ahh! He's as strong as last year's Mr. America!",
+      es: '¡Ahh! ¡Él es tan fuerte como el Mr. América del año pasado!',
+    },
+    {
+      en: "Ooh! He's even stronger!",
+      es: '¡Ooh! ¡Él es incluso más fuerte!',
+    },
+    {
+      en: "Wow! He's the strongest!",
+      es: '¡Guau! ¡Él es el más fuerte!',
+    },
+  ],
+  practiceInstructions:
+    'Observa el uso de las comparaciones en inglés: igualdad (as... as), comparativo (-er / more) y superlativo (-est / most).',
+};
+
+export const COMPARISON_REVIEW_EXERCISES: ComparisonReviewSectionExercise[] = [
+  // Actividad 1: Explore
+  {
+    id: 'car-act-1',
+    type: 'comparison-review-explore',
+    title: 'Actividad 1: Explore',
+    titleEs: 'Actividad 1: Explorar',
+  },
+  // Actividades 2 a 21 (20 actividades prácticas en orden exacto)
+  ...COMPARISON_REVIEW_ACTIVITIES.map((act) => ({
+    id: act.id,
+    type: 'comparison-review-exercise' as const,
+    title: act.title,
+    titleEs: act.title,
+    activityData: act,
+  })),
+  // Test (10 preguntas en orden exacto)
+  {
+    id: 'car-unit-test',
+    type: 'comparison-review-test' as const,
+    title: 'Test',
+    titleEs: 'Examen de la Sección',
+    totalQuestions: COMPARISON_REVIEW_TESTS.length,
+    testData: COMPARISON_REVIEW_TESTS,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// ALL SECTIONS FOR UNIT 6: REVIEW 1
+// ---------------------------------------------------------------------------
 export const UNIT_6_SECTIONS: UnitSection[] = [
   {
     id: 'be-past-review',
@@ -107,5 +212,18 @@ export const UNIT_6_SECTIONS: UnitSection[] = [
     lessonText: BE_PAST_REVIEW_LESSON_TEXT,
     flashcards: [],
     exercises: BE_PAST_REVIEW_EXERCISES as any,
+  },
+  {
+    id: 'comparison-adjectives-review',
+    number: 2,
+    title: 'Comparison of Adjectives: Review',
+    titleEs: 'Comparación de Adjetivos: Repaso',
+    subtitle: 'Grammar Review · 21 Activities & 10 Tests',
+    description:
+      'Repaso integral de las estructuras de comparación: igualdad (as... as), comparativos (-er / more... than), superlativos (the -est / the most) y formas irregulares (better, best, worse, worst), con 21 actividades prácticas y 10 tests evaluativos en orden exacto.',
+    imageUrl: mrAmericaImg,
+    lessonText: COMPARISON_REVIEW_LESSON_TEXT,
+    flashcards: [],
+    exercises: COMPARISON_REVIEW_EXERCISES as any,
   },
 ];

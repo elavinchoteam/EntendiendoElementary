@@ -71,6 +71,9 @@ import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
 import { BePastReviewExerciseSlide } from './be-past-review/BePastReviewExerciseSlide';
 import { BePastReviewTestSlide } from './be-past-review/BePastReviewTestSlide';
+import { ComparisonReviewExploreSlide } from './comparison-review/ComparisonReviewExploreSlide';
+import { ComparisonReviewExerciseSlide } from './comparison-review/ComparisonReviewExerciseSlide';
+import { ComparisonReviewTestSlide } from './comparison-review/ComparisonReviewTestSlide';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -205,7 +208,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'nutrition-activity' &&
       (ex.type as string) !== 'be-past-review-explore' &&
       (ex.type as string) !== 'be-past-review-exercise' &&
-      (ex.type as string) !== 'be-past-review-test'
+      (ex.type as string) !== 'be-past-review-test' &&
+      (ex.type as string) !== 'comparison-review-explore' &&
+      (ex.type as string) !== 'comparison-review-exercise' &&
+      (ex.type as string) !== 'comparison-review-test'
   );
 
   const isCustomSequentialUnit =
@@ -265,6 +271,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'nutrition' ||
     unit.sectionId === 'be-past-review' ||
     (unit.id as any) === 'be-past-review' ||
+    unit.sectionId === 'comparison-adjectives-review' ||
+    (unit.id as any) === 'comparison-adjectives-review' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -305,7 +313,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
             (ex.type as string) === 'be-past-review-exercise' ||
-            (ex.type as string) === 'be-past-review-test'
+            (ex.type as string) === 'be-past-review-test' ||
+            (ex.type as string) === 'comparison-review-explore' ||
+            (ex.type as string) === 'comparison-review-exercise' ||
+            (ex.type as string) === 'comparison-review-test'
         )
     );
 
@@ -402,6 +413,15 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
           icon = CheckSquare;
           if (!(ex as any).title) title = (ex as any).title || `Actividad ${idx + 1}`;
         } else if ((ex.type as string) === 'be-past-review-test') {
+          icon = Award;
+          if (!(ex as any).title) title = 'Test (10 Preguntas)';
+        } else if ((ex.type as string) === 'comparison-review-explore') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = 'Actividad 1: Explore';
+        } else if ((ex.type as string) === 'comparison-review-exercise') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = (ex as any).title || `Actividad ${idx + 1}`;
+        } else if ((ex.type as string) === 'comparison-review-test') {
           icon = Award;
           if (!(ex as any).title) title = 'Test (10 Preguntas)';
         }
@@ -1708,6 +1728,46 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <BePastReviewTestSlide
+                  tests={ex.testData}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'comparison-review-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonReviewExploreSlide
+                  accent={accent}
+                  speechRate={currentRate}
+                  onNext={nextSlide}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'comparison-review-exercise') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonReviewExerciseSlide
+                  activity={ex.activityData}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                  onNext={nextSlide}
+                  hasNext={safeCurrentSlide < slides.length - 1}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'comparison-review-test') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ComparisonReviewTestSlide
                   tests={ex.testData}
                   accent={accent}
                   speechRate={currentRate}

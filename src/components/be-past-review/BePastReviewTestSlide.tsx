@@ -229,6 +229,25 @@ export const BePastReviewTestSlide: React.FC<BePastReviewTestSlideProps> = ({
     setCurrentIdx(0);
     setIsTestCompleted(false);
     setIsTestStarted(true);
+    setIsInstructionFlipped(false);
+    setIsDialogueFlipped(false);
+    setIsPlayingMedia(false);
+    setElapsedSeconds(0);
+    stopSpeaking();
+  };
+
+  const handleResetCurrentQuestion = () => {
+    if (!currentTest) return;
+    playFeedbackSound('click');
+    setAnswersMap((prev) => {
+      const next = { ...prev };
+      delete next[currentTest.id];
+      return next;
+    });
+    setSubmittedMap((prev) => ({ ...prev, [currentTest.id]: false }));
+    setCorrectMap((prev) => ({ ...prev, [currentTest.id]: false }));
+    setIsDialogueFlipped(false);
+    stopSpeaking();
   };
 
   const totalScore = Object.values(correctMap).filter(Boolean).length;
@@ -360,10 +379,10 @@ export const BePastReviewTestSlide: React.FC<BePastReviewTestSlideProps> = ({
           <button
             type="button"
             onClick={handleRestartTest}
-            className="px-6 py-3 rounded-2xl border border-inherit/20 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-2"
+            className="px-6 py-3 rounded-2xl border border-inherit/20 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer flex items-center gap-2 active:scale-95"
           >
             <RotateCcw className="w-4 h-4" />
-            <span>Reintentar Test</span>
+            <span>Reiniciar Test</span>
           </button>
 
           {onSuccess && (
@@ -612,9 +631,19 @@ export const BePastReviewTestSlide: React.FC<BePastReviewTestSlideProps> = ({
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                       Test Dialogue · English
                     </span>
-                    <span className="text-[10px] font-mono opacity-60 flex items-center gap-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
-                      Clic para traducir al castellano ↻
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        playFeedbackSound('flip');
+                        setIsDialogueFlipped((prev) => !prev);
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Ver traducción al castellano"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Castellano</span>
+                    </button>
                   </div>
 
                   <div className="space-y-4 text-base sm:text-lg leading-relaxed font-medium my-auto">
@@ -644,21 +673,32 @@ export const BePastReviewTestSlide: React.FC<BePastReviewTestSlideProps> = ({
                 {/* REVERSO / BACK: Traducción al castellano */}
                 <div
                   className={`absolute inset-0 w-full h-full rounded-2xl p-5 sm:p-6 flex flex-col justify-between backface-hidden rotate-y-180 transition-opacity ${
-                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50/90 text-emerald-950 border border-emerald-200'
+                    isDark ? 'bg-slate-800 text-emerald-200' : 'bg-emerald-50/95 text-emerald-950 border border-emerald-300'
                   } ${!isDialogueFlipped ? 'invisible pointer-events-none' : ''}`}
                 >
                   <div className="flex items-center justify-between pb-2 mb-3 border-b border-inherit/20">
                     <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                       Traducción al Castellano
                     </span>
-                    <span className="text-[10px] font-mono opacity-60 flex items-center gap-1 hover:text-emerald-500 transition-colors">
-                      Clic para volver al test ↻
-                    </span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        playFeedbackSound('flip');
+                        setIsDialogueFlipped((prev) => !prev);
+                      }}
+                      className="px-2.5 py-1 rounded-lg text-xs font-mono font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
+                      title="Volver al test en inglés"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Inglés</span>
+                    </button>
                   </div>
 
                   <div className="space-y-3 font-serif italic text-base sm:text-lg leading-relaxed text-slate-800 dark:text-emerald-100 my-auto py-1">
                     {currentTest.dialogueLines.map((line, idx) => (
                       <p key={idx} className="flex items-baseline gap-2">
+                        <span className="font-sans not-italic text-emerald-600 dark:text-emerald-400 font-bold select-none">•</span>
                         <span>{line.fullEs || line.prefixEs || line.fullEn}</span>
                       </p>
                     ))}
@@ -740,31 +780,60 @@ export const BePastReviewTestSlide: React.FC<BePastReviewTestSlideProps> = ({
               </div>
             )}
 
-            <div className="flex items-center justify-between gap-3 flex-wrap">
-              {!isCurrentChecked ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-inherit/15">
+              <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={handleCheckCurrent}
-                  disabled={currentSlots.some((s) => !currentSlotAnswers[s.id])}
-                  className={`px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-md ${
-                    currentSlots.some((s) => !currentSlotAnswers[s.id])
-                      ? 'opacity-40 cursor-not-allowed bg-slate-300 dark:bg-slate-700 text-slate-500'
-                      : 'bg-sky-600 hover:bg-sky-500 text-white cursor-pointer active:scale-95'
-                  }`}
+                  onClick={handleRestartTest}
+                  className="px-4 py-2.5 rounded-xl border border-inherit/20 text-xs sm:text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer flex items-center gap-1.5 active:scale-95"
+                  title="Reiniciar el test completo desde la primera pregunta"
                 >
-                  <Check className="w-4 h-4" />
-                  <span>Comprobar Respuesta</span>
+                  <RotateCcw className="w-4 h-4" />
+                  <span>Reiniciar Test</span>
                 </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleNextQuestion}
-                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2 shadow-md cursor-pointer active:scale-95 transition-all ml-auto"
-                >
-                  <span>{currentIdx < tests.length - 1 ? 'Siguiente Pregunta' : 'Ver Resultados'}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
+
+                {isCurrentChecked && (
+                  <button
+                    type="button"
+                    onClick={handleResetCurrentQuestion}
+                    className="px-3.5 py-2.5 rounded-xl border border-inherit/20 text-xs sm:text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer flex items-center gap-1.5 opacity-80 active:scale-95"
+                    title="Volver a intentar esta pregunta"
+                  >
+                    <span>Reintentar Pregunta</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-mono opacity-60 hidden sm:inline">
+                  Pregunta {currentIdx + 1} de {tests.length}
+                </span>
+
+                {!isCurrentChecked ? (
+                  <button
+                    type="button"
+                    onClick={handleCheckCurrent}
+                    disabled={currentSlots.some((s) => !currentSlotAnswers[s.id])}
+                    className={`px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-md ${
+                      currentSlots.some((s) => !currentSlotAnswers[s.id])
+                        ? 'opacity-40 cursor-not-allowed bg-slate-300 dark:bg-slate-700 text-slate-500'
+                        : 'bg-sky-600 hover:bg-sky-500 text-white cursor-pointer active:scale-95'
+                    }`}
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Comprobar Respuesta</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleNextQuestion}
+                    className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2 shadow-md cursor-pointer active:scale-95 transition-all ml-auto"
+                  >
+                    <span>{currentIdx < tests.length - 1 ? 'Siguiente Pregunta' : 'Ver Resultados'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
