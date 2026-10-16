@@ -6,6 +6,11 @@ import { FOOD_SECTION_LESSON_TEXT, FOOD_SECTION_EXERCISES } from './foodSectionD
 import { UNIT_3_SECTIONS } from './unit3Sections';
 import { UNIT_4_SECTIONS } from './unit4Sections';
 import { UNIT_5_SECTIONS } from './unit5Sections';
+import {
+  UNIT_6_SECTIONS,
+  BE_PAST_REVIEW_LESSON_TEXT,
+  BE_PAST_REVIEW_EXERCISES,
+} from './unit6Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -114,18 +119,43 @@ export const UNITS_DATA: Unit[] = [
   {
     id: 6,
     number: 6,
-    title: 'Review 1',
-    titleEs: 'Repaso 1 (Unidades 1 a 5)',
-    subtitle: 'Unidad 6 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
+    title: 'Unit 6: Review 1',
+    titleEs: 'Unidad 6: Repaso 1',
+    subtitle: 'Sección 1: Be-Past: Review · 20 Actividades & 10 Tests',
+    description:
+      'Repasa y consolida el verbo Be en pasado (was / were / wasn\'t / weren\'t) a través de situaciones de la vida real, coartadas policiales, viajes y conversaciones con 20 actividades y 10 tests evaluativos en orden exacto.',
     imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
     category: 'Review & Assessment',
     requiredProgressToUnlock: 5,
+    sections: UNIT_6_SECTIONS,
+    lessonText: BE_PAST_REVIEW_LESSON_TEXT,
     flashcards: [],
-    exercises: [],
+    exercises: BE_PAST_REVIEW_EXERCISES as any,
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: {
+      title: 'Gramática: Be en Pasado',
+      explanation:
+        'Uso de was con pronombres singulares (I, he, she, it) y were con plurales (you, we, they), preguntas y respuestas cortas.',
+      examples: [
+        {
+          en: 'Where were you last night at 9:30?',
+          es: '¿Dónde estuviste anoche a las 9:30?',
+        },
+        {
+          en: 'I was at home all night.',
+          es: 'Estuve en casa toda la noche.',
+        },
+        {
+          en: 'Was Big Bob with you?',
+          es: '¿Estaba Big Bob contigo?',
+        },
+        {
+          en: "No, he wasn't, I was alone.",
+          es: 'No, no estaba, estuve solo.',
+        },
+      ],
+    },
   },
   {
     id: 7,
