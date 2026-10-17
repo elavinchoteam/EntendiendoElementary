@@ -24,6 +24,22 @@ import {
   MadMosTestItem,
   MAD_MOS_FLYER,
 } from './madMosDepartmentStoreData';
+import {
+  ellenImg,
+  ELLEN_MESSAGE_FULL_AUDIO,
+  ELLEN_MESSAGE_FULL_ES,
+  FAMILY_ACTIVITIES,
+  FAMILY_TESTS,
+  FamilyActivityItem,
+  FamilyTestItem,
+} from './familyReviewData';
+import {
+  storeClosedImg,
+  WERE_CLOSED_FULL_AUDIO,
+  WERE_CLOSED_FULL_ES,
+  WERE_CLOSED_INTERACTIONS,
+  WereClosedInteractionItem,
+} from './wereClosedData';
 
 // ---------------------------------------------------------------------------
 // TYPES SECTION 1: BE-PAST: REVIEW
@@ -120,6 +136,60 @@ export type MadMosSectionExercise =
   | MadMosExploreItem
   | MadMosExerciseItem
   | MadMosTestExerciseItem;
+
+// ---------------------------------------------------------------------------
+// TYPES SECTION 4: FAMILY
+// ---------------------------------------------------------------------------
+export interface FamilyReviewExploreItem {
+  id: string;
+  type: 'family-review-explore';
+  title: string;
+  titleEs?: string;
+}
+
+export interface FamilyReviewExerciseItem {
+  id: string;
+  type: 'family-review-exercise';
+  title: string;
+  titleEs?: string;
+  activityData: FamilyActivityItem;
+}
+
+export interface FamilyReviewTestItem {
+  id: string;
+  type: 'family-review-test';
+  title: string;
+  titleEs?: string;
+  totalQuestions: number;
+  testData: FamilyTestItem[];
+}
+
+export type FamilySectionExercise =
+  | FamilyReviewExploreItem
+  | FamilyReviewExerciseItem
+  | FamilyReviewTestItem;
+
+// ---------------------------------------------------------------------------
+// TYPES SECTION 5: WE'RE CLOSED
+// ---------------------------------------------------------------------------
+export interface WereClosedExploreItem {
+  id: string;
+  type: 'were-closed-explore';
+  title: string;
+  titleEs?: string;
+}
+
+export interface WereClosedInteractionSectionItem {
+  id: string;
+  type: 'were-closed-interaction';
+  title: string;
+  titleEs?: string;
+  interactionData: WereClosedInteractionItem;
+}
+
+export type WereClosedSectionExercise =
+  | WereClosedExploreItem
+  | WereClosedInteractionSectionItem;
 
 // ---------------------------------------------------------------------------
 // SECTION 1 DATA
@@ -320,6 +390,134 @@ export const MAD_MOS_SECTION_EXERCISES: MadMosSectionExercise[] = [
 ];
 
 // ---------------------------------------------------------------------------
+// SECTION 4 DATA: FAMILY
+// ---------------------------------------------------------------------------
+export const FAMILY_LESSON_TEXT: LessonText = {
+  title: 'Review 1 · Section 4: Family',
+  stepTitle: 'Step 1: Explore',
+  audioText: ELLEN_MESSAGE_FULL_AUDIO,
+  textEn: `Hi, Dad! It's Ellen. I called last night, but I didn't get an answer. Where were you? Aunt Minnie and Uncle Joe are taking me to the airport now. The plane leaves at 3:00 p.m. I arrive at 5:00 p.m. Please be there. They gave me lots of presents for everyone and I need help with my luggage. See you soon.`,
+  textEs: ELLEN_MESSAGE_FULL_ES,
+  imageSrc: ellenImg,
+  durationSeconds: 31,
+  sentences: [
+    {
+      en: "Hi, Dad! It's Ellen.",
+      es: '¡Hola, papá! Soy Ellen.',
+    },
+    {
+      en: "I called last night, but I didn't get an answer. Where were you?",
+      es: 'Llamé anoche, pero no obtuve respuesta. ¿Dónde estabas?',
+    },
+    {
+      en: 'Aunt Minnie and Uncle Joe are taking me to the airport now.',
+      es: 'La tía Minnie y el tío Joe me están llevando al aeropuerto ahora.',
+    },
+    {
+      en: 'The plane leaves at 3:00 p.m. I arrive at 5:00 p.m. Please be there.',
+      es: 'El avión sale a las 3:00 p.m. Llego a las 5:00 p.m. Por favor, está allí.',
+    },
+    {
+      en: 'They gave me lots of presents for everyone and I need help with my luggage. See you soon.',
+      es: 'Me dieron muchos regalos para todos y necesito ayuda con mi equipaje. ¡Nos vemos pronto!',
+    },
+  ],
+  practiceInstructions:
+    'Escucha el mensaje del buzón de voz de Ellen a su padre mientras va de camino al aeropuerto y lee la transcripción.',
+};
+
+export const FAMILY_SECTION_EXERCISES: FamilySectionExercise[] = [
+  // Actividad 1: Explore (actividad 1.png)
+  {
+    id: 'fam-act-1',
+    type: 'family-review-explore',
+    title: 'Actividad 1: Explore',
+    titleEs: 'Actividad 1: Explorar',
+  },
+  // Actividad 2 & Actividad 3 (actividad 2.png y actividad 3.png)
+  ...FAMILY_ACTIVITIES.filter((act) => act.id !== 'fam-act-1').map((act) => ({
+    id: act.id,
+    type: 'family-review-exercise' as const,
+    title: act.title,
+    titleEs: act.title,
+    activityData: act,
+  })),
+  // Test (5 preguntas en orden exacto: test 1.png a test 5.png)
+  {
+    id: 'fam-unit-test',
+    type: 'family-review-test' as const,
+    title: 'Test',
+    titleEs: 'Examen de la Sección',
+    totalQuestions: FAMILY_TESTS.length,
+    testData: FAMILY_TESTS,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// SECTION 5 DATA: WE'RE CLOSED
+// ---------------------------------------------------------------------------
+export const WERE_CLOSED_LESSON_TEXT: LessonText = {
+  title: "Review 1 · Section 5: We're Closed",
+  stepTitle: 'Step 1: Explore',
+  audioText: WERE_CLOSED_FULL_AUDIO,
+  textEn: `- Sorry, sir. We're closed.
+- Closed? But it's only one o'clock.
+- That's right. We usually close for lunch.
+- Oh. What are your hours?
+- Nine to one, and two-thirty to six.
+- I see. Well, thanks.`,
+  textEs: WERE_CLOSED_FULL_ES,
+  imageSrc: storeClosedImg,
+  durationSeconds: 13,
+  sentences: [
+    {
+      en: "Sorry, sir. We're closed.",
+      es: 'Lo siento, señor. Estamos cerrados.',
+    },
+    {
+      en: "Closed? But it's only one o'clock.",
+      es: '¿Cerrados? Pero si es solo la una en punto.',
+    },
+    {
+      en: "That's right. We usually close for lunch.",
+      es: 'Así es. Usualmente cerramos para almorzar.',
+    },
+    {
+      en: 'Oh. What are your hours?',
+      es: 'Oh. ¿Cuál es su horario?',
+    },
+    {
+      en: 'Nine to one, and two-thirty to six.',
+      es: 'De nueve a una, y de dos y media a seis.',
+    },
+    {
+      en: 'I see. Well, thanks.',
+      es: 'Ya veo. Bueno, gracias.',
+    },
+  ],
+  practiceInstructions:
+    'Lee y escucha la conversación entre el dependiente de la tienda y el cliente sobre los horarios de cierre para el almuerzo.',
+};
+
+export const WERE_CLOSED_SECTION_EXERCISES: WereClosedSectionExercise[] = [
+  // Actividad 1: Explore (actividad 1.png)
+  {
+    id: 'wc-act-1',
+    type: 'were-closed-explore',
+    title: 'Actividad 1: Explore',
+    titleEs: 'Actividad 1: Explorar',
+  },
+  // 3 Interacciones en orden exacto (interaccion 1 de 3.png a 3 de 3.png)
+  ...WERE_CLOSED_INTERACTIONS.map((item) => ({
+    id: item.id,
+    type: 'were-closed-interaction' as const,
+    title: item.title,
+    titleEs: item.title,
+    interactionData: item,
+  })),
+];
+
+// ---------------------------------------------------------------------------
 // ALL SECTIONS FOR UNIT 6: REVIEW 1
 // ---------------------------------------------------------------------------
 export const UNIT_6_SECTIONS: UnitSection[] = [
@@ -362,4 +560,31 @@ export const UNIT_6_SECTIONS: UnitSection[] = [
     flashcards: [],
     exercises: MAD_MOS_SECTION_EXERCISES as any,
   },
+  {
+    id: 'family-review',
+    number: 4,
+    title: 'Family',
+    titleEs: 'Familia',
+    subtitle: 'Listening & Comprehension · 3 Activities & 5 Tests',
+    description:
+      'Comprensión auditiva de un mensaje del buzón de voz de Ellen a su padre: viaje al aeropuerto con la tía Minnie y el tío Joe, horarios de vuelo y equipaje, con 3 actividades prácticas y 5 tests evaluativos en orden exacto.',
+    imageUrl: ellenImg,
+    lessonText: FAMILY_LESSON_TEXT,
+    flashcards: [],
+    exercises: FAMILY_SECTION_EXERCISES as any,
+  },
+  {
+    id: 'were-closed',
+    number: 5,
+    title: "We're Closed",
+    titleEs: "Estamos Cerrados",
+    subtitle: 'Dialogue & Speaking · 1 Activity & 3 Interactions',
+    description:
+      'Práctica guiada de conversación en tienda sobre horarios comerciales y cierre para el almuerzo, con 1 actividad de exploración y 3 interacciones interactivas con reconocimiento de voz y tarjetas reversibles.',
+    imageUrl: storeClosedImg,
+    lessonText: WERE_CLOSED_LESSON_TEXT,
+    flashcards: [],
+    exercises: WERE_CLOSED_SECTION_EXERCISES as any,
+  },
 ];
+

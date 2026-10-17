@@ -77,6 +77,11 @@ import { ComparisonReviewTestSlide } from './comparison-review/ComparisonReviewT
 import { MadMosExploreSlide } from './mad-mos/MadMosExploreSlide';
 import { MadMosExerciseSlide } from './mad-mos/MadMosExerciseSlide';
 import { MadMosTestSlide } from './mad-mos/MadMosTestSlide';
+import { FamilyExploreSlide } from './family-review/FamilyExploreSlide';
+import { FamilyExerciseSlide } from './family-review/FamilyExerciseSlide';
+import { FamilyTestSlide } from './family-review/FamilyTestSlide';
+import { WereClosedExploreSlide } from './were-closed/WereClosedExploreSlide';
+import { WereClosedInteractionSlide } from './were-closed/WereClosedInteractionSlide';
 import { FOOD_SECTION_LESSON } from '../data/foodSectionData';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -217,7 +222,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'comparison-review-test' &&
       (ex.type as string) !== 'mad-mos-explore' &&
       (ex.type as string) !== 'mad-mos-exercise' &&
-      (ex.type as string) !== 'mad-mos-test'
+      (ex.type as string) !== 'mad-mos-test' &&
+      (ex.type as string) !== 'family-review-explore' &&
+      (ex.type as string) !== 'family-review-exercise' &&
+      (ex.type as string) !== 'family-review-test' &&
+      (ex.type as string) !== 'were-closed-explore' &&
+      (ex.type as string) !== 'were-closed-interaction'
   );
 
   const isCustomSequentialUnit =
@@ -281,6 +291,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'comparison-adjectives-review' ||
     unit.sectionId === 'mad-mos-department-store' ||
     (unit.id as any) === 'mad-mos-department-store' ||
+    unit.sectionId === 'family-review' ||
+    (unit.id as any) === 'family-review' ||
+    unit.sectionId === 'were-closed' ||
+    (unit.id as any) === 'were-closed' ||
     Boolean(
       unit.exercises &&
         unit.exercises.some(
@@ -327,7 +341,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'comparison-review-test' ||
             (ex.type as string) === 'mad-mos-explore' ||
             (ex.type as string) === 'mad-mos-exercise' ||
-            (ex.type as string) === 'mad-mos-test'
+            (ex.type as string) === 'mad-mos-test' ||
+            (ex.type as string) === 'family-review-explore' ||
+            (ex.type as string) === 'family-review-exercise' ||
+            (ex.type as string) === 'family-review-test' ||
+            (ex.type as string) === 'were-closed-explore' ||
+            (ex.type as string) === 'were-closed-interaction'
         )
     );
 
@@ -444,6 +463,21 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'mad-mos-test') {
           icon = Award;
           if (!(ex as any).title) title = 'Test (5 Preguntas)';
+        } else if ((ex.type as string) === 'family-review-explore') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = 'Actividad 1: Explore';
+        } else if ((ex.type as string) === 'family-review-exercise') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = (ex as any).title || `Actividad ${idx + 1}`;
+        } else if ((ex.type as string) === 'family-review-test') {
+          icon = Award;
+          if (!(ex as any).title) title = 'Test (5 Preguntas)';
+        } else if ((ex.type as string) === 'were-closed-explore') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = 'Actividad 1: Explore';
+        } else if ((ex.type as string) === 'were-closed-interaction') {
+          icon = Play;
+          if (!(ex as any).title) title = (ex as any).title || `Interacción ${idx}`;
         }
         return {
           id: `seq-ex-${ex.id}`,
@@ -1832,6 +1866,73 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'family-review-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FamilyExploreSlide
+                  accent={accent}
+                  speechRate={currentRate}
+                  onNext={nextSlide}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'family-review-exercise') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FamilyExerciseSlide
+                  activity={ex.activityData}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                  onNext={nextSlide}
+                  hasNext={safeCurrentSlide < slides.length - 1}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'family-review-test') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <FamilyTestSlide
+                  tests={ex.testData}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'were-closed-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <WereClosedExploreSlide
+                  accent={accent}
+                  speechRate={currentRate}
+                  onNext={nextSlide}
+                />
+              </div>
+            );
+          }
+
+          if ((ex.type as string) === 'were-closed-interaction') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <WereClosedInteractionSlide
+                  interaction={ex.interactionData}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                  onNext={nextSlide}
+                  hasNext={safeCurrentSlide < slides.length - 1}
                 />
               </div>
             );

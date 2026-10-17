@@ -121,9 +121,9 @@ export const UNITS_DATA: Unit[] = [
     number: 6,
     title: 'Unit 6: Review 1',
     titleEs: 'Unidad 6: Repaso 1',
-    subtitle: 'Review 1 · 3 Secciones: Be-Past, Adjetivos & Mad Mo\'s Store',
+    subtitle: 'Review 1 · 5 Secciones: Be-Past, Adjetivos, Mad Mo\'s Store, Family & We\'re Closed',
     description:
-      'Repaso integral de Review 1: Be en pasado, comparaciones y superlativos de adjetivos, y lectura comercial de Mad Mo\'s Department Store con actividades y tests evaluativos.',
+      'Repaso integral de Review 1: Be en pasado, comparaciones y superlativos de adjetivos, lectura comercial de Mad Mo\'s Department Store, comprensión auditiva de Family y diálogo guiado de We\'re Closed con actividades interactivas.',
     imageUrl: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
     category: 'Review & Assessment',
