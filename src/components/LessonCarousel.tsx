@@ -48,6 +48,13 @@ import { DialogueOrderingExercise } from './DialogueOrderingExercise';
 import { InteractiveConversationExercise } from './InteractiveConversationExercise';
 import { CountableQuantifiersActivity } from './CountableQuantifiersActivity';
 import { CountableUncountableMasterclassActivity } from './CountableUncountableMasterclassActivity';
+import { PastSimpleMasterclassActivity } from './PastSimpleMasterclassActivity';
+import { InterviewExploreExercise } from './interview/InterviewExploreExercise';
+import { InterviewListenQuestionsExercise } from './interview/InterviewListenQuestionsExercise';
+import { InterviewFillTableExercise } from './interview/InterviewFillTableExercise';
+import { InterviewSentencesDropdownExercise } from './interview/InterviewSentencesDropdownExercise';
+import { InterviewTrueFalseDropdownExercise } from './interview/InterviewTrueFalseDropdownExercise';
+import { InterviewRadioChoiceExercise } from './interview/InterviewRadioChoiceExercise';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
 import { ComparativesSuperlativesMasterclassActivity } from './ComparativesSuperlativesMasterclassActivity';
 import { PresentSimpleMasterclassActivity } from './PresentSimpleMasterclassActivity';
@@ -235,6 +242,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'shopping-2' ||
     unit.sectionId === 'food' ||
     (unit.id as any) === 'food' ||
+    unit.sectionId === 'interview' ||
+    (unit.id as any) === 'interview' ||
     unit.sectionId === 'dieters-feeling-great' ||
     (unit.id as any) === 'dieters-feeling-great' ||
     unit.sectionId === 'piece-of-cake' ||
@@ -322,6 +331,14 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'present-simple-wh-questions' ||
             (ex.type as string) === 'comparatives-superlatives-masterclass' ||
             (ex.type as string) === 'countable-uncountable-masterclass' ||
+            (ex.type as string) === 'past-simple-masterclass' ||
+            (ex.type as string) === 'interview-explore' ||
+            (ex.type as string) === 'interview-match-images' ||
+            (ex.type as string) === 'interview-listen-questions' ||
+            (ex.type as string) === 'interview-fill-table' ||
+            (ex.type as string) === 'interview-dropdown-sentences' ||
+            (ex.type as string) === 'interview-dropdown-true-false' ||
+            (ex.type as string) === 'interview-radio-choice' ||
             (ex.type as string) === 'sports-activity' ||
             (ex.type as string) === 'people-crazy-sports-activity' ||
             (ex.type as string) === 'swimming-activity' ||
@@ -433,6 +450,30 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'count-non-count-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nouns: Count and Non-Count';
+        } else if ((ex.type as string) === 'past-simple-masterclass') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Past Simple Masterclass';
+        } else if ((ex.type as string) === 'interview-explore') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Explore`;
+        } else if ((ex.type as string) === 'interview-match-images') {
+          icon = Layers;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Words & Images`;
+        } else if ((ex.type as string) === 'interview-listen-questions') {
+          icon = MessageSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Questions`;
+        } else if ((ex.type as string) === 'interview-fill-table') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Fill the Table`;
+        } else if ((ex.type as string) === 'interview-dropdown-sentences') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Best Answers`;
+        } else if ((ex.type as string) === 'interview-dropdown-true-false') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: True / False`;
+        } else if ((ex.type as string) === 'interview-radio-choice') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Comprehension`;
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -1343,6 +1384,98 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             );
           }
 
+          if (ex.type === 'interview-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewExploreExercise
+                  audioText={(ex as any).audioText || ''}
+                  sentences={(ex as any).sentences || []}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-match-images') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DragWordToImageExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-listen-questions') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewListenQuestionsExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-fill-table') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewFillTableExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-dropdown-sentences') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewSentencesDropdownExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-dropdown-true-false') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewTrueFalseDropdownExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'interview-radio-choice') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <InterviewRadioChoiceExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
           if (ex.type === 'unit-test') {
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
@@ -1667,6 +1800,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <CountableUncountableMasterclassActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'past-simple-masterclass' ||
+            unit.sectionId === 'past-simple' ||
+            (unit.id as any) === 'past-simple'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PastSimpleMasterclassActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

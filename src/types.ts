@@ -57,6 +57,15 @@ export type ExerciseType =
   | 'in-the-restaurant-activity'
   | 'sale-at-shopright-activity'
   | 'good-to-see-you-activity'
+  | 'countable-uncountable-masterclass'
+  | 'past-simple-masterclass'
+  | 'interview-explore'
+  | 'interview-match-images'
+  | 'interview-listen-questions'
+  | 'interview-fill-table'
+  | 'interview-dropdown-sentences'
+  | 'interview-dropdown-true-false'
+  | 'interview-radio-choice'
   | 'unit-test';
 
 export interface GrammarRule {

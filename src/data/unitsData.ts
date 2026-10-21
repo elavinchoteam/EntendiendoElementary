@@ -11,6 +11,7 @@ import {
   BE_PAST_REVIEW_LESSON_TEXT,
   BE_PAST_REVIEW_EXERCISES,
 } from './unit6Sections';
+import { UNIT_7_SECTIONS } from './unit7Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -160,18 +161,31 @@ export const UNITS_DATA: Unit[] = [
   {
     id: 7,
     number: 7,
-    title: 'Interesting People',
-    titleEs: 'Personas Interesantes',
-    subtitle: 'Unidad 7 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
-    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+    title: 'Unit 7: Interesting People',
+    titleEs: 'Unidad 7: Personas Interesantes',
+    subtitle: 'Sección 1: Past Simple · Sección 2: Interview (8 Actividades y 5 Tests)',
+    description:
+      'Aprende y domina el Past Simple (pasado simple) en inglés: acciones completadas, verbos regulares (-ed) e irregulares, estructuras afirmativa, negativa (didn\'t) e interrogativa (did), la historia de Tom, el misterio del actor, errores comunes y contraste con presente con 7 actividades interactivas completas con audio y autocorrección.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
-    category: 'Biographies & Networking',
-    requiredProgressToUnlock: 6,
+    category: 'Biographies & Past Actions',
+    requiredProgressToUnlock: 0,
+    sections: UNIT_7_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: {
+      title: 'Gramática: Past Simple',
+      explanation:
+        'Uso del Past Simple para acciones terminadas, verbos regulares (-ed) e irregulares, did / didn\'t con la forma base.',
+      examples: [
+        { en: 'Yesterday, I missed the bus.', es: 'Ayer perdí el autobús.' },
+        { en: 'Last weekend, I went to a concert.', es: 'El fin de semana pasado fui a un concierto.' },
+        { en: "I didn't take my umbrella, so I got wet.", es: 'No llevé mi paraguas, así que me mojé.' },
+        { en: 'Did you see that strange man?', es: '¿Viste a ese hombre extraño?' },
+      ],
+    },
   },
   {
     id: 8,

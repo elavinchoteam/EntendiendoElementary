@@ -18,6 +18,8 @@ import {
   Eye,
   EyeOff,
   Volume2,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { CardSpeechControl } from './CardSpeechControl';
@@ -62,6 +64,22 @@ type TabType =
   | 'ex11'
   | 'answers';
 
+const COUNTABLE_TABS: { id: TabType; label: string; icon: React.ElementType }[] = [
+  { id: 'theory', label: 'Reglas y Teoría', icon: BookOpen },
+  { id: 'ex1', label: '1. What Would You Say?', icon: CheckSquare },
+  { id: 'ex2', label: '2. Real-Life Problems', icon: Sparkles },
+  { id: 'ex3', label: '3. Supermarket', icon: ShoppingBag },
+  { id: 'ex4', label: '4. Sounds Natural?', icon: CheckCircle2 },
+  { id: 'ex5', label: '5. Find the Problem', icon: HelpCircle },
+  { id: 'ex6', label: '6. Trip to London', icon: Plane },
+  { id: 'ex7', label: '7. Restaurant', icon: UtensilsCrossed },
+  { id: 'ex8', label: '8. Work Problems', icon: Briefcase },
+  { id: 'ex9', label: '9. Dual Nouns', icon: Brain },
+  { id: 'ex10', label: '10. Speaking', icon: MessageSquare },
+  { id: 'ex11', label: '11. Final Challenge', icon: Trophy },
+  { id: 'answers', label: 'Guía y Respuestas', icon: HelpCircle },
+];
+
 export const CountableUncountableMasterclassActivity: React.FC<
   CountableUncountableMasterclassActivityProps
 > = ({ accent = 'US', speechRate = 1.0, onSuccess }) => {
@@ -69,6 +87,32 @@ export const CountableUncountableMasterclassActivity: React.FC<
 
   // Active navigation tab
   const [activeTab, setActiveTab] = useState<TabType>('theory');
+  const tabsContainerRef = React.useRef<HTMLDivElement>(null);
+
+  const currentTabIndex = COUNTABLE_TABS.findIndex((t) => t.id === activeTab);
+
+  const goToTab = (tabId: TabType) => {
+    setActiveTab(tabId);
+    playFeedbackSound('click');
+    setTimeout(() => {
+      const el = document.getElementById(`countable-tab-${tabId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }, 40);
+  };
+
+  const handlePrevTab = () => {
+    if (currentTabIndex > 0) {
+      goToTab(COUNTABLE_TABS[currentTabIndex - 1].id);
+    }
+  };
+
+  const handleNextTab = () => {
+    if (currentTabIndex < COUNTABLE_TABS.length - 1) {
+      goToTab(COUNTABLE_TABS[currentTabIndex + 1].id);
+    }
+  };
 
   // Flip states for reversible cards
   const [flippedTheory, setFlippedTheory] = useState<Record<string, boolean>>({});
@@ -210,201 +254,73 @@ export const CountableUncountableMasterclassActivity: React.FC<
           </div>
         </div>
 
-        {/* Section Navigation Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-5 border-t border-inherit/15 mt-5">
+        {/* Section Navigation Tabs with Floating Prev (<) & Next (>) Buttons */}
+        <div className="relative flex items-center gap-2 pt-5 border-t border-inherit/15 mt-5">
+          {/* Floating Left Button (<) */}
           <button
             type="button"
-            onClick={() => setActiveTab('theory')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'theory'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
+            id="cu-tabs-prev-button"
+            onClick={handlePrevTab}
+            disabled={currentTabIndex <= 0}
+            className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer select-none shadow-xs ${
+              currentTabIndex <= 0
+                ? 'opacity-30 cursor-not-allowed border-inherit/20 text-slate-400'
                 : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
+                ? 'bg-slate-800 hover:bg-sky-600 text-white border-white/10 hover:border-sky-400 shadow-md hover:scale-105 active:scale-95'
+                : 'bg-white hover:bg-sky-600 text-slate-700 hover:text-white border-slate-200 hover:border-sky-600 shadow-sm hover:scale-105 active:scale-95'
             }`}
+            title={currentTabIndex > 0 ? `Sección anterior: ${COUNTABLE_TABS[currentTabIndex - 1].label}` : 'Primera sección'}
+            aria-label="Pestaña anterior"
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Reglas y Teoría</span>
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex1')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex1'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
+          {/* Scrollable Tabs Row */}
+          <div
+            ref={tabsContainerRef}
+            className="flex-1 flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth py-1"
           >
-            <CheckSquare className="w-3.5 h-3.5" />
-            <span>1. What Would You Say?</span>
-          </button>
+            {COUNTABLE_TABS.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  id={`countable-tab-${tab.id}`}
+                  type="button"
+                  onClick={() => goToTab(tab.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border shrink-0 ${
+                    isActive
+                      ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
+                      : isDark
+                      ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
+                      : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
+          {/* Floating Right Button (>) */}
           <button
             type="button"
-            onClick={() => setActiveTab('ex2')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex2'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
+            id="cu-tabs-next-button"
+            onClick={handleNextTab}
+            disabled={currentTabIndex >= COUNTABLE_TABS.length - 1}
+            className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer select-none shadow-xs ${
+              currentTabIndex >= COUNTABLE_TABS.length - 1
+                ? 'opacity-30 cursor-not-allowed border-inherit/20 text-slate-400'
                 : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
+                ? 'bg-slate-800 hover:bg-sky-600 text-white border-white/10 hover:border-sky-400 shadow-md hover:scale-105 active:scale-95'
+                : 'bg-white hover:bg-sky-600 text-slate-700 hover:text-white border-slate-200 hover:border-sky-600 shadow-sm hover:scale-105 active:scale-95'
             }`}
+            title={currentTabIndex < COUNTABLE_TABS.length - 1 ? `Siguiente sección: ${COUNTABLE_TABS[currentTabIndex + 1].label}` : 'Última sección'}
+            aria-label="Siguiente pestaña"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>2. Real-Life Problems</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex3')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex3'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            <span>3. Supermarket</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex4')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex4'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>4. Sounds Natural?</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex5')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex5'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>5. Find the Problem</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex6')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex6'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <Plane className="w-3.5 h-3.5" />
-            <span>6. Trip to London</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex7')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex7'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <UtensilsCrossed className="w-3.5 h-3.5" />
-            <span>7. Restaurant</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex8')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex8'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>8. Work Problems</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex9')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex9'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <Brain className="w-3.5 h-3.5" />
-            <span>9. Dual Nouns</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex10')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex10'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>10. Speaking</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('ex11')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'ex11'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <Trophy className="w-3.5 h-3.5" />
-            <span>11. Final Challenge</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab('answers')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
-              activeTab === 'answers'
-                ? 'bg-sky-600 text-white border-sky-500 shadow-xs'
-                : isDark
-                ? 'bg-slate-800/70 border-white/10 text-slate-300 hover:bg-slate-800'
-                : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200/80'
-            }`}
-          >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Guía y Respuestas</span>
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>
