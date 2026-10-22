@@ -66,6 +66,14 @@ export type ExerciseType =
   | 'interview-dropdown-sentences'
   | 'interview-dropdown-true-false'
   | 'interview-radio-choice'
+  | 'do-it-explore'
+  | 'do-it-questions'
+  | 'do-it-order-events'
+  | 'do-it-true-statements'
+  | 'do-it-dropdown-sentences'
+  | 'do-it-who-says-what'
+  | 'do-it-interview-qa'
+  | 'movie-star-activity'
   | 'unit-test';
 
 export interface GrammarRule {

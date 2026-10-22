@@ -13,6 +13,7 @@ import {
   Users,
   Play,
   Trophy,
+  Film,
 } from 'lucide-react';
 import { Unit } from '../types';
 import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
@@ -55,6 +56,13 @@ import { InterviewFillTableExercise } from './interview/InterviewFillTableExerci
 import { InterviewSentencesDropdownExercise } from './interview/InterviewSentencesDropdownExercise';
 import { InterviewTrueFalseDropdownExercise } from './interview/InterviewTrueFalseDropdownExercise';
 import { InterviewRadioChoiceExercise } from './interview/InterviewRadioChoiceExercise';
+import { DoItExploreExercise } from './do-it/DoItExploreExercise';
+import { DoItQuestionsExercise } from './do-it/DoItQuestionsExercise';
+import { DoItOrderEventsExercise } from './do-it/DoItOrderEventsExercise';
+import { DoItTrueStatementsExercise } from './do-it/DoItTrueStatementsExercise';
+import { DoItDropdownSentencesExercise } from './do-it/DoItDropdownSentencesExercise';
+import { DoItWhoSaysWhatExercise } from './do-it/DoItWhoSaysWhatExercise';
+import { DoItInterviewQAExercise } from './do-it/DoItInterviewQAExercise';
 import { BePastMasterclassActivity } from './BePastMasterclassActivity';
 import { ComparativesSuperlativesMasterclassActivity } from './ComparativesSuperlativesMasterclassActivity';
 import { PresentSimpleMasterclassActivity } from './PresentSimpleMasterclassActivity';
@@ -73,6 +81,7 @@ import { ComparisonAdjectivesSuperlativesSection } from './comparison-superlativ
 import { InTheRestaurantActivity } from './InTheRestaurantActivity';
 import { SaleAtShoprightActivity } from './SaleAtShoprightActivity';
 import { GoodToSeeYouActivity } from './GoodToSeeYouActivity';
+import { MovieStarSectionActivity } from './MovieStarSectionActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -244,6 +253,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'food' ||
     unit.sectionId === 'interview' ||
     (unit.id as any) === 'interview' ||
+    unit.sectionId === 'do-it' ||
+    (unit.id as any) === 'do-it' ||
     unit.sectionId === 'dieters-feeling-great' ||
     (unit.id as any) === 'dieters-feeling-great' ||
     unit.sectionId === 'piece-of-cake' ||
@@ -339,6 +350,13 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'interview-dropdown-sentences' ||
             (ex.type as string) === 'interview-dropdown-true-false' ||
             (ex.type as string) === 'interview-radio-choice' ||
+            (ex.type as string) === 'do-it-explore' ||
+            (ex.type as string) === 'do-it-questions' ||
+            (ex.type as string) === 'do-it-order-events' ||
+            (ex.type as string) === 'do-it-true-statements' ||
+            (ex.type as string) === 'do-it-dropdown-sentences' ||
+            (ex.type as string) === 'do-it-who-says-what' ||
+            (ex.type as string) === 'do-it-interview-qa' ||
             (ex.type as string) === 'sports-activity' ||
             (ex.type as string) === 'people-crazy-sports-activity' ||
             (ex.type as string) === 'swimming-activity' ||
@@ -474,6 +492,30 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'interview-radio-choice') {
           icon = CheckSquare;
           if (!(ex as any).title) title = `Actividad ${idx + 1}: Comprehension`;
+        } else if ((ex.type as string) === 'do-it-explore') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Explore`;
+        } else if ((ex.type as string) === 'do-it-questions') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Questions`;
+        } else if ((ex.type as string) === 'do-it-order-events') {
+          icon = Layers;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Order Events`;
+        } else if ((ex.type as string) === 'do-it-true-statements') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: True Statements`;
+        } else if ((ex.type as string) === 'do-it-dropdown-sentences') {
+          icon = CheckSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Best Answers`;
+        } else if ((ex.type as string) === 'do-it-who-says-what') {
+          icon = Layers;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Who Says What?`;
+        } else if ((ex.type as string) === 'do-it-interview-qa') {
+          icon = MessageSquare;
+          if (!(ex as any).title) title = `Actividad ${idx + 1}: Interview Q&A`;
+        } else if ((ex.type as string) === 'movie-star-activity' || unit.sectionId === 'movie-star') {
+          icon = Film;
+          if (!(ex as any).title) title = (ex as any).title || 'Movie Star';
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -1476,6 +1518,98 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             );
           }
 
+          if (ex.type === 'do-it-explore') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItExploreExercise
+                  audioText={(ex as any).audioText || ''}
+                  sentences={(ex as any).sentences || []}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-questions') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItQuestionsExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-order-events') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItOrderEventsExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-true-statements') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItTrueStatementsExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-dropdown-sentences') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItDropdownSentencesExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-who-says-what') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItWhoSaysWhatExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (ex.type === 'do-it-interview-qa') {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DoItInterviewQAExercise
+                  exercise={ex as any}
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
           if (ex.type === 'unit-test') {
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
@@ -1864,6 +1998,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <GoodToSeeYouActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'movie-star-activity' ||
+            unit.sectionId === 'movie-star' ||
+            (unit.id as any) === 'movie-star'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <MovieStarSectionActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

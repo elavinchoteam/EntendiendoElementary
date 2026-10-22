@@ -163,9 +163,9 @@ export const UNITS_DATA: Unit[] = [
     number: 7,
     title: 'Unit 7: Interesting People',
     titleEs: 'Unidad 7: Personas Interesantes',
-    subtitle: 'Sección 1: Past Simple · Sección 2: Interview (8 Actividades y 5 Tests)',
+    subtitle: 'Sección 1: Past Simple · Sección 2: Interview · Sección 3: Do it! · Sección 4: Movie Star',
     description:
-      'Aprende y domina el Past Simple (pasado simple) en inglés: acciones completadas, verbos regulares (-ed) e irregulares, estructuras afirmativa, negativa (didn\'t) e interrogativa (did), la historia de Tom, el misterio del actor, errores comunes y contraste con presente con 7 actividades interactivas completas con audio y autocorrección.',
+      'Aprende y domina el Past Simple en inglés, la entrevista a Larry Patel sobre su invento, el artículo de Clean-House Agency "Do it!", y el diálogo "Movie Star" con Mark y Carol sobre el actor Robert Richman (7 actividades y 3 interacciones con voz y traducciones completas).',
     imageUrl:
       'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',

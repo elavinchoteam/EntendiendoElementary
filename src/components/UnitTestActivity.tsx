@@ -24,6 +24,7 @@ import { speakEnglish, playFeedbackSound, stopSpeaking } from '../utils/audio';
 import { useTheme } from '../context/ThemeContext';
 import chuckWoodImg from '../assets/images/chuck_wood_player_1788552205408.jpg';
 import { VocabularyHelperCard } from './VocabularyHelperCard';
+import { DoItArticleSidebar } from './do-it/DoItArticleSidebar';
 
 interface UnitTestActivityProps {
   exercise: UnitTestExercise;
@@ -114,6 +115,12 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
 
   // Reading story if available on the exercise or current question
   const readingStory = exercise.readingStory || currentQuestion?.readingStory;
+
+  // Check if this test belongs to Unit 7 Section 3 "Do It!"
+  const isDoItTest =
+    exercise.id === 'do-it-act-8-test' ||
+    Boolean((exercise as any).useDoItSidebar) ||
+    Boolean(exercise.id?.startsWith('do-it'));
 
   // Total correct and completion percentage for test summary
   const totalCorrect = exercise.questions.reduce((acc, q) => {
@@ -971,8 +978,12 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
           }`}
         >
           <div className="flex flex-col lg:flex-row items-stretch">
-            {/* LADO IZQUIERDO: HISTORIA DE LECTURA (WRONG COLOR) O REPRODUCTOR MULTIMEDIA (PHONE SALES) */}
-            {readingStory ? (
+            {/* LADO IZQUIERDO: ARTÍCULO DO IT (SIN REPRODUCTOR) O HISTORIA DE LECTURA O REPRODUCTOR MULTIMEDIA */}
+            {isDoItTest ? (
+              <div className="w-full lg:w-[42%] xl:w-[40%] p-3 sm:p-5 flex flex-col justify-start items-center border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 shrink-0">
+                <DoItArticleSidebar accent={accent} speechRate={playerSpeed} />
+              </div>
+            ) : readingStory ? (
               <div className="w-full lg:w-[48%] p-5 sm:p-7 flex flex-col justify-start bg-[#FAF9F5] dark:bg-[#141B2D] border-b lg:border-b-0 lg:border-r border-stone-200 dark:border-slate-800 text-stone-900 dark:text-slate-100 overflow-y-auto max-h-[580px] lg:max-h-[720px] select-text">
                 {/* Story Header */}
                 <div className="flex items-center justify-between gap-3 mb-5 pb-3 border-b border-stone-200 dark:border-slate-700/80 shrink-0">
@@ -1245,7 +1256,11 @@ export const UnitTestActivity: React.FC<UnitTestActivityProps> = ({
             )}
 
             {/* LADO DERECHO: PREGUNTA Y OPCIONES DE SELECCIÓN */}
-            <div className="w-full lg:w-[52%] p-6 sm:p-8 flex flex-col justify-between">
+            <div
+              className={`w-full ${
+                isDoItTest ? 'lg:w-[58%] xl:w-[60%]' : 'lg:w-[52%]'
+              } p-6 sm:p-8 flex flex-col justify-between`}
+            >
               <div>
                 {currentQuestion.type === 'drag-drop' ? (
                   /* VISTA DRAG & DROP PARA TEST 3 (Y SIMILARES) */
