@@ -9,6 +9,9 @@ import {
   DO_IT_SECTION_EXERCISES,
   doItArticleImg,
 } from './doItSectionData';
+import { movieStarImg } from './movieStarData';
+import { pastSimpleRegularTennisImg } from './pastSimpleRegularData';
+import { pastIrregularOfficeImg } from './pastSimpleIrregularData';
 
 export const UNIT_7_SECTIONS: UnitSection[] = [
   // SECTION 1: PAST SIMPLE
@@ -75,7 +78,7 @@ export const UNIT_7_SECTIONS: UnitSection[] = [
     subtitle: 'Lesson 4: Dialogue & Comprehension · Mark & Carol (7 Actividades y 3 Interacciones)',
     description:
       'Diálogo interactivo "Movie Star" entre Mark y Carol sobre el actor Robert Richman, con 7 actividades cronológicas (video, comprensión, respuestas orales) y 3 interacciones guiadas de conversación con reconocimiento de voz, traducciones completas y control de velocidad.',
-    imageUrl: '/assets/aistudio/actividad_1_58a87956.png',
+    imageUrl: movieStarImg,
     flashcards: [],
     exercises: [
       {
@@ -86,6 +89,54 @@ export const UNIT_7_SECTIONS: UnitSection[] = [
           'Listen to the dialogue and complete the 7 activities and 3 conversation interactions.',
         instructionsEs:
           'Escucha el diálogo y completa las 7 actividades y las 3 interacciones de conversación.',
+      },
+    ],
+  },
+
+  // SECTION 5: PAST SIMPLE: REGULAR VERBS
+  {
+    id: 'past-simple-regular',
+    number: 5,
+    title: 'Past Simple: Regular Verbs',
+    titleEs: 'Pasado Simple: Verbos Regulares',
+    subtitle: 'Lesson 5: Grammar Practice · Past Simple: Regular Verbs (11 Actividades y 5 Tests)',
+    description:
+      'Aprende y practica los verbos regulares en pasado simple (-ed, -d, -ied y negaciones con didn\'t) con el diálogo interactivo de tenis, 11 actividades paso a paso con arrastre y autocorrección, y una evaluación completa de 5 tests con tarjeta de inicio, audios nativos y traducciones bilingües.',
+    imageUrl: pastSimpleRegularTennisImg,
+    flashcards: [],
+    exercises: [
+      {
+        id: 'past-simple-regular-main',
+        type: 'past-simple-regular-activity',
+        title: 'Past Simple: Regular Verbs',
+        instructions:
+          'Listen to the dialogue and complete the 11 activities and 5 unit tests.',
+        instructionsEs:
+          'Escucha el diálogo y completa las 11 actividades y los 5 tests de la unidad.',
+      },
+    ],
+  },
+
+  // SECTION 6: PAST SIMPLE: IRREGULAR VERBS
+  {
+    id: 'past-simple-irregular',
+    number: 6,
+    title: 'Past Simple: Irregular Verbs',
+    titleEs: 'Pasado Simple: Verbos Irregulares',
+    subtitle: 'Lesson 6: Grammar Practice · Past Simple: Irregular Verbs (11 Actividades y 5 Tests)',
+    description:
+      "Aprende y domina los verbos irregulares en pasado simple (broke, brought, didn't catch, chose, didn't do, ate, fell, flew, had, knew) con el diálogo interactivo de la oficina, 11 actividades paso a paso con arrastre y autocorrección, y una evaluación completa de 5 tests con tarjeta de inicio, audios nativos y traducciones bilingües.",
+    imageUrl: pastIrregularOfficeImg,
+    flashcards: [],
+    exercises: [
+      {
+        id: 'past-simple-irregular-main',
+        type: 'past-simple-irregular-activity',
+        title: 'Past Simple: Irregular Verbs',
+        instructions:
+          'Listen to the dialogue and complete the 11 activities and 5 unit tests.',
+        instructionsEs:
+          'Escucha el diálogo y completa las 11 actividades y los 5 tests de la unidad.',
       },
     ],
   },

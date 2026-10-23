@@ -74,6 +74,8 @@ export type ExerciseType =
   | 'do-it-who-says-what'
   | 'do-it-interview-qa'
   | 'movie-star-activity'
+  | 'past-simple-regular-activity'
+  | 'past-simple-irregular-activity'
   | 'unit-test';
 
 export interface GrammarRule {

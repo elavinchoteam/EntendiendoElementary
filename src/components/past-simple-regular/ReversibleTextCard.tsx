@@ -1,0 +1,120 @@
+import React, { useState } from 'react';
+import { Volume2 } from 'lucide-react';
+import { speakEnglish, stopSpeaking, playFeedbackSound } from '../../utils/audio';
+import { useTheme } from '../../context/ThemeContext';
+
+interface ReversibleTextCardProps {
+  textEn: string;
+  textEs: string;
+  speaker?: string;
+  speed: number;
+  accent?: 'US' | 'UK';
+  className?: string;
+  minHeightClass?: string;
+  childrenFront?: React.ReactNode;
+  childrenBack?: React.ReactNode;
+}
+
+export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
+  textEn,
+  textEs,
+  speaker,
+  speed = 1.0,
+  accent = 'US',
+  className = '',
+  minHeightClass = 'min-h-[58px]',
+  childrenFront,
+  childrenBack,
+}) => {
+  const { isDark } = useTheme();
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleToggleFlip = () => {
+    playFeedbackSound('click');
+    setIsFlipped((prev) => !prev);
+  };
+
+  const handleSpeak = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPlaying) {
+      stopSpeaking();
+      setIsPlaying(false);
+      return;
+    }
+    playFeedbackSound('click');
+    speakEnglish(
+      textEn,
+      speed,
+      accent,
+      () => setIsPlaying(true),
+      () => setIsPlaying(false)
+    );
+  };
+
+  return (
+    <div className={`w-full perspective-1000 ${className}`}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleToggleFlip}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleToggleFlip();
+          }
+        }}
+        className={`relative w-full ${minHeightClass} transition-transform duration-500 transform-style-3d cursor-pointer select-none rounded-xl border ${
+          isDark
+            ? 'bg-slate-900 border-slate-700 text-slate-100 shadow-md'
+            : 'bg-white border-slate-200 text-slate-900 shadow-sm'
+        } ${isFlipped ? 'rotate-y-180' : ''}`}
+      >
+        {/* Front Face: English */}
+        <div className="absolute inset-0 w-full h-full backface-hidden p-3.5 sm:p-4 flex items-center justify-between gap-3 overflow-hidden rounded-xl">
+          <div className="flex-1 pr-2 flex items-center">
+            {childrenFront ? (
+              childrenFront
+            ) : (
+              <p className="text-sm sm:text-base font-medium leading-relaxed">
+                {speaker && <strong className="mr-1.5 font-bold">{speaker}:</strong>}
+                {textEn}
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={handleSpeak}
+            className={`shrink-0 w-8 h-8 rounded-lg border flex items-center justify-center transition-all cursor-pointer ${
+              isPlaying
+                ? 'bg-sky-600 border-sky-600 text-white animate-pulse'
+                : isDark
+                ? 'bg-slate-800 border-slate-700 text-sky-400 hover:bg-slate-700'
+                : 'bg-sky-50 border-sky-200 text-sky-700 hover:bg-sky-100'
+            }`}
+            aria-label="Audio"
+          >
+            <Volume2 className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Back Face: Spanish */}
+        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 p-3.5 sm:p-4 flex items-center justify-between gap-3 overflow-hidden rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60">
+          <div className="flex-1 pr-2 flex items-center">
+            {childrenBack ? (
+              childrenBack
+            ) : (
+              <p className="text-sm sm:text-base font-serif italic text-sky-900 dark:text-sky-200 leading-relaxed">
+                {speaker && <strong className="mr-1.5 font-sans font-bold">{speaker}:</strong>}
+                {textEs}
+              </p>
+            )}
+          </div>
+          <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-sky-200/60 dark:bg-sky-800/50 text-sky-800 dark:text-sky-300 font-bold shrink-0">
+            ES
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};

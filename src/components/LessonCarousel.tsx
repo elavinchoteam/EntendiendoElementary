@@ -82,6 +82,8 @@ import { InTheRestaurantActivity } from './InTheRestaurantActivity';
 import { SaleAtShoprightActivity } from './SaleAtShoprightActivity';
 import { GoodToSeeYouActivity } from './GoodToSeeYouActivity';
 import { MovieStarSectionActivity } from './MovieStarSectionActivity';
+import { PastSimpleRegularActivity } from './past-simple-regular/PastSimpleRegularActivity';
+import { PastSimpleIrregularActivity } from './past-simple-irregular/PastSimpleIrregularActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -301,6 +303,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'sale-at-shopright' ||
     unit.sectionId === 'good-to-see-you' ||
     (unit.id as any) === 'good-to-see-you' ||
+    unit.sectionId === 'movie-star' ||
+    (unit.id as any) === 'movie-star' ||
+    unit.sectionId === 'past-simple-regular' ||
+    (unit.id as any) === 'past-simple-regular' ||
+    unit.sectionId === 'past-simple-irregular' ||
+    (unit.id as any) === 'past-simple-irregular' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -366,6 +374,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'in-the-restaurant-activity' ||
             (ex.type as string) === 'sale-at-shopright-activity' ||
             (ex.type as string) === 'good-to-see-you-activity' ||
+            (ex.type as string) === 'movie-star-activity' ||
+            (ex.type as string) === 'past-simple-regular-activity' ||
+            (ex.type as string) === 'past-simple-irregular-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -516,6 +527,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'movie-star-activity' || unit.sectionId === 'movie-star') {
           icon = Film;
           if (!(ex as any).title) title = (ex as any).title || 'Movie Star';
+        } else if ((ex.type as string) === 'past-simple-regular-activity' || unit.sectionId === 'past-simple-regular') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Past Simple: Regular Verbs';
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -2014,6 +2028,38 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <MovieStarSectionActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'past-simple-regular-activity' ||
+            unit.sectionId === 'past-simple-regular' ||
+            (unit.id as any) === 'past-simple-regular'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PastSimpleRegularActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'past-simple-irregular-activity' ||
+            unit.sectionId === 'past-simple-irregular' ||
+            (unit.id as any) === 'past-simple-irregular'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PastSimpleIrregularActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
