@@ -190,10 +190,19 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
 
   const placedOption = exercise.options?.find((o) => o.id === placedOptionId);
 
-  // Reversible target sentence
-  const blankLine = exercise.dialogueLines.find((l) => l.hasBlank);
-  const fullSentenceEn = blankLine?.textEn || '';
-  const fullSentenceEs = blankLine?.textEs || '';
+  // Text for speaker in reversible card:
+  // If an option is placed, read the dialogue with that placed word;
+  // otherwise, read the full dialogue with a slight pause/beep for the blank
+  const dialogueAudioText = exercise.dialogueLines
+    .map((l) => {
+      if (l.hasBlank) {
+        return `${l.prefix || ''} ${placedOption ? placedOption.text : 'something'} ${l.suffix || ''}`;
+      }
+      return l.textEn;
+    })
+    .join('. ');
+
+  const dialogueSpanishText = exercise.dialogueLines.map((l) => l.textEs).join('\n');
 
   return (
     <div className="w-full flex flex-col gap-6 animate-in fade-in duration-300">
@@ -331,7 +340,7 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Cloze Target & Draggable/Clickable Options */}
+        {/* RIGHT COLUMN: Reversible Activity Card & Draggable/Clickable Options */}
         <div className="w-full lg:w-1/2 p-4 sm:p-6 flex flex-col justify-between gap-6">
           <div className="flex flex-col gap-5">
             {/* Optional Illustration if present */}
@@ -345,66 +354,96 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
               </div>
             )}
 
-            {/* Dialogue text with the blank */}
-            <div className="flex flex-col gap-3 font-medium text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-relaxed">
-              {exercise.dialogueLines.map((line, idx) => {
-                if (line.hasBlank) {
-                  return (
-                    <div key={idx} className="flex flex-wrap items-center gap-x-2 gap-y-2.5">
-                      {line.prefix && <span>{line.prefix}</span>}
+            {/* THE ACTIVITY ITSELF IS THE REVERSIBLE CARD */}
+            <div className="w-full">
+              <ReversibleTextCard
+                textEn={dialogueAudioText}
+                textEs={dialogueSpanishText}
+                speed={speed}
+                accent={accent}
+                minHeightClass="min-h-[150px] sm:min-h-[170px]"
+                childrenFront={
+                  <div className="w-full flex flex-col gap-3 font-medium text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-relaxed py-1">
+                    {exercise.dialogueLines.map((line, idx) => {
+                      if (line.hasBlank) {
+                        return (
+                          <div
+                            key={idx}
+                            className="flex flex-wrap items-center gap-x-2 gap-y-2.5"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {line.prefix && <span>{line.prefix}</span>}
 
-                      {/* Drop Target Zone */}
-                      <div
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                        onClick={placedOption ? handleRemovePlaced : undefined}
-                        className={`inline-flex items-center justify-center min-w-[130px] sm:min-w-[150px] h-10 px-4 rounded-xl border-2 transition-all select-none cursor-pointer ${
-                          placedOption
-                            ? isChecked
-                              ? isCorrect
-                                ? 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold'
-                                : 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-bold animate-shake'
-                              : 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 font-semibold shadow-xs'
-                            : isDragOver
-                            ? 'bg-sky-100/50 dark:bg-sky-900/30 border-sky-400 border-dashed scale-105'
-                            : 'bg-slate-100/70 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 border-dashed hover:border-slate-400'
-                        }`}
-                        title={placedOption ? 'Haz clic para quitar' : 'Arrastra o haz clic en una palabra'}
-                      >
-                        {placedOption ? (
-                          <span className="flex items-center gap-1.5 text-sm sm:text-base">
-                            {placedOption.text}
-                            {isChecked && (
-                              isCorrect ? (
-                                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            {/* Drop Target Zone */}
+                            <div
+                              onDragOver={handleDragOver}
+                              onDragLeave={handleDragLeave}
+                              onDrop={handleDrop}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (placedOption) handleRemovePlaced();
+                              }}
+                              className={`inline-flex items-center justify-center min-w-[130px] sm:min-w-[150px] h-10 px-4 rounded-xl border-2 transition-all select-none cursor-pointer ${
+                                placedOption
+                                  ? isChecked
+                                    ? isCorrect
+                                      ? 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold'
+                                      : 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-bold animate-shake'
+                                    : 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 font-semibold shadow-xs'
+                                  : isDragOver
+                                  ? 'bg-sky-100/50 dark:bg-sky-900/30 border-sky-400 border-dashed scale-105'
+                                  : 'bg-slate-100/70 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 border-dashed hover:border-slate-400'
+                              }`}
+                              title={placedOption ? 'Haz clic para quitar' : 'Arrastra o haz clic en una palabra'}
+                            >
+                              {placedOption ? (
+                                <span className="flex items-center gap-1.5 text-sm sm:text-base">
+                                  {placedOption.text}
+                                  {isChecked && (
+                                    isCorrect ? (
+                                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                                    ) : (
+                                      <XCircle className="w-4 h-4 text-rose-500" />
+                                    )
+                                  )}
+                                </span>
                               ) : (
-                                <XCircle className="w-4 h-4 text-rose-500" />
-                              )
-                            )}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-slate-400 font-mono">
-                            [ colocar respuesta ]
-                          </span>
-                        )}
-                      </div>
+                                <span className="text-xs text-slate-400 font-mono">
+                                  [ colocar respuesta ]
+                                </span>
+                              )}
+                            </div>
 
-                      {line.suffix && <span>{line.suffix}</span>}
-                    </div>
-                  );
+                            {line.suffix && <span>{line.suffix}</span>}
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <p key={idx} className="text-slate-700 dark:text-slate-300">
+                          {line.textEn}
+                        </p>
+                      );
+                    })}
+                  </div>
                 }
-
-                return (
-                  <p key={idx} className="text-slate-700 dark:text-slate-300">
-                    {line.textEn}
-                  </p>
-                );
-              })}
+                childrenBack={
+                  <div className="w-full flex flex-col gap-2.5 py-1">
+                    {exercise.dialogueLines.map((line, idx) => (
+                      <p
+                        key={idx}
+                        className="text-sm sm:text-base leading-relaxed font-serif italic text-emerald-950 dark:text-emerald-300"
+                      >
+                        {line.textEs}
+                      </p>
+                    ))}
+                  </div>
+                }
+              />
             </div>
 
             {/* Separator */}
-            <div className="w-full border-t border-slate-200 dark:border-slate-800 my-1" />
+            <div className="w-full border-t border-slate-200 dark:border-slate-800 my-0.5" />
 
             {/* Option Chips (Drag or Click) */}
             <div className="flex flex-col gap-2">
@@ -435,17 +474,6 @@ export const DragDropClozeActivity: React.FC<DragDropClozeActivityProps> = ({
                   );
                 })}
               </div>
-            </div>
-
-            {/* Full Bilingual Reversible Card of the complete sentence */}
-            <div className="mt-2">
-              <ReversibleTextCard
-                textEn={fullSentenceEn}
-                textEs={fullSentenceEs}
-                speed={speed}
-                accent={accent}
-                minHeightClass="min-h-[64px]"
-              />
             </div>
 
             {/* Feedback / Explanation Box */}

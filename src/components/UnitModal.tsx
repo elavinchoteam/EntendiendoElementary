@@ -197,7 +197,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
         {/* Section Navigation Tabs Bar (Visible when sections exist) */}
         {hasSections && (
           <div
-            className={`px-4 py-2 border-b flex items-center gap-2 overflow-x-auto no-scrollbar transition-colors ${
+            className={`px-4 py-2 border-b flex items-center gap-2 overflow-x-auto scrollbar-thin transition-colors scroll-smooth ${
               isDark ? 'bg-slate-900/90 border-white/10' : 'bg-slate-100/90 border-slate-200'
             }`}
           >
@@ -206,7 +206,7 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                 isDark ? 'text-slate-300' : 'text-slate-700'
               }`}
             >
-              Secciones:
+              Secciones ({sections.length}):
             </span>
 
             {sections.map((sec) => {
@@ -215,11 +215,12 @@ export const UnitModal: React.FC<UnitModalProps> = ({
                 <button
                   key={sec.id}
                   id={`section-tab-${sec.id}`}
-                  onClick={() => {
+                  onClick={(e) => {
                     setIsTitleFlipped(false);
                     setSelectedSectionId(sec.id);
+                    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                   }}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 border shrink-0 ${
                     isSelected
                       ? isDark
                         ? 'bg-sky-600 text-white border-sky-500 shadow-sm'

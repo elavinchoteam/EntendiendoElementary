@@ -163,9 +163,9 @@ export const UNITS_DATA: Unit[] = [
     number: 7,
     title: 'Unit 7: Interesting People',
     titleEs: 'Unidad 7: Personas Interesantes',
-    subtitle: 'Sección 1: Past Simple · Sección 2: Interview · Sección 3: Do it! · Sección 4: Movie Star · Sección 5: Regular Verbs · Sección 6: Irregular Verbs',
+    subtitle: 'Sección 1: Past Simple · Sección 2: Interview · Sección 3: Do it! · Sección 4: Movie Star · Sección 5: Regular Verbs · Sección 6: Irregular Verbs · Sección 7: Questions · Sección 8: Adjectives 2',
     description:
-      'Aprende y domina el Past Simple en inglés: masterclass gramatical, entrevista a Larry Patel, lectura "Do it!", diálogo "Movie Star" y práctica intensiva de verbos regulares e irregulares (11 actividades y 5 tests con audio y traducciones bilingües).',
+      'Aprende y domina el Past Simple y vocabulario en inglés: masterclass gramatical, entrevista a Larry Patel, lectura "Do it!", diálogo "Movie Star", verbos regulares e irregulares, preguntas en pasado y adjetivos 2 con actividades interactivas completas y tests de evaluación.',
     imageUrl:
       'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',

@@ -12,6 +12,8 @@ import {
 import { movieStarImg } from './movieStarData';
 import { pastSimpleRegularTennisImg } from './pastSimpleRegularData';
 import { pastIrregularOfficeImg } from './pastSimpleIrregularData';
+import { pastQuestionsOfficeImg } from './pastSimpleQuestionsData';
+import { adjectives2ContextImg } from './adjectives2Data';
 
 export const UNIT_7_SECTIONS: UnitSection[] = [
   // SECTION 1: PAST SIMPLE
@@ -137,6 +139,54 @@ export const UNIT_7_SECTIONS: UnitSection[] = [
           'Listen to the dialogue and complete the 11 activities and 5 unit tests.',
         instructionsEs:
           'Escucha el diálogo y completa las 11 actividades y los 5 tests de la unidad.',
+      },
+    ],
+  },
+
+  // SECTION 7: PAST SIMPLE: QUESTIONS
+  {
+    id: 'past-simple-questions',
+    number: 7,
+    title: 'Past Simple: Questions',
+    titleEs: 'Pasado Simple: Preguntas',
+    subtitle: 'Lesson 7: Grammar Practice · Past Simple: Questions (11 Actividades y 5 Tests)',
+    description:
+      'Aprende y domina las preguntas en pasado simple (Did you ask, Where did you buy it, Why did you give, Did you fall, Who directed it, tag questions y respuestas cortas) con 11 actividades interactivas paso a paso y 5 tests de evaluación con audio y traducciones bilingües.',
+    imageUrl: pastQuestionsOfficeImg,
+    flashcards: [],
+    exercises: [
+      {
+        id: 'past-simple-questions-main',
+        type: 'past-simple-questions-activity',
+        title: 'Past Simple: Questions',
+        instructions:
+          'Listen to the dialogue and complete the 11 activities and 5 unit tests.',
+        instructionsEs:
+          'Escucha el diálogo y completa las 11 actividades y los 5 tests de la unidad.',
+      },
+    ],
+  },
+
+  // SECTION 8: ADJECTIVES 2
+  {
+    id: 'adjectives-2',
+    number: 8,
+    title: 'Adjectives 2',
+    titleEs: 'Adjetivos 2',
+    subtitle: 'Lesson 8: Vocabulary & Reading · Adjectives 2 (7 Actividades y 10 Tests)',
+    description:
+      'Aprende y practica los 10 adjetivos esenciales en inglés (alone, angry, best, easy, pretty, quick, special, strong, wonderful, worst) con tarjetas interactivas reversibles con audio y velocidad graduable, emparejamiento de opuestos, dictado auditivo, diálogos de comprensión con arrastre y selección, y evaluación completa de 10 tests con tarjeta de inicio y traducciones al español sin desbordamientos.',
+    imageUrl: adjectives2ContextImg,
+    flashcards: [],
+    exercises: [
+      {
+        id: 'adjectives-2-main',
+        type: 'adjectives-2-activity',
+        title: 'Adjectives 2',
+        instructions:
+          'Complete the 7 vocabulary activities and 10 unit tests.',
+        instructionsEs:
+          'Completa las 7 actividades de vocabulario y los 10 tests de la unidad.',
       },
     ],
   },

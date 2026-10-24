@@ -76,6 +76,8 @@ export type ExerciseType =
   | 'movie-star-activity'
   | 'past-simple-regular-activity'
   | 'past-simple-irregular-activity'
+  | 'past-simple-questions-activity'
+  | 'adjectives-2-activity'
   | 'unit-test';
 
 export interface GrammarRule {

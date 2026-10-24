@@ -394,10 +394,17 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
   const isQuestionCorrect = currentAnswerId === currentTest.correctAnswerId;
   const chosenOption = currentTest.options.find((o) => o.id === currentAnswerId);
 
-  // Reversible target sentence for this question
-  const blankLine = currentTest.dialogueLines.find((l) => l.hasBlank);
-  const fullSentenceEn = blankLine?.textEn || '';
-  const fullSentenceEs = blankLine?.textEs || '';
+  // Text for speaker in reversible card:
+  const dialogueAudioText = currentTest.dialogueLines
+    .map((l) => {
+      if (l.hasBlank) {
+        return `${l.prefix || ''} ${chosenOption ? chosenOption.text : 'something'} ${l.suffix || ''}`;
+      }
+      return l.textEn;
+    })
+    .join('. ');
+
+  const dialogueSpanishText = currentTest.dialogueLines.map((l) => l.textEs).join('\n');
 
   return (
     <div className="w-full flex flex-col gap-6 animate-in fade-in duration-300">
@@ -541,7 +548,7 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Question Blank, Options, Check & Navigation */}
+        {/* RIGHT COLUMN: Reversible Question Card, Options & Check */}
         <div className="w-full lg:w-1/2 p-4 sm:p-6 flex flex-col justify-between gap-6">
           <div className="flex flex-col gap-5">
             {/* Optional Illustration */}
@@ -555,61 +562,91 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
               </div>
             )}
 
-            {/* Test Dialogue with Blank */}
-            <div className="flex flex-col gap-3 font-medium text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-relaxed">
-              {currentTest.dialogueLines.map((line, idx) => {
-                if (line.hasBlank) {
-                  return (
-                    <div key={idx} className="flex flex-wrap items-center gap-x-2 gap-y-2.5">
-                      {line.prefix && <span>{line.prefix}</span>}
+            {/* THE TEST QUESTION ITSELF IS THE REVERSIBLE CARD */}
+            <div className="w-full">
+              <ReversibleTextCard
+                textEn={dialogueAudioText}
+                textEs={dialogueSpanishText}
+                speed={speed}
+                accent={accent}
+                minHeightClass="min-h-[150px] sm:min-h-[170px]"
+                childrenFront={
+                  <div className="w-full flex flex-col gap-3 font-medium text-slate-800 dark:text-slate-100 text-sm sm:text-base leading-relaxed py-1">
+                    {currentTest.dialogueLines.map((line, idx) => {
+                      if (line.hasBlank) {
+                        return (
+                          <div
+                            key={idx}
+                            className="flex flex-wrap items-center gap-x-2 gap-y-2.5"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {line.prefix && <span>{line.prefix}</span>}
 
-                      {/* Drop / Selected Blank */}
-                      <div
-                        onClick={chosenOption ? handleRemoveOption : undefined}
-                        className={`inline-flex items-center justify-center min-w-[130px] sm:min-w-[150px] h-10 px-4 rounded-xl border-2 transition-all select-none cursor-pointer ${
-                          chosenOption
-                            ? isQuestionChecked
-                              ? isQuestionCorrect
-                                ? 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold'
-                                : 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-bold animate-shake'
-                              : 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 font-semibold shadow-xs'
-                            : 'bg-slate-100/70 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 border-dashed hover:border-slate-400'
-                        }`}
-                        title={chosenOption ? 'Haz clic para quitar' : 'Selecciona una opción abajo'}
-                      >
-                        {chosenOption ? (
-                          <span className="flex items-center gap-1.5 text-sm sm:text-base">
-                            {chosenOption.text}
-                            {isQuestionChecked && (
-                              isQuestionCorrect ? (
-                                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                            {/* Drop / Selected Blank */}
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (chosenOption) handleRemoveOption();
+                              }}
+                              className={`inline-flex items-center justify-center min-w-[130px] sm:min-w-[150px] h-10 px-4 rounded-xl border-2 transition-all select-none cursor-pointer ${
+                                chosenOption
+                                  ? isQuestionChecked
+                                    ? isQuestionCorrect
+                                      ? 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold'
+                                      : 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300 font-bold animate-shake'
+                                    : 'bg-sky-50 dark:bg-sky-950/40 border-sky-500 text-sky-900 dark:text-sky-200 font-semibold shadow-xs'
+                                  : 'bg-slate-100/70 dark:bg-slate-800/60 border-slate-300 dark:border-slate-700 border-dashed hover:border-slate-400'
+                              }`}
+                              title={chosenOption ? 'Haz clic para quitar' : 'Selecciona una opción abajo'}
+                            >
+                              {chosenOption ? (
+                                <span className="flex items-center gap-1.5 text-sm sm:text-base">
+                                  {chosenOption.text}
+                                  {isQuestionChecked && (
+                                    isQuestionCorrect ? (
+                                      <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                                    ) : (
+                                      <XCircle className="w-4 h-4 text-rose-500" />
+                                    )
+                                  )}
+                                </span>
                               ) : (
-                                <XCircle className="w-4 h-4 text-rose-500" />
-                              )
-                            )}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-slate-400 font-mono">
-                            [ colocar respuesta ]
-                          </span>
-                        )}
-                      </div>
+                                <span className="text-xs text-slate-400 font-mono">
+                                  [ colocar respuesta ]
+                                </span>
+                              )}
+                            </div>
 
-                      {line.suffix && <span>{line.suffix}</span>}
-                    </div>
-                  );
+                            {line.suffix && <span>{line.suffix}</span>}
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <p key={idx} className="text-slate-700 dark:text-slate-300">
+                          {line.textEn}
+                        </p>
+                      );
+                    })}
+                  </div>
                 }
-
-                return (
-                  <p key={idx} className="text-slate-700 dark:text-slate-300">
-                    {line.textEn}
-                  </p>
-                );
-              })}
+                childrenBack={
+                  <div className="w-full flex flex-col gap-2.5 py-1">
+                    {currentTest.dialogueLines.map((line, idx) => (
+                      <p
+                        key={idx}
+                        className="text-sm sm:text-base leading-relaxed font-serif italic text-emerald-950 dark:text-emerald-300"
+                      >
+                        {line.textEs}
+                      </p>
+                    ))}
+                  </div>
+                }
+              />
             </div>
 
             {/* Separator */}
-            <div className="w-full border-t border-slate-200 dark:border-slate-800 my-1" />
+            <div className="w-full border-t border-slate-200 dark:border-slate-800 my-0.5" />
 
             {/* Option Chips */}
             <div className="flex flex-col gap-2">
@@ -642,17 +679,6 @@ export const TestMasterActivity: React.FC<TestMasterActivityProps> = ({
                   );
                 })}
               </div>
-            </div>
-
-            {/* Full Reversible Card of the question */}
-            <div className="mt-2">
-              <ReversibleTextCard
-                textEn={fullSentenceEn}
-                textEs={fullSentenceEs}
-                speed={speed}
-                accent={accent}
-                minHeightClass="min-h-[64px]"
-              />
             </div>
 
             {/* Feedback / Explanation Box */}

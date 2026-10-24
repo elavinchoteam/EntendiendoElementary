@@ -22,7 +22,7 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
   speed = 1.0,
   accent = 'US',
   className = '',
-  minHeightClass = 'min-h-[58px]',
+  minHeightClass = 'min-h-[140px]',
   childrenFront,
   childrenBack,
 }) => {
@@ -70,8 +70,8 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
             : 'bg-white border-slate-200 text-slate-900 shadow-sm'
         } ${isFlipped ? 'rotate-y-180' : ''}`}
       >
-        {/* Front Face: English */}
-        <div className="absolute inset-0 w-full h-full backface-hidden p-3.5 sm:p-4 flex items-center justify-between gap-3 overflow-hidden rounded-xl">
+        {/* Front Face: English dialogue with interactive blank */}
+        <div className="w-full h-full min-h-inherit backface-hidden p-3.5 sm:p-5 flex items-center justify-between gap-3 rounded-xl">
           <div className="flex-1 pr-2 flex items-center">
             {childrenFront ? (
               childrenFront
@@ -86,7 +86,7 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
               </p>
             )}
           </div>
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex flex-col sm:flex-row items-center gap-1.5 shrink-0 self-start sm:self-center">
             <button
               type="button"
               onClick={handleSpeak}
@@ -109,14 +109,14 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
         </div>
 
         {/* Back Face: Spanish Translation */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 p-3.5 sm:p-4 flex items-center justify-between gap-3 overflow-hidden rounded-xl bg-gradient-to-r from-sky-500/10 via-emerald-500/10 to-transparent">
+        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 p-3.5 sm:p-5 flex items-center justify-between gap-3 overflow-y-auto rounded-xl bg-gradient-to-r from-sky-500/10 via-emerald-500/10 to-transparent">
           <div className="flex-1 pr-2 flex items-center">
             {childrenBack ? (
               childrenBack
             ) : (
-              <p className="text-sm sm:text-base font-medium leading-relaxed text-sky-950 dark:text-sky-200">
+              <p className="text-sm sm:text-base font-medium leading-relaxed font-serif italic text-sky-950 dark:text-sky-200">
                 {speaker && (
-                  <span className="font-bold text-sky-700 dark:text-sky-300 mr-2">
+                  <span className="font-bold text-sky-700 dark:text-sky-300 mr-2 not-italic font-sans">
                     {speaker}:
                   </span>
                 )}
@@ -124,7 +124,7 @@ export const ReversibleTextCard: React.FC<ReversibleTextCardProps> = ({
               </p>
             )}
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 bg-sky-100 dark:bg-sky-950/60 px-2 py-0.5 rounded border border-sky-300/40 shrink-0">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 bg-sky-100 dark:bg-sky-950/60 px-2 py-0.5 rounded border border-sky-300/40 shrink-0 self-start sm:self-center">
             ES
           </span>
         </div>

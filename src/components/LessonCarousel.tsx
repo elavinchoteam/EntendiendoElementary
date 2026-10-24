@@ -84,6 +84,8 @@ import { GoodToSeeYouActivity } from './GoodToSeeYouActivity';
 import { MovieStarSectionActivity } from './MovieStarSectionActivity';
 import { PastSimpleRegularActivity } from './past-simple-regular/PastSimpleRegularActivity';
 import { PastSimpleIrregularActivity } from './past-simple-irregular/PastSimpleIrregularActivity';
+import { PastSimpleQuestionsActivity } from './past-simple-questions/PastSimpleQuestionsActivity';
+import { Adjectives2Activity } from './adjectives-2/Adjectives2Activity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -244,6 +246,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'family-review-explore' &&
       (ex.type as string) !== 'family-review-exercise' &&
       (ex.type as string) !== 'family-review-test' &&
+      (ex.type as string) !== 'past-simple-irregular-activity' &&
+      (ex.type as string) !== 'past-simple-questions-activity' &&
+      (ex.type as string) !== 'adjectives-2-activity' &&
       (ex.type as string) !== 'were-closed-explore' &&
       (ex.type as string) !== 'were-closed-interaction'
   );
@@ -309,6 +314,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'past-simple-regular' ||
     unit.sectionId === 'past-simple-irregular' ||
     (unit.id as any) === 'past-simple-irregular' ||
+    unit.sectionId === 'past-simple-questions' ||
+    (unit.id as any) === 'past-simple-questions' ||
+    unit.sectionId === 'adjectives-2' ||
+    (unit.id as any) === 'adjectives-2' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -377,6 +386,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'movie-star-activity' ||
             (ex.type as string) === 'past-simple-regular-activity' ||
             (ex.type as string) === 'past-simple-irregular-activity' ||
+            (ex.type as string) === 'past-simple-questions-activity' ||
+            (ex.type as string) === 'adjectives-2-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -2060,6 +2071,38 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <PastSimpleIrregularActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'past-simple-questions-activity' ||
+            unit.sectionId === 'past-simple-questions' ||
+            (unit.id as any) === 'past-simple-questions'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <PastSimpleQuestionsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'adjectives-2-activity' ||
+            unit.sectionId === 'adjectives-2' ||
+            (unit.id as any) === 'adjectives-2'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <Adjectives2Activity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
