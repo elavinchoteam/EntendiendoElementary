@@ -12,6 +12,7 @@ import {
   BE_PAST_REVIEW_EXERCISES,
 } from './unit6Sections';
 import { UNIT_7_SECTIONS } from './unit7Sections';
+import { UNIT_8_SECTIONS } from './unit8Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -192,16 +193,23 @@ export const UNITS_DATA: Unit[] = [
     number: 8,
     title: 'Family Life',
     titleEs: 'Vida Familiar',
-    subtitle: 'Unidad 8 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
-    imageUrl: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80',
+    subtitle: 'Sección 1: Good Morning! · Sección 2: The Family Picnic',
+    description:
+      'Aprende vocabulario y expresiones cotidianas sobre la vida familiar, rutinas de la mañana, visitas y reuniones familiares con historias, video, tarjetas reversibles en 3D y tests.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
     category: 'Family & Relationships',
-    requiredProgressToUnlock: 7,
+    requiredProgressToUnlock: 0,
+    sections: UNIT_8_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: {
+      title: 'Gramática',
+      explanation: 'Conversaciones cotidianas, preguntas y rutinas familiares de la mañana.',
+      examples: [],
+    },
   },
   {
     id: 9,

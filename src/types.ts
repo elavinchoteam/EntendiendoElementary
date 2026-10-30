@@ -78,6 +78,8 @@ export type ExerciseType =
   | 'past-simple-irregular-activity'
   | 'past-simple-questions-activity'
   | 'adjectives-2-activity'
+  | 'good-morning-activity'
+  | 'family-picnic-activity'
   | 'unit-test';
 
 export interface GrammarRule {
