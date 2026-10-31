@@ -118,4 +118,28 @@ export const UNIT_8_SECTIONS: UnitSection[] = [
       },
     ],
   },
+  // SECTION 6: RELATIONSHIPS
+  {
+    id: 'relationships',
+    number: 6,
+    title: 'Relationships',
+    titleEs: 'Relaciones Familiares',
+    subtitle: 'Section 6 · Vocabulary & Reading (7 Actividades + 10 Tests)',
+    description:
+      'Vocabulario esencial sobre relaciones familiares y parentesco (aunt, uncle, cousin, relative, reunion, have fun, family picnic, fight, young and old, phone home): 7 actividades interactivas completas (exploración visual con modal, colocaciones A y B, 2 dictados auditivos, 2 diálogos y párrafo cloze) y test evaluativo de 10 preguntas con tarjetas reversibles en 3D.',
+    imageUrl: '/assets/relationships_vocabulary.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'relationships-main',
+        type: 'relationships-activity' as any,
+        title: 'Relationships',
+        instructions:
+          'Explore the vocabulary, complete all 7 activities and take the 10-question test.',
+        instructionsEs:
+          'Explora el vocabulario, completa las 7 actividades y realiza el test de 10 preguntas.',
+      },
+    ],
+  },
 ];
+

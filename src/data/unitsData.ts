@@ -193,9 +193,9 @@ export const UNITS_DATA: Unit[] = [
     number: 8,
     title: 'Family Life',
     titleEs: 'Vida Familiar',
-    subtitle: 'Sección 1: Good Morning! · Sección 2: The Family Picnic · Sección 3: Can I? · Sección 4: Present Simple: Task Questions · Sección 5: Modals: Can',
+    subtitle: 'Sección 1: Good Morning! · Sección 2: The Family Picnic · Sección 3: Can I? · Sección 4: Present Simple: Task Questions · Sección 5: Modals: Can · Sección 6: Relationships',
     description:
-      'Aprende vocabulario y expresiones cotidianas sobre la vida familiar, rutinas de la mañana, visitas familiares, pedir permiso con "Can I?", preguntas coletilla y verbos modales "can" y "can\'t" con tarjetas reversibles en 3D.',
+      'Aprende vocabulario y expresiones sobre la vida familiar: rutinas matutinas, picnic familiar, pedir permiso con "Can I?", tag questions, verbos modales "can" y relaciones familiares con 7 actividades y 10 tests con tarjetas reversibles en 3D.',
     imageUrl:
       'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',

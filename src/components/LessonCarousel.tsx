@@ -91,6 +91,7 @@ import { FamilyPicnicActivity } from './family-picnic/FamilyPicnicActivity';
 import { CanIActivity } from './can-i/CanIActivity';
 import { TagQuestionsActivity } from './tag-questions/TagQuestionsActivity';
 import { ModalsCanActivity } from './modals-can/ModalsCanActivity';
+import { RelationshipsActivity } from './relationships/RelationshipsActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -259,6 +260,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'can-i-activity' &&
       (ex.type as string) !== 'tag-questions-activity' &&
       (ex.type as string) !== 'modals-can-activity' &&
+      (ex.type as string) !== 'relationships-activity' &&
       (ex.type as string) !== 'were-closed-explore' &&
       (ex.type as string) !== 'were-closed-interaction'
   );
@@ -338,6 +340,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'tag-questions' ||
     unit.sectionId === 'modals-can' ||
     (unit.id as any) === 'modals-can' ||
+    unit.sectionId === 'relationships' ||
+    (unit.id as any) === 'relationships' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -413,6 +417,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'can-i-activity' ||
             (ex.type as string) === 'tag-questions-activity' ||
             (ex.type as string) === 'modals-can-activity' ||
+            (ex.type as string) === 'relationships-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -575,6 +580,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'modals-can-activity' || unit.sectionId === 'modals-can') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Modals: Can';
+        } else if ((ex.type as string) === 'relationships-activity' || unit.sectionId === 'relationships') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Relationships';
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -2217,6 +2225,22 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <ModalsCanActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'relationships-activity' ||
+            unit.sectionId === 'relationships' ||
+            (unit.id as any) === 'relationships'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <RelationshipsActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
