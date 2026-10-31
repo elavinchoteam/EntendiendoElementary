@@ -88,6 +88,9 @@ import { PastSimpleQuestionsActivity } from './past-simple-questions/PastSimpleQ
 import { Adjectives2Activity } from './adjectives-2/Adjectives2Activity';
 import { GoodMorningActivity } from './good-morning/GoodMorningActivity';
 import { FamilyPicnicActivity } from './family-picnic/FamilyPicnicActivity';
+import { CanIActivity } from './can-i/CanIActivity';
+import { TagQuestionsActivity } from './tag-questions/TagQuestionsActivity';
+import { ModalsCanActivity } from './modals-can/ModalsCanActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -253,6 +256,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'adjectives-2-activity' &&
       (ex.type as string) !== 'good-morning-activity' &&
       (ex.type as string) !== 'family-picnic-activity' &&
+      (ex.type as string) !== 'can-i-activity' &&
+      (ex.type as string) !== 'tag-questions-activity' &&
+      (ex.type as string) !== 'modals-can-activity' &&
       (ex.type as string) !== 'were-closed-explore' &&
       (ex.type as string) !== 'were-closed-interaction'
   );
@@ -326,6 +332,12 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'good-morning' ||
     unit.sectionId === 'family-picnic' ||
     (unit.id as any) === 'family-picnic' ||
+    unit.sectionId === 'can-i' ||
+    (unit.id as any) === 'can-i' ||
+    unit.sectionId === 'tag-questions' ||
+    (unit.id as any) === 'tag-questions' ||
+    unit.sectionId === 'modals-can' ||
+    (unit.id as any) === 'modals-can' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -398,6 +410,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'adjectives-2-activity' ||
             (ex.type as string) === 'good-morning-activity' ||
             (ex.type as string) === 'family-picnic-activity' ||
+            (ex.type as string) === 'can-i-activity' ||
+            (ex.type as string) === 'tag-questions-activity' ||
+            (ex.type as string) === 'modals-can-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -551,6 +566,15 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'past-simple-regular-activity' || unit.sectionId === 'past-simple-regular') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Past Simple: Regular Verbs';
+        } else if ((ex.type as string) === 'can-i-activity' || unit.sectionId === 'can-i') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Can I?';
+        } else if ((ex.type as string) === 'tag-questions-activity' || unit.sectionId === 'tag-questions') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Present Simple: Task Questions';
+        } else if ((ex.type as string) === 'modals-can-activity' || unit.sectionId === 'modals-can') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Modals: Can';
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -2145,6 +2169,54 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <FamilyPicnicActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'can-i-activity' ||
+            unit.sectionId === 'can-i' ||
+            (unit.id as any) === 'can-i'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <CanIActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'tag-questions-activity' ||
+            unit.sectionId === 'tag-questions' ||
+            (unit.id as any) === 'tag-questions'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <TagQuestionsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'modals-can-activity' ||
+            unit.sectionId === 'modals-can' ||
+            (unit.id as any) === 'modals-can'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ModalsCanActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

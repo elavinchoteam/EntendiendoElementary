@@ -49,4 +49,73 @@ export const UNIT_8_SECTIONS: UnitSection[] = [
       },
     ],
   },
+  // SECTION 3: CAN I?
+  {
+    id: 'can-i',
+    number: 3,
+    title: 'Can I?',
+    titleEs: '¿Puedo?',
+    subtitle: 'Section 3 · Dialogue & Interactions (8 Actividades + 2 Interacciones)',
+    description:
+      'Diálogo en la estación de tren entre Tommy y su madre sobre pedir permiso, comprensión auditiva, respuestas recomendadas e interacciones conversacionales de roleplay con tarjetas reversibles en 3D.',
+    imageUrl: '/assets/can_i_scene.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'can-i-main',
+        type: 'can-i-activity' as any,
+        title: 'Can I?',
+        instructions:
+          'Watch the scene, complete all 8 activities and practice the 2 conversation interactions.',
+        instructionsEs:
+          'Mira la escena, completa las 8 actividades y practica las 2 interacciones conversacionales.',
+      },
+    ],
+  },
+  // SECTION 4: PRESENT SIMPLE: TASK QUESTIONS (TAG QUESTIONS)
+  {
+    id: 'tag-questions',
+    number: 4,
+    title: 'Present Simple: Task Questions',
+    titleEs: 'Present Simple: Preguntas Coletilla (Tag Questions)',
+    subtitle: 'Section 4 · Tag Questions (11 Actividades + 5 Tests)',
+    description:
+      'Aprende y practica las preguntas coletilla (tag questions) en Present Simple: diálogo sincronizado con video, reglas afirmativo-negativo y negativo-afirmativo, 11 actividades interactivas de arrastrar y soltar, y test de evaluación de 5 preguntas con tarjetas reversibles en 3D.',
+    imageUrl: '/assets/tag_questions_scene.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'tag-questions-main',
+        type: 'tag-questions-activity' as any,
+        title: 'Present Simple: Task Questions',
+        instructions:
+          'Watch the scene, complete all 11 activities and take the 5-question test.',
+        instructionsEs:
+          'Mira la escena, completa las 11 actividades y realiza el test de 5 preguntas.',
+      },
+    ],
+  },
+  // SECTION 5: MODALS: CAN
+  {
+    id: 'modals-can',
+    number: 5,
+    title: 'Modals: Can',
+    titleEs: 'Verbos Modales: Can (Poder)',
+    subtitle: 'Section 5 · Modals: Can (11 Actividades + 5 Tests)',
+    description:
+      'Aprende y domina el verbo modal "can" y "can\'t" para expresar habilidad, incapacidad, permiso y posibilidad: diálogo sincronizado, 11 actividades interactivas y test de evaluación de 5 preguntas con tarjetas reversibles en 3D.',
+    imageUrl: '/assets/modals_can_scene.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'modals-can-main',
+        type: 'modals-can-activity' as any,
+        title: 'Modals: Can',
+        instructions:
+          'Watch the scene, complete all 11 activities and take the 5-question test.',
+        instructionsEs:
+          'Mira la escena, completa las 11 actividades y realiza el test de 5 preguntas.',
+      },
+    ],
+  },
 ];

@@ -80,6 +80,7 @@ export type ExerciseType =
   | 'adjectives-2-activity'
   | 'good-morning-activity'
   | 'family-picnic-activity'
+  | 'can-i-activity'
   | 'unit-test';
 
 export interface GrammarRule {
