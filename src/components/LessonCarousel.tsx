@@ -92,6 +92,10 @@ import { CanIActivity } from './can-i/CanIActivity';
 import { TagQuestionsActivity } from './tag-questions/TagQuestionsActivity';
 import { ModalsCanActivity } from './modals-can/ModalsCanActivity';
 import { RelationshipsActivity } from './relationships/RelationshipsActivity';
+import { ImperativesHaveToMayActivity } from './imperatives-have-to-may/ImperativesHaveToMayActivity';
+import { LostReportActivity } from './lost-report/LostReportActivity';
+import { GrumblesDepartmentStoreActivity } from './grumbles-department-store/GrumblesDepartmentStoreActivity';
+import { DontDoThatActivity } from './dont-do-that/DontDoThatActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -261,6 +265,7 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
       (ex.type as string) !== 'tag-questions-activity' &&
       (ex.type as string) !== 'modals-can-activity' &&
       (ex.type as string) !== 'relationships-activity' &&
+      (ex.type as string) !== 'imperatives-have-to-may-activity' &&
       (ex.type as string) !== 'were-closed-explore' &&
       (ex.type as string) !== 'were-closed-interaction'
   );
@@ -342,6 +347,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'modals-can' ||
     unit.sectionId === 'relationships' ||
     (unit.id as any) === 'relationships' ||
+    unit.sectionId === 'imperatives-have-to-may' ||
+    (unit.id as any) === 'imperatives-have-to-may' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -418,6 +425,10 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'tag-questions-activity' ||
             (ex.type as string) === 'modals-can-activity' ||
             (ex.type as string) === 'relationships-activity' ||
+            (ex.type as string) === 'imperatives-have-to-may-activity' ||
+            (ex.type as string) === 'lost-report-activity' ||
+            (ex.type as string) === 'grumbles-department-store-activity' ||
+            (ex.type as string) === 'dont-do-that-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -583,6 +594,15 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'relationships-activity' || unit.sectionId === 'relationships') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Relationships';
+        } else if ((ex.type as string) === 'imperatives-have-to-may-activity' || unit.sectionId === 'imperatives-have-to-may') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'IMPERATIVES, HAVE TO & MAY';
+        } else if ((ex.type as string) === 'grumbles-department-store-activity' || unit.sectionId === 'grumbles-department-store') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || "Grumble's Department Store";
+        } else if ((ex.type as string) === 'dont-do-that-activity' || unit.sectionId === 'dont-do-that') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || "Don't Do That";
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -2241,6 +2261,70 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <RelationshipsActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'imperatives-have-to-may-activity' ||
+            unit.sectionId === 'imperatives-have-to-may' ||
+            (unit.id as any) === 'imperatives-have-to-may'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ImperativesHaveToMayActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'lost-report-activity' ||
+            unit.sectionId === 'lost-report' ||
+            (unit.id as any) === 'lost-report'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <LostReportActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'grumbles-department-store-activity' ||
+            unit.sectionId === 'grumbles-department-store' ||
+            (unit.id as any) === 'grumbles-department-store'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <GrumblesDepartmentStoreActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'dont-do-that-activity' ||
+            unit.sectionId === 'dont-do-that' ||
+            (unit.id as any) === 'dont-do-that'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <DontDoThatActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}

@@ -13,6 +13,7 @@ import {
 } from './unit6Sections';
 import { UNIT_7_SECTIONS } from './unit7Sections';
 import { UNIT_8_SECTIONS } from './unit8Sections';
+import { UNIT_9_SECTIONS } from './unit9Sections';
 
 export const UNITS_DATA: Unit[] = [
   {
@@ -216,16 +217,22 @@ export const UNITS_DATA: Unit[] = [
     number: 9,
     title: 'A Bad Day',
     titleEs: 'Un Mal Día',
-    subtitle: 'Unidad 9 · A la espera de tu contenido',
-    description: 'Espacio preparado. Se cargarán las tarjetas y ejercicios interactivos tan pronto envíes el contenido.',
+    subtitle: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That',
+    description:
+      'Imperativos, have to y may; sección 2 "Lost Report" con video original y 10 actividades; sección 3 "Grumble\'s Department Store" con 7 actividades y 5 test; y sección 4 "Don\'t Do That" con 7 actividades interactivas y 3 interacciones de diálogo guiado con tarjetas 100% reversibles en español.',
     imageUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
     category: 'Feelings & Past Incidents',
-    requiredProgressToUnlock: 8,
+    requiredProgressToUnlock: 0,
+    sections: UNIT_9_SECTIONS,
     flashcards: [],
     exercises: [],
     dialogue: [],
-    grammar: { title: 'Gramática', explanation: 'Pendiente de contenido.', examples: [] },
+    grammar: {
+      title: 'Gramática',
+      explanation: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That (Video, 7 Actividades y 3 Interacciones).',
+      examples: [],
+    },
   },
   {
     id: 10,
