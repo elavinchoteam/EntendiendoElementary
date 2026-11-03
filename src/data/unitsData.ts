@@ -217,9 +217,9 @@ export const UNITS_DATA: Unit[] = [
     number: 9,
     title: 'A Bad Day',
     titleEs: 'Un Mal Día',
-    subtitle: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That',
+    subtitle: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That · Sección 5: Modals: Have To · Sección 6: Modals: May',
     description:
-      'Imperativos, have to y may; sección 2 "Lost Report" con video original y 10 actividades; sección 3 "Grumble\'s Department Store" con 7 actividades y 5 test; y sección 4 "Don\'t Do That" con 7 actividades interactivas y 3 interacciones de diálogo guiado con tarjetas 100% reversibles en español.',
+      'Imperativos, have to y may; sección 2 "Lost Report" con video original y 10 actividades; sección 3 "Grumble\'s Department Store" con 7 actividades y 5 test; sección 4 "Don\'t Do That" con 7 actividades y 3 interacciones; sección 5 "Modals: Have To" con escena de video original y 11 actividades; y sección 6 "Modals: May" con diálogo de las galletas, 11 actividades y test de 5 preguntas con tarjetas y opciones 100% reversibles en español.',
     imageUrl: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
     color: '#0284c7',
     category: 'Feelings & Past Incidents',
@@ -230,7 +230,7 @@ export const UNITS_DATA: Unit[] = [
     dialogue: [],
     grammar: {
       title: 'Gramática',
-      explanation: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That (Video, 7 Actividades y 3 Interacciones).',
+      explanation: 'Sección 1: IMPERATIVES, HAVE TO & MAY · Sección 2: Lost Report · Sección 3: Grumble\'s Department Store · Sección 4: Don\'t Do That · Sección 5: Modals: Have To · Sección 6: Modals: May (Escena de diálogo, 11 Actividades y 5 Tests con tarjetas reversibles).',
       examples: [],
     },
   },

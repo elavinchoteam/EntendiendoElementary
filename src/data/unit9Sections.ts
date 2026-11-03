@@ -97,4 +97,52 @@ export const UNIT_9_SECTIONS: UnitSection[] = [
       },
     ],
   },
+  // SECTION 5: MODALS: HAVE TO
+  {
+    id: 'modals-have-to',
+    number: 5,
+    title: 'Modals: Have To',
+    titleEs: 'Modales: Have To',
+    subtitle: 'Section 5 · Video Comprehension, 11 Activities & 5 Tests',
+    description:
+      'Aprende a expresar obligaciones, necesidades y ausencia de obligación con "have to", "has to", "doesn\'t have to" y "don\'t have". Incluye la escena de video con Michael y su mamá, 11 actividades interactivas de arrastre y selección, y el examen final de 5 preguntas con tarjeta de inicio y opciones 100% reversibles en español.',
+    imageUrl:
+      '/assets/have_to_scene.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'modals-have-to-main',
+        type: 'modals-have-to-activity' as any,
+        title: 'Modals: Have To',
+        instructions:
+          'Watch the video and complete all 11 activities and the 5-question test with reversible cards.',
+        instructionsEs:
+          'Mira el video y completa las 11 actividades y el examen de 5 preguntas con tarjetas reversibles.',
+      },
+    ],
+  },
+  // SECTION 6: MODALS: MAY
+  {
+    id: 'modals-may',
+    number: 6,
+    title: 'Modals: May',
+    titleEs: 'Modales: May',
+    subtitle: 'Section 6 · Video Comprehension, 11 Activities & 5 Tests',
+    description:
+      'Aprende a solicitar permiso formal ("May I have a cookie?"), concederlo o denegarlo ("You may come in" / "No, you may not") y expresar posibilidad o conjetura ("It may rain today") con "may" y "may not". Incluye la escena de diálogo de la niña y su mamá, 11 actividades interactivas de arrastre y selección con fichas y tarjetas 100% reversibles en español, y el examen final de 5 preguntas con tarjeta de inicio y revisión detallada.',
+    imageUrl:
+      '/assets/modals_may_scene.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'modals-may-main',
+        type: 'modals-may-activity' as any,
+        title: 'Modals: May',
+        instructions:
+          'Watch the scene and complete all 11 activities and the 5-question test with reversible cards.',
+        instructionsEs:
+          'Mira la escena y completa las 11 actividades y el examen de 5 preguntas con tarjetas reversibles.',
+      },
+    ],
+  },
 ];

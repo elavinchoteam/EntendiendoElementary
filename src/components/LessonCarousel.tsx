@@ -96,6 +96,8 @@ import { ImperativesHaveToMayActivity } from './imperatives-have-to-may/Imperati
 import { LostReportActivity } from './lost-report/LostReportActivity';
 import { GrumblesDepartmentStoreActivity } from './grumbles-department-store/GrumblesDepartmentStoreActivity';
 import { DontDoThatActivity } from './dont-do-that/DontDoThatActivity';
+import { ModalsHaveToActivity } from './modals-have-to/ModalsHaveToActivity';
+import { ModalsMayActivity } from './modals-may/ModalsMayActivity';
 import { CountNonCountActivity } from './count-non-count/CountNonCountActivity';
 import { NutritionSectionActivity } from './nutrition/NutritionSectionActivity';
 import { BePastReviewExploreSlide } from './be-past-review/BePastReviewExploreSlide';
@@ -349,6 +351,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
     (unit.id as any) === 'relationships' ||
     unit.sectionId === 'imperatives-have-to-may' ||
     (unit.id as any) === 'imperatives-have-to-may' ||
+    unit.sectionId === 'modals-have-to' ||
+    (unit.id as any) === 'modals-have-to' ||
     unit.sectionId === 'nouns-count-and-non-count' ||
     (unit.id as any) === 'nouns-count-and-non-count' ||
     unit.sectionId === 'nutrition' ||
@@ -429,6 +433,8 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             (ex.type as string) === 'lost-report-activity' ||
             (ex.type as string) === 'grumbles-department-store-activity' ||
             (ex.type as string) === 'dont-do-that-activity' ||
+            (ex.type as string) === 'modals-have-to-activity' ||
+            (ex.type as string) === 'modals-may-activity' ||
             (ex.type as string) === 'count-non-count-activity' ||
             (ex.type as string) === 'nutrition-activity' ||
             (ex.type as string) === 'be-past-review-explore' ||
@@ -603,6 +609,9 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
         } else if ((ex.type as string) === 'dont-do-that-activity' || unit.sectionId === 'dont-do-that') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || "Don't Do That";
+        } else if ((ex.type as string) === 'modals-have-to-activity' || unit.sectionId === 'modals-have-to') {
+          icon = BookOpen;
+          if (!(ex as any).title) title = (ex as any).title || 'Modals: Have To';
         } else if ((ex.type as string) === 'nutrition-activity') {
           icon = BookOpen;
           if (!(ex as any).title) title = (ex as any).title || 'Nutrition';
@@ -2325,6 +2334,38 @@ export const LessonCarousel: React.FC<LessonCarouselProps> = ({
             return (
               <div className="flex flex-col gap-6 animate-in fade-in duration-200">
                 <DontDoThatActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'modals-have-to-activity' ||
+            unit.sectionId === 'modals-have-to' ||
+            (unit.id as any) === 'modals-have-to'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ModalsHaveToActivity
+                  accent={accent}
+                  speechRate={currentRate}
+                  onSuccess={() => onCompleteUnit(100)}
+                />
+              </div>
+            );
+          }
+
+          if (
+            (ex.type as string) === 'modals-may-activity' ||
+            unit.sectionId === 'modals-may' ||
+            (unit.id as any) === 'modals-may'
+          ) {
+            return (
+              <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+                <ModalsMayActivity
                   accent={accent}
                   speechRate={currentRate}
                   onSuccess={() => onCompleteUnit(100)}
