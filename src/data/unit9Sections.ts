@@ -145,4 +145,29 @@ export const UNIT_9_SECTIONS: UnitSection[] = [
       },
     ],
   },
+  // SECTION 7: WORK
+  {
+    id: 'work',
+    number: 7,
+    title: 'Work',
+    titleEs: 'Trabajo',
+    subtitle: 'Section 7 · Vocabulary, Collocations, Dictations, Cloze & 10 Tests',
+    description:
+      'Aprende y domina el vocabulario fundamental del trabajo (break, desk, factory, high salary, meeting, office, start a business, suit, summer job, write a report), colocaciones verbales, dictados con audio, completar oraciones y diálogos, y el examen final de 10 preguntas con tarjetas 100% reversibles en español.',
+    imageUrl:
+      '/assets/aistudio/test_1_17e1989f.png',
+    flashcards: [],
+    exercises: [
+      {
+        id: 'work-main',
+        type: 'work-activity' as any,
+        title: 'Work',
+        instructions:
+          'Learn the vocabulary, practice collocations, dictations, complete the dialogues, and take the 10-question test with reversible cards.',
+        instructionsEs:
+          'Aprende el vocabulario, practica colocaciones, dictados, completa diálogos y realiza el examen de 10 preguntas con tarjetas reversibles.',
+      },
+    ],
+  },
 ];
+
